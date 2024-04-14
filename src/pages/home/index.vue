@@ -11,12 +11,12 @@
 export default {
   data() {
     return {
-      title: 'Hello',
-    }
+      title: "每日一报"
+    };
   },
   onLoad() {},
-  methods: {},
-}
+  methods: {}
+};
 </script>
 
 <style>
