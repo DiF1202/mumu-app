@@ -14,9 +14,9 @@
 			}
 		},
 		{
-			"path": "pages/data/index",
+			"path": "pages/chat/index",
 			"style": {
-				"navigationBarTitleText": "数据登记",
+				"navigationBarTitleText": "畜牧助手",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -34,7 +34,7 @@
 		"list": [
 			{
 				"pagePath": "pages/home/index",
-				"text": "每日一报",
+				"text": "信息总览",
 				"fontSize": "12px",
 				"iconPath": "static/fund.png",
 				"selectedIconPath": "static/fund-fill.png"
@@ -47,8 +47,8 @@
 				"selectedIconPath": "static/video-fill.png"
 			},
 			{
-				"pagePath": "pages/data/index",
-				"text": "数据登记",
+				"pagePath": "pages/chat/index",
+				"text": "畜牧助手",
 				"fontSize": "12px",
 				"iconPath": "static/database.png",
 				"selectedIconPath": "static/database-fill.png"
