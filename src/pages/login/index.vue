@@ -2,7 +2,7 @@
   <view class="login-container" :style="{paddingTop:`${safetyTop}px`,height: `${windowHeight}px` }">
     <view class="logo-content">
 			<u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
-      <text class="title"></text>
+      <text class="title">牧目科技</text>
     </view>
     <view class="login-form-content">
       <view class="input-phone">
@@ -23,12 +23,15 @@
 					:customStyle="customStyle"
 				></u--input>
         <view class="code">
-          <u-button type="primary" plain @click="getCode">{{tips}}</u-button>
+          <u-button type="primary" plain @click="getCode" shape="circle">{{tips}}</u-button>
           <u-code seconds="60" ref="uCode" @change="codeChange"></u-code>
         </view>
       </view>
       <view class="action-btn">
         <u-button type="primary" text="登录" shape="circle" @click="login"></u-button>
+      </view>
+      <view class="weixin-btn">
+        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx" labelColor=""></u-icon>
       </view>
     </view>
   </view>
@@ -112,6 +115,9 @@
       }
       .login-btn {
         height: 45px;
+      }
+      .weixin-btn {
+        margin-top: 100rpx;
       }
     }
   }
