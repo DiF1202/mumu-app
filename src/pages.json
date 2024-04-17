@@ -31,7 +31,8 @@
 			"path": "pages/user/index",
 			"style": {
 				"navigationBarTitleText": "用户界面",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 		}
 	],

@@ -2,29 +2,33 @@
   <view class="login-container" :style="{paddingTop:`${safetyTop}px`,height: `${windowHeight}px` }">
     <view class="logo-content">
 			<u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
-      <text class="title">牧目科技</text>
+      <text class="title"></text>
     </view>
     <view class="login-form-content">
-      <view class="input-item">
+      <view class="input-phone">
 				<u--input
 					v-model="loginInfo.account"
 					placeholder="请输入您的用户名"
 					border="false"
 					shape="circle"
-					customStyle="paddingLeft:40rpx;background:rgba(234, 243, 255, 1);height:100rpx;"
+					:customStyle="customStyle"
 				></u--input>
       </view>
-      <view class="input-item">
+      <view class="input-code">
 				<u--input
 					v-model="loginInfo.code"
-					placeholder="请输入您的密码"
+					placeholder="请输入验证码"
 					border="false"
 					shape="circle"
-					customStyle="paddingLeft:40rpx;background:rgba(234, 243, 255, 1);height:100rpx;"
+					:customStyle="customStyle"
 				></u--input>
+        <view class="code">
+          <u-button type="primary" plain @click="getCode">{{tips}}</u-button>
+          <u-code seconds="60" ref="uCode" @change="codeChange"></u-code>
+        </view>
       </view>
       <view class="action-btn">
-        <u-button type="primary" text="登录" shape="circle"></u-button>
+        <u-button type="primary" text="登录" shape="circle" @click="login"></u-button>
       </view>
     </view>
   </view>
@@ -34,10 +38,16 @@
   export default {
     data() {
       return {
+        customStyle: {
+          paddingLeft: '40rpx',
+          background: 'rgba(234, 243, 255, 1)',
+          height: '100rpx',
+        },
         loginInfo: {
           account: '',
           code: ''
-        }
+        },
+        tips: '获取验证码'
       }
     },
     computed: {
@@ -51,6 +61,19 @@
     onLoad() {
     },
     methods: {
+      login() {
+        uni.reLaunch({ url: '/pages/home/index' })
+      },
+      codeChange(text) {
+        this.tips = text
+      },
+      getCode() {
+				if(this.$refs.uCode.canGetCode) {
+					setTimeout(() => {
+						this.$refs.uCode.start()
+					}, 2000)
+				}
+			},
     }
   }
 </script>
@@ -74,9 +97,19 @@
     }
     .login-form-content {
 			padding: 60rpx;
-			.input-item {
+			.input-phone {
 				margin-bottom: 50rpx;
 			}
+      .input-code {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 50rpx;
+        .code {
+          width: 200rpx;
+          margin-left: 20rpx;
+        }
+      }
       .login-btn {
         height: 45px;
       }
