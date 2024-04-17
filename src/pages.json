@@ -43,29 +43,29 @@
 				"pagePath": "pages/home/index",
 				"text": "信息总览",
 				"fontSize": "12px",
-				"iconPath": "static/fund.png",
-				"selectedIconPath": "static/fund-fill.png"
+				"iconPath": "static/tabBar/fund.png",
+				"selectedIconPath": "static/tabBar/fund-fill.png"
 			},
 			{
 				"pagePath": "pages/view/index",
 				"text": "远程查看",
 				"fontSize": "12px",
-				"iconPath": "static/video.png",
-				"selectedIconPath": "static/video-fill.png"
+				"iconPath": "static/tabBar/video.png",
+				"selectedIconPath": "static/tabBar/video-fill.png"
 			},
 			{
 				"pagePath": "pages/chat/index",
 				"text": "畜牧助手",
 				"fontSize": "12px",
-				"iconPath": "static/database.png",
-				"selectedIconPath": "static/database-fill.png"
+				"iconPath": "static/tabBar/database.png",
+				"selectedIconPath": "static/tabBar/database-fill.png"
 			},
 			{
 				"pagePath": "pages/user/index",
 				"text": "我的",
 				"fontSize": "12px",
-				"iconPath": "static/yonghu-xianxing.png",
-				"selectedIconPath": "static/yonghu.png"
+				"iconPath": "static/tabBar/user.png",
+				"selectedIconPath": "static/tabBar/user-fill.png"
 			}
 		]
 	},
