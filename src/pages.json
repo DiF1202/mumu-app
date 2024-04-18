@@ -1,16 +1,16 @@
 {
 	"pages": [
 		{
-			"path": "pages/home/index",
+			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "每日一报",
+				"navigationBarTitleText": "登录",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/login/index",
+			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "登录",
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		},
@@ -37,9 +37,10 @@
 			}
 		},
 		{
-			"path": "components/uni-tareachart/uni-ringchart",
+			"path": "pages/view/components/list",
 			"style": {
-				"navigationBarTitleText": "uni-ringchart"
+				"navigationBarTitleText": "列表",
+				"enablePullDownRefresh": false
 			}
 		}
 	],
