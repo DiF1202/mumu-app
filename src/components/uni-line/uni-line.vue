@@ -18,7 +18,7 @@
 	  methods: {
 	    initChart() {
         let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData = ['10', '20', '30', '40', '28', '19']
+        let yData = ['10', '21', '13', '16', '21', '19']
 				this.chartData = JSON.parse(JSON.stringify({
 					categories: xData,
 					series: [{
@@ -34,6 +34,6 @@
 <style lang="scss">
 	.charts-box {
 		width: 100%;
-		height: 100%
+		height: 100%;
 	}
 </style>
