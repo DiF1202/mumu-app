@@ -1,9 +1,10 @@
 {
 	"pages": [
 		{
-			"path": "pages/login/index",
+			"path": "pages/view/index",
 			"style": {
-				"navigationBarTitleText": "登录",
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
@@ -15,10 +16,10 @@
 			}
 		},
 		{
-			"path": "pages/view/index",
+			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "远程查看",
-				"enablePullDownRefresh": false
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -52,8 +53,8 @@
 				"pagePath": "pages/home/index",
 				"text": "信息总览",
 				"fontSize": "12px",
-				"iconPath": "static/tabBar/fund.png",
-				"selectedIconPath": "static/tabBar/fund-fill.png"
+				"iconPath": "static/tabBar/home.png",
+				"selectedIconPath": "static/tabBar/home-fill.png"
 			},
 			{
 				"pagePath": "pages/view/index",

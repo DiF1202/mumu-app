@@ -88,6 +88,7 @@
       border-radius: 16rpx;
       transform: translateY(-20rpx);
       background: #fff;
+      padding: 0 24rpx;
 			.title-box {
 				display: flex;
 			}

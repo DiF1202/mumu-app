@@ -13,8 +13,11 @@
 				opts: {
 					// 自定义图表样式在opts中配置相关属性
 				}
-	    };
+	    }
 	  },
+		mounted() {
+			this.initChart()
+		},
 	  methods: {
 	    initChart() {
         let xData = ['1月','2月','3月','4月','5月','6月']

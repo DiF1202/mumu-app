@@ -1,6 +1,6 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="tarea" :chartData="chartData" :opts="opts" :ontouch="true"/>
+		<qiun-data-charts type="line" :chartData="chartData" :opts="opts" :ontouch="true"/>
 	</view>
 </template>
 <script>
@@ -12,19 +12,40 @@
 	      chartData: {},
 				opts: {
 					// 自定义图表样式在opts中配置相关属性
+					padding: [0, 12, 0, 12],
+					legend: {
+						position: 'top',
+						float: 'right',
+						margin: 12,
+					},
+					xAxis: {
+						disableGrid: true,
+						fontColor: 'rgba(0, 0, 0, 0.45)',
+					  boundaryGap: 'center',
+						fontSize:12,
+					},
+					yAxis: {
+						gridType: 'dash',
+						dashLength: 8,
+						data:[
+							{
+								type: 'value',
+								tofix: 1,
+								fontColor: 'rgba(0, 0, 0, 0.45)'
+							}
+						]
+					},
 				}
-	    };
+	    }
 	  },
+		mounted() {
+			// this.initChart()
+		},
 	  methods: {
-	    initChart() {
-        let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData = ['10', '21', '13', '16', '21', '19']
+	    initChart(xData, yData) {
 				this.chartData = JSON.parse(JSON.stringify({
 					categories: xData,
-					series: [{
-						name: "目标值",
-						data: yData
-					}]
+					series: yData
 				}))
 	    },
 	  }

@@ -1,35 +1,25 @@
 <template>
-	<view class="statistics-container" :style="{height: `${windowHeight}px`}">
-    <view class="custom-header" :style="{paddingTop:`${safetyTop}px`}">
-      <view class="time-select" @click="selectTime">
-        <view class="time-num">
-          <u--text :text="selectValue" align="left" color="#333333" size="44rpx" :bold="true"></u--text>
-        </view>
-        <view class="time-unit">
-          <u--text text="年" align="left" color="#333333" size="28rpx" suffixIcon="arrow-down-fill" iconStyle="font-size: 20rpx;"></u--text>
-        </view>
-        <u-picker :defaultIndex="[10]" :show="show" :columns="columns" itemHeight="88" @cancel="show=false" @confirm="submitYear"></u-picker>
-      </view>
-    </view>
+	<view class="home-container" :style="{height: `${windowHeight}px`, paddingTop:`${safetyTop}px`}">
+    <view class="header-title">信息概览</view>
     <view class="content" :style="{height: `${windowHeight - safetyTop - 64}px`}">
-      <!-- 饼图 -->
-      <u--text text="圆环图" align="left" color="#333333" size="34rpx" :bold="true"></u--text>
-      <view style="height:360rpx">
-        <uni-ring ref="ringChart"></uni-ring>
+      <!-- 环境预警 -->
+      <uni-subTitle icon="photo-fill" title="环境预警" url="pages/user/index" />
+      <view class="env-warning">
+        <!-- 天气信息展示 -->
       </view>
-      <!-- 柱状图 -->
-      <u--text text="柱状图" align="left" color="#333333" size="34rpx" :bold="true"></u--text>
-      <view style="height:700rpx">
-        <uni-bar ref="barChart"></uni-bar>
-      </view>
-      <!-- 曲线图 -->
-      <u--text text="曲线图" align="left" color="#333333" size="34rpx" :bold="true"></u--text>
+      <!-- 生物资产概况 -->
+      <uni-subTitle icon="red-packet" title="生物资产概况" url="pages/user/index" />
       <view style="height:500rpx">
-        <uni-line ref="lineChart"></uni-line>
+        <uni-line ref="lineChart1"></uni-line>
       </view>
-      <u--text text="区域图" align="left" color="#333333" size="34rpx" :bold="true"></u--text>
+      <!-- 生产管理评分 -->
+      <uni-subTitle icon="man-add" title="生产管理评分" url="pages/user/index" />
       <view style="height:500rpx">
-        <uni-tarea ref="tareaChart"></uni-tarea>
+        <uni-line ref="lineChart2"></uni-line>
+      </view>
+      <!-- 每日简报 -->
+      <uni-subTitle icon="chat" title="每日简报" url="pages/user/index" />
+      <view class="daily-briefing">
       </view>
     </view>
 	</view>
@@ -38,19 +28,7 @@
 <script>
 	export default {
 		data() {
-			return {
-				selectValue: '',
-				show: false,
-				ringColor: ['#2681FF', '#FFAA32', '#F05537', '#7846E6'],
-				ringData: [
-					{ name: "待分派", value: 10, rate: 10},
-					{ name: "待接单", value: 20, percent: 20},
-					{ name: "处理中", value: 40, percent: 40},
-					{ name: "已处理", value: 30, percent: 30},
-				],
-				statusNum: {},
-				statusType: []
-			}
+			return {}
 		},
 		computed: {
 			windowHeight() {
@@ -58,57 +36,54 @@
 			},
       safetyTop() {
         return uni.getSystemInfoSync().safeAreaInsets.top
-      },
-			columns() {
-				const arr = []
-				for(let i = this.selectValue - 10; i < this.selectValue + 11; i++) {
-					arr.push(i)
-				}
-				return [arr]
-			}
+      }
 		},
 		onLoad() {
-			this.submitYear({value:[new Date().getFullYear()]})
+			this.initData()
 		},
 		methods: {
-			selectTime() {
-				this.show = true
-			},
-			submitYear(e) {
-				this.selectValue = e.value[0]
-				this.show = false
-        this.$refs.ringChart.initChart()
-        this.$refs.barChart.initChart()
-        this.$refs.lineChart.initChart()
-        this.$refs.tareaChart.initChart()
+			initData(e) {
+       this.$nextTick(() => {
+        let xData = ['1月','2月','3月','4月','5月','6月']
+        let yData1 = [
+          { name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},
+          { name: '栏位占用', data: ['60', '70', '30', '25', '46', '33']},
+          { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
+        ]
+        let yData2 = [
+          { name: '员工评分', data: ['10', '21', '13', '16', '21', '19']},
+          { name: '生产管控', data: ['60', '70', '30', '25', '46', '33']},
+        ]
+        this.$refs.lineChart1.initChart(xData, yData1)
+        this.$refs.lineChart2.initChart(xData, yData2)
+       })
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.statistics-container {
+	.home-container {
+    padding: 40rpx 24rpx 24rpx;
 		background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 100%);
-    .custom-header {
-      padding: 0 24rpx;
-      .time-select {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        height: 80rpx;
-        margin-bottom: 40rpx;
-        .time-num {
-          line-height: 44rpx;
-        }
-        .time-unit {
-          line-height: 36rpx;
-          margin-left: 8rpx;
-        }
-      }
+    .header-title {
+      font-size: 36rpx;
+      color: #252525;
+      height: 80rpx;
+      line-height: 80rpx;
+      font-weight: bold;
+      margin-bottom: 24rpx;
     }
     .content {
       overflow-y: auto;
-      padding: 0 24rpx 24rpx;
+      .env-warning {
+        width: 100%;
+        height: 200rpx;
+      }
+      .daily-briefing {
+        width: 100%;
+        height: 500rpx;
+      }
     }
 	}
 </style>
