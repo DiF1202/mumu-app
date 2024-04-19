@@ -1,5 +1,5 @@
 <template>
-	<u-cell :icon="icon" :iconStyle="iconStyle" :border="true" :isLink="url?true:false" :url="url" :rightIconStyle="rightIconStyle">
+	<u-cell :icon="icon" :iconStyle="iconStyle" :border="true" :isLink="url?true:false" :url="url" :rightIconStyle="rightIconStyle" :clickable="false">
 		<template #title>
 			<u--text 
         :text="title"
@@ -59,6 +59,9 @@
           fontSize: '46rpx'
         }
       }
+    },
+    methods() {
+      
     }
 	}
 </script>

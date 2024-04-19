@@ -1,6 +1,6 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="line" :chartData="chartData" :opts="opts" :ontouch="true"/>
+		<qiun-data-charts type="line" :chartData="chartData" :opts="opts"/>
 	</view>
 </template>
 <script>
@@ -56,5 +56,13 @@
 	.charts-box {
 		width: 100%;
 		height: 100%;
+		position: relative;
+		.mark-box{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
 	}
 </style>

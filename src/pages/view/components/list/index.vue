@@ -1,7 +1,7 @@
 <template>
 	<view class="list-container">
 		<view class="search-view">
-			<view  class="search-input">
+			<view class="search-input">
 				<u--input v-model="searchValue" border="false" placeholder="请输入内容" prefixIcon="search" />
 			</view>
 			<u-icon :name="filterPanel?'arrow-up-fill':'arrow-down-fill'" color="#666666" size="28rpx" label="筛选" labelPos="left" labelSize="32rpx" labelColor="#666666" @click="filterPanel=!filterPanel"></u-icon>
@@ -28,21 +28,15 @@
 		</view>
 		<u-list @scrolltolower="loadmore" lowerThreshold="100" :height="windowHeight - listHeight">
 			<u-list-item v-for="(item, index) in listData" :key="index">
-				<view class="list-item">
+				<view class="list-item" @click="enterDetails">
 					<view class="item-header">
 						<u--text suffixIcon="arrow-right" iconStyle="font-size: 18px; color: #333333; font-weight:bold" :text="item.title" size="36rpx" color="#333333" :bold="true"></u--text>
 						<view class="status">
 							<view class="status-item">未处理</view>
 						</view>
 					</view>
-					<view class="item-row">
-						<text class="row-label">位置：</text>
-						<text class="row-value">{{ item.build }}</text>
-					</view>
-					<view class="item-row">
-						<text class="row-label">时间：</text>
-						<text class="row-value">{{ item.time }}</text>
-					</view>
+					<uni-cellItem title="位置：" :value="item.build"></uni-cellItem>
+					<uni-cellItem title="时间：" :value="item.time"></uni-cellItem>
 				</view>
 			</u-list-item>
 			<u-loadmore :status="laoding" loadingIcon="semicircle" height="88" fontSize="32rpx" @loadmore="loadmore"/>
@@ -101,6 +95,9 @@
 			},
 			selectStatus(item) {
 				this.status = item.id
+			},
+			enterDetails() {
+				uni.navigateTo({ url: '/pages/view/components/details/index' })
 			}
 		}
 	}
@@ -186,15 +183,6 @@
 					background-color: rgba(255, 85, 51, 0.2);
 					font-size: 24rpx;
 				}
-			}
-		}
-		.item-row {
-			padding: 16rpx 0;
-			.row-label {
-				color: rgba(0, 0, 0, 0.55);
-			}
-			.row-value {
-				color: rgba(0, 0, 0, 0.85)
 			}
 		}
 	}

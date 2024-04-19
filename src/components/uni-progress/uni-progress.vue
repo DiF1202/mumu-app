@@ -1,6 +1,6 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="arcbar" :chartData="chartData" :opts="opts" :ontouch="true"/>
+		<qiun-data-charts type="arcbar" :chartData="chartData" :opts="opts"/>
 	</view>
 </template>
 <script>

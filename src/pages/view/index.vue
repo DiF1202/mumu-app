@@ -3,12 +3,25 @@
     <view class="header-title">远程查看</view>
     <view class="content" :style="{height: `${windowHeight - safetyTop - 64}px`}">
       <!-- 栏位信息 -->
-      <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/user/index" leftIconColor="#A2EF4D"/>
+      <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>
       <view class="fields-view">
         <view class="fields-chart">
           <uni-progress ref="progressChart1"></uni-progress>
         </view>
-        <view class="fields-info"></view>
+        <view class="fields-info">
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#1890FF"/>
+            <u--text text="动物总数: 80" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#FAC858"/>
+            <u--text text="畜群平均密度: 60平方米" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <u--text text="单位面积/动物： 0.2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+        </view>
       </view>
       <!-- 资产评分 -->
       <uni-subTitle icon="bookmark" title="资产评分" leftIconColor="#A2EF4D"/>
@@ -17,8 +30,27 @@
       </view>
       <!-- 负责人 -->
       <uni-subTitle icon="account" title="负责人"  leftIconColor="#A2EF4D"/>
-      <view style="height:300rpx">
+      <view class="manager-view">
         <!-- 负责人信息 -->
+        <u--image :showLoading="true" src="/static/icon/woman.png" width="250rpx" height="250rpx" @click="click"></u--image>
+        <view class="manager-info">
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#1890FF"/>
+            <u--text text="姓名: 李四" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#FAC858"/>
+            <u--text text="平均响应时间: 45min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <u--text text="事件处理： 10/20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+          <view class="info-item">
+            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <u--text text="投喂时间： 20min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
+        </view>
       </view>
       <!-- 绩效评分 -->
       <uni-subTitle icon="bookmark" title="绩效评分" leftIconColor="#A2EF4D"/>
@@ -79,7 +111,7 @@
     }
     .content {
       overflow-y: auto;
-      .fields-view {
+      .fields-view, .manager-view{
         width: 100%;
         margin-top: 24rpx;
         display: flex;
@@ -89,10 +121,15 @@
           width: 250rpx;
           height: 250rpx;
         }
-        .fields-info {
-          width: calc(100% - 250rpx);
-          height: 250rpx;
-          background: #D6E7FF;
+        .fields-info, .manager-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          .info-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+          }
         }
       }
       .daily-briefing {

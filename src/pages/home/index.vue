@@ -8,15 +8,15 @@
         <!-- 天气信息展示 -->
         <view class="env-row">
           <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
-          <view class="env-des">我用十年青春,赴你最后之约</view>
+          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
           <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
-          <view class="env-des">我用十年青春,赴你最后之约</view>
+          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
           <uni-font icon="icon-kongqishidu" color="#E99d42"/>
-          <view class="env-des">我用十年青春,赴你最后之约</view>
+          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
       <!-- 生物资产概况 -->
@@ -118,11 +118,6 @@
           justify-content: flex-start;
           align-items: center;
           margin: 24rpx 0;
-          .env-des {
-            font-size: 28rpx;
-            color: #0F4239;
-            margin-left: 24rpx;
-          }
         }
       }
       .assets-charts {
