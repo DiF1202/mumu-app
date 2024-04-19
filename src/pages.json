@@ -1,6 +1,14 @@
 {
 	"pages": [
 		{
+			"path": "pages/view/index",
+			"style": {
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -11,14 +19,6 @@
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/view/index",
-			"style": {
-				"navigationBarTitleText": "远程查看",
-				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},

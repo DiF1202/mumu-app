@@ -1,7 +1,8 @@
 <template>
-	<view class="home-container" :style="{height: `${windowHeight}px`, paddingTop:`${safetyTop}px`}">
-    <view class="header-title">信息概览</view>
-    <view class="content" :style="{height: `${windowHeight - safetyTop - 64}px`}">
+	<view class="home-container">
+    <uni-navtopbbar title="信息概览" :back="true"></uni-navtopbbar>
+    <u-gap :height="`${safetyTop + 40}px`" bgColor="#bbb"></u-gap>
+    <view class="content">
       <!-- 环境预警 -->
       <uni-subTitle icon="photo-fill" title="环境预警" url="pages/user/index" />
       <view class="env-warning">
@@ -58,14 +59,11 @@
 			return {}
 		},
 		computed: {
-			windowHeight() {
-				return uni.getSystemInfoSync().windowHeight
-			},
       safetyTop() {
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
 		},
-		onLoad() {
+		onReady() {
 			this.initData()
 		},
 		methods: {
@@ -99,18 +97,9 @@
 
 <style lang="scss" scoped>
 	.home-container {
-    padding: 40rpx 24rpx 24rpx;
-		background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 100%);
-    .header-title {
-      font-size: 36rpx;
-      color: #252525;
-      height: 80rpx;
-      line-height: 80rpx;
-      font-weight: bold;
-      margin-bottom: 24rpx;
-    }
     .content {
-      overflow-y: auto;
+      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+      padding: 0 24rpx 24rpx;
       .env-warning {
         width: 100%;
         .env-row {

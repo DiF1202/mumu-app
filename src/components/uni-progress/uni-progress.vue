@@ -1,6 +1,7 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="arcbar" :chartData="chartData" :opts="opts"/>
+		<!-- :canvas2d="true" 开启后模拟器层级有问题 关闭真机层级有问题 -->
+		<qiun-data-charts type="arcbar" :chartData="chartData" :opts="opts" :canvas2d="true"/>
 	</view>
 </template>
 <script>

@@ -1,7 +1,8 @@
 <template>
-	<view class="view-container" :style="{height: `${windowHeight}px`, paddingTop:`${safetyTop}px`}">
-    <view class="header-title">远程查看</view>
-    <view class="content" :style="{height: `${windowHeight - safetyTop - 64}px`}">
+	<view class="view-container">
+    <uni-navtopbbar title="远程查看"></uni-navtopbbar>
+    <u-gap :height="`${safetyTop + 40}px`" bgColor="#bbb"></u-gap>
+    <view class="content">
       <!-- 栏位信息 -->
       <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>
       <view class="fields-view">
@@ -67,14 +68,11 @@
 			return {}
 		},
 		computed: {
-			windowHeight() {
-				return uni.getSystemInfoSync().windowHeight
-			},
       safetyTop() {
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
 		},
-		onLoad() {
+		onReady() {
 			this.initData()
 		},
 		methods: {
@@ -99,18 +97,9 @@
 
 <style lang="scss" scoped>
 	.view-container {
-    padding: 40rpx 24rpx 24rpx;
-		background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 100%);
-    .header-title {
-      font-size: 36rpx;
-      color: #252525;
-      height: 80rpx;
-      line-height: 80rpx;
-      font-weight: bold;
-      margin-bottom: 24rpx;
-    }
     .content {
-      overflow-y: auto;
+		  background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+      padding: 0 24rpx 24rpx;
       .fields-view, .manager-view{
         width: 100%;
         margin-top: 24rpx;

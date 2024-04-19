@@ -1,6 +1,7 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="line" :chartData="chartData" :opts="opts"/>
+		<!-- :canvas2d="true" 开启后模拟器层级有问题 关闭真机层级有问题 -->
+		<qiun-data-charts type="line" :chartData="chartData" :opts="opts" :canvas2d="true"/>
 	</view>
 </template>
 <script>
@@ -56,13 +57,5 @@
 	.charts-box {
 		width: 100%;
 		height: 100%;
-		position: relative;
-		.mark-box{
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			left: 0;
-			top: 0;
-		}
 	}
 </style>
