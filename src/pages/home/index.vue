@@ -1,7 +1,7 @@
 <template>
 	<view class="home-container">
     <uni-navtopbbar title="信息概览" :back="true"></uni-navtopbbar>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#bbb"></u-gap>
+    <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
       <!-- 环境预警 -->
       <uni-subTitle icon="photo-fill" title="环境预警" url="pages/user/index" />

@@ -1,7 +1,7 @@
 <template>
 	<view class="view-container">
     <uni-navtopbbar title="远程查看"></uni-navtopbbar>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#bbb"></u-gap>
+    <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
       <!-- 栏位信息 -->
       <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>

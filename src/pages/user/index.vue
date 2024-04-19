@@ -1,8 +1,8 @@
 <template>
   <view class="mine-container">
     <uni-navtopbbar title="个人中心"></uni-navtopbbar>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#bbb"></u-gap>
-    <view class="content">
+    <view class="content" :style="{height: `${windowHeight}px`}">
+      <u-gap :height="`${safetyTop + 80}px`"></u-gap>
       <view class="mine-section">
         <u--image :showLoading="true" src="/static/icon/woman.png" width="67px" height="67px" shape="circle"></u--image>
         <view class="mine-info">
@@ -50,6 +50,9 @@
       }
     },
     computed: {
+      windowHeight() {
+        return uni.getSystemInfoSync().windowHeight
+      },
       safetyTop() {
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
@@ -65,7 +68,7 @@
 <style lang="scss">
   .mine-container {
     .content {
-      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 100%);
       padding: 0 24rpx 24rpx;
     }
     .mine-section {
