@@ -18,6 +18,8 @@
         size="34rpx"
       ></u--text>
 		</template>
+    <!-- 如果uView icon 不满足需求 后续添加 #icon插槽使用 iconfont -->
+    <!-- <template #icon></template> -->
 	</u-cell>
 </template>
 

@@ -2,10 +2,13 @@
 	<view class="view-container" :style="{height: `${windowHeight}px`, paddingTop:`${safetyTop}px`}">
     <view class="header-title">远程查看</view>
     <view class="content" :style="{height: `${windowHeight - safetyTop - 64}px`}">
-      <!-- 实况视频 -->
+      <!-- 栏位信息 -->
       <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/user/index" leftIconColor="#A2EF4D"/>
-      <view class="env-warning">
-        <!-- 栏位信息 -->
+      <view class="fields-view">
+        <view class="fields-chart">
+          <uni-progress ref="progressChart1"></uni-progress>
+        </view>
+        <view class="fields-info"></view>
       </view>
       <!-- 资产评分 -->
       <uni-subTitle icon="bookmark" title="资产评分" leftIconColor="#A2EF4D"/>
@@ -52,8 +55,10 @@
           { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
         ]
         let yData2 = [{ name: '员工绩效', data: ['60', '70', '30', '25', '46', '33']}]
+        let data = [{ data: '0.8', color: '#1890FF'},{ data: '0.2', color: '#FAC858'},{ data: '0.6', color: '#FF6216'}]
         this.$refs.lineChart1.initChart(xData, yData1)
         this.$refs.lineChart2.initChart(xData, yData2)
+        this.$refs.progressChart1.initChart(data)
        })
 			}
 		}
@@ -74,9 +79,21 @@
     }
     .content {
       overflow-y: auto;
-      .env-warning {
+      .fields-view {
         width: 100%;
-        height: 200rpx;
+        margin-top: 24rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .fields-chart {
+          width: 250rpx;
+          height: 250rpx;
+        }
+        .fields-info {
+          width: calc(100% - 250rpx);
+          height: 250rpx;
+          background: #D6E7FF;
+        }
       }
       .daily-briefing {
         width: 100%;
