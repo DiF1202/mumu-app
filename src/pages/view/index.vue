@@ -33,7 +33,7 @@
       <uni-subTitle icon="account" title="负责人"  leftIconColor="#A2EF4D"/>
       <view class="manager-view">
         <!-- 负责人信息 -->
-        <u--image :showLoading="true" src="/static/icon/woman.png" width="250rpx" height="250rpx" @click="click"></u--image>
+        <u--image :showLoading="true" src="/static/icon/woman.png" width="250rpx" height="250rpx"></u--image>
         <view class="manager-info">
           <view class="info-item">
             <uni-font icon="icon-turangwendu30cm" color="#1890FF"/>

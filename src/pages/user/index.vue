@@ -6,7 +6,7 @@
       <view class="mine-section">
         <u--image :showLoading="true" src="/static/icon/woman.png" width="67px" height="67px" shape="circle"></u--image>
         <view class="mine-info">
-          <u--text text="张飞" bold size="40rpx" color="#333333"></u--text>
+          <u--text :text="user_name" bold size="40rpx" color="#333333"></u--text>
           <u--text text="职位：法师" size="30rpx" color="#666666" lineHeight="60rpx"></u--text>
         </view>
       </view>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import { userStore } from '@/store'
   export default {
     data() {
       return {
@@ -55,7 +56,10 @@
       },
       safetyTop() {
         return uni.getSystemInfoSync().safeAreaInsets.top
-      }
+      },
+      user_name() {
+        return userStore().user_name;
+      },
     },
     methods: {
       menuItemClick() {

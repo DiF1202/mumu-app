@@ -42,7 +42,7 @@
 		},
 	  methods: {
 	    initChart(data) {
-				this.chartData = {series: data}
+				this.chartData = JSON.parse(JSON.stringify({series: data}))
 	    },
 	  }
 	}
