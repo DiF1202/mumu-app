@@ -58,6 +58,13 @@
 				"navigationBarTitleText": "详情",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/newchat/index",
+			"style": {
+				"navigationBarTitleText": "新对话框",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
 	"tabBar": {
