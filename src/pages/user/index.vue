@@ -58,7 +58,7 @@
         return uni.getSystemInfoSync().safeAreaInsets.top
       },
       user_name() {
-        return userStore().user_name;
+        return userStore().userInfo.user_name;
       },
     },
     methods: {

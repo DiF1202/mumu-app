@@ -3,15 +3,31 @@ import { defineStore } from 'pinia'
 export const userStore = defineStore('user', {
   state: () => {
     return {
-      login: false,
-      user_token: '',
-      user_name: '微信用户',
-      user_avatar: ''
+      userInfo: {
+        login: false,
+        user_token: 'maflajsipojgdasnfwqing[oinsadgk',
+        user_name: '微信用户',
+        user_avatar: ''
+      }
     }
   },
   actions: {
     set_user_name(val) {
-      this.user_name = val
+      this.userInfo.user_name = val
+    },
+    clear_user_info() {
+      this.userInfo = {}
+    }
+  },
+  persist: {
+    // 调整为兼容多端的API
+    storage: {
+      setItem(key, value) {
+        uni.setStorageSync(key, value)
+      },
+      getItem(key) {
+        return uni.getStorageSync(key)
+      }
     }
   }
 })

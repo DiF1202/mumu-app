@@ -38,6 +38,7 @@
 </template>
 
 <script>
+  import{ loginApi } from '@/api/login.js'
   export default {
     data() {
       return {
@@ -65,7 +66,7 @@
     },
     methods: {
       login() {
-        uni.reLaunch({ url: '/pages/home/index' })
+        // uni.reLaunch({ url: '/pages/home/index' })
       },
       codeChange(text) {
         this.tips = text
