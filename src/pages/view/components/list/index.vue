@@ -62,7 +62,7 @@
 <script>
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
-import Flv from "flv.js";
+// import Flv from "flv.js";
 
 export default {
   data() {
@@ -74,38 +74,38 @@ export default {
           title: "濒死告警",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
+          time: "2022-12-12 12:12"
         },
         {
           title: "死亡告警",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
+          time: "2022-12-12 12:12"
         },
         {
           title: "环境异常",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
+          time: "2022-12-12 12:12"
         },
         {
           title: "濒死告警",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
+          time: "2022-12-12 12:12"
         },
         {
           title: "死亡告警",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
+          time: "2022-12-12 12:12"
         },
         {
           title: "环境异常",
           status: "1",
           build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-        },
+          time: "2022-12-12 12:12"
+        }
       ],
       pageNum: 1,
       laoding: "loadmore",
@@ -114,22 +114,22 @@ export default {
         { label: "一厂", id: 1 },
         { label: "二厂", id: 2 },
         { label: "三厂", id: 3 },
-        { label: "四厂", id: 4 },
+        { label: "四厂", id: 4 }
       ],
       twoLevel: [
         { label: "全部", id: "0" },
         { label: "一栏", id: 1 },
         { label: "二栏", id: 2 },
         { label: "三栏", id: 3 },
-        { label: "四栏", id: 4 },
+        { label: "四栏", id: 4 }
       ],
       threeLevel: [
         { label: "全部", id: "0" },
         { label: "一圈", id: 1 },
-        { label: "二圈", id: 2 },
+        { label: "二圈", id: 2 }
       ],
       status: "",
-      state: "",
+      state: ""
     };
   },
 
@@ -140,7 +140,7 @@ export default {
     listHeight() {
       let safe = uni.getSystemInfoSync().safeAreaInsets;
       return safe.top + safe.bottom;
-    },
+    }
   },
   methods: {
     loadmore() {
@@ -158,7 +158,7 @@ export default {
             title: "环境异常",
             status: "1",
             build: "一厂/2栏/3圈",
-            time: "2022-12-12 12:12",
+            time: "2022-12-12 12:12"
           });
         }
         this.laoding = "loadmore";
@@ -174,20 +174,20 @@ export default {
       const player = new Player({
         container: "#mui-player", // 这里用选择器代替 DOM 引用
         live: true,
-        src: "https://flvplayer.js.org/assets/video/weathering-with-you.flv",
-        parse: {
-          type: "flv",
-          loader: Flv,
-          config: {
-            cors: true,
-          },
-        },
+        src: "https://flvplayer.js.org/assets/video/weathering-with-you.flv"
+        // parse: {
+        //   type: "flv",
+        //   loader: Flv,
+        //   config: {
+        //     cors: true,
+        //   },
+        // },
       });
-    },
+    }
   },
   mounted() {
     this.initPlayer();
-  },
+  }
 };
 </script>
 

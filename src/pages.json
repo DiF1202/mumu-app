@@ -1,17 +1,17 @@
 {
 	"pages": [
 		{
-			"path": "pages/home/biological/index",
+			"path": "pages/view/index",
 			"style": {
-				"navigationBarTitleText": "生物资产详情",
+				"navigationBarTitleText": "远程查看",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/view/index",
+			"path": "pages/home/biological/index",
 			"style": {
-				"navigationBarTitleText": "远程查看",
+				"navigationBarTitleText": "生物资产详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
