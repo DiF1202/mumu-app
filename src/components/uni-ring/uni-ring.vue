@@ -7,19 +7,36 @@
 import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-charts.vue'
 	export default {
     components: { qiunDataCharts },
+		props: {
+			title: {
+				type: String,
+				default: ''
+			},
+			subtitle: {
+				type: String,
+				default: ''
+			}
+		},
 	  data() {
 	    return {
 	      chartData: {},
-				opts: {}
+				opts: {
+					title: {
+						name: this.title,
+						color:'#7E45FF',
+            fontSize: 14,
+            fontWeight: 600
+					},
+					subtitle: {
+						name: this.subtitle,
+						color:'#666666',
+            fontSize: 12,
+					},
+				}
 			}
 	  },
 	  methods: {
-	    initChart() {
-        let data = [
-          {name: "苹果", value: 20},
-          {name: '香蕉', value: 40},
-          {name: '草莓', value: 30}
-        ]
+	    initChart(data) {
 				this.chartData = {series: [{data: data}]}
 	    }
 	  }

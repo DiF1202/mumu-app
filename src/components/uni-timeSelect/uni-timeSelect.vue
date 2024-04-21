@@ -1,24 +1,32 @@
 <template>
-	<view class="field-select-container" @click="openTree">111</view>
-  
+	<view class="date-select-container" @click="openCalendar">
+    <u--input
+      v-model="date"
+      :prefixIcon="prefixIcon"
+      :prefixIconStyle="prefixIconStyle"
+      :suffixIcon="suffixIcon"
+      :suffixIconStyle="suffixIconStyle"
+      placeholder="请选择日期"
+      border="false"
+      shape="circle"
+      color="#0F4239"
+      disabledColor="#F4F4F4"
+      disabled
+    />
+    <u-calendar :show="show" mode="range" @confirm="confirm"></u-calendar>
+	</view>
 </template>
 
 <script>
 export default {
   props: {
-    columns: {
-      type: Array,
-      default: () => {
-        []
-      }
-    },
     suffixIcon: {
       type: String,
       default: 'search'
     },
     prefixIcon: {
       type: String,
-      default: 'list-dot'
+      default: 'calendar'
     },
     iconColor: {
       type: String,
@@ -27,8 +35,8 @@ export default {
   },
   data() {
     return {
-      label: "",
-      id: '',
+      date: '',
+      show: false,
       suffixIconStyle: {
         fontSize: '48rpx',
         fontWeight: 'bold',
@@ -42,20 +50,21 @@ export default {
     }
   },
   methods: {
-    openTree() {
-      this.$refs.qiantree._show()
+    openCalendar() {
+      this.show = true
     },
-    confirmTree(e) {
-      this.id = e.id[0]
-      this.label = e.name[0]
-      this.$emit('treeCallback', e)
-    },
+    confirm(e) {
+      console.log(e)
+      this.date = e[0] + '~' + e[1]
+      this.$emit('dateCallback', e)
+      this.show = false
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.field-select-container {
+.date-select-container {
   width: 100%;
   height: 100%;
   padding: 24rpx 0;

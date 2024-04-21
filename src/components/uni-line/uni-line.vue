@@ -8,6 +8,12 @@
   import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-charts.vue'
 	export default {
     components: { qiunDataCharts },
+		props: {
+			lineType: {
+				type: String,
+				default: "straight"
+			}
+		},
 	  data() {
 	    return {
 	      chartData: {},
@@ -36,6 +42,13 @@
 							}
 						]
 					},
+					extra: {
+						line: {
+							type: this.lineType,
+							width: 2,
+							activeType: "hollow"
+						}
+					}
 				}
 	    }
 	  },
