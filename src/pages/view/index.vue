@@ -67,9 +67,7 @@
 	export default {
 		data() {
 			return {
-        queryParams: {
-          fieldId: ''
-        },
+        fieldId: '',
         columns: [
           {
             id: 2,

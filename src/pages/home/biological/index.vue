@@ -1,19 +1,41 @@
 <template>
 	<view class="biological-container">
     <uni-navtopbar title="生物资产概况" :back="true"></uni-navtopbar>
+    <view class="content">
+      <view class="header-filter">
+        <view class="filter-fileds">
+          <uni-fieldsselect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
+        </view>
+        <view class="filter-date">
+          <uni-timeSelect></uni-timeSelect>
+        </view>
+      </view>
+    </view>
 	</view>
 </template>
 
 <script>
 	export default {
 		data() {
-			return {}
-		},
-		computed: {
-      safetyTop() {
-        return uni.getSystemInfoSync().safeAreaInsets.top
+			return {
+        fieldId: '',
+        columns: [
+          {
+            id: 2,
+            label: '牧场2',
+            children: [
+              {id: 21, label: '厂1', children: [{id:1, label: '栏1'}]},
+              {id: 22, label: '厂2'}
+            ]
+          }
+        ]
       }
-		}
+		},
+    methods: {
+      treeCallback(value) {
+        this.fieldId = value.id[0]
+      }
+    }
 	}
 </script>
 
@@ -22,30 +44,13 @@
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 24rpx;
-      .env-warning {
-        width: 100%;
-        .env-row {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin: 24rpx 0;
-        }
-      }
-      .assets-charts {
-        width: 100%;
-        height: 200rpx;
+      .header-filter {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 24rpx;
-        .chart-item {
-          width: 200rpx;
-          height: 200rpx;
+        .filter-fileds {
+          width: 50%;
         }
-      }
-      .daily-briefing {
-        width: 100%;
-        height: 500rpx;
       }
     }
 	}
