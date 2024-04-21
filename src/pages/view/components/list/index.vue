@@ -1,107 +1,61 @@
 <template>
   <view class="list-container">
-    <!-- <view class="search-view">
-      <view class="search-input">
-        <u--input
-          v-model="searchValue"
-          border="false"
-          placeholder="请输入内容"
-          prefixIcon="search"
-        />
-      </view>
-      <u-icon
-        :name="filterPanel ? 'arrow-up-fill' : 'arrow-down-fill'"
-        color="#666666"
-        size="28rpx"
-        label="筛选"
-        labelPos="left"
-        labelSize="32rpx"
-        labelColor="#666666"
-        @click="filterPanel = !filterPanel"
-      ></u-icon>
-      <view
-        v-if="filterPanel"
-        class="filter-panel"
-        :style="{ height: `${windowHeight - 42}px` }"
-      >
-        <view class="filter-panel-content">
-          <view class="filter-title">厂</view>
-          <view class="state-list">
-            <view v-for="item in oneLevel" :key="item.id" class="state-item">{{
-              item.label
-            }}</view>
-          </view>
-          <view class="filter-title">栏位</view>
-          <view class="state-list">
-            <view v-for="item in twoLevel" :key="item.id" class="state-item">{{
-              item.label
-            }}</view>
-          </view>
-          <view class="filter-title">圈舍</view>
-          <view class="state-list">
-            <view
-              v-for="item in threeLevel"
-              :key="item.id"
-              class="state-item"
-              :class="status == item.id ? 'active' : ''"
-              @click="selectStatus(item)"
-              >{{ item.label }}</view
-            >
-          </view>
-          <view class="btn-box">
-            <u-button text="重置" style="marginright: 20rpx"></u-button>
-            <u-button type="primary" text="确定"></u-button>
-          </view>
-        </view>
-      </view>
-    </view> -->
-    <uni-subTitle icon="bookmark" title="实时监控" leftIconColor="#A2EF4D" />
+    <view> </view>
 
-    <view>
-      <view id="mui-player" ref="playerWrapper"></view>
+    <view class="section">
+      <view class="section-title">实时监控</view>
+      <view class="section-video">
+        <view id="mui-player"></view>
+      </view>
     </view>
-    <uni-subTitle icon="bookmark" title="事件回看" leftIconColor="#A2EF4D" />
 
-    <u-list
-      @scrolltolower="loadmore"
-      lowerThreshold="100"
-      :height="windowHeight - listHeight"
-    >
-      <u-list-item v-for="(item, index) in listData" :key="index">
-        <view class="list-item" @click="enterDetails">
-          <view class="item-header">
-            <u--text
-              suffixIcon="arrow-right"
-              iconStyle="font-size: 18px; color: #333333; font-weight:bold"
-              :text="item.title"
-              size="36rpx"
-              color="#333333"
-              :bold="true"
-            ></u--text>
-            <view class="status">
-              <view class="status-item">未处理</view>
+    <view class="section">
+      <view class="section-title">告警事件</view>
+      <u-list
+        @scrolltolower="loadmore"
+        lowerThreshold="100"
+        :height="windowHeight - listHeight"
+      >
+        <u-list-item
+          class="list"
+          v-for="(item, index) in listData"
+          :key="index"
+        >
+          <view class="list-item" @click="enterDetails">
+            <view class="item-header">
+              <u--text
+                suffixIcon="arrow-right"
+                iconStyle="font-size: 18px; color: #333333; font-weight:bold"
+                :text="item.title"
+                size="36rpx"
+                color="#333333"
+                :bold="true"
+              ></u--text>
+              <view class="status">
+                <view class="status-item">未处理</view>
+              </view>
+            </view>
+            <view class="item-content">
+              <image
+                class="item-content-img"
+                src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
+              ></image>
+              <view>
+                <uni-cellItem title="位置：" :value="item.build"></uni-cellItem>
+                <uni-cellItem title="时间：" :value="item.time"></uni-cellItem>
+              </view>
             </view>
           </view>
-          <view class="item-content">
-            <image
-              class="item-content-img"
-              src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-            ></image>
-            <view>
-              <uni-cellItem title="位置：" :value="item.build"></uni-cellItem>
-              <uni-cellItem title="时间：" :value="item.time"></uni-cellItem>
-            </view>
-          </view>
-        </view>
-      </u-list-item>
-      <u-loadmore
-        :status="laoding"
-        loadingIcon="semicircle"
-        height="88"
-        fontSize="32rpx"
-        @loadmore="loadmore"
-      />
-    </u-list>
+        </u-list-item>
+        <u-loadmore
+          :status="laoding"
+          loadingIcon="semicircle"
+          height="88"
+          fontSize="32rpx"
+          @loadmore="loadmore"
+        />
+      </u-list>
+    </view>
   </view>
 </template>
 
@@ -239,7 +193,6 @@ export default {
 
 <style lang="scss" scoped>
 .list-container {
-  padding: 0 24rpx 24rpx;
 }
 .search-view {
   padding: 12rpx 24rpx;
@@ -298,9 +251,13 @@ export default {
     }
   }
 }
+.list {
+  margin-top: 20rpx;
+}
 .list-item {
-  padding: 24rpx;
-  margin-top: 24rpx;
+  /* padding: 24rpx; */
+  /* margin: 24rpx; */
+  margin-bottom: 24rpx;
   border-radius: 16rpx;
   background-color: #fff;
   .item-header {
@@ -331,6 +288,30 @@ export default {
     height: 180rpx;
     width: 300rpx;
     margin-right: 20rpx;
+  }
+}
+.section {
+  margin: 24rpx;
+  padding: 24rpx;
+  background-color: #fff;
+  border-radius: 8rpx;
+  .section-title {
+    width: 160rpx;
+    color: #333333;
+    line-height: 44rpx;
+    font-size: 30rpx;
+    border-left: 6rpx solid #2681ff;
+    padding-left: 26rpx;
+    font-weight: bold;
+  }
+  .section-video {
+    margin-top: 20rpx;
+  }
+  .form-view {
+    padding: 20rpx 0rpx 0 10rpx;
+    .form-btn {
+      padding-top: 20rpx;
+    }
   }
 }
 </style>
