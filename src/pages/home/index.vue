@@ -1,10 +1,9 @@
 <template>
 	<view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
       <!-- 环境预警 -->
-      <uni-subTitle icon="photo-fill" title="环境预警" url="pages/user/index" />
+      <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
       <view class="env-warning">
         <!-- 天气信息展示 -->
         <view class="env-row">
@@ -21,7 +20,7 @@
         </view>
       </view>
       <!-- 生物资产概况 -->
-      <uni-subTitle icon="red-packet" title="生物资产概况" url="pages/user/index" />
+      <uni-subTitle icon="red-packet" title="生物资产概况" url="pages/home/biological/index" />
       <view class="assets-charts">
         <view class="chart-item">
           <uni-progress ref="progressChart1"></uni-progress>
@@ -37,7 +36,7 @@
         <uni-line ref="lineChart1"></uni-line>
       </view>
       <!-- 生产管理评分 -->
-      <uni-subTitle icon="man-add" title="生产管理评分" url="pages/user/index" />
+      <uni-subTitle icon="man-add" title="生产管理评分" />
       <view style="height: 250rpx;marginTop:24rpx">
         <uni-progress ref="progressChart4"></uni-progress>
       </view>
@@ -45,7 +44,7 @@
         <uni-line ref="lineChart2"></uni-line>
       </view>
       <!-- 每日简报 -->
-      <uni-subTitle icon="chat" title="每日简报" url="pages/user/index" />
+      <uni-subTitle icon="chat" title="每日简报" />
       <view class="daily-briefing">
         
       </view>

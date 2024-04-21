@@ -1,7 +1,6 @@
 <template>
   <view class="mine-container">
     <uni-navtopbar title="个人中心"></uni-navtopbar>
-    <u-gap :height="`${safetyTop + 40}px`"></u-gap>
     <view class="content" :style="{height: `${windowHeight - safetyTop - 40}px`}">
       <view class="mine-section">
         <u--image :showLoading="true" src="/static/icon/woman.png" width="67px" height="67px" shape="circle"></u--image>

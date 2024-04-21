@@ -1,6 +1,6 @@
 <template>
-	<view class="env-container">
-    <uni-navtopbar title="环境详情" :back="true"></uni-navtopbar>
+	<view class="biological-container">
+    <uni-navtopbar title="生物资产概况" :back="true"></uni-navtopbar>
 	</view>
 </template>
 
@@ -18,7 +18,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.env-container {
+	.biological-container {
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 24rpx;

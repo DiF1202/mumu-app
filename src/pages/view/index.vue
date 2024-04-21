@@ -1,7 +1,6 @@
 <template>
 	<view class="view-container">
     <uni-navtopbar title="远程查看"></uni-navtopbar>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
       <!-- 栏位选择 -->
       <uni-fieldsselect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
