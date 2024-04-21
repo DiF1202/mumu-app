@@ -1,6 +1,6 @@
 <template>
 	<view class="home-container">
-    <uni-navtopbbar title="信息概览" :back="true"></uni-navtopbbar>
+    <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
       <!-- 环境预警 -->

@@ -1,4 +1,4 @@
-import fetch from '@/utils/fetch'
+import { fetch } from '@/utils/fetch'
 export function getWeatherNow() {
   return fetch({
     url: 'https://api.seniverse.com/v3/weather/now.json?key=Sur_mf0wnWZFjqk80&location=qingdao&language=zh-Hans&unit=c',

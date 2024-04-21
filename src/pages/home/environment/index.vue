@@ -1,6 +1,6 @@
 <template>
 	<view class="env-container">
-    <uni-navtopbbar title="环境详情" :back="true"></uni-navtopbbar>
+    <uni-navtopbar title="环境详情" :back="true"></uni-navtopbar>
     <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
 	</view>
 </template>

@@ -66,7 +66,7 @@
     },
     methods: {
       login() {
-        // uni.reLaunch({ url: '/pages/home/index' })
+        uni.reLaunch({ url: '/pages/home/index' })
       },
       codeChange(text) {
         this.tips = text

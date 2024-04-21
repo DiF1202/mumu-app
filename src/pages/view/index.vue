@@ -1,8 +1,10 @@
 <template>
 	<view class="view-container">
-    <uni-navtopbbar title="远程查看"></uni-navtopbbar>
+    <uni-navtopbar title="远程查看"></uni-navtopbar>
     <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
     <view class="content">
+      <!-- 栏位选择 -->
+      <uni-fieldsselect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
       <!-- 栏位信息 -->
       <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>
       <view class="fields-view">
@@ -65,7 +67,21 @@
 <script>
 	export default {
 		data() {
-			return {}
+			return {
+        queryParams: {
+          fieldId: ''
+        },
+        columns: [
+          {
+            id: 2,
+            label: '牧场2',
+            children: [
+              {id: 21, label: '厂1', children: [{id:1, label: '栏1'}]},
+              {id: 22, label: '厂2'}
+            ]
+          }
+        ]
+      }
 		},
 		computed: {
       safetyTop() {
@@ -90,7 +106,11 @@
         this.$refs.lineChart2.initChart(xData, yData2)
         this.$refs.progressChart1.initChart(data)
        })
-			}
+			},
+      treeCallback(value) {
+        console.log(value)
+        this.fieldId = value.id[0]
+      }
 		}
 	}
 </script>
