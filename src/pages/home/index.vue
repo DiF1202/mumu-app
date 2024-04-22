@@ -2,8 +2,8 @@
 	<view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <!-- 环境预警 -->
-      <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
+        <!-- 环境预警 -->
+        <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
       <view class="env-warning">
         <!-- 天气信息展示 -->
         <view class="env-row">
@@ -46,7 +46,16 @@
       <!-- 每日简报 -->
       <uni-subTitle icon="chat" title="每日简报" />
       <view class="daily-briefing">
-        
+        <u--text text="过去24h总结：" color="#0F4239" size="32rpx"></u--text>
+        <view v-for="(item,index) in daily.previously" :key="index" class="daily-item">
+          <view class="dot"></view>
+          <u--text :text="item.title + ':' + item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
+        <u--text text="未来建议：" color="#0F4239" size="32rpx"></u--text>
+        <view v-for="(item,index) in daily.futureSuggestions" :key="index" class="daily-item">
+          <view class="dot"></view>
+          <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
       </view>
     </view>
 	</view>
@@ -55,7 +64,22 @@
 <script>
 	export default {
 		data() {
-			return {}
+			return {
+        daily: {
+          previously: [
+            {title: '动物数量和分布', content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
+            {title: '活跃度与健康监测', content: '畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。'},
+            {title: '预警事件', content: '未发现紧急预警事件，动物逃逸或严重健康问题的风险很低。'},
+            {title: '人车物管理', content: '车辆出入统计显示，共有10次货车进出，运输饲料和牲畜。所有人员通道活动正常，无未授权入侵事件。'}
+          ],
+          futureSuggestions: [
+            {content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
+            {content: '畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。'},
+            {content: '未发现紧急预警事件，动物逃逸或严重健康问题的风险很低。'},
+            {content: '车辆出入统计显示，共有10次货车进出，运输饲料和牲畜。所有人员通道活动正常，无未授权入侵事件。'}
+          ]
+        }
+      }
 		},
 		computed: {
       safetyTop() {
@@ -98,7 +122,7 @@
 	.home-container {
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
-      padding: 0 24rpx 24rpx;
+      padding: 0 24rpx 48rpx;
       .env-warning {
         width: 100%;
         .env-row {
@@ -122,7 +146,19 @@
       }
       .daily-briefing {
         width: 100%;
-        height: 500rpx;
+        margin-top: 24rpx;
+        .daily-item {
+          display: flex;
+          justify-content: flex-start;
+          align-self: flex-start;
+          .dot {
+            width: 16rpx;
+            height: 16rpx;
+            border-radius: 50%;
+            background-color: #10cc8f;
+            margin: 22rpx 0;
+          }
+        }
       }
     }
 	}
