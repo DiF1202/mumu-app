@@ -1,5 +1,5 @@
 <template>
-	<view class="biological-container">
+	<view class="production-container">
     <uni-navtopbar title="生产管理评分" :back="true"></uni-navtopbar>
     <view class="content">
       <view class="header-filter">
@@ -115,7 +115,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.biological-container {
+	.production-container {
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 48rpx;

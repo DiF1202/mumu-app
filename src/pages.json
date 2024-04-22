@@ -8,6 +8,14 @@
 			}
 		},
 		{
+			"path": "pages/home/dailyReport/index",
+			"style": {
+				"navigationBarTitleText": "每日一报",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/home/production/index",
 			"style": {
 				"navigationBarTitleText": "生物管理评分详情",

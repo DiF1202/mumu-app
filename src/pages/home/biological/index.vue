@@ -177,7 +177,7 @@
 	.biological-container {
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
-      padding: 0 24rpx 24rpx;
+      padding: 0 24rpx 48rpx;
       .header-filter {
         display: flex;
         justify-content: space-between;
