@@ -4,7 +4,7 @@
     <view class="content">
       <view class="header-filter">
         <view class="filter-fileds">
-          <uni-fieldsselect :columns="columns" @treeCallback="treeCallback"/>
+          <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
         </view>
         <view class="filter-date">
           <uni-timeSelect iconColor='#A2EF4D'></uni-timeSelect>

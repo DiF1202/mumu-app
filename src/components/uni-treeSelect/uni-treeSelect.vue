@@ -6,7 +6,7 @@
       :prefixIconStyle="prefixIconStyle"
       :suffixIcon="suffixIcon"
       :suffixIconStyle="suffixIconStyle"
-      placeholder="请选择栏位"
+      :placeholder="placeholder"
       border="false"
       shape="circle"
       color="#0F4239"
@@ -36,7 +36,7 @@ export default {
     },
     suffixIcon: {
       type: String,
-      default: 'search'
+      default: ''
     },
     prefixIcon: {
       type: String,
@@ -45,6 +45,10 @@ export default {
     iconColor: {
       type: String,
       default: '#10cc8f'
+    },
+    placeholder: {
+      type: String,
+      default: '请选择'
     }
   },
   data() {

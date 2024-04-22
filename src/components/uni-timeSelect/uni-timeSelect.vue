@@ -22,7 +22,7 @@ export default {
   props: {
     suffixIcon: {
       type: String,
-      default: 'search'
+      default: ''
     },
     prefixIcon: {
       type: String,

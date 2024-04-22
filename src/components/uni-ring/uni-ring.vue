@@ -21,6 +21,7 @@ import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-char
 	    return {
 	      chartData: {},
 				opts: {
+					padding: [0, 0, 0, 0],
 					title: {
 						name: this.title,
 						color:'#7E45FF',

@@ -3,7 +3,7 @@
     <uni-navtopbar title="远程查看"></uni-navtopbar>
     <view class="content">
       <!-- 栏位选择 -->
-      <uni-fieldsselect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
+      <uni-treeSelect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
       <!-- 栏位信息 -->
       <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>
       <view class="fields-view">
