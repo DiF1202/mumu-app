@@ -1,6 +1,14 @@
 {
 	"pages": [
 		{
+			"path": "pages/home/environment/index",
+			"style": {
+				"navigationBarTitleText": "环境详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -43,14 +51,6 @@
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "登录",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/home/environment/index",
-			"style": {
-				"navigationBarTitleText": "环境详情",
-				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},

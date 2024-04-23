@@ -12,11 +12,66 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-shexiangtou1:before {
+  content: "\e60e";
+}
+
+.icon-taiyang:before {
+  content: "\e62e";
+}
+
+.icon-Pasturage:before {
+  content: "\e61c";
+}
+
+.icon-ic_shexiangtou:before {
+  content: "\e692";
+}
+
+.icon-tingzhenqi:before {
+  content: "\e843";
+}
+
+.icon-shuimian:before {
+  content: "\e610";
+}
+
+.icon-heart-rate:before {
+  content: "\e911";
+}
+
+.icon-video-camera:before {
+  content: "\e962";
+}
+
+.icon-fengli:before {
+  content: "\e725";
+}
+
+.icon-eyeyanjing:before {
+  content: "\e6da";
+}
+
+.icon-kongqishidu1:before {
+  content: "\e67b";
+}
+
+.icon-daqiya:before {
+  content: "\ea32";
+}
+
+.icon-shexiangtou:before {
+  content: "\eca5";
+}
+
+.icon-jiangyuliang:before {
+  content: "\e6bf";
+}
+
+.icon-pintu_puzzle:before {
+  content: "\e704";
+}
 
 .icon-turangwendu30cm:before {
   content: "\ea31";
-}
-
-.icon-kongqishidu:before {
-  content: "\ea33";
 }

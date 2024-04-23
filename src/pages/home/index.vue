@@ -2,8 +2,8 @@
 	<view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-        <!-- 环境预警 -->
-        <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
+      <!-- 环境预警 -->
+      <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
       <view class="env-warning">
         <!-- 天气信息展示 -->
         <view class="env-row">
@@ -36,7 +36,7 @@
         <uni-line ref="lineChart1"></uni-line>
       </view>
       <!-- 生产管理评分 -->
-      <uni-subTitle icon="man-add" title="生产管理评分" />
+      <uni-subTitle icon="man-add" title="生产管理评分" url="pages/home/production/index" />
       <view style="height: 250rpx;marginTop:24rpx">
         <uni-progress ref="progressChart4"></uni-progress>
       </view>
@@ -44,7 +44,7 @@
         <uni-line ref="lineChart2"></uni-line>
       </view>
       <!-- 每日简报 -->
-      <uni-subTitle icon="chat" title="每日简报" />
+      <uni-subTitle icon="chat" title="每日简报" url="pages/home/dailyReport/index"/>
       <view class="daily-briefing">
         <u--text text="过去24h总结：" color="#0F4239" size="32rpx"></u--text>
         <view v-for="(item,index) in daily.previously" :key="index" class="daily-item">
