@@ -11,11 +11,11 @@
           <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <uni-font icon="icon-turangwendu30cm" color="#93D2F3"/>
           <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
-          <uni-font icon="icon-kongqishidu" color="#E99d42"/>
+          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
           <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>

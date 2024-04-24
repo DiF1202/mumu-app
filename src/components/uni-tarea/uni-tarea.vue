@@ -7,27 +7,67 @@
   import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-charts.vue'
 	export default {
     components: { qiunDataCharts },
+		props: {
+			unit: {
+				type: String,
+				default: ''
+			},
+			max: {
+				type: Number,
+				default: 30
+			}
+		},
 	  data() {
 	    return {
 	      chartData: {},
 				opts: {
-					// 自定义图表样式在opts中配置相关属性
+					color: ["#19AECE"],
+					enableScroll: true,
+					padding: [12,0,0,0],
+					legend: {
+						show: false
+					},
+					xAxis: {
+						itemCount: 6,
+						scrollShow: true,
+						scrollColor: '#19AECE',
+						fontColor: 'rgba(0, 0, 0, 0.45)',
+					},
+					yAxis: {
+						disableGrid: true,
+						showTitle: true,
+						splitNumber: 1,
+						data:[
+							{
+								max: this.max,
+								type: 'value',
+								fontColor: 'rgba(0, 0, 0, 0.45)',
+								title: this.unit ? `${this.unit}` : '',
+								titleFontSize: 12,
+								titleFontColor: 'rgba(0, 0, 0, 0.45)',
+							}
+						]
+					},
+					extra: {
+						area: {
+							type: "curve",
+							opacity: 1,
+							addLine: true,
+							width: 2,
+							gradient: true
+						}
+					}
 				}
 	    }
 	  },
 		mounted() {
-			this.initChart()
+			// this.initChart()
 		},
 	  methods: {
-	    initChart() {
-        let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData = ['10', '20', '30', '40', '28', '19']
+	    initChart(xData, series) {
 				this.chartData = JSON.parse(JSON.stringify({
 					categories: xData,
-					series: [{
-						name: "目标值",
-						data: yData
-					}]
+					series: series
 				}))
 	    },
 	  }
