@@ -1,17 +1,17 @@
 {
 	"pages": [
 		{
-			"path": "pages/home/environment/index",
+			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "环境详情",
-				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "首页",
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/home/index",
+			"path": "pages/home/environment/index",
 			"style": {
-				"navigationBarTitleText": "首页",
+				"navigationBarTitleText": "环境详情",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},

@@ -64,6 +64,7 @@
       <!-- 畜群节律统计 -->
       <uni-subTitle icon="heart" title="畜群节律统计" />
       <view style="height:500rpx">
+        <uni-scatter ref="scatter"></uni-scatter>
       </view>
       <view style="height:500rpx">
         <uni-line ref="lineChart4"></uni-line>
@@ -165,6 +166,7 @@
         this.$refs.ring1.initChart(pieDate2)
         this.$refs.pieChart1.initChart(pieDate)
         this.$refs.pieChart2.initChart(pieDate)
+        this.$refs.scatter.initChart()
       },
       treeCallback(value) {
         this.fieldId = value.id[0]
