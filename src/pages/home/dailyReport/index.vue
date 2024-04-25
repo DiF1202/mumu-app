@@ -2,7 +2,8 @@
 	<view class="dailyReport-container">
     <uni-navtopbar title="每日一报" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="chat" title="过去24h总结"/>
+      <!-- 过去24h总结 -->
+      <uni-subTitle customIcon="houres" title="过去24h总结"/>
       <view class="previously-view">
         <view class="previously-info">
           <view class="info-item">
@@ -33,17 +34,20 @@
         <view class="dot"></view>
         <u--text :text="item.title + ':' + item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
       </view>
-      <uni-subTitle icon="chat" title="动物监控与健康"/>
+      <!-- 动物监控与健康 -->
+      <uni-subTitle icon="camera" title="动物监控与健康"/>
       <view v-for="(item,index) in animals" :key="index" class="daily-item">
         <view class="dot"></view>
         <u--text :text="item.title + ':' + item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
       </view>
-      <uni-subTitle icon="chat" title="设置与安全管理"/>
+      <!-- 设置与安全管理 -->
+      <uni-subTitle icon="setting" title="设置与安全管理"/>
       <view v-for="(item,index) in facility" :key="index" class="daily-item">
         <view class="dot"></view>
         <u--text :text="item.title + ':' + item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
       </view>
-      <uni-subTitle icon="chat" title="未来建议"/>
+      <!-- 未来建议 -->
+      <uni-subTitle icon="attach" title="未来建议"/>
       <view v-for="(item,index) in futureSuggestions" :key="index" class="daily-item">
         <view class="dot"></view>
         <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>

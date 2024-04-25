@@ -3,59 +3,59 @@
     <uni-navtopbar title="远程查看"></uni-navtopbar>
     <view class="content">
       <!-- 栏位选择 -->
-      <uni-treeSelect :columns="columns" @treeCallback="treeCallback" iconColor='#A2EF4D'/>
+      <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <!-- 栏位信息 -->
-      <uni-subTitle icon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index" leftIconColor="#A2EF4D"/>
+      <uni-subTitle customIcon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index"/>
       <view class="fields-view">
         <view class="fields-chart">
           <uni-progress ref="progressChart1"></uni-progress>
         </view>
         <view class="fields-info">
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#1890FF"/>
+            <u-icon custom-prefix="custom-icon custom-icon-Pasturage" size="38rpx" color="#1890FF"></u-icon>
             <u--text text="动物总数: 80" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#FAC858"/>
+            <u-icon custom-prefix="custom-icon custom-icon-midu" size="38rpx" color="#91CB74"></u-icon>
             <u--text text="畜群平均密度: 60平方米" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <u-icon custom-prefix="custom-icon custom-icon-mianji" size="38rpx" color="#FAC858"></u-icon>
             <u--text text="单位面积/动物： 0.2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
         </view>
       </view>
       <!-- 资产评分 -->
-      <uni-subTitle icon="bookmark" title="资产评分" leftIconColor="#A2EF4D"/>
+      <uni-subTitle customIcon="jixiaoguanli" title="资产评分"/>
       <view style="height:500rpx">
         <uni-line ref="lineChart1"></uni-line>
       </view>
       <!-- 负责人 -->
-      <uni-subTitle icon="account" title="负责人"  leftIconColor="#A2EF4D"/>
+      <uni-subTitle icon="account" title="负责人"/>
       <view class="manager-view">
         <!-- 负责人信息 -->
         <u--image :showLoading="true" src="/static/icon/woman.png" width="250rpx" height="250rpx"></u--image>
         <view class="manager-info">
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#1890FF"/>
+            <view class="dot"></view>
             <u--text text="姓名: 李四" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#FAC858"/>
+            <view class="dot"></view>
             <u--text text="平均响应时间: 45min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <view class="dot"></view>
             <u--text text="事件处理： 10/20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
-            <uni-font icon="icon-turangwendu30cm" color="#FF6216"/>
+            <view class="dot"></view>
             <u--text text="投喂时间： 20min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
         </view>
       </view>
       <!-- 绩效评分 -->
-      <uni-subTitle icon="bookmark" title="绩效评分" leftIconColor="#A2EF4D"/>
+      <uni-subTitle icon="bookmark" title="绩效评分"/>
       <view style="height:500rpx">
         <uni-line ref="lineChart2"></uni-line>
       </view>
@@ -141,6 +141,13 @@
       .daily-briefing {
         width: 100%;
         height: 500rpx;
+      }
+      .dot {
+        width: 16rpx;
+        height: 16rpx;
+        border-radius: 50%;
+        background-color: #10cc8f;
+        margin: 22rpx 0;
       }
     }
 	}

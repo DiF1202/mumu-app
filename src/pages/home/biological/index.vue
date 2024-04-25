@@ -7,26 +7,26 @@
           <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
         </view>
         <view class="filter-date">
-          <uni-timeSelect iconColor='#A2EF4D'></uni-timeSelect>
+          <uni-timeSelect></uni-timeSelect>
         </view>
       </view>
       <!-- 畜群健康详情 -->
       <uni-subTitle icon="heart" title="畜群健康详情" />
-      <view style="height: 250rpx;marginTop:24rpx">
+      <view :style="{height: '250rpx', marginTop:'24rpx'}">
         <uni-progress ref="progressChart1"></uni-progress>
       </view>
       <view style="height:500rpx">
         <uni-line ref="lineChart1"></uni-line>
       </view>
       <!-- 畜群活跃度变化 -->
-      <uni-subTitle icon="heart" title="畜群活跃度变化" />
+      <uni-subTitle customIcon="heart" title="畜群活跃度变化" />
       <view class="heart-des">
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="与昨日相比: +20%" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <view class="dot"></view>
           <u--text text="与过去一周相比：-10%" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
@@ -34,27 +34,25 @@
         <uni-line ref="lineChart2" lineType="step"></uni-line>
       </view>
       <!-- 畜群健康统计 -->
-      <uni-subTitle icon="heart" title="畜群健康统计" />
+      <uni-subTitle customIcon="yaowan" title="畜群健康统计" />
       <view style="height: 500rpx;">
         <uni-pie ref="pieChart1"></uni-pie>
       </view>
       <view class="heart-des">
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="体弱: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <view class="dot"></view>
           <u--text text="无害化处理：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
-      </view>
-      <view class="heart-des">
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="死亡: 20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <view class="dot"></view>
           <u--text text="进场死亡：2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
@@ -62,41 +60,42 @@
         <uni-line ref="lineChart3"></uni-line>
       </view>
       <!-- 畜群节律统计 -->
-      <uni-subTitle icon="heart" title="畜群节律统计" />
+      <uni-subTitle customIcon="shuimian" title="畜群节律统计" />
       <view style="height:500rpx">
         <uni-scatter ref="scatter"></uni-scatter>
       </view>
       <view style="height:500rpx">
         <uni-line ref="lineChart4"></uni-line>
       </view>
-      <uni-subTitle icon="heart" title="栏位占用情况" />
-      <view style="height:250rpx;marginTop:24rpx">
+      <!-- 栏位占用情况 -->
+      <uni-subTitle icon="list" title="栏位占用情况" />
+      <view :style="{height:'250rpx', marginTop:'24rpx'}">
         <uni-progress ref="progressChart2"></uni-progress>
       </view>
       <view class="heart-des">
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="畜群健康: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <view class="dot"></view>
           <u--text text="满负荷率：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="畜群平均密度: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-kongqishidu" color="#93D2F3"/>
+          <view class="dot"></view>
           <u--text text="单位面积/动物：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <view class="dot"></view>
           <u--text text="转群统计: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
       <!-- 异常告警详情 -->
-      <uni-subTitle icon="man-add" title="异常告警详情" iconColor="#DE868F"/>
+      <uni-subTitle icon="bell" title="异常告警详情" iconColor="#DE868F"/>
       <view :style="{ height:'500rpx', marginTop: '24rpx' }">
         <uni-ring ref="ring1" title="告警总数" subtitle="70"></uni-ring>
       </view>
@@ -203,6 +202,13 @@
           justify-content: flex-start;
           align-items: center;
           margin: 24rpx 0 0;
+        }
+        .dot {
+          width: 16rpx;
+          height: 16rpx;
+          border-radius: 50%;
+          background-color: #10cc8f;
+          margin: 22rpx 0;
         }
       } 
     }

@@ -3,20 +3,20 @@
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
       <!-- 环境预警 -->
-      <uni-subTitle icon="photo-fill" title="环境预警" url="/pages/home/environment/index" />
+      <uni-subTitle customIcon="shumu" title="环境预警" url="/pages/home/environment/index" />
       <view class="env-warning">
         <!-- 天气信息展示 -->
         <view class="env-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
-          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u-icon custom-prefix="custom-icon custom-icon-taiyang" size="38rpx" color="#E99D42"></u-icon>
+          <u--text text="温度过高,建议降温" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
-          <uni-font icon="icon-turangwendu30cm" color="#93D2F3"/>
-          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u-icon custom-prefix="custom-icon custom-icon-shuidi" size="38rpx" color="#93D2F3"></u-icon>
+          <u--text text="湿度偏高建议通风" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="env-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
-          <u--text text="我用十年青春,赴你最后之约" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u-icon custom-prefix="custom-icon custom-icon-dianfang" size="38rpx" color="#A16222"></u-icon>
+          <u--text text="x栏x舍x位,温度异常告警" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
       <!-- 生物资产概况 -->
@@ -36,7 +36,7 @@
         <uni-line ref="lineChart1"></uni-line>
       </view>
       <!-- 生产管理评分 -->
-      <uni-subTitle icon="man-add" title="生产管理评分" url="pages/home/production/index" />
+      <uni-subTitle customIcon="shengchan" title="生产管理评分" url="pages/home/production/index" />
       <view style="height: 250rpx;marginTop:24rpx">
         <uni-progress ref="progressChart4"></uni-progress>
       </view>
@@ -44,7 +44,7 @@
         <uni-line ref="lineChart2"></uni-line>
       </view>
       <!-- 每日简报 -->
-      <uni-subTitle icon="chat" title="每日简报" url="pages/home/dailyReport/index"/>
+      <uni-subTitle customIcon="jiqiren" title="每日简报" url="pages/home/dailyReport/index"/>
       <view class="daily-briefing">
         <u--text text="过去24h总结：" color="#0F4239" size="32rpx"></u--text>
         <view v-for="(item,index) in daily.previously" :key="index" class="daily-item">

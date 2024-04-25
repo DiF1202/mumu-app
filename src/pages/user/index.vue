@@ -38,7 +38,7 @@
     data() {
       return {
         iconStyle: {
-          color: "#2979ff",
+          color: "#10cc8f",
           fontSize: '48rpx',
           lineHeight: '48rpx'
         },

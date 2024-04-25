@@ -2,7 +2,7 @@
 	<view class="env-container">
     <uni-navtopbar title="环境详情" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="chat" title="天气概况" leftIconColor="#19AECE"/>
+      <uni-subTitle customIcon="tianqi" title="天气概况" leftIconColor="#10cc8f"/>
       <view class="toady-weather">
         <view class="row1">
           <view class="temp">{{ '28' }}℃</view>
@@ -14,13 +14,13 @@
           </view>
         </view>
         <view class="row2">
-          <uni-font icon="icon-jiangyuliang" color="#fff" />
+          <u-icon custom-prefix="custom-icon custom-icon-jiangyu" size="38rpx" color="#fff"></u-icon>
           <view class="value">{{ 28 }}mm</view>
-          <uni-font icon="icon-kongqishidu1" color="#fff" />
+          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="38rpx" color="#fff"></u-icon>
           <view class="value">{{ 99 }}%</view>
-          <uni-font icon="icon-eyeyanjing" color="#fff" />
+          <u-icon custom-prefix="custom-icon custom-icon-eye" size="38rpx" color="#fff"></u-icon>
           <view class="value">{{ 2 }}km</view>
-          <uni-font icon="icon-daqiya" color="#fff" />
+          <u-icon custom-prefix="custom-icon custom-icon-qiya" size="38rpx" color="#fff"></u-icon>
           <view class="value">{{ 11 }}mb</view>
         </view>
       </view>
@@ -35,39 +35,48 @@
           </view>
         </view>
       </u-scroll-list>
-      <uni-subTitle icon="chat" title="24h温度预报" leftIconColor="#19AECE"/>
+      <!-- 24h温度预报 -->
+      <uni-subTitle customIcon="houres" title="24h温度预报" leftIconColor="#10cc8f"/>
       <view class="weather-chart">
         <uni-tarea ref="tareaChart" unit="℃" max="30"></uni-tarea>
       </view>
-      <uni-subTitle icon="chat" title="天气风险提示" leftIconColor="#19AECE"/>
+      <!-- 天气风险提示 -->
+      <uni-subTitle customIcon="leidian" title="天气风险提示" leftIconColor="#10cc8f"/>
       <view class="danger-warning">
-        <!-- 天气信息展示 -->
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <u-icon custom-prefix="custom-icon custom-icon-taiyang" size="38rpx" color="#A16222"></u-icon>
           <u--text text="紫外线：强。注意关闭遮阳帘" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#93D2F3"/>
+          <u-icon custom-prefix="custom-icon custom-icon-fengli" size="38rpx" color="#A16222"></u-icon>
           <u--text text="风力：强。小心动物吹飞" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <u-icon custom-prefix="custom-icon custom-icon-tingzhenqi" size="38rpx" color="#A16222"></u-icon>
           <u--text text="病害：弱。单位面积动物不易超过0.8" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
-      <uni-subTitle icon="chat" title="舍内异常预警" leftIconColor="#19AECE"/>
+      <uni-subTitle customIcon="shenei" title="舍内异常预警" leftIconColor="#10cc8f"/>
       <view class="danger-warning">
-        <!-- 天气信息展示 -->
+        <!-- 舍内异常预警 -->
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <u-icon custom-prefix="custom-icon custom-icon-wenduji" size="38rpx" color="#A16222"></u-icon>
           <u--text text="x厂x舍x栏x位：出现温度过高预警" color="#0F4239" size="28rpx"></u--text>
         </view>
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#93D2F3"/>
+          <u-icon custom-prefix="custom-icon custom-icon-huo" size="38rpx" color="#A16222"></u-icon>
           <u--text text="x厂x舍x栏x位：出现温度过高预警" color="#0F4239" size="28rpx"></u--text>
         </view>
         <view class="danger-row">
-          <uni-font icon="icon-turangwendu30cm" color="#E99d42"/>
+          <u-icon custom-prefix="custom-icon custom-icon-shuiwu" size="38rpx" color="#A16222"></u-icon>
+          <u--text text="x厂x舍x栏x位：出现温度过高预警" color="#0F4239" size="28rpx"></u--text>
+        </view>
+        <view class="danger-row">
+          <u-icon custom-prefix="custom-icon custom-icon-shitou" size="38rpx" color="#A16222"></u-icon>
+          <u--text text="x厂x舍x栏x位：出现温度过高预警" color="#0F4239" size="28rpx"></u--text>
+        </view>
+        <view class="danger-row">
+          <u-icon custom-prefix="custom-icon custom-icon-shuidi" size="38rpx" color="#A16222"></u-icon>
           <u--text text="x厂x舍x栏x位：出现温度过高预警" color="#0F4239" size="28rpx"></u--text>
         </view>
       </view>

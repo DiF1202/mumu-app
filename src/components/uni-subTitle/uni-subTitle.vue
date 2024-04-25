@@ -1,5 +1,5 @@
 <template>
-	<u-cell :icon="icon" :iconStyle="iconStyle" :border="true" :isLink="url?true:false" :url="url" :rightIconStyle="rightIconStyle" :clickable="false">
+	<u-cell :border="true" :isLink="url?true:false" :url="url" :rightIconStyle="rightIconStyle" :clickable="false">
 		<template #title>
 			<u--text 
         :text="title"
@@ -19,7 +19,10 @@
       ></u--text>
 		</template>
     <!-- 如果uView icon 不满足需求 后续添加 #icon插槽使用 iconfont -->
-    <!-- <template #icon></template> -->
+    <template #icon>
+      <u-icon v-if="icon" :name="icon" :color="leftIconColor" size="46rpx"></u-icon>
+      <u-icon v-else :custom-prefix="`custom-icon custom-icon-${customIcon}`" size="46rpx" :color="leftIconColor"></u-icon>
+    </template>
 	</u-cell>
 </template>
 
@@ -30,7 +33,7 @@
 				type: String,
 				default: ''
 			},
-      url: {
+      value: {
         type: String,
         default: ''
       },
@@ -42,7 +45,11 @@
         type: String,
         default: '#10cc8f'
       },
-      value: {
+      customIcon: {
+        type: String,
+        default: ''
+      },
+      url: {
         type: String,
         default: ''
       }
@@ -53,10 +60,6 @@
           color: '#333333',
           fontSize: '34rpx',
           fontWeight: 'bold'
-        },
-        iconStyle: {
-          color: this.leftIconColor,
-          fontSize: '46rpx'
         }
       }
     },
