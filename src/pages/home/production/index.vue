@@ -97,7 +97,7 @@
 <style lang="scss" scoped>
 	.production-container {
     .content {
-      background: linear-gradient(to bottom, #90fad9 0%, #FFFFFF 600rpx);
+      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 48rpx;
       .header-filter {
         display: flex;
