@@ -1,6 +1,5 @@
 @font-face {
-  font-family: "custom-icon";
-  /* Project id 4515375 */
+  font-family: "custom-icon";   /* Project id 4515375 */
   src: url('@/static/font/iconfont.woff2') format('woff2'),
     url('@/static/font/iconfont.woff') format('woff'),
     url('@/static/font/iconfont.ttf') format('truetype');
@@ -20,6 +19,46 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-home:before {
+  content: "\eb66";
+}
+
+.custom-icon-home-fill:before {
+  content: "\eca6";
+}
+
+.custom-icon-view:before {
+  content: "\e6a1";
+}
+
+.custom-icon-view-fill:before {
+  content: "\eca7";
+}
+
+.custom-icon-chat-fill:before {
+  content: "\eca8";
+}
+
+.custom-icon-user-fill:before {
+  content: "\eca9";
+}
+
+.custom-icon-chat:before {
+  content: "\ec5f";
+}
+
+.custom-icon-user:before {
+  content: "\e678";
+}
+
+.custom-icon-view1:before {
+  content: "\e622";
+}
+
+.custom-icon-view1-copy:before {
+  content: "\ecaa";
 }
 
 .custom-icon-shengchan:before {
@@ -94,7 +133,7 @@
   content: "\e602";
 }
 
-.custom-icon-user:before {
+.custom-icon-user1:before {
   content: "\e60a";
 }
 
@@ -165,3 +204,4 @@
 .custom-icon-pintu:before {
   content: "\e704";
 }
+

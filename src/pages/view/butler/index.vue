@@ -60,6 +60,7 @@
         <uni-line ref="lineChart2"></uni-line>
       </view>
     </view>
+    <uni-tabbar :tabCurrent="1"></uni-tabbar>
 	</view>
 </template>
 
@@ -85,7 +86,8 @@
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
 		},
-		onReady() {
+		onLoad() {
+      uni.hideTabBar()
 			this.initData()
 		},
 		methods: {

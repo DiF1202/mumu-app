@@ -1,5 +1,5 @@
 <template>
-  <view class="login-container" :style="{paddingTop:`${safetyTop}px`,height: `${windowHeight}px` }">
+  <view class="login-container" :style="{paddingTop:`${safetyTop}px`,height: `${windowHeight + 50}px` }">
     <view class="logo-content">
 			<u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
       <text class="title">牧目科技</text>
@@ -11,7 +11,7 @@
 					placeholder="请输入您的用户名"
 					border="false"
 					shape="circle"
-					:customStyle="customStyle"
+					:customStyle="inputStyle"
 				></u--input>
       </view>
       <view class="input-code">
@@ -20,7 +20,7 @@
 					placeholder="请输入验证码"
 					border="false"
 					shape="circle"
-					:customStyle="customStyle"
+					:customStyle="inputStyle"
 				></u--input>
         <view class="code">
           <u-button type="primary" plain @click="getCode" shape="circle">{{tips}}</u-button>
@@ -39,10 +39,11 @@
 
 <script>
   import{ loginApi } from '@/api/login.js'
+  import { userStore } from '@/store'
   export default {
     data() {
       return {
-        customStyle: {
+        inputStyle: {
           paddingLeft: '40rpx',
           background: 'rgba(234, 243, 255, 1)',
           height: '100rpx',
@@ -66,7 +67,8 @@
     },
     methods: {
       login() {
-        uni.reLaunch({ url: '/pages/home/index' })
+        userStore().set_user_role(this.loginInfo.account)
+        uni.reLaunch({ url: '/pages/home/butler/index' })
       },
       codeChange(text) {
         this.tips = text

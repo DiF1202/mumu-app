@@ -85,6 +85,7 @@
         </view>
       </view>
     </view>
+    <uni-tabbar :tabCurrent="2"></uni-tabbar>
   </view>
 </template>
 
@@ -160,7 +161,9 @@ export default {
       ptzt: 1
     };
   },
-  onLoad() {},
+  onLoad() {
+    uni.hideTabBar()
+  },
   methods: {}
 };
 </script>

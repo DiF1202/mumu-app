@@ -1,40 +1,34 @@
 {
 	"pages": [
+		// 登录
 		{
-			"path": "pages/home/index",
+			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "首页",
+				"navigationBarTitleText": "登录",
 				"navigationStyle": "custom"
 			}
 		},
+		// 总览(管家)
+		{
+			"path": "pages/home/butler/index",
+			"style": {
+				"navigationBarTitleText": "总览",
+				"navigationStyle": "custom"
+			}
+		},
+		// 总览(卫士)
+		{
+			"path": "pages/home/guard/index",
+			"style": {
+				"navigationBarTitleText": "总览",
+				"navigationStyle": "custom"
+			}
+		},
+		// 首页子页
 		{
 			"path": "pages/home/environment/index",
 			"style": {
 				"navigationBarTitleText": "环境详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/home/dailyReport/index",
-			"style": {
-				"navigationBarTitleText": "每日一报",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/home/production/index",
-			"style": {
-				"navigationBarTitleText": "生物管理评分详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/view/index",
-			"style": {
-				"navigationBarTitleText": "远程查看",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -48,12 +42,55 @@
 			}
 		},
 		{
-			"path": "pages/login/index",
+			"path": "pages/home/production/index",
 			"style": {
-				"navigationBarTitleText": "登录",
+				"navigationBarTitleText": "生产管理评分",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
+		{
+			"path": "pages/home/dailyReport/index",
+			"style": {
+				"navigationBarTitleText": "每日简报",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 远程查看(管家)
+		{
+			"path": "pages/view/butler/index",
+			"style": {
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 远程巡检(卫士)
+		{
+			"path": "pages/view/guard/index",
+			"style": {
+				"navigationBarTitleText": "远程巡检",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 远程查看
+		{
+			"path": "pages/view/components/list/index",
+			"style": {
+				"navigationBarTitleText": "监控详情页",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/view/components/details/index",
+			"style": {
+				"navigationBarTitleText": "报警详情页",
+				"enablePullDownRefresh": false
+			}
+		},
+		// 助手
 		{
 			"path": "pages/chat/index",
 			"style": {
@@ -61,26 +98,13 @@
 				"enablePullDownRefresh": false
 			}
 		},
+		// 我的
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "用户界面",
+				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/view/components/list/index",
-			"style": {
-				"navigationBarTitleText": "列表",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/view/components/details/index",
-			"style": {
-				"navigationBarTitleText": "详情",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -92,36 +116,23 @@
 		}
 	],
 	"tabBar": {
-		"color": "#000",
+		"color": "#333333",
 		"selectedColor": "#10CC8F",
 		"list": [
 			{
-				"pagePath": "pages/home/index",
-				"text": "信息总览",
-				"fontSize": "12px",
-				"iconPath": "static/tabBar/home.png",
-				"selectedIconPath": "static/tabBar/home-fill.png"
+				"pagePath": "pages/home/butler/index" // 管家首页
 			},
 			{
-				"pagePath": "pages/view/index",
-				"text": "远程查看",
-				"fontSize": "12px",
-				"iconPath": "static/tabBar/video.png",
-				"selectedIconPath": "static/tabBar/video-fill.png"
+				"pagePath": "pages/home/guard/index" // 卫士首页
 			},
 			{
-				"pagePath": "pages/chat/index",
-				"text": "畜牧助手",
-				"fontSize": "12px",
-				"iconPath": "static/tabBar/database.png",
-				"selectedIconPath": "static/tabBar/database-fill.png"
+				"pagePath": "pages/view/butler/index" // 管家查看
 			},
 			{
-				"pagePath": "pages/user/index",
-				"text": "我的",
-				"fontSize": "12px",
-				"iconPath": "static/tabBar/user.png",
-				"selectedIconPath": "static/tabBar/user-fill.png"
+				"pagePath": "pages/view/guard/index" // 管家监控
+			},
+			{
+				"pagePath": "pages/chat/index" // 助手
 			}
 		]
 	},
@@ -140,6 +151,5 @@
 			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue",
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
 		}
-	},
-	"uniIdRouter": {}
+	}
 }

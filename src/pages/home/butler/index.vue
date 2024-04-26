@@ -58,6 +58,7 @@
         </view>
       </view>
     </view>
+    <uni-tabbar :tabCurrent="0"></uni-tabbar>
 	</view>
 </template>
 
@@ -86,7 +87,8 @@
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
 		},
-		onReady() {
+		onLoad() {
+      uni.hideTabBar()
 			this.initData()
 		},
 		methods: {
