@@ -45,15 +45,23 @@
         </view>
         <view class="heart-row">
           <view class="dot"></view>
-          <u--text text="无害化处理：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-        </view>
-        <view class="heart-row">
-          <view class="dot"></view>
           <u--text text="死亡: 20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
           <view class="dot"></view>
-          <u--text text="进场死亡：2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u--text text="回收: 20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
+        <view class="heart-row">
+          <view class="dot"></view>
+          <u--text text="濒死：2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
+        <view class="heart-row">
+          <view class="dot"></view>
+          <u--text text="医治：2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
+        <view class="heart-row">
+          <view class="dot"></view>
+          <u--text text="无害处理：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
       <view style="height:500rpx">
@@ -64,6 +72,7 @@
       <view style="height:500rpx">
         <uni-scatter ref="scatter"></uni-scatter>
       </view>
+      <uni-subTitle icon="hourglass" title="采食饮水统计" />
       <view style="height:500rpx">
         <uni-line ref="lineChart4"></uni-line>
       </view>
@@ -75,11 +84,7 @@
       <view class="heart-des">
         <view class="heart-row">
           <view class="dot"></view>
-          <u--text text="畜群健康: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-        </view>
-        <view class="heart-row">
-          <view class="dot"></view>
-          <u--text text="满负荷率：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u--text text="动物计数: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
         <view class="heart-row">
           <view class="dot"></view>
@@ -91,19 +96,19 @@
         </view>
         <view class="heart-row">
           <view class="dot"></view>
-          <u--text text="转群统计: 30" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <u--text text="动物离栏数：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
       </view>
       <!-- 异常告警详情 -->
       <uni-subTitle icon="bell" title="异常告警详情" iconColor="#DE868F"/>
-      <view :style="{ height:'500rpx', marginTop: '24rpx' }">
-        <uni-ring ref="ring1" title="告警总数" subtitle="70"></uni-ring>
-      </view>
-      <view style="height:500rpx">
-        <uni-line ref="lineChart5"></uni-line>
+      <view :style="{ height:'250rpx', marginTop: '24rpx' }">
+        <uni-progress ref="progressChart3"></uni-progress>
       </view>
       <view style="height: 500rpx;">
         <uni-pie ref="pieChart2"></uni-pie>
+      </view>
+      <view style="height:500rpx">
+        <uni-line ref="lineChart5"></uni-line>
       </view>
     </view>
 	</view>
@@ -139,14 +144,16 @@
           { name: '畜群活跃度', data: ['10', '21', '13', '16', '21', '19']},
         ]
         let yData2 = [
-          { name: '死亡', data: ['10', '21', '13', '16', '21', '19']},
-          { name: '健康', data: ['60', '70', '30', '25', '46', '33']},
-          { name: '体弱', data: ['3', '8', '2', '1', '5', '3']}
+          { name: '体弱', data: ['10', '21', '13', '16', '21', '19']},
+          { name: '濒死', data: ['60', '70', '30', '25', '46', '33']},
+          { name: '死亡', data: ['3', '8', '2', '1', '5', '3']},
+          { name: '回收', data: ['11', '22', '18', '19', '22', '19']},
+          { name: '医治', data: ['30', '50', '28', '21', '42', '23']},
+          { name: '处理', data: ['31', '18', '12', '11', '15', '13']}
         ]
         let yData3 = [
-          { name: '平均采食时长', data: ['10', '21', '13', '16', '21', '19']},
-          { name: '平均饮水时长', data: ['60', '70', '30', '25', '46', '33']},
-          { name: '平均睡眠时长', data: ['3', '8', '2', '1', '5', '3']}
+          { name: '采食时长', data: ['10', '21', '13', '16', '21', '19']},
+          { name: '饮水时长', data: ['60', '70', '30', '25', '46', '33']},
         ]
         let yData4 = [
           { name: '告警数', data: ['10', '21', '13', '16', '21', '19']},
@@ -162,7 +169,8 @@
         this.$refs.lineChart5.initChart(xData, yData4)
         this.$refs.progressChart1.initChart(data)
         this.$refs.progressChart2.initChart(data)
-        this.$refs.ring1.initChart(pieDate2)
+        this.$refs.progressChart3.initChart(data)
+        // this.$refs.ring1.initChart(pieDate2)
         this.$refs.pieChart1.initChart(pieDate)
         this.$refs.pieChart2.initChart(pieDate)
         this.$refs.scatter.initChart()
