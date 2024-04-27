@@ -26,7 +26,7 @@
         </view>
       </view>
       <!-- 资产评分 -->
-      <uni-subTitle customIcon="jixiaoguanli" title="资产评分"/>
+      <uni-subTitle customIcon="jixiaoguanli" title="资产管理评分"/>
       <view style="height:500rpx">
         <uni-line ref="lineChart1"></uni-line>
       </view>

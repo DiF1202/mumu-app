@@ -13,11 +13,11 @@
       :text="tabItem.text"
       @click="tabHandler(tabItem,index)"
     >
-      <template slot="active-icon">
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`" size="38rpx" color="#10CC8F"></u-icon>
+      <template #active-icon>
+        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`" size="42rpx" color="#10CC8F"></u-icon>
       </template>
-      <template slot="inactive-icon">
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`" size="38rpx"  color="#333333"></u-icon>
+      <template #inactive-icon>
+        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`" size="42rpx"  color="#333333"></u-icon>
       </template>
     </u-tabbar-item>
   </u-tabbar>

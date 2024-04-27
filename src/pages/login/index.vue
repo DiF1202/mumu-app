@@ -68,7 +68,11 @@
     methods: {
       login() {
         userStore().set_user_role(this.loginInfo.account)
-        uni.reLaunch({ url: '/pages/home/butler/index' })
+        if (this.loginInfo.account === '1') {
+          uni.reLaunch({ url: '/pages/home/butler/index' })
+        } else {
+          uni.reLaunch({ url: '/pages/home/guard/index' })
+        }
       },
       codeChange(text) {
         this.tips = text

@@ -26,6 +26,13 @@
 		},
 		// 首页子页
 		{
+			"path": "pages/home/guardBiological/index",
+			"style": {
+				"navigationBarTitleText": "生物资产概况",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/home/environment/index",
 			"style": {
 				"navigationBarTitleText": "环境详情",
