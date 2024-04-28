@@ -1,9 +1,11 @@
 {
 	"pages": [
+		// 远程查看
 		{
-			"path": "pages/home/guardBiological/index",
+			"path": "pages/view/components/list/index",
 			"style": {
-				"navigationBarTitleText": "生物资产概况",
+				"navigationBarTitleText": "监控详情页",
+				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
@@ -32,6 +34,13 @@
 			}
 		},
 		// 首页子页
+		{
+			"path": "pages/home/guardBiological/index",
+			"style": {
+				"navigationBarTitleText": "生物资产概况",
+				"navigationStyle": "custom"
+			}
+		},
 		{
 			"path": "pages/home/environment/index",
 			"style": {
@@ -80,14 +89,6 @@
 				"navigationBarTitleText": "远程巡检",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-			}
-		},
-		// 远程查看
-		{
-			"path": "pages/view/components/list/index",
-			"style": {
-				"navigationBarTitleText": "监控详情页",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
