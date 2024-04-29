@@ -25,6 +25,7 @@
 
 <script>
 import { userStore } from '@/store'
+import { butlerTabList, guardTabList } from '@/utils/tabBar.js'
 export default {
   props: {
     tabCurrent: {
@@ -34,7 +35,7 @@ export default {
   },
   data() {
     return {
-      tabList: userStore().tabList
+      tabList: userStore().userInfo.user_role === '1' ? butlerTabList : guardTabList
     }
   },
   methods: {

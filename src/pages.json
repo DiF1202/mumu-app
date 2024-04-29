@@ -1,14 +1,5 @@
 {
 	"pages": [
-		// 远程查看
-		{
-			"path": "pages/view/components/list/index",
-			"style": {
-				"navigationBarTitleText": "监控详情页",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -82,20 +73,31 @@
 				"navigationStyle": "custom"
 			}
 		},
-		// 远程巡检(卫士)
+		// 远程查看-实况视频(列表页)
+		{
+			"path": "pages/view/components/list/index",
+			"style": {
+				"navigationBarTitleText": "监控详情页",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 报警详情
+		{
+			"path": "pages/view/components/details/index",
+			"style": {
+				"navigationBarTitleText": "报警详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 远程产看(卫士)
 		{
 			"path": "pages/view/guard/index",
 			"style": {
 				"navigationBarTitleText": "远程巡检",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/view/components/details/index",
-			"style": {
-				"navigationBarTitleText": "报警详情页",
-				"enablePullDownRefresh": false
 			}
 		},
 		// 助手

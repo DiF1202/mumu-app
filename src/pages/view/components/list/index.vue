@@ -1,7 +1,7 @@
 <template>
   <view class="list-container">
     <uni-navtopbar title="实况视频" :back="true"></uni-navtopbar>
-    <view class="content">
+    <view class="content" :style="{height: `${windowHeight - safetyTop - 40}px`}">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <view class="video-section">
         <view id="mui-player"></view>
@@ -10,7 +10,7 @@
         <u-list
           @scrolltolower="loadmore"
           lowerThreshold="100"
-          :height="windowHeight - 382"
+          height="100%"
         >
           <u-list-item
             v-for="(item, index) in listData"
@@ -101,7 +101,11 @@ export default {
   computed: {
     windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
-    }
+    },
+    safetyTop() {
+      console.log(uni.getSystemInfoSync().safeAreaInsets)
+      return uni.getSystemInfoSync().safeAreaInsets.top
+    },
   },
   methods: {
     treeCallback(value) {
@@ -160,7 +164,7 @@ export default {
 .list-container {
   .content {
     background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
-    padding: 0 24rpx 48rpx;
+    padding: 0 24rpx 24rpx;
     .video-section {
       width: 100%;
       height: 400rpx;
@@ -168,6 +172,7 @@ export default {
       margin-bottom: 24rpx;
     }
     .warin-section {
+      height: calc(100% - 584rpx);
       .list-item {
         width: 100%;
         height: 258rpx;
@@ -176,7 +181,8 @@ export default {
         align-items: center;
         margin-bottom: 24rpx;
         padding: 24rpx;
-        background: #deebff;
+        // background: #deebff;
+        box-shadow: 0px 0px 10px #deebff inset;
         border-radius: 16rpx;
         .item-info {
           height: 210rpx;

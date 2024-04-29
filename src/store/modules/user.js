@@ -1,5 +1,3 @@
-import { butlerTabList, guardTabList } from '@/utils/tabBar.js'
-
 import { defineStore } from 'pinia'
 //定义store
 export const userStore = defineStore('user', {
@@ -12,13 +10,11 @@ export const userStore = defineStore('user', {
         user_avatar: '',
         user_role: '1'
       },
-      tabList: []
     }
   },
   actions: {
     set_user_role(val) {
-      this.userInfo.user_name = val
-      this.tabList = val === '1' ? butlerTabList: guardTabList
+      this.userInfo.user_role = val
     },
     clear_user_info() {
       this.userInfo = {}
