@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "appid": "",
+    "name": "牧目App",
+    "appid": "wxac425a017f38a95b",
     "description": "",
     "versionName": "1.0.0",
     "versionCode": "100",
@@ -50,7 +50,7 @@
     "quickapp": {},
     /* 小程序特有相关 */
     "mp-weixin": {
-        "appid": "wxaaae2a54e6d11f13",
+        "appid": "wxac425a017f38a95b",
         "setting": {
             "urlCheck": false
         },
