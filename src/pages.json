@@ -105,7 +105,8 @@
 			"path": "pages/chat/index",
 			"style": {
 				"navigationBarTitleText": "畜牧助手",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
 			}
 		},
 		// 我的
