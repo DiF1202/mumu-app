@@ -7,6 +7,7 @@
         align="left"
         color="#333333"
         size="34rpx"
+        lines="1"
       ></u--text>
 		</template>
     <template #value>

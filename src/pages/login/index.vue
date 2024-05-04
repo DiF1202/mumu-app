@@ -3,7 +3,7 @@
     <view class="logo-content">
 			<u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
       <text class="title">牧目科技</text>
-      <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon>
+      <!-- <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon> -->
     </view>
     <view class="weixin-btn">
       <button type="default" open-type="getPhoneNumber" @getphonenumber="wxLogin" class="button">

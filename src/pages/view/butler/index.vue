@@ -5,7 +5,7 @@
       <!-- 栏位选择 -->
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <!-- 栏位信息 -->
-      <uni-subTitle customIcon="camera" title="一厂/二舍/三栏" value="实况视频" url="pages/view/components/list/index"/>
+      <uni-subTitle customIcon="camera" :title="fieldName" value="实况视频" url="pages/view/components/list/index"/>
       <view class="fields-view">
         <view class="fields-chart">
           <uni-progress ref="progressChart1"></uni-progress>
@@ -65,20 +65,14 @@
 </template>
 
 <script>
+  import { fieldTree } from '@/api/view.js'
+  import { addTreePro } from '@/utils/common.js'
 	export default {
 		data() {
 			return {
         fieldId: '',
-        columns: [
-          {
-            id: 2,
-            label: '牧场2',
-            children: [
-              {id: 21, label: '厂1', children: [{id:1, label: '栏1'}]},
-              {id: 22, label: '厂2'}
-            ]
-          }
-        ]
+        fieldName: '',
+        columns: []
       }
 		},
 		computed: {
@@ -88,10 +82,21 @@
 		},
 		onLoad() {
       uni.hideTabBar()
-			this.initData()
+			this.getFieldTree()
 		},
 		methods: {
-			initData(e) {
+      getFieldTree() {
+        // 获取栏位数据 并设置第一个子元素为默认选中
+        fieldTree().then(res => {
+          if (res.code = 200) {
+            let newTree = addTreePro(res.data[0], 'checked', true)
+            this.columns = [newTree]
+            this.initData()
+          }
+        })
+      },
+			initData() {
+        
        this.$nextTick(() => {
         let xData = ['1月','2月','3月','4月','5月','6月']
         let yData1 = [
@@ -107,8 +112,9 @@
        })
 			},
       treeCallback(value) {
-        console.log(value)
         this.fieldId = value.id[0]
+        this.fieldName = value.name[0]
+        console.log(this.fieldId, 'fieldId')
       }
 		}
 	}

@@ -16,10 +16,8 @@
 	</view>
   <uni-tree 
     ref="qiantree"
-    labelKey="label"
+    labelKey="name"
     valueKey="id" 
-    :selectParent="false"
-    :multiple="false"
     :treeData="columns" 
     @confirm="confirmTree"
   ></uni-tree>

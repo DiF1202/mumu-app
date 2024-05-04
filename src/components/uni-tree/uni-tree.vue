@@ -57,7 +57,7 @@
 			},
 			labelKey: {
 				type: String,
-				default: 'label'
+				default: 'name'
 			},
 			childrenKey: {
 				type: String,
@@ -70,7 +70,6 @@
 			multiple: { // 是否可以多选
 				type: Boolean,
 				default: false
-				// default: true
 			},
 			selectParent: { //是否可以选父级
 				type: Boolean,
@@ -113,7 +112,7 @@
 			return {
 				showTree: false,
 				treeList: [],
-				selectIndex: -1,
+				selectIndex: 1,
 				childNums: [],
 				rt:[],
 				rtName:[]
@@ -130,14 +129,13 @@
 			_cancel() {
 				this._hide()
 				this.$emit("cancel", '');
-				console.log(this.showTree)
 			},
 			_confirm() {
 				this.rt=[];
 				this.rtName=[];
 				// 处理所选数据
 				this.treeList.forEach((item, i) => {
-					if(item.id==100&&item.checked){
+					if(item.id==100 && item.checked){
 						return this.confirmEach(this.treeData)
 					}
 					if (item.checked&&item.parentId&&item.parentId!="100") {
@@ -206,6 +204,7 @@
 						})
 					}
 				})
+				this._confirm()
 			},
 			// 点击
 			_treeItemTap(item, index) {
@@ -334,7 +333,7 @@
 			}
 		},
 		mounted() {
-			this._initTree();
+			// this._initTree();
 			this.$watch(() => this.treeData, (list) => {
 				this._initTree(list);
 			}, {deep: true, immediate: true})
