@@ -24,7 +24,7 @@
               </view>
               <view class="chat-user-img margin-left">
                 <image
-                  src="../../static/robt.png"
+                  src="../../static/icon/logo.png"
                   mode="aspectFill"
                   style="height: 75rpx; width: 75rpx"
                 ></image>
@@ -35,7 +35,7 @@
               <view class="chat-robot-img flex-row-center">
                 <image
                   style="height: 75rpx; width: 75rpx"
-                  src="../../static/robt.png"
+                  src="../../static/icon/logo.png"
                   mode="aspectFit"
                 ></image>
               </view>
@@ -51,7 +51,7 @@
             <view class="chat-robot-img flex-row-center">
               <image
                 style="height: 75rpx; width: 75rpx"
-                src="../../static/robt.png"
+                src="../../static/icon/logo.png"
                 mode="aspectFit"
               ></image>
             </view>
@@ -318,7 +318,7 @@ export default {
 }
 
 .bg-cyan {
-  background-color: rgb(71, 188, 180); /* 修改为适当的颜色值 */
+  background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
 }
 
 .bg-f9f9f9 {
