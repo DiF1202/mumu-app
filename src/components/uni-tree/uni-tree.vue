@@ -57,7 +57,7 @@
 			},
 			labelKey: {
 				type: String,
-				default: 'name'
+				default: 'label'
 			},
 			childrenKey: {
 				type: String,
@@ -112,7 +112,7 @@
 			return {
 				showTree: false,
 				treeList: [],
-				selectIndex: 1,
+				selectIndex: -1,
 				childNums: [],
 				rt:[],
 				rtName:[]
@@ -129,13 +129,14 @@
 			_cancel() {
 				this._hide()
 				this.$emit("cancel", '');
+				console.log(this.showTree)
 			},
 			_confirm() {
 				this.rt=[];
 				this.rtName=[];
 				// 处理所选数据
 				this.treeList.forEach((item, i) => {
-					if(item.id==100 && item.checked){
+					if(item.id==100&&item.checked){
 						return this.confirmEach(this.treeData)
 					}
 					if (item.checked&&item.parentId&&item.parentId!="100") {

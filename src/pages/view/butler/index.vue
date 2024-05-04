@@ -8,20 +8,20 @@
       <uni-subTitle customIcon="camera" :title="fieldName" value="实况视频" url="pages/view/components/list/index"/>
       <view class="fields-view">
         <view class="fields-chart">
-          <uni-progress ref="progressChart1"></uni-progress>
+          <uni-progress ref="progressChart"></uni-progress>
         </view>
         <view class="fields-info">
           <view class="info-item">
             <u-icon custom-prefix="custom-icon custom-icon-Pasturage" size="38rpx" color="#1890FF"></u-icon>
-            <u--text text="动物总数: 80" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'动物总数：' + houseAnimal.animal_score" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
             <u-icon custom-prefix="custom-icon custom-icon-midu" size="38rpx" color="#91CB74"></u-icon>
-            <u--text text="畜群平均密度: 60平方米" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'畜群平均密度：' + houseAnimal.animal_avg_density" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
             <u-icon custom-prefix="custom-icon custom-icon-mianji" size="38rpx" color="#FAC858"></u-icon>
-            <u--text text="单位面积/动物： 0.2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'单位面积/动物：' + houseAnimal.animal_unit_area" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
         </view>
       </view>
@@ -34,23 +34,23 @@
       <uni-subTitle icon="account" title="负责人"/>
       <view class="manager-view">
         <!-- 负责人信息 -->
-        <u--image :showLoading="true" src="/static/icon/woman.png" width="250rpx" height="250rpx"></u--image>
+        <u--image :showLoading="true" :src="houseStaff.avatar" width="250rpx" height="250rpx" shape="circle"></u--image>
         <view class="manager-info">
           <view class="info-item">
             <view class="dot"></view>
-            <u--text text="姓名: 李四" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'姓名：' + houseStaff.name" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
             <view class="dot"></view>
-            <u--text text="平均响应时间: 45min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'平均响应时间：' + houseStaff.avg_response_time" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
             <view class="dot"></view>
-            <u--text text="事件处理： 10/20" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'事件处理：' + houseStaff.schedule" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
           <view class="info-item">
             <view class="dot"></view>
-            <u--text text="投喂时间： 20min" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text :text="'投喂时间：' + houseStaff.feeding_time" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
           </view>
         </view>
       </view>
@@ -65,14 +65,26 @@
 </template>
 
 <script>
-  import { fieldTree } from '@/api/view.js'
+  import { fieldTree } from '@/api/utils.js'
+  import { houseAnimalApi, houseStaffApi } from '@/api/view.js'
   import { addTreePro } from '@/utils/common.js'
 	export default {
 		data() {
 			return {
         fieldId: '',
         fieldName: '',
-        columns: []
+        columns: [],
+        houseAnimal: {
+          asset_score: '',
+          animal_avg_density: '',
+          animal_unit_area: ''
+        },
+        houseStaff: {
+          name: '',
+          avg_response_time: '',
+          schedule: '',
+          feeding_time: ''
+        }
       }
 		},
 		computed: {
@@ -91,30 +103,50 @@
           if (res.code = 200) {
             let newTree = addTreePro(res.data[0], 'checked', true)
             this.columns = [newTree]
-            this.initData()
           }
         })
       },
+      // 获取数据
 			initData() {
-        
-       this.$nextTick(() => {
-        let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData1 = [
-          { name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},
-          { name: '栏位占用', data: ['60', '70', '30', '25', '46', '33']},
-          { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
-        ]
-        let yData2 = [{ name: '员工绩效', data: ['60', '70', '30', '25', '46', '33']}]
-        let data = [{ data: '0.8', color: '#1890FF'},{ data: '0.2', color: '#FAC858'},{ data: '0.6', color: '#FF6216'}]
-        this.$refs.lineChart1.initChart(xData, yData1)
-        this.$refs.lineChart2.initChart(xData, yData2)
-        this.$refs.progressChart1.initChart(data)
-       })
+        houseAnimalApi({house_id: this.fieldId}).then(res => {
+          if (res.code == 200) {
+            this.houseAnimal = res.data
+            let xData = []
+            let yData = [
+              { name: '畜群健康', data: []},
+              { name: '栏位占用', data: []},
+              { name: '异常警告', data: []}
+            ]
+            this.houseAnimal.data.map(item => {
+              xData.push(item.date)
+              yData[0].data.push(item.animal_health)
+              yData[1].data.push(item.field_occupy)
+              yData[2].data.push(item.abnormal_alarm_num)
+            })
+            this.$refs.lineChart1.initChart(xData, yData)
+            let data = [{ data: this.houseAnimal.animal_score },{ data: this.houseAnimal.animal_avg_density },{ data: this.houseAnimal.animal_unit_area}]
+            this.$refs.progressChart.initChart(data, this.houseAnimal.asset_score)
+          }
+        })
+        houseStaffApi({house_id: this.fieldId}).then(res => {
+          if (res.code == 200) {
+            this.houseStaff = res.data
+            let xData = []
+            let yData = [{name: '员工绩效', data: []}]
+            this.houseStaff.data.map(item => {
+              xData.push(item.date)
+              yData[0].data.push(item.staff_score)
+            })
+            this.$refs.lineChart2.initChart(xData, yData)
+          }
+        })
 			},
       treeCallback(value) {
         this.fieldId = value.id[0]
         this.fieldName = value.name[0]
-        console.log(this.fieldId, 'fieldId')
+        if (this.fieldId) {
+          this.initData()
+        }
       }
 		}
 	}

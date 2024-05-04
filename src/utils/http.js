@@ -1,4 +1,5 @@
 import { userStore } from '@/store'
+import { tansParams } from '@/utils/common'
 // 添加请求拦截器
 /**
  * 拦截 request 请求
@@ -47,6 +48,10 @@ uni.addInterceptor('uploadFile', httpInterceptor)
  *  其他错误
 */
 export const fetch = (options) => {
+  // 拼接URL传参
+  if (options.params) {
+    options.url = options.url + '?' + tansParams(options.params).slice(0, -1)
+  }
   return new Promise((resolve, reject) => {
     uni.request({
       ...options,

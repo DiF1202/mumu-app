@@ -1,5 +1,14 @@
 {
 	"pages": [
+		// 远程查看(管家)
+		{
+			"path": "pages/view/butler/index",
+			"style": {
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -60,15 +69,6 @@
 			"path": "pages/home/dailyReport/index",
 			"style": {
 				"navigationBarTitleText": "每日简报",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		// 远程查看(管家)
-		{
-			"path": "pages/view/butler/index",
-			"style": {
-				"navigationBarTitleText": "远程查看",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

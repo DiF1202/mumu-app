@@ -11,16 +11,24 @@
 	  data() {
 	    return {
 	      chartData: {},
-				opts: {
+				opts: {}
+	    }
+	  },
+		mounted() {
+			// this.initChart()
+		},
+	  methods: {
+	    initChart(data, title, subTitle) {
+				this.opts = {
 					// 自定义图表样式在opts中配置相关属性
           title:{
-            name:'360',
+            name: title,
             color:'#7E45FF',
             fontSize: 18,
             fontWeight:600
           },
           subtitle:{
-            name:'子标题',
+            name: subTitle || '',
             color:'#666666',
             fontSize: 12,
           },
@@ -35,13 +43,6 @@
             }
           }
 				}
-	    }
-	  },
-		mounted() {
-			// this.initChart()
-		},
-	  methods: {
-	    initChart(data) {
 				this.chartData = JSON.parse(JSON.stringify({series: data}))
 	    },
 	  }
