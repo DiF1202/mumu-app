@@ -1,8 +1,11 @@
 import { fetch } from '@/utils/http'
-export const loginApi = (data) => {
+const loginApi = (data) => {
   return fetch({
-    method: 'GET',
+    method: 'post',
     url: '/api/mini/wx-login',
     data
   })
+}
+export {
+  loginApi
 }

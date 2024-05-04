@@ -3,42 +3,18 @@
     <view class="logo-content">
 			<u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
       <text class="title">牧目科技</text>
+      <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon>
     </view>
-    <view class="login-form-content">
-      <view class="input-phone">
-				<u--input
-					v-model="loginInfo.account"
-					placeholder="请输入您的用户名"
-					border="false"
-					shape="circle"
-					:customStyle="inputStyle"
-				></u--input>
-      </view>
-      <view class="input-code">
-				<u--input
-					v-model="loginInfo.code"
-					placeholder="请输入验证码"
-					border="false"
-					shape="circle"
-					:customStyle="inputStyle"
-				></u--input>
-        <view class="code">
-          <u-button type="primary" plain @click="getCode" shape="circle">{{tips}}</u-button>
-          <u-code seconds="60" ref="uCode" @change="codeChange"></u-code>
-        </view>
-      </view>
-      <view class="action-btn">
-        <u-button type="primary" text="登录" shape="circle" @click="login"></u-button>
-      </view>
-      <view class="weixin-btn">
-        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx" labelColor=""></u-icon>
-      </view>
+    <view class="weixin-btn">
+      <button type="default" open-type="getPhoneNumber" @getphonenumber="wxLogin" class="button">
+        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx"></u-icon>
+      </button>
     </view>
   </view>
 </template>
 
 <script>
-  import{ loginApi } from '@/api/login.js'
+  import { loginApi } from '@/api/login'
   import { userStore } from '@/store'
   export default {
     data() {
@@ -48,11 +24,7 @@
           background: 'rgba(234, 243, 255, 1)',
           height: '100rpx',
         },
-        loginInfo: {
-          account: '',
-          code: ''
-        },
-        tips: '获取验证码'
+        loadingShow: false
       }
     },
     computed: {
@@ -64,26 +36,57 @@
       }
     },
     onLoad() {
+      const token = userStore().user_info.token
+      if (token) {
+        this.pageTo()
+      }
     },
     methods: {
-      login() {
-        userStore().set_user_role(this.loginInfo.account)
-        if (this.loginInfo.account === '1') {
+      wxLogin(e) {
+        console.log(e)
+        this.loadingShow = true
+        if (e.detail.errMsg === 'getPhoneNumber:ok') {
+          uni.login({
+            provider: 'weixin',
+            success: (res) => {
+              if (res.errMsg == 'login:ok') {
+                console.log(res.code, 'login:ok')
+                loginApi({wx_login_code: res.code, get_phone_code: e.detail.code}).then(loginRes => {
+                  console.log(loginRes, 'loginRes')
+                  if (loginRes.code == 200) {
+                    userStore().set_user_info(loginRes.data)
+                    this.loadingShow = false
+                     uni.showToast({
+                      icon: null,
+                      title: '登录成功'
+                    })
+                    this.pageTo()
+                  }
+                }).catch(() => {
+                  this.loadingShow = false
+                  uni.showToast({
+                    icon: null,
+                    title: '登录失败'
+                  })
+                })
+              }
+            }
+          })
+        } else {
+          this.loadingShow = false
+          uni.showToast({
+            icon: null,
+            title: '无权限'
+          })
+        }
+      },
+      pageTo() {
+        if (userStore().user_info.identity_type === 1) {
           uni.reLaunch({ url: '/pages/home/butler/index' })
         } else {
           uni.reLaunch({ url: '/pages/home/guard/index' })
         }
-      },
-      codeChange(text) {
-        this.tips = text
-      },
-      getCode() {
-				if(this.$refs.uCode.canGetCode) {
-					setTimeout(() => {
-						this.$refs.uCode.start()
-					}, 2000)
-				}
-			},
+      }
     }
   }
 </script>
@@ -103,29 +106,18 @@
 				font-size: 36rpx;
 				font-weight: bold;
 				margin-top: 40rpx;
+        margin-bottom: 200rpx;
       }
     }
-    .login-form-content {
-			padding: 60rpx;
-			.input-phone {
-				margin-bottom: 50rpx;
-			}
-      .input-code {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 50rpx;
-        .code {
-          width: 200rpx;
-          margin-left: 20rpx;
-        }
+    .weixin-btn {
+      padding:  200rpx 0;
+      .button {
+        width: 180rpx;
+        background: transparent;
       }
-      .login-btn {
-        height: 45px;
-      }
-      .weixin-btn {
-        margin-top: 100rpx;
-      }
+      button::after{ 
+        border: none;
+      } 
     }
   }
 </style>

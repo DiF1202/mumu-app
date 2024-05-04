@@ -11,7 +11,7 @@ import { userStore } from '@/store'
  * 3.添加小程序端请求头标识
  * 4.添加token请求头标识
 */
-const baseURL = 'http://140.249.223.143:8288'
+const baseURL = 'https://m.zzxmt.cn'
 const httpInterceptor = {
   // 拦截前触发
   invoke(options) {
@@ -27,9 +27,9 @@ const httpInterceptor = {
       'source-client': 'miniapp'
     }
     // 4.添加token请求头标识
-    const token = userStore()?.user_token
+    const token = userStore().user_info.token
     if (token) {
-      options.header.Authorization = token
+      options.header.Authorization = 'Bearer ' + token
     }
   }
 }
@@ -51,10 +51,10 @@ export const fetch = (options) => {
     uni.request({
       ...options,
       success(res) {
-        if (res.code >= 200 && res.code < 300) {
+        if (res.data.code >= 200 && res.data.code < 300 || res.data.code == 0) {
           // 提取核心数据 res.data
           resolve(res.data)
-        } else if (res.code === 401) {
+        } else if (res.data.code === 401) {
           // 401错误 清理用户信息 跳转登录页
           userStore().clear_user_info()
           uni.navigateTo({ url: '/pages/login/index' })

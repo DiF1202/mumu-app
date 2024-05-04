@@ -3,21 +3,16 @@ import { defineStore } from 'pinia'
 export const userStore = defineStore('user', {
   state: () => {
     return {
-      userInfo: {
-        login: false,
-        user_token: 'maflajsipojgdasnfwqing[oinsadgk',
-        user_name: '微信用户',
-        user_avatar: '',
-        user_role: '1'
-      },
+      user_info: {},
     }
   },
   actions: {
-    set_user_role(val) {
-      this.userInfo.user_role = val
+    // userinfo
+    set_user_info(val) {
+      this.user_info = val
     },
     clear_user_info() {
-      this.userInfo = {}
+      this.user_info = {}
     }
   },
   persist: {
