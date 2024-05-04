@@ -6,13 +6,13 @@
         <u--image :showLoading="true" src="/static/icon/woman.png" width="67px" height="67px" shape="circle"></u--image>
         <view class="mine-info">
           <u--text :text="user_info.nickname" bold size="40rpx" color="#333333"></u--text>
-          <u--text text="职位：法师" size="30rpx" color="#666666" lineHeight="60rpx"></u--text>
+          <u--text :text="user_info.identity_type == 1 ? '牧场管家' : '牧场卫士'" size="30rpx" color="#666666" lineHeight="60rpx"></u--text>
         </view>
       </view>
       <view class="menu-section">
-        <u-cell icon="phone" :iconStyle="iconStyle" title="13888888888" :titleStyle="titleStyle" :border="true" ></u-cell>
-        <u-cell icon="map" :iconStyle="iconStyle" title="中国/内蒙古/大草原" :titleStyle="titleStyle" :border="true" ></u-cell>
-        <u-cell icon="list-dot" :iconStyle="iconStyle" title="负责栏位" :titleStyle="titleStyle" :border="true"></u-cell>
+        <u-cell icon="phone" :iconStyle="iconStyle" :title="user_info.mobile" :titleStyle="titleStyle" :border="true" ></u-cell>
+        <u-cell icon="map" :iconStyle="iconStyle" :title="user_info.area" :titleStyle="titleStyle" :border="true" ></u-cell>
+        <u-cell icon="list-dot" :iconStyle="iconStyle" :title="user_info.farm_house_list.join('/')" :titleStyle="titleStyle" :border="true"></u-cell>
       </view>
       <u-gap height="24rpx"></u-gap>
       <view class="menu-section">
@@ -58,11 +58,12 @@
         return uni.getSystemInfoSync().safeAreaInsets.top
       },
       user_info() {
-        return userStore().user_info.nickname;
+        return userStore().user_info;
       },
     },
     methods: {
       menuItemClick() {
+        userStore().clear_user_info()
         uni.reLaunch({ url: '/pages/login/index' })
       }
     }

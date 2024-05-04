@@ -2,6 +2,7 @@
 	<view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
+      <u-icon name="map" color="#10cc8f" size="46rpx" label="安徽涡阳" labelSize="28rpx" labelColor="#0F4239"></u-icon>
       <!-- 环境预警 -->
       <uni-subTitle customIcon="shumu" title="环境预警" url="/pages/home/environment/index" />
       <view class="env-warning">
@@ -63,6 +64,7 @@
 </template>
 
 <script>
+import { overViewApi } from '@/api/home.js'
 	export default {
 		data() {
 			return {
@@ -93,6 +95,9 @@
 		},
 		methods: {
 			initData(e) {
+        overViewApi().then(res => {
+          console.log(res)
+        })
        this.$nextTick(() => {
         let xData = ['1月','2月','3月','4月','5月','6月']
         let yData1 = [
