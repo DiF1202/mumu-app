@@ -25,11 +25,6 @@
                 <view class="status-tag">
                   <u-tag :text="item.status === '1' ? '已处理' : '未处理'" :type="item.status === '1' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
                 </view>
-                <view class="select-item">
-                  <u-checkbox-group v-model="item.select" >
-                    <u-checkbox :name="item.id" label=""></u-checkbox>
-                  </u-checkbox-group>
-                </view>
               </view>
             </view>
           </u-list-item>
@@ -41,6 +36,9 @@
             @loadmore="loadmore"
           />
         </u-list>
+      </view>
+      <view class="ding">
+        <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -170,6 +168,18 @@ export default {
       height: 400rpx;
       background: #333333;
       margin-bottom: 24rpx;
+    }
+    .ding {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: 50%;
+      position: absolute;
+      right: 24rpx;
+      bottom: 100rpx;
+      background: #D6E7FF;
+      display: flex;
+      justify-content: center;
+      align-self: center;
     }
     .warin-section {
       .list-item {

@@ -26,7 +26,7 @@
                   <u-tag :text="item.status === '1' ? '已处理' : '未处理'" :type="item.status === '1' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
                 </view>
                 <view class="select-item">
-                  <u-checkbox-group v-model="item.select" >
+                  <u-checkbox-group v-model="item.select" @change="selectHandler">
                     <u-checkbox :name="item.id" label=""></u-checkbox>
                   </u-checkbox-group>
                 </view>
@@ -41,6 +41,9 @@
             @loadmore="loadmore"
           />
         </u-list>
+      </view>
+      <view v-if="selectAlarm.length > 0" class="ding" @click="dingClick">
+        <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
   </view>
@@ -64,8 +67,10 @@ export default {
           ]
         }
       ],
+      selectAlarm: [],
       listData: [
         {
+          id: 1,
           title: "濒死告警",
           status: "1",
           build: "一厂/2栏/3圈",
@@ -73,6 +78,7 @@ export default {
           select: []
         },
         {
+          id: 2,
           title: "死亡告警",
           status: "2",
           build: "一厂/2栏/3圈",
@@ -80,6 +86,7 @@ export default {
           select: []
         },
         {
+          id: 3,
           title: "濒死告警",
           status: "1",
           build: "一厂/2栏/3圈",
@@ -87,6 +94,7 @@ export default {
           select: []
         },
         {
+          id: 4,
           title: "死亡告警",
           status: "2",
           build: "一厂/2栏/3圈",
@@ -108,6 +116,18 @@ export default {
     },
   },
   methods: {
+    dingClick() {
+     console.log(this.selectAlarm)
+    },
+    selectHandler(val) {
+      this.selectAlarm = []
+      console.log(this.listData)
+      this.listData.map(item => {
+        if (item.select.length > 0) {
+          this.selectAlarm.push(item.id)
+        }
+      })
+    },
     treeCallback(value) {
       this.fieldId = value.id[0]
     },
@@ -132,9 +152,6 @@ export default {
         }
         this.laoding = "loadmore";
       }, 2000);
-    },
-    selectStatus(item) {
-      this.status = item.id;
     },
     enterDetails() {
       uni.navigateTo({ url: "/pages/view/components/details/index" });
@@ -165,6 +182,18 @@ export default {
   .content {
     background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
     padding: 0 24rpx 24rpx;
+    .ding {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: 50%;
+      position: absolute;
+      right: 24rpx;
+      bottom: 100rpx;
+      background: #D6E7FF;
+      display: flex;
+      justify-content: center;
+      align-self: center;
+    }
     .video-section {
       width: 100%;
       height: 400rpx;
