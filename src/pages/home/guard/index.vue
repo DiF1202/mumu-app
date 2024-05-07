@@ -4,10 +4,10 @@
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <!-- 栏位数据 -->
-      <uni-subTitle customIcon="camera" title="一厂/二舍/三栏" url="pages/view/components/list/index"/>
+      <uni-subTitle customIcon="camera" title="一厂/二舍/三栏" url="pages/home/guardBiological/index"/>
       <view class="fields-view">
         <view class="fields-chart">
-          <uni-progress ref="progressChart1"></uni-progress>
+          <uni-progress ref="progressChart"></uni-progress>
         </view>
         <view class="fields-info">
           <view class="info-item">
@@ -26,8 +26,32 @@
       </view>
       <!-- 资产管理评分 -->
       <uni-subTitle customIcon="jixiaoguanli" title="资产管理评分"/>
-      <view style="height:500rpx">
+      <!-- <view style="height:500rpx">
         <uni-line ref="lineChart1"></uni-line>
+      </view> -->
+      <view class="biological-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart1"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart1"></uni-line>
+        </view>
+      </view>
+      <view class="biological-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart2"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart2"></uni-line>
+        </view>
+      </view>
+      <view class="biological-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart3"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart3"></uni-line>
+        </view>
       </view>
       <!-- 环境预警 -->
       <uni-subTitle customIcon="shumu" title="环境预警" url="/pages/home/environment/index" />
@@ -53,7 +77,7 @@
           <view class="name">杨大坤</view>
         </view>
         <view :style="{ height: '250rpx', width:'542rpx'}">
-          <uni-line ref="lineChart2"></uni-line>
+          <uni-line ref="lineChart"></uni-line>
         </view>
       </view>
       <!-- 昨日总结 -->
@@ -120,18 +144,30 @@
 		methods: {
 			initData(e) {
        this.$nextTick(() => {
-        let data = [{ data: '0.8', color: '#1890FF'},{ data: '0.2', color: '#FAC858'},{ data: '0.6', color: '#FF6216'}]
-        this.$refs.progressChart1.initChart(data)
-
         let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData1 = [
-          { name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},
-          { name: '栏位占用', data: ['60', '70', '30', '25', '46', '33']},
-          { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
-        ]
+
+        let data1 = [{ data: '0.6', color: '#1890FF'}]
+        let data2 = [{ data: '0.6', color: '#91CB74'}]
+        let data3 = [{ data: '0.6', color: '#FAC858'}]
+        let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
+        let yData2 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
+        let yData3 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
         this.$refs.lineChart1.initChart(xData, yData1)
-        let yData2 = [{ name: '员工绩效', data: ['60', '70', '30', '25', '46', '33']}]
         this.$refs.lineChart2.initChart(xData, yData2)
+        this.$refs.lineChart3.initChart(xData, yData3)
+        this.$refs.progressChart1.initChart(data1, 90)
+        this.$refs.progressChart2.initChart(data2, 80)
+        this.$refs.progressChart3.initChart(data3, 90)
+        // let yData1 = [
+        //   { name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},
+        //   { name: '栏位占用', data: ['60', '70', '30', '25', '46', '33']},
+        //   { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
+        // ]
+        // this.$refs.lineChart1.initChart(xData, yData1)
+        let data = [{ data: '0.8', color: '#1890FF'},{ data: '0.2', color: '#FAC858'},{ data: '0.6', color: '#FF6216'}]
+        this.$refs.progressChart.initChart(data)
+        let yData = [{ name: '员工绩效', data: ['60', '70', '30', '25', '46', '33']}]
+        this.$refs.lineChart.initChart(xData, yData)
        })
 			},
       treeCallback(value) {
@@ -165,6 +201,22 @@
             justify-content: flex-start;
             align-items: center;
           }
+        }
+      }
+      .biological-item {
+        width: 100%;
+        height: 300rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .chart-left {
+          width: 200rpx;
+          height: 200rpx;
+          margin-top: 48rpx;
+        }
+        .chart-right {
+          width: 500rpx;
+          height: 300rpx;
         }
       }
       .manager-view {

@@ -27,8 +27,32 @@
       </view>
       <!-- 资产评分 -->
       <uni-subTitle customIcon="jixiaoguanli" title="资产管理评分"/>
-      <view style="height:500rpx">
+      <!-- <view style="height:500rpx">
         <uni-line ref="lineChart1"></uni-line>
+      </view> -->
+      <view class="assets-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart1"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart1"></uni-line>
+        </view>
+      </view>
+      <view class="assets-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart2"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart2"></uni-line>
+        </view>
+      </view>
+      <view class="assets-item">
+        <view class="chart-left">
+          <uni-progress ref="progressChart3"></uni-progress>
+        </view>
+        <view class="chart-right">
+          <uni-line ref="lineChart3"></uni-line>
+        </view>
       </view>
       <!-- 负责人 -->
       <uni-subTitle icon="account" title="负责人"/>
@@ -57,7 +81,7 @@
       <!-- 绩效评分 -->
       <uni-subTitle icon="bookmark" title="绩效评分"/>
       <view style="height:500rpx">
-        <uni-line ref="lineChart2"></uni-line>
+        <uni-line ref="lineChart4"></uni-line>
       </view>
     </view>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -112,18 +136,25 @@
           if (res.code == 200) {
             this.houseAnimal = res.data
             let xData = []
-            let yData = [
-              { name: '畜群健康', data: []},
-              { name: '栏位占用', data: []},
-              { name: '异常警告', data: []}
-            ]
+            let yData1 = [{ name: '畜群健康', data: []}]
+            let yData2 = [{ name: '栏位占用', data: [], color: '#91CB74'}]
+            let yData3 = [{ name: '异常警告', data: [], color: '#FAC858' }]
             this.houseAnimal.data.map(item => {
               xData.push(item.date)
-              yData[0].data.push(item.animal_health)
-              yData[1].data.push(item.field_occupy)
-              yData[2].data.push(item.abnormal_alarm_num)
+              yData1[0].data.push(item.animal_health)
+              yData2[0].data.push(item.field_occupy)
+              yData3[0].data.push(item.abnormal_alarm_num)
             })
-            this.$refs.lineChart1.initChart(xData, yData)
+            this.$refs.lineChart1.initChart(xData, yData1)
+            this.$refs.lineChart2.initChart(xData, yData2)
+            this.$refs.lineChart3.initChart(xData, yData3)
+            let data1 = [{ data: 0.8 }]
+            let data2 = [{ data: 0.9, color: '#91CB74' }]
+            let data3 = [{ data: 1, color: '#FAC858' }]
+            this.$refs.progressChart1.initChart(data1, 80)
+            this.$refs.progressChart2.initChart(data2, 90)
+            this.$refs.progressChart3.initChart(data3, 100)
+
             let data = [{ data: this.houseAnimal.animal_score },{ data: this.houseAnimal.animal_avg_density },{ data: this.houseAnimal.animal_unit_area}]
             this.$refs.progressChart.initChart(data, this.houseAnimal.asset_score)
           }
@@ -137,7 +168,7 @@
               xData.push(item.date)
               yData[0].data.push(item.staff_score)
             })
-            this.$refs.lineChart2.initChart(xData, yData)
+            this.$refs.lineChart4.initChart(xData, yData)
           }
         })
 			},
@@ -188,6 +219,22 @@
         border-radius: 50%;
         background-color: #10cc8f;
         margin: 22rpx 0;
+      }
+      .assets-item {
+        width: 100%;
+        height: 300rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .chart-left {
+          width: 200rpx;
+          height: 200rpx;
+          margin-top: 48rpx;
+        }
+        .chart-right {
+          width: 500rpx;
+          height: 300rpx;
+        }
       }
     }
 	}

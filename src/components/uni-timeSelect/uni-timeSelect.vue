@@ -28,6 +28,10 @@ export default {
       type: String,
       default: 'calendar'
     },
+    suffixIcon: {
+      type: String,
+      default: 'arrow-down'
+    },
     iconColor: {
       type: String,
       default: '#10cc8f'
@@ -38,7 +42,7 @@ export default {
       date: '',
       show: false,
       suffixIconStyle: {
-        fontSize: '48rpx',
+        fontSize: '38rpx',
         fontWeight: 'bold',
         color: this.iconColor
       },

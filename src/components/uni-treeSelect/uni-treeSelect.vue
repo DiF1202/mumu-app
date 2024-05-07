@@ -34,7 +34,7 @@ export default {
     },
     suffixIcon: {
       type: String,
-      default: ''
+      default: 'arrow-down'
     },
     prefixIcon: {
       type: String,
@@ -54,7 +54,7 @@ export default {
       label: "",
       id: '',
       suffixIconStyle: {
-        fontSize: '48rpx',
+        fontSize: '38rpx',
         fontWeight: 'bold',
         color: this.iconColor
       },
