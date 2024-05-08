@@ -51,7 +51,7 @@ import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-char
 							{
 								name: "散点一",
 								data: [[0,8.04],[1.07,6.95],[2,7.58],[3.05,8.81],[4,8.33],[5,7.66],[6.4,6.81],[7,6.33],[8,8.96],[9.5,6.82]]
-							}
+							},
 						]
 					}
           this.chartData = JSON.parse(JSON.stringify(res))

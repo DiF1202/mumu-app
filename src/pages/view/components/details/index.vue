@@ -13,13 +13,13 @@
         <u--text :text="'地点: 一厂/二栏/三舍'" size="30rpx" color="#333333" margin="12rpx"></u--text>
         <u--text :text="'状态: 未处理'" size="30rpx" color="#333333" margin="12rpx"></u--text>
       </view>
-      <!-- 报警处置 角色为守卫的时候展 并且 数据为未处置的 展示 -->
-      <view v-if="user_role === '2'">
+      <!-- 报警处置 数据为未处置的 展示 -->
+      <view>
         <uni-subTitle icon="file-text" title="告警处置" />
         <view class="warning-handler">
           <u--form labelPosition="left" :model="form" :rules="rules" ref="uForm" label-width="auto">
             <u-form-item label="处置方式" prop="disposer" required>
-              <u-radio-group v-model="form.disposer" :style="{ justifycontent: 'flex-end' }" @change="changeRadio">
+              <u-radio-group v-model="form.disposer">
                 <u-radio
                   v-for="(item, index) in isReal"
                   :key="index"
@@ -37,14 +37,14 @@
           <u-button type="primary" plain shape="circle" text="提交" @click="submit"></u-button>
         </view>
       </view>
-      <view v-else>
-        <!-- 报警指派 角色未管家的时候展示 -->
+      <!-- 指派功能 -->
+      <!-- <view>
         <uni-subTitle icon="pushpin" title="告警指派" />
         <uni-treeSelect placeholder="请选择员工" prefixIcon="account" :columns="columns" @treeCallback="treeCallback" />
         <view class="form-btn">
           <u-button type="primary" plain shape="circle" text="指派" @click="submit"></u-button>
         </view>
-      </view>
+      </view> -->
     </view>
     <u-toast ref="uToast"></u-toast>
   </view>
@@ -52,6 +52,7 @@
 
 <script>
 import { userStore } from '@/store'
+import { alarmDetailApi, alarmHandlerApi } from '@/api/view.js'
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
 // import Flv from "flv.js";
@@ -60,29 +61,30 @@ export default {
   data() {
     return {
       form: {
-        disposer: ""
+        disposer: "1"
       },
-      rules: {
-        disposer: [
-          {
-            type: "string",
-            required: true,
-            message: "请选择处置方式",
-            trigger: ["change"]
-          }
-        ]
-      },
+      // rules: {
+      //   disposer: [
+      //     {
+      //       type: "string",
+      //       required: true,
+      //       message: "请选择处置方式",
+      //       trigger: ["change"]
+      //     }
+      //   ]
+      // },
       isReal: [
-        { name: "误报", value: "1" },
-        { name: "已处理", value: "2" }
+        { name: "解除报警", value: "1" },
+        { name: "无法处理", value: "2" }
       ],
+      alarmId: '',
       columns: [
         {
           id: 2,
-          label: '一厂',
+          name: '一厂',
           children: [
-            {id: 21, label: '张三'},
-            {id: 22, label: '李四'}
+            {id: 21, name: '张三'},
+            {id: 22, name: '李四'}
           ]
         }
       ]
@@ -90,28 +92,38 @@ export default {
   },
   computed: {
     user_role() {
-      return userStore().user_role
+      return userStore().user_info.identity_type
     }
   },
-  onReady() {
-    // this.$refs.uForm.setRules(this.rules);
+  onLoad(options) {
+    this.alarmId = options.id
+    this.getDetail()
   },
+  // onReady() {
+  //   if (this.user_role === 1) {
+  //     this.$refs.uForm.setRules(this.rules);
+  //   }
+  // },
   methods: {
+    // 获取报警详情
+    getDetail() {
+      alarmDetailApi({alarm_id: this.alarmId}).then(res => {
+        console.log(res)
+      })
+    },
     submit() {
-      this.$refs.uForm.validate().then(res => {
-        console.log(this.form);
-        this.$refs.uToast.show({
-          message: "操作成功",
-          complete() {
-            uni.navigateBack();
-          }
-        });
-      });
-    },
-    changeRadio(e) {
-      console.log(e);
-    },
-    treeCallback(value) {
+      console.log(this.form);
+      alarmHandlerApi({alarm_id: this.alarmId, type: this.form.disposer}).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+          this.$refs.uToast.show({
+            message: "操作成功",
+            complete() {
+              uni.navigateBack();
+            }
+          });
+        }
+      })
     },
     initPlayer() {
       const player = new Player({

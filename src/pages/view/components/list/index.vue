@@ -16,7 +16,7 @@
             v-for="(item, index) in listData"
             :key="index"
           >
-            <view class="list-item" @click="enterDetails">
+            <view class="list-item" @click="enterDetails(item.id)">
               <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="320rpx" height="210rpx"></u--image>
               <view class="item-info">
                 <view class="item-header"></view>
@@ -25,11 +25,14 @@
                 <view class="status-tag">
                   <u-tag :text="item.status === '1' ? '已处理' : '未处理'" :type="item.status === '1' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
                 </view>
-                <view class="select-item">
-                  <u-checkbox-group v-model="item.select" @change="selectHandler">
+                <!-- <view class="select-item">
+                  <u-checkbox-group v-model="item.select">
                     <u-checkbox :name="item.id" label=""></u-checkbox>
                   </u-checkbox-group>
-                </view>
+                </view> -->
+              </view>
+              <view class="ding" @click.stop="dingClick(item.id)">
+                <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
               </view>
             </view>
           </u-list-item>
@@ -42,14 +45,17 @@
           />
         </u-list>
       </view>
-      <view v-if="selectAlarm.length > 0" class="ding" @click="dingClick">
-        <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+      <view class="upward" @click="upwardClick">
+        <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
   </view>
 </template>
 
 <script>
+import { fieldTree } from '@/api/utils.js'
+import { findAndAdd } from '@/utils/common.js'
+import { videoAlarmApi, dingApi } from '@/api/view.js'
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
 // import Flv from "flv.js";
@@ -57,16 +63,7 @@ import "mui-player/dist/mui-player.min.css";
 export default {
   data() {
     return {
-      columns: [
-        {
-          id: 2,
-          label: '牧场2',
-          children: [
-            {id: 21, label: '厂1', children: [{id:1, label: '栏1'}]},
-            {id: 22, label: '厂2'}
-          ]
-        }
-      ],
+      columns: [],
       selectAlarm: [],
       listData: [
         {
@@ -104,6 +101,7 @@ export default {
       ],
       pageNum: 1,
       laoding: "loadmore",
+      
     }
   },
   computed: {
@@ -111,50 +109,59 @@ export default {
       return uni.getSystemInfoSync().windowHeight;
     },
     safetyTop() {
-      console.log(uni.getSystemInfoSync().safeAreaInsets)
       return uni.getSystemInfoSync().safeAreaInsets.top
     },
   },
+  onLoad(options) {
+    this.getFieldTree(options.fieldId)
+  },
   methods: {
-    dingClick() {
-     console.log(this.selectAlarm)
-    },
-    selectHandler(val) {
-      this.selectAlarm = []
-      console.log(this.listData)
-      this.listData.map(item => {
-        if (item.select.length > 0) {
-          this.selectAlarm.push(item.id)
+    getFieldTree(id) {
+      // 获取栏位数据 并设置默认选中
+      fieldTree().then(res => {
+        if (res.code === 200) {
+          let newTree = findAndAdd(res.data, id,'checked', true)
+          this.columns = newTree
         }
       })
     },
     treeCallback(value) {
       this.fieldId = value.id[0]
-    },
-    loadmore() {
-      this.pageNum += 1;
-      console.log(this.laoding)
-      if (this.laoding == "loadmore") {
-        this.getList();
+      if (this.fieldId) {
+        this.getList()
       }
     },
     getList() {
       this.laoding = "loading";
       setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          console.log(i);
-          this.listData.push({
-            title: "环境异常",
-            status: "1",
-            build: "一厂/2栏/3圈",
-            time: "2022-12-12 12:12"
-          });
-        }
+        videoAlarmApi({ pen_id: this.fieldId }).then(res => {
+          console.log(res)
+        })
         this.laoding = "loadmore";
       }, 2000);
     },
-    enterDetails() {
-      uni.navigateTo({ url: "/pages/view/components/details/index" });
+    loadmore() {
+      this.pageNum += 1;
+      if (this.laoding == "loadmore") {
+        this.getList()
+      }
+    },
+    dingClick(id) {
+      // dingApi({ id: id }).then(res => {
+      //   if (res.code == 200) {
+      //     uni.showToast({
+      //       icon: null,
+      //       title: '提醒成功'
+      //     })
+      //   }
+      // })
+      console.log(id)
+    },
+    upwardClick() {
+      uni.navigateTo({ url: "/pages/view/components/reporting/index" })
+    },
+    enterDetails(id) {
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id })
     },
     initPlayer() {
       const player = new Player({
@@ -172,7 +179,7 @@ export default {
     }
   },
   mounted() {
-    this.initPlayer();
+    // this.initPlayer();
   }
 };
 </script>
@@ -183,12 +190,17 @@ export default {
     background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
     padding: 0 24rpx 24rpx;
     .ding {
+      position: absolute;
+      right: 24rpx;
+      top: 38rpx;
+    }
+    .upward {
       width: 80rpx;
       height: 80rpx;
       border-radius: 50%;
       position: absolute;
       right: 24rpx;
-      bottom: 100rpx;
+      bottom: 360rpx;
       background: #D6E7FF;
       display: flex;
       justify-content: center;
@@ -210,9 +222,9 @@ export default {
         align-items: center;
         margin-bottom: 24rpx;
         padding: 24rpx;
-        // background: #deebff;
         box-shadow: 0px 0px 10px #deebff inset;
         border-radius: 16rpx;
+        position: relative;
         .item-info {
           height: 210rpx;
           margin-left: 24rpx;

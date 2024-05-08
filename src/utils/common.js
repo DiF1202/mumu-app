@@ -1,4 +1,4 @@
-// 树状结构 最后一层 第一个 node 添加默认属性 
+// 树状结构 第一个 node 添加默认属性 
 export function addTreePro(node, fieldName, value) {
   if (!node.children || node.children.length === 0) {
     node[fieldName] = value;
@@ -11,6 +11,20 @@ export function addTreePro(node, fieldName, value) {
     }
   }
   return node
+}
+
+// 根据传入的id选中
+export function findAndAdd(nodes, id, fieldName, value) {
+  if (!nodes || nodes.length === 0) return;
+  nodes.forEach(node => {
+    if (node.id === id) {
+      node[fieldName] = value;
+    }
+    if (node.children && node.children.length > 0) {
+      findAndAdd(node.children, id, fieldName, value)
+    }
+  })
+  return nodes
 }
 
 /**

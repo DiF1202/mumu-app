@@ -5,7 +5,7 @@
       <!-- 栏位选择 -->
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <!-- 栏位信息 -->
-      <uni-subTitle customIcon="camera" :title="fieldName" value="实况视频" url="pages/view/components/list/index"/>
+      <uni-subTitle customIcon="camera" :title="fieldName" value="实况视频" :url="`pages/view/components/list/index?fieldId=${fieldId}`"/>
       <view class="fields-view">
         <view class="fields-chart">
           <uni-progress ref="progressChart"></uni-progress>
@@ -124,7 +124,7 @@
       getFieldTree() {
         // 获取栏位数据 并设置第一个子元素为默认选中
         fieldTree().then(res => {
-          if (res.code = 200) {
+          if (res.code === 200) {
             let newTree = addTreePro(res.data[0], 'checked', true)
             this.columns = [newTree]
           }
