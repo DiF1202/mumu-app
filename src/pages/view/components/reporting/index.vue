@@ -6,13 +6,13 @@
       <view class="reporting-handler">
         <u--form labelPosition="left" :model="form" :rules="rules" ref="uForm" label-width="auto">
           <u-form-item label="报警位置" prop="pen_id" borderBottom required @click="openFiledTree">
-            <u--text :text="pen_name || '请选择栏位'" align="right" :color="pen_name? '#606266': '#c0c4cc'" size="30rpx"></u--text>
+            <u--text :text="pen_name || '请选择栏位'" align="right" :color="pen_name ? '#606266': '#c0c4cc'" size="30rpx"></u--text>
             <!-- <u--input v-model="pen_name" placeholder="请选择栏位"  border="none" inputAlign="right" disabledColor="tranparent" disabled></u--input> -->
             <template #right>
               <u-icon name="arrow-right" size="30rpx" color="#333333"></u-icon>
            </template>
           </u-form-item>
-          <u-form-item label="处置方式" prop="abnormal_type_id" required>
+          <u-form-item label="处置方式" prop="abnormal_type_id" borderBottom required>
             <u-radio-group v-model="form.abnormal_type_id">
               <u-radio
                 v-for="(item, index) in isReal"
@@ -27,6 +27,9 @@
           </u-form-item>
           <u-form-item label="上报内容" prop="report_content" borderBottom required labelPosition="top">
             <u--textarea v-model="form.report_content" placeholder="请输入上报内容"  border="none" inputAlign="right" :autoHeight="true" customStyle="background:transparent;marginTop:24rpx;color:#333333"></u--textarea>
+          </u-form-item>
+          <u-form-item label="上报图片" prop="picture_url" required labelPosition="top">
+            <uni-uploading></uni-uploading>
           </u-form-item>
         </u--form>
       </view>
@@ -53,6 +56,7 @@ export default {
         pen_id: [{ type: "string", required: true, message: "请选择栏位", trigger: ["change"] }],
         report_content: [{ type: "string", required: true, message: "请输入上报内容", trigger: ["blur"] }],
         abnormal_type_id: [{ type: "string", required: true, message: "请选择类型", trigger: ["change"] }],
+        picture_url: [{ type: "string", required: true, message: "请上传图片", trigger: ["change"] }]
       },
       columns: [],
       isReal: [

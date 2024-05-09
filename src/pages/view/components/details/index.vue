@@ -17,7 +17,7 @@
       <view>
         <uni-subTitle icon="file-text" title="告警处置" />
         <view class="warning-handler">
-          <u--form labelPosition="left" :model="form" :rules="rules" ref="uForm" label-width="auto">
+          <u--form labelPosition="left" :model="form" ref="uForm" label-width="auto">
             <u-form-item label="处置方式" prop="disposer" required>
               <u-radio-group v-model="form.disposer">
                 <u-radio

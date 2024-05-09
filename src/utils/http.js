@@ -16,6 +16,7 @@ const baseURL = 'https://m.zzxmt.cn'
 const httpInterceptor = {
   // 拦截前触发
   invoke(options) {
+    console.log(options)
     // 1.非 http 开头需要拼接地址
     if (!options.url.startsWith('http')) {
       options.url = baseURL + options.url
@@ -56,7 +57,7 @@ export const fetch = (options) => {
     uni.request({
       ...options,
       success(res) {
-        if (res.data.code >= 200 && res.data.code < 300 || res.data.code == 0) {
+        if (res.data.code >= 200 && res.data.code < 300) {
           // 提取核心数据 res.data
           resolve(res.data)
         } else if (res.data.code === 401) {
@@ -80,6 +81,42 @@ export const fetch = (options) => {
           title: '网络错误，换个网络试试'
         })
         // 网络错误
+        reject(err)
+      }
+    })
+  })
+}
+
+// 上传图片
+export const upload = (options) => {
+  console.log(options, 111)
+  return new Promise((resolve, reject) => {
+    uni.uploadFile({
+      ...options,
+      success: (res) => {
+        if (res.data.code >= 200 && res.data.code < 300) {
+          // 提取核心数据 res.data
+          resolve(res.data)
+        } else if (res.data.code === 401) {
+          // 401错误 清理用户信息 跳转登录页
+          userStore().clear_user_info()
+          uni.navigateTo({ url: '/pages/login/index' })
+          reject(res)
+        } else {
+          // 其他错误
+          uni.showToast({
+            icon: null,
+            title: res.data.message || '请求错误'
+          })
+          reject(res)
+        }
+      },
+      fail: (err) => {
+        // 网络错误
+        uni.showToast({
+          icon: null,
+          title: '网络错误，换个网络试试'
+        })
         reject(err)
       }
     })
