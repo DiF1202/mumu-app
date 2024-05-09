@@ -24,7 +24,7 @@
               </view>
               <view class="chat-user-img margin-left">
                 <image
-                  src="../../static/icon/logo.png"
+                  src="../../static/icon/woman.png"
                   mode="aspectFill"
                   style="height: 75rpx; width: 75rpx"
                 ></image>
@@ -47,7 +47,7 @@
             </view>
           </view>
           <!-- loading是显示 -->
-          <view v-show="msgLoad" class="robot-message">
+          <view v-if="msgLoad" class="robot-message">
             <view class="chat-robot-img flex-row-center">
               <image
                 style="height: 75rpx; width: 75rpx"
@@ -102,6 +102,9 @@
 </template>
 
 <script>
+// import { getChatApi } from "@/api/home.js";
+// import { getChatApi } from "@/api/home.js";
+
 export default {
   data() {
     return {
@@ -125,7 +128,7 @@ export default {
     };
   },
   onLoad() {
-    uni.hideTabBar();
+    // uni.hideTabBar();
   },
   computed: {
     footBoxPaddingBottom() {
@@ -163,6 +166,7 @@ export default {
       });
     },
     send() {
+      // getChatApi();
       const curUserMsgList = [
         {
           my: true,
@@ -186,7 +190,7 @@ export default {
         this.msgLoad = false;
         this.msgList = this.msgList.concat(curAnswerList);
         this.showLastMsg();
-      }, 1000);
+      }, 2000);
       console.log(this.msgContent);
     }
   }

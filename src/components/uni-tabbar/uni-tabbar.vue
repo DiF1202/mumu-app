@@ -8,24 +8,32 @@
     inactiveColor="#333333"
   >
     <u-tabbar-item
-      v-for="(tabItem,index) in tabList"
+      v-for="(tabItem, index) in tabList"
       :key="index"
       :text="tabItem.text"
-      @click="tabHandler(tabItem,index)"
+      @click="tabHandler(tabItem, index)"
     >
       <template #active-icon>
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`" size="42rpx" color="#10CC8F"></u-icon>
+        <u-icon
+          :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`"
+          size="42rpx"
+          color="#10CC8F"
+        ></u-icon>
       </template>
       <template #inactive-icon>
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`" size="42rpx"  color="#333333"></u-icon>
+        <u-icon
+          :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`"
+          size="42rpx"
+          color="#333333"
+        ></u-icon>
       </template>
     </u-tabbar-item>
   </u-tabbar>
 </template>
 
 <script>
-import { userStore } from '@/store'
-import { butlerTabList, guardTabList } from '@/utils/tabBar.js'
+import { userStore } from "@/store";
+import { butlerTabList, guardTabList } from "@/utils/tabBar.js";
 export default {
   props: {
     tabCurrent: {
@@ -35,24 +43,25 @@ export default {
   },
   data() {
     return {
-      tabList: userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
-    }
+      tabList:
+        userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
+    };
   },
   methods: {
     tabHandler(item, index) {
-      if (index < 3) {
-        uni.switchTab({ url: item.pagePath })
+      if (index < 2) {
+        uni.switchTab({ url: item.pagePath });
       } else {
-        uni.navigateTo({ url: item.pagePath })
+        uni.navigateTo({ url: item.pagePath });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .tabbar-container {
-    width: 100%;
-    height: 100%;
-  }
+.tabbar-container {
+  width: 100%;
+  height: 100%;
+}
 </style>

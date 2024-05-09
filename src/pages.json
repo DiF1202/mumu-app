@@ -158,9 +158,9 @@
 			{
 				"pagePath": "pages/view/guard/index" // 管家监控
 			},
-			{
-				"pagePath": "pages/chat/index" // 助手
-			}
+			// {
+			// 	"pagePath": "pages/chat/index" // 助手
+			// }
 		]
 	},
 	"globalStyle": {
