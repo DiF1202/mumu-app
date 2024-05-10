@@ -33,8 +33,9 @@
 				for (let i = 0; i < lists.length; i++) {
           console.log(lists)
 					const result = await this.uploadFilePromise(lists[i].url)
+					console.log(result)
 					let item = this.fileList[fileListLen]
-					this.fileList.splice(fileListLen, 1, Object.assign(item, {status: 'success', message: '', url: result}))
+					this.fileList.splice(fileListLen, 1, Object.assign(item, { status: 'success', message: '', url: result}))
 					fileListLen++
 				}
         console.log(this.fileList)

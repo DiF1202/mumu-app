@@ -62,7 +62,7 @@
         <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
-    <uni-tabbar :tabCurrent="1"></uni-tabbar>
+    <uni-tabbar :tabCurrent="2"></uni-tabbar>
   </view>
 </template>
 

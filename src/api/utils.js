@@ -9,7 +9,7 @@ export const fieldTree = () => {
 // 上传图片
 export function uploadAPI(data) {
   return upload({
-    url: '/file/upload',
+    url: '/api/mini/upload',
     name: data.name,
     filePath: data.filePath
   })

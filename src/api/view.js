@@ -34,11 +34,11 @@ export const dingApi = (data) => {
   })
 }
 // 获取报警详情接口
-export const alarmDetailApi = (data) => {
+export const alarmDetailApi = (params) => {
   return fetch({
-    method: 'post',
+    method: 'get',
     url: '/api/mini/get-alarm-detail',
-    data
+    params
   })
 }
 // 告警处理接口

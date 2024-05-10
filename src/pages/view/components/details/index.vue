@@ -4,17 +4,17 @@
     <view class="content">
       <uni-subTitle icon="play-right" title="告警回看" />
       <view class="video-section">
-        <view id="mui-player"></view>
+        <video id="myVideo" :src="detailsData.video_url" autoplay controls class="video-play"></video>
       </view>
       <uni-subTitle icon="file-text" title="告警信息" />
       <view class="warning-info">
-        <u--text :text="'事件名称: 濒死告警'" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'时间: 2022-22-22 22:22:00'" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'地点: 一厂/二栏/三舍'" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'状态: 未处理'" size="30rpx" color="#333333" margin="12rpx"></u--text>
+        <u--text :text="'事件名称：' + detailsData.alarm_name" size="30rpx" color="#333333" margin="12rpx"></u--text>
+        <u--text :text="'时间：' + detailsData.alarm_time" size="30rpx" color="#333333" margin="12rpx"></u--text>
+        <u--text :text="'地点：' + detailsData.location" size="30rpx" color="#333333" margin="12rpx"></u--text>
+        <u--text :text="'状态：' + detailsData.alarm_status" size="30rpx" color="#333333" margin="12rpx"></u--text>
       </view>
-      <!-- 报警处置 数据为未处置的 展示 -->
-      <view>
+      <!-- 报警处置 数据为未处置的 和 角色判断指定 展示 -->
+      <view v-if="detailsData.alarm_status == '未处理'">
         <uni-subTitle icon="file-text" title="告警处置" />
         <view class="warning-handler">
           <u--form labelPosition="left" :model="form" ref="uForm" label-width="auto">
@@ -37,14 +37,6 @@
           <u-button type="primary" plain shape="circle" text="提交" @click="submit"></u-button>
         </view>
       </view>
-      <!-- 指派功能 -->
-      <!-- <view>
-        <uni-subTitle icon="pushpin" title="告警指派" />
-        <uni-treeSelect placeholder="请选择员工" prefixIcon="account" :columns="columns" @treeCallback="treeCallback" />
-        <view class="form-btn">
-          <u-button type="primary" plain shape="circle" text="指派" @click="submit"></u-button>
-        </view>
-      </view> -->
     </view>
     <u-toast ref="uToast"></u-toast>
   </view>
@@ -53,40 +45,18 @@
 <script>
 import { userStore } from '@/store'
 import { alarmDetailApi, alarmHandlerApi } from '@/api/view.js'
-import Player from "mui-player";
-import "mui-player/dist/mui-player.min.css";
-// import Flv from "flv.js";
 
 export default {
   data() {
     return {
+      alarmId: '',
+      detailsData: {},
       form: {
         disposer: "1"
       },
-      // rules: {
-      //   disposer: [
-      //     {
-      //       type: "string",
-      //       required: true,
-      //       message: "请选择处置方式",
-      //       trigger: ["change"]
-      //     }
-      //   ]
-      // },
       isReal: [
         { name: "解除报警", value: "1" },
         { name: "无法处理", value: "2" }
-      ],
-      alarmId: '',
-      columns: [
-        {
-          id: 2,
-          name: '一厂',
-          children: [
-            {id: 21, name: '张三'},
-            {id: 22, name: '李四'}
-          ]
-        }
       ]
     }
   },
@@ -99,20 +69,19 @@ export default {
     this.alarmId = options.id
     this.getDetail()
   },
-  // onReady() {
-  //   if (this.user_role === 1) {
-  //     this.$refs.uForm.setRules(this.rules);
-  //   }
-  // },
   methods: {
     // 获取报警详情
     getDetail() {
       alarmDetailApi({alarm_id: this.alarmId}).then(res => {
         console.log(res)
+        if (res.code == 200) {
+          this.detailsData = res.data
+        } else {
+          this.$refs.uToast.show({ message: res.msg })
+        }
       })
     },
     submit() {
-      console.log(this.form);
       alarmHandlerApi({alarm_id: this.alarmId, type: this.form.disposer}).then(res => {
         console.log(res)
         if (res.code == 200) {
@@ -121,29 +90,12 @@ export default {
             complete() {
               uni.navigateBack();
             }
-          });
+          })
         }
       })
-    },
-    initPlayer() {
-      const player = new Player({
-        container: "#mui-player", // 这里用选择器代替 DOM 引用
-        live: true,
-        src: "https://flvplayer.js.org/assets/video/weathering-with-you.flv"
-        // parse: {
-        //   type: "flv",
-        //   loader: Flv,
-        //   config: {
-        //     cors: true
-        //   }
-        // }
-      });
     }
-  },
-  mounted() {
-    // this.initPlayer();
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -156,6 +108,10 @@ export default {
       height: 400rpx;
       background: #333333;
       margin-top: 24rpx;
+      .video-play {
+        width: 100%;
+        height: 100%;
+      }
     }
     .warning-info {
       // background: #deebff;

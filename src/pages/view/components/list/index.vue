@@ -17,8 +17,7 @@
             :key="index"
           >
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <video id="myVideo" :src="item.video_url" controls class="video-play"></video>
-              <!-- <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="320rpx" height="210rpx"></u--image> -->
+              <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="280rpx" height="210rpx"></u--image>
               <view class="item-info">
                 <view>
                   <u--text :text="item.alarm_name" size="36rpx" color="#333333" :bold="true"></u--text>
@@ -26,12 +25,8 @@
                 <view>
                   <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
                 </view>
-                <view class="status-tag">
-                  <u--text :text="'状态：'" size="28rpx" color="#333333"></u--text>
-                  <u--text :text="item.alarm_status" size="28rpx" :color="item.alarm_status === '已处理' ? '#5ac725' : '#f56c6c'"></u--text>
-                </view>
-                <view class="status-tag">
-                  <u-tag text="查看详情" type="success" shape="circle" size="mini"></u-tag>
+                <view>
+                  <u-tag :text="item.alarm_status" :type="item.alarm_status === '已处理' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
                 </view>
                 <!-- <view class="select-item">
                   <u-checkbox-group v-model="item.select">
@@ -45,7 +40,7 @@
             </view>
           </u-list-item>
           <u-loadmore
-            :status="laoding"
+            :status="loading"
             loadingIcon="semicircle"
             height="88rpx"
             fontSize="32rpx"
@@ -57,12 +52,13 @@
         <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
+    <u-toast ref="uToast"></u-toast>
   </view>
 </template>
 
 <script>
 import { fieldTree } from '@/api/utils.js'
-import { findAndAdd, timeHandler } from '@/utils/common.js'
+import { findAndAdd } from '@/utils/common.js'
 import { videoAlarmApi, dingApi } from '@/api/view.js'
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
@@ -76,7 +72,7 @@ export default {
       listData: [], // 列表数据
       limit: 5,
       page: 1,
-      laoding: "loadmore",
+      loading: "loadmore",
       
     }
   },
@@ -90,6 +86,13 @@ export default {
   },
   onLoad(options) {
     this.getFieldTree(options.fieldId)
+  },
+  onShow() {
+    if (this.fieldId) {
+      this.page = 1
+      this.listData = []
+      this.getList()
+    }
   },
   methods: {
     getFieldTree(id) {
@@ -109,32 +112,33 @@ export default {
       }
     },
     getList() {
-      this.laoding = "loading";
+      this.loading = "loading";
       videoAlarmApi({ pen_id: this.fieldId, page: this.page, limit: this.limit }).then(res => {
         if (res.code == 200) {
-          res.data.alarm_data.map(item => {
-            item.alarm_time = timeHandler(item.alarm_time)
-          })
           this.videoUrl = res.data.video_url
           this.listData = this.listData.concat(res.data.alarm_data)
           if (this.listData.length < res.data.total) {
-            this.status = 'loadmore'
+            this.loading = 'loadmore'
           } else {
-            this.status = 'nomore'
+            this.loading = 'nomore'
           }
         }
       }).catch(() => {
-        this.status = 'nomore'
+        this.loading = 'nomore'
       })
     },
     loadmore() {
-      this.page += 1;
-      if (this.laoding == "loadmore") {
+      if (this.loading == "loadmore") {
+        this.page += 1;
         this.getList()
       }
     },
     dingClick(id) {
-      console.log(id)
+      dingApi({pen_id: this.fieldId}).then(res => {
+        if (res.code == 200) {
+          this.$refs.uToast.show({ message: '提醒消息发送成功' })
+        }
+      })
     },
     upwardClick() {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" })
@@ -204,10 +208,6 @@ export default {
         box-shadow: 0px 0px 10px #deebff inset;
         border-radius: 16rpx;
         position: relative;
-        .video-play {
-          width: 280rpx;
-          height: 210rpx;
-        }
         .item-info {
           height: 210rpx;
           margin-left: 24rpx;
@@ -216,16 +216,6 @@ export default {
           justify-content: space-around;
           align-items: flex-start;
           position: relative;
-          .status-tag {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-          }
-          // .select-item {
-          //   position: absolute;
-          //   top: 0;
-          //   right: 0;
-          // }
         }
       }
     }
