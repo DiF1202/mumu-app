@@ -4,15 +4,15 @@
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
       <view class="video-section">
-        <web-view
+        <!-- <web-view
           :webview-styles="webviewStyles"
           src="http://127.0.0.1:5500/src/static/html/player.html"
           @load="handleLoad"
           @error="handleError"
-        ></web-view>
+        ></web-view> -->
       </view>
       <view class="warin-section">
-        <u-list
+        <u-listt
           @scrolltolower="loadmore"
           lowerThreshold="100"
           :height="windowHeight - 372"
