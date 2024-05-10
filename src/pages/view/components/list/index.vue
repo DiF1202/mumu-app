@@ -16,14 +16,22 @@
             v-for="(item, index) in listData"
             :key="index"
           >
-            <view class="list-item" @click="enterDetails(item.id)">
-              <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="320rpx" height="210rpx"></u--image>
+            <view class="list-item" @click="enterDetails(item.alarm_id)">
+              <video id="myVideo" :src="item.video_url" controls class="video-play"></video>
+              <!-- <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="320rpx" height="210rpx"></u--image> -->
               <view class="item-info">
-                <view class="item-header"></view>
-                <u--text :text="item.title" size="36rpx" color="#333333" :bold="true"></u--text>
-                <u--text :text="'时间：' + item.time" size="28rpx" color="#333333"></u--text>
+                <view>
+                  <u--text :text="item.alarm_name" size="36rpx" color="#333333" :bold="true"></u--text>
+                </view>
+                <view>
+                  <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
+                </view>
                 <view class="status-tag">
-                  <u-tag :text="item.status === '1' ? '已处理' : '未处理'" :type="item.status === '1' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
+                  <u--text :text="'状态：'" size="28rpx" color="#333333"></u--text>
+                  <u--text :text="item.alarm_status" size="28rpx" :color="item.alarm_status === '已处理' ? '#5ac725' : '#f56c6c'"></u--text>
+                </view>
+                <view class="status-tag">
+                  <u-tag text="查看详情" type="success" shape="circle" size="mini"></u-tag>
                 </view>
                 <!-- <view class="select-item">
                   <u-checkbox-group v-model="item.select">
@@ -54,7 +62,7 @@
 
 <script>
 import { fieldTree } from '@/api/utils.js'
-import { findAndAdd } from '@/utils/common.js'
+import { findAndAdd, timeHandler } from '@/utils/common.js'
 import { videoAlarmApi, dingApi } from '@/api/view.js'
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
@@ -63,43 +71,11 @@ import "mui-player/dist/mui-player.min.css";
 export default {
   data() {
     return {
-      columns: [],
-      selectAlarm: [],
-      listData: [
-        {
-          id: 1,
-          title: "濒死告警",
-          status: "1",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          id: 2,
-          title: "死亡告警",
-          status: "2",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          id: 3,
-          title: "濒死告警",
-          status: "1",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          id: 4,
-          title: "死亡告警",
-          status: "2",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        }
-      ],
-      pageNum: 1,
+      columns: [], // 树形选择器数据
+      videoUrl: '', // 视频url
+      listData: [], // 列表数据
+      limit: 5,
+      page: 1,
       laoding: "loadmore",
       
     }
@@ -128,33 +104,36 @@ export default {
     treeCallback(value) {
       this.fieldId = value.id[0]
       if (this.fieldId) {
+        this.listData = []
         this.getList()
       }
     },
     getList() {
       this.laoding = "loading";
-      setTimeout(() => {
-        videoAlarmApi({ pen_id: this.fieldId }).then(res => {
-          console.log(res)
-        })
-        this.laoding = "loadmore";
-      }, 2000);
+      videoAlarmApi({ pen_id: this.fieldId, page: this.page, limit: this.limit }).then(res => {
+        if (res.code == 200) {
+          res.data.alarm_data.map(item => {
+            item.alarm_time = timeHandler(item.alarm_time)
+          })
+          this.videoUrl = res.data.video_url
+          this.listData = this.listData.concat(res.data.alarm_data)
+          if (this.listData.length < res.data.total) {
+            this.status = 'loadmore'
+          } else {
+            this.status = 'nomore'
+          }
+        }
+      }).catch(() => {
+        this.status = 'nomore'
+      })
     },
     loadmore() {
-      this.pageNum += 1;
+      this.page += 1;
       if (this.laoding == "loadmore") {
         this.getList()
       }
     },
     dingClick(id) {
-      // dingApi({ id: id }).then(res => {
-      //   if (res.code == 200) {
-      //     uni.showToast({
-      //       icon: null,
-      //       title: '提醒成功'
-      //     })
-      //   }
-      // })
       console.log(id)
     },
     upwardClick() {
@@ -225,6 +204,10 @@ export default {
         box-shadow: 0px 0px 10px #deebff inset;
         border-radius: 16rpx;
         position: relative;
+        .video-play {
+          width: 280rpx;
+          height: 210rpx;
+        }
         .item-info {
           height: 210rpx;
           margin-left: 24rpx;
@@ -234,14 +217,15 @@ export default {
           align-items: flex-start;
           position: relative;
           .status-tag {
-            width: 108rpx;
-            margin: 12rpx 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
           }
-          .select-item {
-            position: absolute;
-            top: 0;
-            right: 0;
-          }
+          // .select-item {
+          //   position: absolute;
+          //   top: 0;
+          //   right: 0;
+          // }
         }
       }
     }

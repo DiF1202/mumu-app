@@ -16,7 +16,6 @@ const baseURL = 'https://m.zzxmt.cn'
 const httpInterceptor = {
   // 拦截前触发
   invoke(options) {
-    console.log(options)
     // 1.非 http 开头需要拼接地址
     if (!options.url.startsWith('http')) {
       options.url = baseURL + options.url
@@ -89,7 +88,6 @@ export const fetch = (options) => {
 
 // 上传图片
 export const upload = (options) => {
-  console.log(options, 111)
   return new Promise((resolve, reject) => {
     uni.uploadFile({
       ...options,
