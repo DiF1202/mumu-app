@@ -12,7 +12,7 @@
         ></web-view> -->
       </view>
       <view class="warin-section">
-        <u-listt
+        <u-list
           @scrolltolower="loadmore"
           lowerThreshold="100"
           :height="windowHeight - 372"
