@@ -1,9 +1,9 @@
 {
 	"pages": [
 		{
-			"path": "pages/view/butler/index",
+			"path": "pages/view/components/reporting/index",
 			"style": {
-				"navigationBarTitleText": "远程查看",
+				"navigationBarTitleText": "自主上报",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -73,14 +73,14 @@
 			}
 		},
 		// 远程查看(管家)
-		// {
-		// 	"path": "pages/view/butler/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "远程查看",
-		// 		"enablePullDownRefresh": false,
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
+		{
+			"path": "pages/view/butler/index",
+			"style": {
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 远程查看-实况视频(列表页)
 		{
 			"path": "pages/view/components/list/index",
@@ -99,14 +99,14 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/view/components/reporting/index",
-			"style": {
-				"navigationBarTitleText": "自主上报",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/view/components/reporting/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "自主上报",
+		// 		"enablePullDownRefresh": false,
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		// 远程产看(卫士)
 		{
 			"path": "pages/view/guard/index",
