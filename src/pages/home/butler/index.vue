@@ -119,29 +119,29 @@ import { overViewApi } from '@/api/home.js'
         overViewApi().then(res => {
           console.log(res)
         })
-       this.$nextTick(() => {
-        let xData = ['1月','2月','3月','4月','5月','6月']
-        let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
-        let yData3 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
-        let yData4 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
-        let yData2 = [
-          { name: '员工评分', data: ['10', '21', '13', '16', '21', '19']},
-          { name: '生产管控', data: ['60', '70', '30', '25', '46', '33']},
-        ]
-        let data1 = [{ data: '0.6', color: '#1890FF'}]
-        let data2 = [{ data: '0.6', color: '#91CB74'}]
-        let data3 = [{ data: '0.6', color: '#FAC858'}]
-        let data4 = [{ data: '0.6', color: '#1890FF'},{ data: '0.6', color: '#91CB74'}]
-        this.$refs.lineChart1.initChart(xData, yData1)
-        this.$refs.lineChart3.initChart(xData, yData3)
-        this.$refs.lineChart4.initChart(xData, yData4)
-        this.$refs.lineChart2.initChart(xData, yData2)
-        this.$refs.progressChart1.initChart(data1, 360)
-        this.$refs.progressChart2.initChart(data2, 80)
-        this.$refs.progressChart3.initChart(data3, 90)
-        this.$refs.progressChart4.initChart(data4, 80)
-       })
-			}
+        this.$nextTick(() => {
+          let xData = ['1月','2月','3月','4月','5月','6月']
+          let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
+          let yData3 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
+          let yData4 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
+          let yData2 = [
+            { name: '员工评分', data: ['10', '21', '13', '16', '21', '19']},
+            { name: '生产管控', data: ['60', '70', '30', '25', '46', '33']},
+          ]
+          let data1 = [{ data: '0.6', color: '#1890FF'}]
+          let data2 = [{ data: '0.6', color: '#91CB74'}]
+          let data3 = [{ data: '0.6', color: '#FAC858'}]
+          let data4 = [{ data: '0.6', color: '#1890FF'},{ data: '0.6', color: '#91CB74'}]
+          this.$refs.lineChart1.initChart(xData, yData1)
+          this.$refs.lineChart3.initChart(xData, yData3)
+          this.$refs.lineChart4.initChart(xData, yData4)
+          this.$refs.lineChart2.initChart(xData, yData2)
+          this.$refs.progressChart1.initChart(data1, 360)
+          this.$refs.progressChart2.initChart(data2, 80)
+          this.$refs.progressChart3.initChart(data3, 90)
+          this.$refs.progressChart4.initChart(data4, 80)
+        })
+        }
 		}
 	}
 </script>

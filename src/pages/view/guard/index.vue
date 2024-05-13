@@ -1,8 +1,8 @@
 <template>
   <view class="list-container">
-    <uni-navtopbar title="远程巡视" :back="true"></uni-navtopbar>
-    <view class="content">
-      <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
+    <uni-navtopbar title="实况视频" :back="true"></uni-navtopbar>
+    <view class="content" :style="{height: `${windowHeight - safetyTop - 40}px`}">
+      <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
       <view class="video-section">
         <!-- <web-view
           :webview-styles="webviewStyles"
@@ -15,42 +15,37 @@
         <u-list
           @scrolltolower="loadmore"
           lowerThreshold="100"
-          :height="windowHeight - 372"
+          height="100%"
         >
-          <u-list-item v-for="(item, index) in listData" :key="index">
-            <view class="list-item" @click="enterDetails">
-              <u--image
-                :showLoading="true"
-                src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-                width="320rpx"
-                height="210rpx"
-              ></u--image>
+          <u-list-item
+            v-for="(item, index) in listData"
+            :key="index"
+          >
+            <view class="list-item" @click="enterDetails(item.alarm_id)">
+              <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="280rpx" height="210rpx"></u--image>
               <view class="item-info">
-                <view class="item-header"></view>
-                <u--text
-                  :text="item.title"
-                  size="36rpx"
-                  color="#333333"
-                  :bold="true"
-                ></u--text>
-                <u--text
-                  :text="'时间：' + item.time"
-                  size="28rpx"
-                  color="#333333"
-                ></u--text>
-                <view class="status-tag">
-                  <u-tag
-                    :text="item.status === '1' ? '已处理' : '未处理'"
-                    :type="item.status === '1' ? 'success' : 'error'"
-                    shape="circle"
-                    size="mini"
-                  ></u-tag>
+                <view>
+                  <u--text :text="item.alarm_name" size="36rpx" color="#333333" :bold="true"></u--text>
                 </view>
+                <view>
+                  <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
+                </view>
+                <view>
+                  <u-tag :text="item.alarm_status" :type="item.alarm_status === '已处理' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
+                </view>
+                <!-- <view class="select-item">
+                  <u-checkbox-group v-model="item.select">
+                    <u-checkbox :name="item.id" label=""></u-checkbox>
+                  </u-checkbox-group>
+                </view> -->
               </view>
+              <!-- <view class="ding" @click.stop="dingClick(item.id)">
+                <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+              </view> -->
             </view>
           </u-list-item>
           <u-loadmore
-            :status="laoding"
+            :status="loading"
             loadingIcon="semicircle"
             height="88rpx"
             fontSize="32rpx"
@@ -58,15 +53,19 @@
           />
         </u-list>
       </view>
-      <view class="ding">
+      <view class="upward" @click="upwardClick">
         <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
       </view>
     </view>
-    <uni-tabbar :tabCurrent="2"></uni-tabbar>
+    <uni-tabbar :tabCurrent="1"></uni-tabbar>
+    <u-toast ref="uToast"></u-toast>
   </view>
 </template>
 
 <script>
+import { fieldTree } from '@/api/utils.js'
+import { addTreePro } from '@/utils/common.js'
+import { videoAlarmApi, dingApi } from '@/api/view.js'
 import Player from "mui-player";
 import "mui-player/dist/mui-player.min.css";
 // import Flv from "flv.js";
@@ -74,106 +73,85 @@ import "mui-player/dist/mui-player.min.css";
 export default {
   data() {
     return {
-      webviewStyles: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        progress: {
-          color: "#FF3333"
-        }
-      },
-      columns: [
-        {
-          id: 2,
-          label: "牧场2",
-          children: [
-            { id: 21, label: "厂1", children: [{ id: 1, label: "栏1" }] },
-            { id: 22, label: "厂2" }
-          ]
-        }
-      ],
-      listData: [
-        {
-          title: "濒死告警",
-          status: "1",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          title: "死亡告警",
-          status: "2",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          title: "濒死告警",
-          status: "1",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        },
-        {
-          title: "死亡告警",
-          status: "2",
-          build: "一厂/2栏/3圈",
-          time: "2022-12-12 12:12",
-          select: []
-        }
-      ],
-      pageNum: 1,
-      laoding: "loadmore"
-    };
+      columns: [], // 树形选择器数据
+      videoUrl: '', // 视频url
+      listData: [], // 列表数据
+      limit: 5,
+      page: 1,
+      loading: "loadmore",
+      
+    }
   },
   computed: {
     windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
+    },
+    safetyTop() {
+      return uni.getSystemInfoSync().safeAreaInsets.top
+    },
+  },
+  onLoad(options) {
+    this.getFieldTree(options.fieldId)
+  },
+  onShow() {
+    if (this.fieldId) {
+      this.page = 1
+      this.listData = []
+      this.getList()
     }
   },
-  onLoad() {
-    uni.hideTabBar();
-  },
   methods: {
+    getFieldTree(id) {
+      // 获取栏位数据 并设置默认选中
+      fieldTree().then(res => {
+        if (res.code === 200) {
+          let newTree = addTreePro(res.data[0], 'checked', true)
+          this.columns = [newTree]
+        }
+      })
+    },
     treeCallback(value) {
-      this.fieldId = value.id[0];
-    },
-    handleLoad() {
-      console.log("Webview loaded successfully.");
-    },
-    handleError(e) {
-      console.log(e);
-    },
-    loadmore() {
-      this.pageNum += 1;
-      console.log(this.laoding);
-      if (this.laoding == "loadmore") {
-        this.getList();
+      this.fieldId = value.id[0]
+      if (this.fieldId) {
+        this.listData = []
+        this.getList()
       }
     },
     getList() {
-      this.laoding = "loading";
-      // setTimeout(() => {
-      //   for (let i = 0; i < 3; i++) {
-      //     console.log(i);
-      //     this.listData.push({
-      //       title: "环境异常",
-      //       status: "1",
-      //       build: "一厂/2栏/3圈",
-      //       time: "2022-12-12 12:12"
-      //     });
-      //   }
-      //   this.laoding = "loadmore";
-      // }, 2000);
+      this.loading = "loading";
+      videoAlarmApi({ pen_id: this.fieldId, page: this.page, limit: this.limit }).then(res => {
+        if (res.code == 200) {
+          this.videoUrl = res.data.video_url
+          this.listData = this.listData.concat(res.data.alarm_data)
+          if (this.listData.length < res.data.total) {
+            this.loading = 'loadmore'
+          } else {
+            this.loading = 'nomore'
+          }
+        }
+      }).catch(() => {
+        this.loading = 'nomore'
+      })
     },
-    selectStatus(item) {
-      this.status = item.id;
+    loadmore() {
+      if (this.loading == "loadmore") {
+        this.page += 1;
+        this.getList()
+      }
     },
-    enterDetails() {
-      uni.navigateTo({ url: "/pages/view/components/details/index" });
-    }
+    // dingClick(id) {
+    //   dingApi({pen_id: this.fieldId}).then(res => {
+    //     if (res.code == 200) {
+    //       this.$refs.uToast.show({ message: '提醒消息发送成功' })
+    //     }
+    //   })
+    // },
+    upwardClick() {
+      uni.navigateTo({ url: "/pages/view/components/reporting/index" })
+    },
+    enterDetails(id) {
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id })
+    },
     // initPlayer() {
     //   console.log(Flv);
     //   const player = new Player({
@@ -189,6 +167,12 @@ export default {
     //     }
     //   });
     // }
+    handleLoad() {
+      console.log("Webview loaded successfully.");
+    },
+    handleError(e) {
+      console.log(e);
+    },
   },
   mounted() {
     // this.initPlayer();
@@ -199,29 +183,33 @@ export default {
 <style lang="scss" scoped>
 .list-container {
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
     padding: 0 24rpx 24rpx;
-    .video-section {
-      width: 100%;
-      height: 400rpx;
-      background: #333333;
-      margin-bottom: 24rpx;
-      position: relative;
-      overflow: hidden;
-    }
     .ding {
+      position: absolute;
+      right: 24rpx;
+      top: 38rpx;
+    }
+    .upward {
       width: 80rpx;
       height: 80rpx;
       border-radius: 50%;
       position: absolute;
       right: 24rpx;
-      bottom: 100rpx;
-      background: #d6e7ff;
+      bottom: 360rpx;
+      background: #D6E7FF;
       display: flex;
       justify-content: center;
       align-self: center;
     }
+    .video-section {
+      width: 100%;
+      height: 400rpx;
+      background: #333333;
+      margin-bottom: 24rpx;
+    }
     .warin-section {
+      height: calc(100% - 550rpx);
       .list-item {
         width: 100%;
         height: 258rpx;
@@ -230,9 +218,9 @@ export default {
         align-items: center;
         margin-bottom: 24rpx;
         padding: 24rpx;
-        // background: #deebff;
         box-shadow: 0px 0px 10px #deebff inset;
         border-radius: 16rpx;
+        position: relative;
         .item-info {
           height: 210rpx;
           margin-left: 24rpx;
@@ -241,15 +229,6 @@ export default {
           justify-content: space-around;
           align-items: flex-start;
           position: relative;
-          .status-tag {
-            width: 108rpx;
-            margin: 12rpx 0;
-          }
-          .select-item {
-            position: absolute;
-            top: 0;
-            right: 0;
-          }
         }
       }
     }

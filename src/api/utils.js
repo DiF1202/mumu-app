@@ -14,3 +14,10 @@ export function uploadAPI(data) {
     filePath: data.filePath
   })
 }
+// 告警类型
+export function alarmType() {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-alarm-type-list'
+  })
+}

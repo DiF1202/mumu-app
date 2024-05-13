@@ -50,7 +50,12 @@ export default {
   data() {
     return {
       alarmId: '',
-      detailsData: {},
+      detailsData: {
+        alarm_name: '',
+        alarm_time: '',
+        location: '',
+        alarm_status: ''
+      },
       form: {
         disposer: "1"
       },

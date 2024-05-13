@@ -12,13 +12,13 @@
               <u-icon name="arrow-right" size="30rpx" color="#333333"></u-icon>
            </template>
           </u-form-item>
-          <u-form-item label="处置方式" prop="abnormal_type_id" borderBottom required>
+          <u-form-item label="告警类型" prop="abnormal_type_id" borderBottom required>
             <u-radio-group v-model="form.abnormal_type_id">
               <u-radio
-                v-for="(item, index) in isReal"
+                v-for="(item, index) in alarmTypeList"
                 :key="index"
                 :label="item.name"
-                :name="item.value"
+                :name="item.id"
                 size="30rpx"
                 :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }"
               >
@@ -29,7 +29,7 @@
             <u--textarea v-model="form.report_content" placeholder="请输入上报内容"  border="none" inputAlign="right" :autoHeight="true" customStyle="background:transparent;marginTop:24rpx;color:#333333"></u--textarea>
           </u-form-item>
           <u-form-item label="上报图片" prop="picture_url" required labelPosition="top">
-            <uni-uploading></uni-uploading>
+            <uni-uploading ref="alarmPicture"></uni-uploading>
           </u-form-item>
         </u--form>
       </view>
@@ -44,7 +44,7 @@
 
 <script>
 import { reportAlarmApi } from '@/api/view.js'
-import { fieldTree } from '@/api/utils.js'
+import { fieldTree, alarmType } from '@/api/utils.js'
 export default {
   data() {
     return {
@@ -55,30 +55,49 @@ export default {
       rules: {
         pen_id: [{ type: "string", required: true, message: "请选择栏位", trigger: ["change"] }],
         report_content: [{ type: "string", required: true, message: "请输入上报内容", trigger: ["blur"] }],
-        abnormal_type_id: [{ type: "string", required: true, message: "请选择类型", trigger: ["change"] }],
+        abnormal_type_id: [{ type: "number", required: true, message: "请选择类型", trigger: ["change"] }],
         picture_url: [{ type: "string", required: true, message: "请上传图片", trigger: ["change"] }]
       },
       columns: [],
-      isReal: [
-        { name: "解除报警", value: "1" },
-        { name: "无法处理", value: "2" }
-      ],
+      alarmTypeList: [],
     }
   },
   onLoad() {
     this.getFieldTree()
+    this.getAlarmType()
   },
   onReady() {
     this.$refs.uForm.setRules(this.rules);
   },
   methods: {
     submit() {
+      if (this.$refs.alarmPicture.fileList[0]?.url) {
+        this.form.picture_url = this.$refs.alarmPicture.fileList[0].url
+      } else {
+        this.form.picture_url = null
+      }
       console.log(this.form)
+      this.$refs.uForm.validate().then(() => {
+        reportAlarmApi(this.form).then(res => {
+          if (res.code == 200) {
+            this.$refs.uToast.show({ message: '上报成功' })
+            uni.navigateBack()
+          }
+        })
+      })
     },
     getFieldTree() {
       fieldTree().then(res => {
         if (res.code === 200) {
           this.columns = res.data
+        }
+      })
+    },
+    getAlarmType() {
+      alarmType().then(res => {
+        console.log(res, 11111)
+        if (res.code == 200) {
+          this.alarmTypeList = res.data
         }
       })
     },

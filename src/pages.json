@@ -1,13 +1,5 @@
 {
 	"pages": [
-		{
-			"path": "pages/view/components/reporting/index",
-			"style": {
-				"navigationBarTitleText": "自主上报",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -99,14 +91,14 @@
 				"navigationStyle": "custom"
 			}
 		},
-		// {
-		// 	"path": "pages/view/components/reporting/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "自主上报",
-		// 		"enablePullDownRefresh": false,
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
+		{
+			"path": "pages/view/components/reporting/index",
+			"style": {
+				"navigationBarTitleText": "自主上报",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 远程产看(卫士)
 		{
 			"path": "pages/view/guard/index",
