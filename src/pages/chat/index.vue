@@ -96,14 +96,12 @@
         </view>
       </view>
     </view>
-
-    <!-- <uni-tabbar :tabCurrent="2"></uni-tabbar> -->
   </view>
 </template>
 
 <script>
-// import { getChatApi } from "@/api/home.js";
-// import { getChatApi } from "@/api/home.js";
+import { getChatApi } from "@/api/chat.js";
+import axios from "axios";
 
 export default {
   data() {
@@ -165,8 +163,40 @@ export default {
         }
       });
     },
-    send() {
-      // getChatApi();
+    async getChat() {
+      const requestTask = uni.request({
+        url: "http://47.99.151.88:9004/chat/knowledge_base_chat",
+        method: "POST",
+        data: {
+          query: "动物行为学",
+          knowledge_base_name: "behavior",
+          top_k: 3,
+          score_threshold: 1,
+          stream: true,
+          model_name: "mumu-dev",
+          temperature: 0.7,
+          max_tokens: 0,
+          prompt_name: "default",
+          id: "1"
+        },
+        enableChunked: true, // 开启流传输
+        responseType: "text",
+        success: function (res) {
+          console.log(res);
+        },
+        fail: function (err) {}
+      });
+      requestTask.onHeadersReceived(function (res) {
+        console.log(res.header);
+      });
+      // 这里监听消息
+      requestTask.onChunkReceived(function (res) {
+        let decoder = new TextDecoder("utf-8");
+        let text = decoder.decode(new Uint8Array(res.data));
+        console.log(text);
+      });
+    },
+    async send() {
       const curUserMsgList = [
         {
           my: true,
@@ -179,19 +209,20 @@ export default {
           msg: "测试回答"
         }
       ];
-      //清空输入框
-      this.msgContent = "";
-      this.msgList = this.msgList.concat(curUserMsgList);
       this.msgLoad = true;
+
+      //清空输入框
+      this.msgList = this.msgList.concat(curUserMsgList);
+      this.msgContent = "";
       this.showLastMsg();
 
       //模拟一秒后关闭loading
-      setTimeout(() => {
-        this.msgLoad = false;
-        this.msgList = this.msgList.concat(curAnswerList);
-        this.showLastMsg();
-      }, 2000);
-      console.log(this.msgContent);
+      // setTimeout(() => {
+      //   this.msgLoad = false;
+      //   this.msgList = this.msgList.concat(curAnswerList);
+      //   this.showLastMsg();
+      // }, 2000);
+      // console.log(this.msgContent);
     }
   }
 };
