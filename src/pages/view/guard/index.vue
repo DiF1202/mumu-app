@@ -76,9 +76,6 @@
 import { fieldTree } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
-import Player from "mui-player";
-import "mui-player/dist/mui-player.min.css";
-// import Flv from "flv.js";
 
 export default {
   data() {
@@ -170,21 +167,6 @@ export default {
     linkToVideoLive() {
       uni.navigateTo({ url: "/pages/video/index" });
     },
-    // initPlayer() {
-    //   console.log(Flv);
-    //   const player = new Player({
-    //     container: "#mui-player", // 这里用选择器代替 DOM 引用
-    //     live: true,
-    //     src: "https://flvplayer.js.org/assets/video/weathering-with-you.flv",
-    //     parse: {
-    //       type: "flv",
-    //       loader: Flv,
-    //       config: {
-    //         cors: true
-    //       }
-    //     }
-    //   });
-    // }
     handleLoad() {
       console.log("Webview loaded successfully.");
     },

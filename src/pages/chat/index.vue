@@ -100,9 +100,6 @@
 </template>
 
 <script>
-import { getChatApi } from "@/api/chat.js";
-import axios from "axios";
-
 export default {
   data() {
     return {
@@ -114,7 +111,8 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?"
+          msg: "你好我是畜牧助手,请问有什么问题可以帮助您123?",
+          id: this.uuid()
         }
       ],
       msgContent: "",
@@ -122,7 +120,8 @@ export default {
       ptzt: 1,
       keyboardHeight: 0,
       // 使聊天窗口滚动到指定元素id的值
-      scrollIntoView: ""
+      scrollIntoView: "",
+      inputBoxDisabled: false
     };
   },
   onLoad() {
@@ -140,7 +139,6 @@ export default {
       this.$nextTick(() => {
         // 将scrollIntoView属性设置为"last-msg-item"，以便滚动窗口到最后一条消息
         this.scrollIntoView = "last-msg-item";
-        console.log("读取scroll高度 ", this.scrollIntoView);
         // 等待DOM更新，即：滚动完成
         this.$nextTick(() => {
           // 将scrollIntoView属性设置为空，以便下次设置滚动条位置可被监听
@@ -163,12 +161,31 @@ export default {
         }
       });
     },
-    async getChat() {
+    // uuid生存
+    uuid() {
+      var uuid = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+        uuid[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      }
+      uuid[14] = "4";
+      uuid[19] = hexDigits.substr((uuid[19] & 0x3) | 0x8, 1);
+      uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
+      return "u" + uuid.join("").replaceAll("-", "");
+    },
+    async getChat(userQueryString, curUserMsgId) {
+      const self = this; // 在函数外部捕获this
+      let completeResponse = ""; // 用来拼接流式传输分片的完整内容
+      let pattern = /data: {"answer": "(.+?)"}/g;
+      let id = this.uuid();
+
       const requestTask = uni.request({
         url: "http://47.99.151.88:9004/chat/knowledge_base_chat",
         method: "POST",
+        responseType: "text",
+        enableChunked: true, // 开启流传输
         data: {
-          query: "动物行为学",
+          query: userQueryString,
           knowledge_base_name: "behavior",
           top_k: 3,
           score_threshold: 1,
@@ -177,52 +194,82 @@ export default {
           temperature: 0.7,
           max_tokens: 0,
           prompt_name: "default",
-          id: "1"
+          id: curUserMsgId
         },
-        enableChunked: true, // 开启流传输
-        responseType: "text",
         success: function (res) {
-          console.log(res);
+          console.log("流结束了");
+          self.inputBoxDisabled = false;
         },
-        fail: function (err) {}
-      });
-      requestTask.onHeadersReceived(function (res) {
-        console.log(res.header);
+        fail: function (err) {
+          self.inputBoxDisabled = false;
+          // 如果失败了看看看有没有，上一条记录有无返回看看有没有存进去了
+          let existingMsgIndex = self.msgList.findIndex(
+            item => item?.id === id
+          );
+          if (existingMsgIndex !== -1) {
+            // 更新已有消息的内容
+            self.$set(self.msgList, existingMsgIndex, {
+              my: false,
+              msg: "请求失败，请重试",
+              id: id
+            });
+          } else {
+            // 如果消息列表中没有，就添加一个新的消息条目
+            self.msgList.push({
+              my: false,
+              msg: "请求失败，请重试",
+              id: id
+            });
+          }
+        }
       });
       // 这里监听消息
       requestTask.onChunkReceived(function (res) {
-        let decoder = new TextDecoder("utf-8");
-        let text = decoder.decode(new Uint8Array(res.data));
-        console.log(text);
+        self.msgLoad = false;
+        const decoder = new TextDecoder("utf-8");
+        const textChunk = decoder.decode(new Uint8Array(res.data));
+        const match = pattern.exec(textChunk);
+        if (match?.[1]) {
+          completeResponse += match[1];
+          let existingMsgIndex = self.msgList.findIndex(
+            item => item?.id === id
+          );
+          if (existingMsgIndex !== -1) {
+            // 更新已有消息的内容
+            self.$set(self.msgList, existingMsgIndex, {
+              my: false,
+              msg: completeResponse,
+              id: id
+            });
+          } else {
+            // 如果消息列表中没有，就添加一个新的消息条目
+            self.msgList.push({
+              my: false,
+              msg: completeResponse,
+              id: id
+            });
+          }
+          self.showLastMsg(); // 滚动到最新的消息
+        }
       });
     },
     async send() {
+      const curUserMsgId = this.uuid();
+      this.getChat(this.msgContent, curUserMsgId);
+
       const curUserMsgList = [
         {
           my: true,
-          msg: this.msgContent
-        }
-      ];
-      const curAnswerList = [
-        {
-          my: false,
-          msg: "测试回答"
+          msg: this.msgContent,
+          id: curUserMsgId
         }
       ];
       this.msgLoad = true;
-
+      this.inputBoxDisabled = true;
       //清空输入框
       this.msgList = this.msgList.concat(curUserMsgList);
       this.msgContent = "";
       this.showLastMsg();
-
-      //模拟一秒后关闭loading
-      // setTimeout(() => {
-      //   this.msgLoad = false;
-      //   this.msgList = this.msgList.concat(curAnswerList);
-      //   this.showLastMsg();
-      // }, 2000);
-      // console.log(this.msgContent);
     }
   }
 };
