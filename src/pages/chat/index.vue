@@ -199,6 +199,7 @@ export default {
         success: function (res) {
           console.log("流结束了");
           self.inputBoxDisabled = false;
+          self.msgLoad = false;
         },
         fail: function (err) {
           self.inputBoxDisabled = false;
@@ -206,6 +207,7 @@ export default {
           let existingMsgIndex = self.msgList.findIndex(
             item => item?.id === id
           );
+          self.msgLoad = false;
           if (existingMsgIndex !== -1) {
             // 更新已有消息的内容
             self.$set(self.msgList, existingMsgIndex, {
