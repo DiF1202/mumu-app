@@ -2,22 +2,45 @@
 	<view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <u-icon name="map" color="#10cc8f" size="46rpx" label="安徽涡阳" labelSize="28rpx" labelColor="#0F4239"></u-icon>
-      <!-- 环境预警 -->
-      <uni-subTitle customIcon="shumu" title="环境预警" url="/pages/home/environment/index" />
-      <view class="env-warning">
-        <!-- 天气信息展示 -->
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-taiyang" size="38rpx" color="#E99D42"></u-icon>
-          <u--text text="温度过高,建议降温" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+      <u-icon name="map" color="#10cc8f" size="46rpx" :label="position + ' ' + currentDate" labelSize="28rpx" labelColor="#0F4239"></u-icon>
+      <!-- 今日天气 -->
+      <uni-subTitle customIcon="tianqi" title="今日天气"/>
+      <view class="weather-header">
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-jiangyu" size="28rpx" color="#fff"></u-icon>
+          <view class="value">{{ '05:37' }}</view>
         </view>
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-shuidi" size="38rpx" color="#93D2F3"></u-icon>
-          <u--text text="湿度偏高建议通风" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="28rpx" color="#fff"></u-icon>
+          <view class="value">{{ '18:23' }}</view>
         </view>
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-dianfang" size="38rpx" color="#A16222"></u-icon>
-          <u--text text="x栏x舍x位,温度异常告警" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-eye" size="28rpx" color="#fff"></u-icon>
+          <view class="value">{{ '东北风 3级' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-qiya" size="28rpx" color="#fff"></u-icon>
+          <view class="value">{{ '41%' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-qiya" size="28rpx" color="rgb(235, 37, 37)"></u-icon>
+          <view class="value alarm">{{ '高温高湿' }}</view>
+        </view>
+      </view>
+      <view class="weather-body">
+        <view class="body-item">
+          <!-- <view class="temp">{{ '28' }}℃</view> -->
+          <!-- <view class="tempElse">
+            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
+            <view>{{ '多云' }}</view>
+          </view> -->
+        </view>
+        <view class="body-item">
+          <!-- <view class="temp">{{ '28' }}℃</view>
+          <view class="tempElse">
+            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
+            <view>{{ '多云' }}</view>
+          </view> -->
         </view>
       </view>
       <!-- 生物资产概况 -->
@@ -89,6 +112,8 @@ import { overViewApi } from '@/api/home.js'
 	export default {
 		data() {
 			return {
+        position: '安徽窝阳',
+        currentDate: '2024-5-19',
         daily: {
           previously: [
             {title: '动物数量和分布', content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
@@ -116,9 +141,9 @@ import { overViewApi } from '@/api/home.js'
 		},
 		methods: {
 			initData(e) {
-        overViewApi().then(res => {
-          console.log(res)
-        })
+        // overViewApi().then(res => {
+        //   console.log(res)
+        // })
         this.$nextTick(() => {
           let xData = ['1月','2月','3月','4月','5月','6月']
           let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
@@ -151,13 +176,88 @@ import { overViewApi } from '@/api/home.js'
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 48rpx;
-      .env-warning {
+      .weather-header {
         width: 100%;
-        .env-row {
+        margin: 12rpx 0;
+        background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+        border-radius: 12rpx;
+        padding: 24rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .weather-hader-item {
           display: flex;
           justify-content: flex-start;
           align-items: center;
-          margin: 24rpx 0;
+          .value {
+            color: #fff;
+            font-size: 24rpx;
+            margin-left: 8rpx;
+            line-height: 28rpx;
+          }
+          .alarm {
+            color: rgb(235, 37, 37);
+          }
+        }
+      }
+      .weather-body {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .body-item {
+          width: calc(50% - 6rpx);
+          height: 120rpx;
+          background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+          border-radius: 12rpx;
+          padding: 24rpx;
+        }
+      }
+      .toady-weather {
+        width: 100%;
+        height: 190rpx;
+        background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+        border-radius: 12rpx;
+        padding: 24rpx;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        margin-top: 24rpx;
+        .row1 {
+          width: 100%;
+          height: 56rpx;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          margin-bottom: 24rpx;
+          .temp {
+            font-size: 52rpx;
+            font-family: DIN Alternate;
+            font-weight: bold;
+            font-style: italic;
+            color: #fff;
+            margin-right: 40rpx;
+          }
+          .tempElse {
+            display: flex;
+            align-items: flex-end;
+            font-size: 26rpx;
+            font-weight: 400;
+            color: #fff;
+            view {
+              margin: 0 10rpx;
+            }
+          }
+        }
+        .row2 {
+          display: flex;
+          align-items: center;
+          .value {
+            font-size: 26rpx;
+            font-weight: 400;
+            color: #fff;
+            margin: 0 24rpx;
+          }
         }
       }
       .biological-item {
