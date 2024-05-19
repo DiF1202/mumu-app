@@ -1,37 +1,47 @@
 <template>
   <view class="list-container">
     <uni-navtopbar title="实况视频" :back="true"></uni-navtopbar>
-    <view class="content" :style="{height: `${windowHeight - safetyTop - 40}px`}">
-      <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
-      <view class="video-section">
-        <!-- <web-view
-          :webview-styles="webviewStyles"
-          src="http://127.0.0.1:5500/src/static/html/player.html"
-          @load="handleLoad"
-          @error="handleError"
-        ></web-view> -->
+    <view
+      class="content"
+      :style="{ height: `${windowHeight - safetyTop - 40}px` }"
+    >
+      <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
+      <view class="video-section" @click="linkToVideoLive">
+        <u-icon name="play-circle-fill" size="40"></u-icon>
       </view>
       <view class="warin-section">
-        <u-list
-          @scrolltolower="loadmore"
-          lowerThreshold="100"
-          height="100%"
-        >
-          <u-list-item
-            v-for="(item, index) in listData"
-            :key="index"
-          >
+        <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
+          <u-list-item v-for="(item, index) in listData" :key="index">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="280rpx" height="210rpx"></u--image>
+              <u--image
+                :showLoading="true"
+                src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
+                width="280rpx"
+                height="210rpx"
+              ></u--image>
               <view class="item-info">
                 <view>
-                  <u--text :text="item.alarm_name" size="36rpx" color="#333333" :bold="true"></u--text>
+                  <u--text
+                    :text="item.alarm_name"
+                    size="36rpx"
+                    color="#333333"
+                    :bold="true"
+                  ></u--text>
                 </view>
                 <view>
-                  <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
+                  <u--text
+                    :text="'时间：' + item.alarm_time"
+                    size="28rpx"
+                    color="#333333"
+                  ></u--text>
                 </view>
                 <view>
-                  <u-tag :text="item.alarm_status" :type="item.alarm_status === '已处理' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
+                  <u-tag
+                    :text="item.alarm_status"
+                    :type="item.alarm_status === '已处理' ? 'success' : 'error'"
+                    shape="circle"
+                    size="mini"
+                  ></u-tag>
                 </view>
                 <!-- <view class="select-item">
                   <u-checkbox-group v-model="item.select">
@@ -63,41 +73,37 @@
 </template>
 
 <script>
-import { fieldTree } from '@/api/utils.js'
-import { addTreePro } from '@/utils/common.js'
-import { videoAlarmApi, dingApi } from '@/api/view.js'
-import Player from "mui-player";
-import "mui-player/dist/mui-player.min.css";
-// import Flv from "flv.js";
+import { fieldTree } from "@/api/utils.js";
+import { addTreePro } from "@/utils/common.js";
+import { videoAlarmApi, dingApi } from "@/api/view.js";
 
 export default {
   data() {
     return {
       columns: [], // 树形选择器数据
-      videoUrl: '', // 视频url
+      videoUrl: "", // 视频url
       listData: [], // 列表数据
       limit: 5,
       page: 1,
-      loading: "loadmore",
-      
-    }
+      loading: "loadmore"
+    };
   },
   computed: {
     windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
     },
     safetyTop() {
-      return uni.getSystemInfoSync().safeAreaInsets.top
-    },
+      return uni.getSystemInfoSync().safeAreaInsets.top;
+    }
   },
   onLoad(options) {
-    this.getFieldTree(options.fieldId)
+    this.getFieldTree(options.fieldId);
   },
   onShow() {
     if (this.fieldId) {
-      this.page = 1
-      this.listData = []
-      this.getList()
+      this.page = 1;
+      this.listData = [];
+      this.getList();
     }
   },
   methods: {
@@ -105,38 +111,44 @@ export default {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
-          let newTree = addTreePro(res.data[0], 'checked', true)
-          this.columns = [newTree]
+          let newTree = addTreePro(res.data[0], "checked", true);
+          this.columns = [newTree];
         }
-      })
+      });
     },
     treeCallback(value) {
-      this.fieldId = value.id[0]
+      this.fieldId = value.id[0];
       if (this.fieldId) {
-        this.listData = []
-        this.getList()
+        this.listData = [];
+        this.getList();
       }
     },
     getList() {
       this.loading = "loading";
-      videoAlarmApi({ pen_id: this.fieldId, page: this.page, limit: this.limit }).then(res => {
-        if (res.code == 200) {
-          this.videoUrl = res.data.video_url
-          this.listData = this.listData.concat(res.data.alarm_data)
-          if (this.listData.length < res.data.total) {
-            this.loading = 'loadmore'
-          } else {
-            this.loading = 'nomore'
-          }
-        }
-      }).catch(() => {
-        this.loading = 'nomore'
+      videoAlarmApi({
+        pen_id: this.fieldId,
+        page: this.page,
+        limit: this.limit
       })
+        .then(res => {
+          if (res.code == 200) {
+            this.videoUrl = res.data.video_url;
+            this.listData = this.listData.concat(res.data.alarm_data);
+            if (this.listData.length < res.data.total) {
+              this.loading = "loadmore";
+            } else {
+              this.loading = "nomore";
+            }
+          }
+        })
+        .catch(() => {
+          this.loading = "nomore";
+        });
     },
     loadmore() {
       if (this.loading == "loadmore") {
         this.page += 1;
-        this.getList()
+        this.getList();
       }
     },
     // dingClick(id) {
@@ -147,32 +159,20 @@ export default {
     //   })
     // },
     upwardClick() {
-      uni.navigateTo({ url: "/pages/view/components/reporting/index" })
+      uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
     enterDetails(id) {
-      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id })
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    // initPlayer() {
-    //   console.log(Flv);
-    //   const player = new Player({
-    //     container: "#mui-player", // 这里用选择器代替 DOM 引用
-    //     live: true,
-    //     src: "https://flvplayer.js.org/assets/video/weathering-with-you.flv",
-    //     parse: {
-    //       type: "flv",
-    //       loader: Flv,
-    //       config: {
-    //         cors: true
-    //       }
-    //     }
-    //   });
-    // }
+    linkToVideoLive() {
+      uni.navigateTo({ url: "/pages/video/index" });
+    },
     handleLoad() {
       console.log("Webview loaded successfully.");
     },
     handleError(e) {
       console.log(e);
-    },
+    }
   },
   mounted() {
     // this.initPlayer();
@@ -183,7 +183,7 @@ export default {
 <style lang="scss" scoped>
 .list-container {
   .content {
-    background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     padding: 0 24rpx 24rpx;
     .ding {
       position: absolute;
@@ -197,7 +197,7 @@ export default {
       position: absolute;
       right: 24rpx;
       bottom: 360rpx;
-      background: #D6E7FF;
+      background: #d6e7ff;
       display: flex;
       justify-content: center;
       align-self: center;
@@ -207,6 +207,9 @@ export default {
       height: 400rpx;
       background: #333333;
       margin-bottom: 24rpx;
+      display: flex;
+      align-content: center;
+      justify-content: center;
     }
     .warin-section {
       height: calc(100% - 550rpx);
