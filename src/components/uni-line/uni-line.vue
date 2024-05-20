@@ -29,7 +29,7 @@
 						disableGrid: true,
 						fontColor: 'rgba(0, 0, 0, 0.45)',
 					  boundaryGap: 'center',
-						fontSize:12,
+						fontSize: 12,
 					},
 					yAxis: {
 						gridType: 'dash',

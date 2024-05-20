@@ -29,23 +29,49 @@
       </view>
       <view class="weather-body">
         <view class="body-item">
-          <!-- <view class="temp">{{ '28' }}℃</view> -->
-          <!-- <view class="tempElse">
-            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
-            <view>{{ '多云' }}</view>
-          </view> -->
+          <view class="item-row">
+            <view class="date">今天</view>
+            <view class="air">{{ '良' }}</view>
+            <view class="temp">{{ '28~14' }}℃</view>
+          </view>
+          <view class="item-row">
+            <view class="status">{{ '多云' }}</view>
+            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+          </view>
         </view>
         <view class="body-item">
-          <!-- <view class="temp">{{ '28' }}℃</view>
-          <view class="tempElse">
-            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
-            <view>{{ '多云' }}</view>
-          </view> -->
+          <view class="item-row">
+            <view class="date">明天</view>
+            <view class="air">{{ '良' }}</view>
+            <view class="temp">{{ '28~14' }}℃</view>
+          </view>
+          <view class="item-row">
+            <view class="status">{{ '多云' }}</view>
+            <u--image :showLoading="true" :src="`/static/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+          </view>
         </view>
       </view>
-      <!-- 生物资产概况 -->
-      <uni-subTitle icon="red-packet" title="生物资产概况" url="pages/home/biological/index" />
-      <view class="biological-item">
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="weather-chart">
+          <uni-tarea ref="weatherChart" unit="℃" :max="30"></uni-tarea>
+        </view>
+      </uni-card>
+      <!-- 生产概况 -->
+      <uni-subTitle icon="red-packet" title="生产概况" url="pages/home/biological/index" />
+      <view class="switch-tab">
+        <u-subsection :list="list" :current="current" activeColor="#333333"></u-subsection>
+      </view>
+      <view class="tab-num">
+        <view class="num-item" style="color:#81B33B">8千头</view>
+        <view class="num-item" style="color:#347CAF">60%</view>
+        <view class="num-item" style="color:#BD3124">46头</view>
+      </view>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="active-chart">
+          <uni-tarea ref="activeChart" unit="℃" :max="30" color="#81B33B"></uni-tarea>
+        </view>
+      </uni-card>
+      <!-- <view class="biological-item">
         <view class="chart-left">
           <uni-progress ref="progressChart1"></uni-progress>
         </view>
@@ -68,7 +94,7 @@
         <view class="chart-right">
           <uni-line ref="lineChart4"></uni-line>
         </view>
-      </view>
+      </view> -->
       <!-- <view class="assets-charts">
         <view class="chart-item">
           <uni-progress ref="progressChart2"></uni-progress>
@@ -81,15 +107,15 @@
         <uni-line ref="lineChart1"></uni-line>
       </view> -->
       <!-- 生产管理评分 -->
-      <uni-subTitle customIcon="shengchan" title="生产管理评分" url="pages/home/production/index" />
+      <!-- <uni-subTitle customIcon="shengchan" title="生产管理评分" url="pages/home/production/index" />
       <view style="height: 250rpx;marginTop:24rpx">
         <uni-progress ref="progressChart4"></uni-progress>
       </view>
       <view style="height:500rpx">
         <uni-line ref="lineChart2"></uni-line>
-      </view>
+      </view> -->
       <!-- 每日简报 -->
-      <uni-subTitle customIcon="jiqiren" title="每日简报" url="pages/home/dailyReport/index"/>
+      <!-- <uni-subTitle customIcon="jiqiren" title="每日简报" url="pages/home/dailyReport/index"/>
       <view class="daily-briefing">
         <u--text text="过去24h总结：" color="#0F4239" size="32rpx"></u--text>
         <view v-for="(item,index) in daily.previously" :key="index" class="daily-item">
@@ -101,19 +127,20 @@
           <view class="dot"></view>
           <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
-      </view>
+      </view> -->
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
 	</view>
 </template>
 
 <script>
-import { overViewApi } from '@/api/home.js'
 	export default {
 		data() {
 			return {
         position: '安徽窝阳',
         currentDate: '2024-5-19',
+        list: ['动态存栏', '栏位占用', '疑死数量'],
+				current: 0,
         daily: {
           previously: [
             {title: '动物数量和分布', content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
@@ -135,38 +162,46 @@ import { overViewApi } from '@/api/home.js'
         return uni.getSystemInfoSync().safeAreaInsets.top
       }
 		},
-		onLoad() {
+		onReady() {
       uni.hideTabBar()
 			this.initData()
 		},
 		methods: {
-			initData(e) {
-        // overViewApi().then(res => {
-        //   console.log(res)
-        // })
-        this.$nextTick(() => {
-          let xData = ['1月','2月','3月','4月','5月','6月']
-          let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
-          let yData3 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
-          let yData4 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
-          let yData2 = [
-            { name: '员工评分', data: ['10', '21', '13', '16', '21', '19']},
-            { name: '生产管控', data: ['60', '70', '30', '25', '46', '33']},
-          ]
-          let data1 = [{ data: '0.6', color: '#1890FF'}]
-          let data2 = [{ data: '0.6', color: '#91CB74'}]
-          let data3 = [{ data: '0.6', color: '#FAC858'}]
-          let data4 = [{ data: '0.6', color: '#1890FF'},{ data: '0.6', color: '#91CB74'}]
-          this.$refs.lineChart1.initChart(xData, yData1)
-          this.$refs.lineChart3.initChart(xData, yData3)
-          this.$refs.lineChart4.initChart(xData, yData4)
-          this.$refs.lineChart2.initChart(xData, yData2)
-          this.$refs.progressChart1.initChart(data1, 360)
-          this.$refs.progressChart2.initChart(data2, 80)
-          this.$refs.progressChart3.initChart(data3, 90)
-          this.$refs.progressChart4.initChart(data4, 80)
-        })
-        }
+			initData() {
+        let xData = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00', '08:00','09:00','10:00', '11:00', '12:00']
+        let series =  [{
+          name: "温度",
+          data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12']
+        }]
+        this.$refs.weatherChart.initChart(xData, series)
+
+        let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07']
+        let series1 =  [{
+          name: "动态存栏",
+          data: ['23', '21', '21', '14', '25', '26', '27']
+        }]
+        this.$refs.activeChart.initChart(xData1, series1)
+        // let xData = ['1月','2月','3月','4月','5月','6月']
+        // let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
+        // let yData3 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
+        // let yData4 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
+        // let yData2 = [
+        //   { name: '员工评分', data: ['10', '21', '13', '16', '21', '19']},
+        //   { name: '生产管控', data: ['60', '70', '30', '25', '46', '33']},
+        // ]
+        // let data1 = [{ data: '0.6', color: '#1890FF'}]
+        // let data2 = [{ data: '0.6', color: '#91CB74'}]
+        // let data3 = [{ data: '0.6', color: '#FAC858'}]
+        // let data4 = [{ data: '0.6', color: '#1890FF'},{ data: '0.6', color: '#91CB74'}]
+        // this.$refs.lineChart1.initChart(xData, yData1)
+        // this.$refs.lineChart3.initChart(xData, yData3)
+        // this.$refs.lineChart4.initChart(xData, yData4)
+        // this.$refs.lineChart2.initChart(xData, yData2)
+        // this.$refs.progressChart1.initChart(data1, 360)
+        // this.$refs.progressChart2.initChart(data2, 80)
+        // this.$refs.progressChart3.initChart(data3, 90)
+        // this.$refs.progressChart4.initChart(data4, 80)
+      }
 		}
 	}
 </script>
@@ -205,60 +240,53 @@ import { overViewApi } from '@/api/home.js'
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 12rpx;
         .body-item {
           width: calc(50% - 6rpx);
           height: 120rpx;
           background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
           border-radius: 12rpx;
           padding: 24rpx;
-        }
-      }
-      .toady-weather {
-        width: 100%;
-        height: 190rpx;
-        background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
-        border-radius: 12rpx;
-        padding: 24rpx;
-        display: flex;
-        justify-content: space-around;
-        flex-direction: column;
-        margin-top: 24rpx;
-        .row1 {
-          width: 100%;
-          height: 56rpx;
           display: flex;
-          justify-content: flex-start;
-          align-items: flex-start;
-          margin-bottom: 24rpx;
-          .temp {
-            font-size: 52rpx;
-            font-family: DIN Alternate;
-            font-weight: bold;
-            font-style: italic;
-            color: #fff;
-            margin-right: 40rpx;
-          }
-          .tempElse {
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          .item-row {
+            width: 100%;
             display: flex;
-            align-items: flex-end;
-            font-size: 26rpx;
-            font-weight: 400;
+            justify-content: space-between;
+            align-items: center;
             color: #fff;
+            color: #fff;
+            font-size: 24rpx;
             view {
-              margin: 0 10rpx;
+              line-height: 28rpx;
             }
           }
         }
-        .row2 {
-          display: flex;
-          align-items: center;
-          .value {
-            font-size: 26rpx;
-            font-weight: 400;
-            color: #fff;
-            margin: 0 24rpx;
-          }
+      }
+      .weather-chart {
+        width: 100%;
+        height: 250rpx;
+      }
+      .switch-tab {
+        margin-top: 12rpx;
+      }
+      .tab-num {
+        width: 100%;
+        height: 56rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .num-item {
+          width: 33%;
+          color: #333333;
+          text-align: center;
         }
+      }
+      .active-chart {
+        width: 100%;
+        height: 360rpx;
       }
       .biological-item {
         width: 100%;

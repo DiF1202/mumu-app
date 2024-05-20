@@ -15,28 +15,34 @@
 			max: {
 				type: Number,
 				default: 30
+			},
+			color: {
+				type: String,
+				default: '#19AECE'
 			}
 		},
 	  data() {
 	    return {
 	      chartData: {},
 				opts: {
-					color: ["#19AECE"],
+					color: [this.color],
+					background: 'none',
 					enableScroll: true,
-					padding: [12,0,0,0],
+					padding: [12, 0, 0, 0],
 					legend: {
 						show: false
 					},
 					xAxis: {
-						itemCount: 6,
+						itemCount: 7,
 						scrollShow: true,
-						scrollColor: '#19AECE',
+						scrollColor: this.color,
+						boundaryGap: 'center',
 						fontColor: 'rgba(0, 0, 0, 0.45)',
 					},
 					yAxis: {
 						disableGrid: true,
 						showTitle: true,
-						splitNumber: 1,
+						splitNumber: 2,
 						data:[
 							{
 								max: this.max,

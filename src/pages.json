@@ -1,14 +1,13 @@
 {
 	"pages": [
-		// 助手
-		{
-			"path": "pages/chat/index",
-			"style": {
-				"navigationBarTitleText": "畜牧助手",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/home/environment/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "环境详情",
+		// 		"enablePullDownRefresh": false,
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -41,14 +40,14 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/home/environment/index",
-			"style": {
-				"navigationBarTitleText": "环境详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/home/environment/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "环境详情",
+		// 		"enablePullDownRefresh": false,
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/home/biological/index",
 			"style": {
@@ -113,6 +112,15 @@
 			"path": "pages/view/guard/index",
 			"style": {
 				"navigationBarTitleText": "远程巡检",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 助手
+		{
+			"path": "pages/chat/index",
+			"style": {
+				"navigationBarTitleText": "畜牧助手",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
