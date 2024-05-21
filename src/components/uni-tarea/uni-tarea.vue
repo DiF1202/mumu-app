@@ -16,16 +16,16 @@
 				type: Number,
 				default: 30
 			},
-			color: {
-				type: String,
-				default: '#19AECE'
-			}
+			// color: {
+			// 	type: String,
+			// 	default: '#19AECE'
+			// }
 		},
 	  data() {
 	    return {
 	      chartData: {},
 				opts: {
-					color: [this.color],
+					// color: [this.color],
 					background: 'none',
 					enableScroll: true,
 					padding: [12, 0, 0, 0],
@@ -35,7 +35,7 @@
 					xAxis: {
 						itemCount: 7,
 						scrollShow: true,
-						scrollColor: this.color,
+						scrollColor: 'rgba(0, 0, 0, 0.45)',
 						boundaryGap: 'center',
 						fontColor: 'rgba(0, 0, 0, 0.45)',
 					},
@@ -66,9 +66,6 @@
 				}
 	    }
 	  },
-		mounted() {
-			// this.initChart()
-		},
 	  methods: {
 	    initChart(xData, series) {
 				this.chartData = JSON.parse(JSON.stringify({

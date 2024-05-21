@@ -57,9 +57,9 @@
         </view>
       </uni-card>
       <!-- 生产概况 -->
-      <uni-subTitle icon="red-packet" title="生产概况" url="pages/home/biological/index" />
+      <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/biological/index" />
       <view class="switch-tab">
-        <u-subsection :list="list" :current="current" activeColor="#333333"></u-subsection>
+        <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
       </view>
       <view class="tab-num">
         <view class="num-item" style="color:#81B33B">8千头</view>
@@ -68,7 +68,45 @@
       </view>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="active-chart">
-          <uni-tarea ref="activeChart" unit="℃" :max="30" color="#81B33B"></uni-tarea>
+          <uni-tarea ref="activeChart" unit="℃" :max="30"></uni-tarea>
+        </view>
+      </uni-card>
+      <!-- 畜群活跃程度 -->
+      <uni-subTitle customIcon="heart" title="畜群活跃程度"/>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="active-statistic">
+          <view class="active-item">
+            <view class="item-label">较昨日：</view>
+            <view class="item-num">+4%</view>
+          </view>
+          <view class="active-item">
+            <view class="item-label">较过去一周：</view>
+            <view class="item-num">-14%</view>
+          </view>
+        </view>
+      </uni-card>
+      <!-- 热环境 -->
+      <uni-subTitle customIcon="wenduji" title="热环境"/>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="table-header">
+          <view class="header-item">热应急</view>
+          <view class="header-item">冷应激</view>
+          <view class="header-item">舒适</view>
+        </view>
+        <scroll-view class="table-body" :scroll-y="true">
+          <view v-for="(row, index) in heatList" :key="index" class="body-row">
+            <view class="row-item">{{ row.field }}</view>
+            <view class="row-item bold">{{ row.num1 }}</view>
+            <view class="row-item bold">{{ row.num2 }}</view>
+            <view class="row-item bold">{{ row.num3 }}</view>
+          </view>
+        </scroll-view>
+      </uni-card>
+      <!-- 消警比例 -->
+      <uni-subTitle customIcon="wenduji" title="消警比例"/>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="eliminateAlarm">
+          <uni-mixchart ref="eliminateAlarmChart"></uni-mixchart>
         </view>
       </uni-card>
       <!-- <view class="biological-item">
@@ -141,20 +179,14 @@
         currentDate: '2024-5-19',
         list: ['动态存栏', '栏位占用', '疑死数量'],
 				current: 0,
-        daily: {
-          previously: [
-            {title: '动物数量和分布', content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
-            {title: '活跃度与健康监测', content: '畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。'},
-            {title: '预警事件', content: '未发现紧急预警事件，动物逃逸或严重健康问题的风险很低。'},
-            {title: '人车物管理', content: '车辆出入统计显示，共有10次货车进出，运输饲料和牲畜。所有人员通道活动正常，无未授权入侵事件。'}
-          ],
-          futureSuggestions: [
-            {content: '目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变'},
-            {content: '畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。'},
-            {content: '未发现紧急预警事件，动物逃逸或严重健康问题的风险很低。'},
-            {content: '车辆出入统计显示，共有10次货车进出，运输饲料和牲畜。所有人员通道活动正常，无未授权入侵事件。'}
-          ]
-        }
+        heatList: [
+          {field: '栏位数1', num1: 15, num2: 21, num3: 50 },
+          {field: '栏位数2', num1: 10, num2: 12, num3: 50 },
+          {field: '栏位数3', num1: 9, num2: 21, num3: 50 },
+          {field: '栏位数4', num1: 11, num2: 22, num3: 50 },
+          {field: '栏位数5', num1: 25, num2: 18, num3: 50 },
+          {field: '栏位数6', num1: 12, num2: 14, num3: 50 },
+        ]
       }
 		},
 		computed: {
@@ -165,22 +197,68 @@
 		onReady() {
       uni.hideTabBar()
 			this.initData()
+      this.sectionChange(0)
 		},
 		methods: {
+      sectionChange(index) {
+        console.log(index)
+        this.current = index
+        if (this.current == 0) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "动态存栏",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#81B33B'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1)
+        }
+        if (this.current == 1) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "动态存栏",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#347CAF'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1)
+        }
+        if (this.current == 2) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "动态存栏",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#BD3124'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1)
+        }
+      },
 			initData() {
         let xData = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00', '08:00','09:00','10:00', '11:00', '12:00']
         let series =  [{
           name: "温度",
-          data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12']
+          data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12'],
+          color: '#19AECE'
         }]
         this.$refs.weatherChart.initChart(xData, series)
 
+        // 消警比例
         let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07']
-        let series1 =  [{
-          name: "动态存栏",
-          data: ['23', '21', '21', '14', '25', '26', '27']
-        }]
-        this.$refs.activeChart.initChart(xData1, series1)
+        let series1 = [
+          {
+            name: "折线",
+            type: "line",
+            color: "#2fc25b",
+            data: [120,140,105,170,95,160, 10]
+          },
+          {
+            name: "点",
+            index: 2,
+            type: "point",
+            color: "#f04864",
+            data: [100,80,125,150,112,132,40]
+          }
+        ]
+        this.$refs.eliminateAlarmChart.getServerData()
+        // this.$refs.eliminateAlarmChart.initChart(xData1, series1)
         // let xData = ['1月','2月','3月','4月','5月','6月']
         // let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
         // let yData3 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
@@ -213,7 +291,6 @@
       padding: 0 24rpx 48rpx;
       .weather-header {
         width: 100%;
-        margin: 12rpx 0;
         background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
         border-radius: 12rpx;
         padding: 24rpx;
@@ -240,7 +317,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 12rpx;
+        margin: 12rpx 0;
         .body-item {
           width: calc(50% - 6rpx);
           height: 120rpx;
@@ -269,9 +346,6 @@
         width: 100%;
         height: 250rpx;
       }
-      .switch-tab {
-        margin-top: 12rpx;
-      }
       .tab-num {
         width: 100%;
         height: 56rpx;
@@ -280,45 +354,64 @@
         align-items: center;
         .num-item {
           width: 33%;
-          color: #333333;
           text-align: center;
+          font-weight: bold;
+          font-size: 28rpx;
         }
       }
       .active-chart {
         width: 100%;
         height: 360rpx;
       }
-      .biological-item {
+      .active-statistic {
         width: 100%;
-        height: 300rpx;
+        height: 56rpx;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
-        .chart-left {
-          width: 200rpx;
-          height: 200rpx;
-          margin-top: 48rpx;
-        }
-        .chart-right {
-          width: 500rpx;
-          height: 300rpx;
+        .active-item {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          color: #0F4239;
+          font-size: 28rpx;
         }
       }
-      .daily-briefing {
+      .table-header {
         width: 100%;
-        margin-top: 24rpx;
-        .daily-item {
-          display: flex;
-          justify-content: flex-start;
-          align-self: flex-start;
-          .dot {
-            width: 16rpx;
-            height: 16rpx;
-            border-radius: 50%;
-            background-color: #10cc8f;
-            margin: 22rpx 0;
-          }
+        height: 56rpx;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border-bottom: 1rpx solid #d6d7d9;
+        .header-item {
+          font-size: 28rpx;
+          color: #0F4239;
+          width: 25%;
+          text-align: center;
         }
+      }
+      .table-body {
+        width: 100%;
+        max-height: 300rpx;
+        .body-row {
+          width: 100%;
+          height: 56rpx;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          border-bottom: 1rpx solid #d6d7d9;
+        }
+        .row-item {
+          font-size: 28rpx;
+          color: #0F4239;
+          width: 25%;
+          text-align: center;
+        }
+      }
+      .eliminateAlarm {
+        width: 100%;
+        height: 360rpx;
       }
     }
 	}

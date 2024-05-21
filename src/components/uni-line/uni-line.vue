@@ -33,7 +33,7 @@
 					},
 					yAxis: {
 						gridType: 'dash',
-						dashLength: 8,
+						dashLength: 4,
 						data:[
 							{
 								type: 'value',
