@@ -57,7 +57,7 @@
         </view>
       </uni-card>
       <!-- 生产概况 -->
-      <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/biological/index" />
+      <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/production/index" />
       <view class="switch-tab">
         <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
       </view>

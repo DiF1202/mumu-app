@@ -1,13 +1,13 @@
 {
 	"pages": [
-		// {
-		// 	"path": "pages/home/environment/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "环境详情",
-		// 		"enablePullDownRefresh": false,
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
+		{
+			"path": "pages/home/production/index",
+			"style": {
+				"navigationBarTitleText": "生产管详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -40,26 +40,18 @@
 				"navigationStyle": "custom"
 			}
 		},
-		// {
-		// 	"path": "pages/home/environment/index",
-		// 	"style": {
-		// 		"navigationBarTitleText": "环境详情",
-		// 		"enablePullDownRefresh": false,
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
 		{
-			"path": "pages/home/biological/index",
+			"path": "pages/home/environment/index",
 			"style": {
-				"navigationBarTitleText": "生物资产详情",
+				"navigationBarTitleText": "环境详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
 		{
-			"path": "pages/home/production/index",
+			"path": "pages/home/biological/index",
 			"style": {
-				"navigationBarTitleText": "生产管理评分",
+				"navigationBarTitleText": "生物资产详情",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

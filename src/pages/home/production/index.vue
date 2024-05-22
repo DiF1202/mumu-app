@@ -1,17 +1,18 @@
 <template>
 	<view class="production-container">
-    <uni-navtopbar title="生产管理评分" :back="true"></uni-navtopbar>
+    <uni-navtopbar title="生产详情" :back="true"></uni-navtopbar>
     <view class="content">
       <view class="header-filter">
         <view class="filter-fileds">
-          <uni-treeSelect placeholder="请选择员工" prefixIcon="account" :columns="columns" @treeCallback="treeCallback" />
+          <uni-pickerselect prefixIcon="grid" :columns="columns1" @pickerCallback="pickerCallback1" />
         </view>
         <view class="filter-date">
-          <uni-timeSelect></uni-timeSelect>
+          <uni-pickerselect :columns="columns2" @pickerCallback="pickerCallback2"/>
         </view>
       </view>
+      <view style="height: 1000px;"></view>
       <!-- 员工绩效 -->
-      <uni-subTitle icon="man-add" title="员工绩效" />
+      <!-- <uni-subTitle icon="man-add" title="员工绩效" />
       <view :style="{height: '250rpx', marginTop: '24rpx'}">
         <uni-progress ref="progressChart1"></uni-progress>
       </view>
@@ -36,16 +37,16 @@
           <view class="dot"></view>
           <u--text text="最短响应时间：10" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
         </view>
-      </view>
+      </view> -->
       <!-- 安防监控 -->
-      <uni-subTitle customIcon="shexiang" title="安防监控" />
+      <!-- <uni-subTitle customIcon="shexiang" title="安防监控" />
       <view :style="{height: '250rpx', marginTop: '24rpx'}">
         <uni-progress ref="progressChart2"></uni-progress>
       </view>
       <view style="height:500rpx">
         <uni-line ref="lineChart2"></uni-line>
       </view>
-      <uni-subTitle icon="edit-pen" title="IVS安防算法可视化" />
+      <uni-subTitle icon="edit-pen" title="IVS安防算法可视化" /> -->
     </view>
 	</view>
 </template>
@@ -55,22 +56,27 @@
 		data() {
 			return {
         fieldId: '',
-        columns: [
-          {
-            id: 2,
-            label: '一厂',
-            children: [
-              {id: 21, label: '张三'},
-              {id: 22, label: '李四'}
-            ]
-          }
-        ]
+        columns1: [[
+          {id: 1, name: '育肥'},
+          {id: 2, name: '繁育'}
+        ]],
+        columns2: [[
+          {id: 1, name: '周'},
+          {id: 2, name: '月'},
+          {id: 2, name: '年'},
+        ]],
       }
 		},
     onReady() {
-      this.initData()
+      // this.initData()
     },
     methods: {
+      pickerCallback1(e) {
+        console.log(e)
+      },
+      pickerCallback2(e) {
+        console.log(e)
+      },
       initData() {
         let xData = ['1月','2月','3月','4月','5月','6月']
         let yData = [
@@ -87,9 +93,6 @@
         this.$refs.progressChart2.initChart(data)
         this.$refs.ring1.initChart(pieDate2)
       },
-      treeCallback(value) {
-        this.fieldId = value.id[0]
-      }
     }
 	}
 </script>
