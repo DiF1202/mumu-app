@@ -34,11 +34,9 @@
           },
           extra: {
             arcbar: {
-              type: "default",
+              type: "circle",
               width: 8,
               backgroundColor: "rgba(0, 0, 0, 0.1)",
-              startAngle: 0.75,
-              endAngle: 0.25,
               gap: 2
             }
           }

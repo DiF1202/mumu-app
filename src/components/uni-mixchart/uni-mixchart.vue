@@ -1,10 +1,6 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts 
-      type="mix"
-      :opts="opts"
-      :chartData="chartData"
-    />
+    <qiun-data-charts  type="mix" :opts="opts" :chartData="chartData" />
   </view>
 </template>
 
@@ -16,53 +12,38 @@ export default {
     return {
       chartData: {},
       opts: {
+        color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
         padding: [12,0,0,0],
+        dataLabel: false,
         legend: {
-					show: false
-				},
+          show: false
+        },
         xAxis: {
           disableGrid: true,
         },
         yAxis: {
-          splitNumber: 5,
           gridType: "dash",
           dashLength: 4,
-					showTitle: false,
+          showTitle: false,
           data: [
             {
               position: "left",
-              title: "折线"
             }
           ]
         }
       }
-    };
+    }
   },
   methods: {
-    getServerData() {
-      setTimeout(() => {
-        let res = {
-            categories: ["2018","2019","2020","2021","2022","2023"],
-            series: [
-              {
-                name: "曲面",
-                type: "area",
-                style: "curve",
-                data: [70,50,85,130,64,88]
-              },
-              {
-                name: "折线",
-                type: "line",
-                color: "#2fc25b",
-                data: [120,140,105,170,95,160]
-              }
-            ]
-          };
-        this.chartData = JSON.parse(JSON.stringify(res));
-      }, 500);
-    },
+    initChart(xData, yData) {
+      let res = {
+        categories: xData,
+        series: yData
+      }
+      this.chartData = JSON.parse(JSON.stringify(res))
+    }
   }
-};
+}
 </script>
 
 <style scoped>
