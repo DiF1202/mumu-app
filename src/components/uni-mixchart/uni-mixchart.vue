@@ -1,6 +1,6 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts  type="mix" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts  type="mix" :opts="opts" :chartData="chartData" :ontouch="true"/>
   </view>
 </template>
 
@@ -12,14 +12,17 @@ export default {
     return {
       chartData: {},
       opts: {
-        color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
         padding: [12,0,0,0],
+        enableScroll: true,
         dataLabel: false,
         legend: {
           show: false
         },
         xAxis: {
           disableGrid: true,
+          itemCount: 7,
+          scrollShow: true,
+          scrollColor: 'rgba(0, 0, 0, 0.45)',
         },
         yAxis: {
           gridType: "dash",

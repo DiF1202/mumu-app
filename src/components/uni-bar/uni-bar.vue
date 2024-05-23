@@ -1,6 +1,6 @@
 <template>
 	<view class="charts-box">
-		<qiun-data-charts type="bar" :chartData="chartData" :opts="opts"/>
+		<qiun-data-charts type="column" :chartData="chartData" :opts="opts" :ontouch="true"/>
 	</view>
 </template>
 <script>
@@ -10,56 +10,55 @@
 	  data() {
 	    return {
 	      chartData: {},
-				opts: {}
-	    };
-	  },
-	  methods: {
-	    initChart() {
-				let opts = {
-					"type": "bar",
-					'color': ['#E5E5E5', '#2681FF'],
-					"padding": [0, 20, 20, 0],
-					"xAxis": {
-						"boundaryGap":"justify",
-						"disableGrid":false,
-						"min":0,
-						"axisLine": false,
-						'gridType': 'dash',
+				opts: {
+					padding: [0,0,0,0],
+					enableScroll: true,
+					legend: {
+						position: 'top',
+						float: 'right',
 					},
-					"yAxis": {
-						'titleOffsetY': '-10',
+					xAxis: {
+						disableGrid: true,
+						fontColor: 'rgba(0, 0, 0, 0.45)',
+					  boundaryGap: 'center',
+						fontSize: 12,
+						itemCount: 7,
+						scrollShow: true,
+						scrollColor: 'rgba(0, 0, 0, 0.45)',
 					},
-					"legend": {
-						'position': 'top',
-						'float': 'right',
+					yAxis: {
+						gridType: 'dash',
+						dashLength: 4,
+						showTitle: true,
+						data: [
+							{
+								type: 'value',
+								tofix: 1,
+								fontColor: 'rgba(0, 0, 0, 0.45)',
+								title: '',
+								titleFontSize: 12,
+								titleFontColor: 'rgba(0, 0, 0, 0.45)',
+							}
+						]
 					},
-					"extra": {
-						"bar": {
-							"type": "group",
-							"width": 8,
-							'seriesGap': '-8',
-							"meterBorde": 1,
-							"meterFillColor": "#FFFFFF",
-							"activeBgColor": "#000000",
-							"activeBgOpacity": 0.08,
-							'customColor': ['#E5E5E5', '#4EB7FF'],
-							'linearType': "custom"
-						},
+					extra: {
+						column: {
+							type: "stack",
+							width: 20,
+							activeBgColor: "#000000",
+							activeBgOpacity: 0.08,
+							labelPosition: "center"
+						}
 					}
 				}
-				this.opts = opts
+	    }
+	  },
+	  methods: {
+	    initChart(xData, yData, unit) {
+				this.opts.yAxis.data[0].title = unit || ''
 				let res = {
-					categories: ["1月","2月","3月","4月","5月","6月", "7月","8月","9月","10月","11月", '12月'],
-					series: [
-						{
-							name: "总数量",
-							data: [23, 32, 51, 20, 41, 26, 16, 18, 22, 21, 10, 50]
-						},
-						{
-							name: "已处理",
-							data: [20, 23, 15, 16, 31, 21, 12, 11, 20, 11, 5, 30]
-						}
-					]
+					categories: xData,
+					series: yData
 				}
 				this.chartData = JSON.parse(JSON.stringify(res))
 	    },

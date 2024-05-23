@@ -1,7 +1,7 @@
 <template>
 	<view class="charts-box">
 		<!-- :canvas2d="true" 开启后模拟器层级有问题 关闭真机层级有问题 -->
-		<qiun-data-charts type="line" :chartData="chartData" :opts="opts" />
+		<qiun-data-charts type="line" :chartData="chartData" :opts="opts" :ontouch="true"/>
 	</view>
 </template>
 <script>
@@ -19,8 +19,10 @@
 	      chartData: {},
 				opts: {
 					// 自定义图表样式在opts中配置相关属性
-					padding: [0, 12, 0, 12],
+					padding: [12, 0, 0, 0],
+					enableScroll: true,
 					legend: {
+						show: false,
 						position: 'top',
 						float: 'right',
 						margin: 12,
@@ -30,15 +32,22 @@
 						fontColor: 'rgba(0, 0, 0, 0.45)',
 					  boundaryGap: 'center',
 						fontSize: 12,
+						itemCount: 7,
+						scrollShow: true,
+						scrollColor: 'rgba(0, 0, 0, 0.45)',
 					},
 					yAxis: {
 						gridType: 'dash',
 						dashLength: 4,
+						showTitle: true,
 						data:[
 							{
 								type: 'value',
 								tofix: 1,
-								fontColor: 'rgba(0, 0, 0, 0.45)'
+								fontColor: 'rgba(0, 0, 0, 0.45)',
+								title: '',
+								titleFontSize: 12,
+								titleFontColor: 'rgba(0, 0, 0, 0.45)',
 							}
 						]
 					},
@@ -56,7 +65,8 @@
 			// this.initChart()
 		},
 	  methods: {
-	    initChart(xData, yData) {
+	    initChart(xData, yData, unit) {
+				this.opts.yAxis.data[0].title = unit || ''
 				this.chartData = JSON.parse(JSON.stringify({
 					categories: xData,
 					series: yData

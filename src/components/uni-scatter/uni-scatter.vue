@@ -11,11 +11,10 @@ import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-char
 	    return {
 	      chartData: {},
 				opts: {
-					padding: [0, 12, 0, 12],
+					padding: [0, 0, 0, 0],
 					legend: {
 						position: 'top',
 						float: 'right',
-						margin: 12,
 					},
 					xAxis: {
 						disableGrid: false,
@@ -28,9 +27,12 @@ import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-char
 					},
 					yAxis: {
 						gridType: 'dash',
-						dashLength: 8,
+						dashLength: 4,
+						splitNumber: 24,
 						data:[
 							{
+								min: 0,
+								max: 24,
 								type: 'value',
 								tofix: 1,
 								fontColor: 'rgba(0, 0, 0, 0.45)'
@@ -50,7 +52,7 @@ import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-char
 						series: [
 							{
 								name: "散点一",
-								data: [[0,8.04],[1.07,6.95],[2,7.58],[3.05,8.81],[4,8.33],[5,7.66],[6.4,6.81],[7,6.33],[8,8.96],[9.5,6.82]]
+								data: [[0,24],[1.07,6.95],[2,7.58],[3.05,8.81],[4,8.33],[5,7.66],[6.4,6.81],[7,6.33],[8,8.96],[9.5,6.82]]
 							},
 						]
 					}

@@ -58,7 +58,8 @@
       </uni-card>
       <!-- 生产概况 -->
       <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/production/index" />
-      <view class="switch-tab">
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="switch-tab">
         <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
       </view>
       <view class="tab-num">
@@ -66,7 +67,6 @@
         <view class="num-item" style="color:#347CAF">60%</view>
         <view class="num-item" style="color:#BD3124">46头</view>
       </view>
-      <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="active-chart">
           <uni-tarea ref="activeChart" unit="℃" :max="30"></uni-tarea>
         </view>
@@ -188,7 +188,7 @@
         if (this.current == 1) {
           let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
           let series1 =  [{
-            name: "动态存栏",
+            name: "栏位占用",
             data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
             color: '#347CAF'
           }]
@@ -197,7 +197,7 @@
         if (this.current == 2) {
           let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
           let series1 =  [{
-            name: "动态存栏",
+            name: "疑死数量",
             data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
             color: '#BD3124'
           }]
@@ -217,19 +217,25 @@
         let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06']
         let series1 = [
           {
-            name: "折线",
+            name: "平均",
             type: "line",
             color: "#2fc25b",
             data: [120, 140, 105, 170, 95, 160]
           },
           {
-            name: "点",
+            name: "最高",
             type: "point",
             color: "#f04864",
-            data: [121, 141, 105, 170, 95, 160]
+            data: [131, 151, 165, 180, 105, 170]
+          },
+          {
+            name: "最低",
+            type: "point",
+            color: "#81B337",
+            data: [111, 131, 95, 160, 85, 150]
           },
         ]
-        this.$refs.eliminateAlarmChart.initChart(xData1, series1)
+        this.$refs.eliminateAlarmChart.initChart(xData1, series1, '%')
 
         // 风险提示
         let data1 = [{ data: '1', color: '#CCF738'}]
@@ -326,11 +332,12 @@
         width: 100%;
         height: 56rpx;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         .active-item {
+          width: 50%;
           display: flex;
-          justify-content: space-around;
+          justify-content: center;
           align-items: center;
           color: #0F4239;
           font-size: 28rpx;
