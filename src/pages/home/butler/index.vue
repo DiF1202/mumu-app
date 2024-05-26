@@ -185,7 +185,12 @@
         </view>
       </uni-card>
       <view class="ai-btn">
-        <u-button color="#3DAD82" shape="circle" text="小牧AI日报"></u-button>
+        <u-button
+          color="#3DAD82"
+          shape="circle"
+          text="小牧AI日报"
+          @click="enterAiReport()"
+        ></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
@@ -393,6 +398,9 @@ export default {
       this.$refs.envProgressChart.initChart(data1, 17);
       this.$refs.assetProgressChart.initChart(data2, 18);
       this.$refs.manProgressChart.initChart(data3, 11);
+    },
+    enterAiReport() {
+      uni.navigateTo({ url: "/pages/home/dailyReport/index" });
     }
   }
 };
