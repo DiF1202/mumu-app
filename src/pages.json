@@ -34,6 +34,14 @@
 			}
 		},
 		{
+			"path": "pages/home/risk/index",
+			"style": {
+				"navigationBarTitleText": "风险提示",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/home/guardBiological/index",
 			"style": {
 				"navigationBarTitleText": "生物资产概况",
