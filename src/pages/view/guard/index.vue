@@ -97,6 +97,7 @@ export default {
     }
   },
   onLoad(options) {
+    uni.hideTabBar()
     this.getFieldTree(options.fieldId);
   },
   onShow() {
@@ -210,9 +211,10 @@ export default {
       display: flex;
       align-content: center;
       justify-content: center;
+      margin-top: 24rpx;
     }
     .warin-section {
-      height: calc(100% - 550rpx);
+      height: calc(100% - 536rpx);
       .list-item {
         width: 100%;
         height: 258rpx;

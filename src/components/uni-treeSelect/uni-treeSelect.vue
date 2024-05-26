@@ -81,6 +81,6 @@ export default {
 <style lang="scss" scoped>
 .field-select-container {
   width: 100%;
-  padding: 24rpx 0;
+  padding-top: 24rpx;
 }
 </style>

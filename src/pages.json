@@ -1,13 +1,5 @@
 {
 	"pages": [
-		{
-			"path": "pages/home/production/index",
-			"style": {
-				"navigationBarTitleText": "生产管详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -33,6 +25,14 @@
 			}
 		},
 		// 首页子页
+		{
+			"path": "pages/home/production/index",
+			"style": {
+				"navigationBarTitleText": "生产详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		{
 			"path": "pages/home/guardBiological/index",
 			"style": {

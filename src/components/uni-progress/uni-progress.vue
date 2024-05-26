@@ -23,8 +23,8 @@
 					// 自定义图表样式在opts中配置相关属性
           title:{
             name: title,
-            color:'#7E45FF',
-            fontSize: 18,
+            color:'#333333',
+            fontSize: 22,
             fontWeight:600
           },
           subtitle:{

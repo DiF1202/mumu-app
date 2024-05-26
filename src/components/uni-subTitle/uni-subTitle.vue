@@ -1,5 +1,5 @@
 <template>
-  <view :style="{margin: '12rpx 0'}">
+  <view :style="{padding: '12rpx 0 24rpx'}">
     <u-cell :border="true" :isLink="url?true:false" :url="url" :rightIconStyle="rightIconStyle" :clickable="false">
       <template #title>
         <u--text 
@@ -8,7 +8,6 @@
           align="left"
           color="#333333"
           size="34rpx"
-          lines="1"
         ></u--text>
       </template>
       <template #value>

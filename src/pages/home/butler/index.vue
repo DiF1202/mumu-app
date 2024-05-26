@@ -153,12 +153,7 @@
         list: ['动态存栏', '栏位占用', '疑死数量'],
 				current: 0,
         heatList: [
-          {field: '栏位数1', num1: 15, num2: 21, num3: 50 },
-          {field: '栏位数2', num1: 10, num2: 12, num3: 50 },
-          {field: '栏位数3', num1: 9, num2: 21, num3: 50 },
-          {field: '栏位数4', num1: 11, num2: 22, num3: 50 },
-          {field: '栏位数5', num1: 25, num2: 18, num3: 50 },
-          {field: '栏位数6', num1: 12, num2: 14, num3: 50 },
+          {field: '栏位数1', num1: 15, num2: 21, num3: 50 }
         ]
       }
 		},

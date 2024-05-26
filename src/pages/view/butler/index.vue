@@ -1,241 +1,280 @@
 <template>
-	<view class="view-container">
-    <uni-navtopbar title="远程查看"></uni-navtopbar>
+  <view class="list-container">
+    <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
     <view class="content">
-      <!-- 栏位选择 -->
-      <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
-      <!-- 栏位信息 -->
-      <uni-subTitle customIcon="camera" :title="fieldName" value="实况视频" :url="`pages/view/components/list/index?fieldId=${fieldId}`"/>
-      <view class="fields-view">
-        <view class="fields-chart">
-          <uni-progress ref="progressChart"></uni-progress>
-        </view>
-        <view class="fields-info">
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-Pasturage" size="38rpx" color="#1890FF"></u-icon>
-            <u--text :text="'动物总数：' + houseAnimal.animal_score" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+      <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
+      <uni-subTitle icon="order" title="畜舍情况"/>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="manager-view">
+          <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
           </view>
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-midu" size="38rpx" color="#91CB74"></u-icon>
-            <u--text :text="'畜群平均密度：' + houseAnimal.animal_avg_density" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-          </view>
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-mianji" size="38rpx" color="#FAC858"></u-icon>
-            <u--text :text="'单位面积/动物：' + houseAnimal.animal_unit_area" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-          </view>
-        </view>
-      </view>
-      <!-- 资产评分 -->
-      <uni-subTitle customIcon="jixiaoguanli" title="资产管理评分"/>
-      <!-- <view style="height:500rpx">
-        <uni-line ref="lineChart1"></uni-line>
-      </view> -->
-      <view class="assets-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart1"></uni-progress>
-        </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart1"></uni-line>
-        </view>
-      </view>
-      <view class="assets-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart2"></uni-progress>
-        </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart2"></uni-line>
-        </view>
-      </view>
-      <view class="assets-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart3"></uni-progress>
-        </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart3"></uni-line>
-        </view>
-      </view>
-      <!-- 负责人 -->
-      <uni-subTitle icon="account" title="负责人"/>
-      <view class="manager-view">
-        <!-- 负责人信息 -->
-        <u--image :showLoading="true" :src="houseStaff.avatar" width="250rpx" height="250rpx" shape="circle"></u--image>
-        <view class="manager-info">
-          <view class="info-item">
-            <view class="dot"></view>
-            <u--text :text="'姓名：' + houseStaff.name" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-          </view>
-          <view class="info-item">
-            <view class="dot"></view>
-            <u--text :text="'平均响应时间：' + houseStaff.avg_response_time" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-          </view>
-          <view class="info-item">
-            <view class="dot"></view>
-            <u--text :text="'事件处理：' + houseStaff.schedule" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-          </view>
-          <view class="info-item">
-            <view class="dot"></view>
-            <u--text :text="'投喂时间：' + houseStaff.feeding_time" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
           </view>
         </view>
-      </view>
-      <!-- 绩效评分 -->
-      <uni-subTitle icon="bookmark" title="绩效评分"/>
-      <view style="height:500rpx">
-        <uni-line ref="lineChart4"></uni-line>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="video-section" @click="linkToVideoLive">
+          <u-icon name="play-circle-fill" size="40"></u-icon>
+        </view>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
+      <view class="warin-section">
+        <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
+          <u-list-item v-for="(item, index) in listData" :key="index">
+            <uni-card margin="0" padding="0" spacing="24rpx">
+              <view class="list-item" @click="enterDetails(item.alarm_id)">
+                <u--image
+                  :showLoading="true"
+                  src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
+                  width="280rpx"
+                  height="210rpx"
+                ></u--image>
+                <view class="item-info">
+                  <view>
+                    <u--text
+                      :text="item.alarm_name"
+                      size="36rpx"
+                      color="#333333"
+                      :bold="true"
+                    ></u--text>
+                  </view>
+                  <view>
+                    <u--text
+                      :text="'时间：' + item.alarm_time"
+                      size="28rpx"
+                      color="#333333"
+                    ></u--text>
+                  </view>
+                  <view>
+                    <u-tag
+                      :text="item.alarm_status"
+                      :type="item.alarm_status === '已处理' ? 'success' : 'error'"
+                      shape="circle"
+                      size="mini"
+                    ></u-tag>
+                  </view>
+                  <!-- <view class="select-item">
+                    <u-checkbox-group v-model="item.select">
+                      <u-checkbox :name="item.id" label=""></u-checkbox>
+                    </u-checkbox-group>
+                  </view> -->
+                </view>
+                <view class="ding" @click.stop="dingClick(item.id)">
+                  <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+                </view>
+              </view>
+            </uni-card>
+            <u-gap height="12rpx"></u-gap>
+          </u-list-item>
+          <u-loadmore
+            :status="loading"
+            loadingIcon="semicircle"
+            height="88rpx"
+            fontSize="32rpx"
+            @loadmore="loadmore"
+          />
+        </u-list>
       </view>
     </view>
+    <view class="upward" @click="upwardClick">
+      <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
+    </view>
+    <u-toast ref="uToast"></u-toast>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
-	</view>
+  </view>
 </template>
 
 <script>
-  import { fieldTree } from '@/api/utils.js'
-  import { houseAnimalApi, houseStaffApi } from '@/api/view.js'
-  import { addTreePro } from '@/utils/common.js'
-	export default {
-		data() {
-			return {
-        fieldId: '',
-        fieldName: '',
-        columns: [],
-        houseAnimal: {
-          asset_score: '',
-          animal_avg_density: '',
-          animal_unit_area: ''
-        },
-        houseStaff: {
-          name: '',
-          avg_response_time: '',
-          schedule: '',
-          feeding_time: ''
-        }
-      }
-		},
-		computed: {
-      safetyTop() {
-        return uni.getSystemInfoSync().safeAreaInsets.top
-      }
-		},
-		onLoad() {
-      uni.hideTabBar()
-			this.getFieldTree()
-		},
-		methods: {
-      getFieldTree() {
-        // 获取栏位数据 并设置第一个子元素为默认选中
-        fieldTree().then(res => {
-          if (res.code === 200) {
-            let newTree = addTreePro(res.data[0], 'checked', true)
-            this.columns = [newTree]
-          }
-        })
-      },
-      // 获取数据
-			initData() {
-        houseAnimalApi({house_id: this.fieldId}).then(res => {
-          if (res.code == 200) {
-            this.houseAnimal = res.data
-            let xData = []
-            let yData1 = [{ name: '畜群健康', data: []}]
-            let yData2 = [{ name: '栏位占用', data: [], color: '#91CB74'}]
-            let yData3 = [{ name: '异常警告', data: [], color: '#FAC858' }]
-            this.houseAnimal.data.map(item => {
-              xData.push(item.date)
-              yData1[0].data.push(item.animal_health)
-              yData2[0].data.push(item.field_occupy)
-              yData3[0].data.push(item.abnormal_alarm_num)
-            })
-            this.$refs.lineChart1.initChart(xData, yData1)
-            this.$refs.lineChart2.initChart(xData, yData2)
-            this.$refs.lineChart3.initChart(xData, yData3)
-            let data1 = [{ data: 0.8 }]
-            let data2 = [{ data: 0.9, color: '#91CB74' }]
-            let data3 = [{ data: 1, color: '#FAC858' }]
-            this.$refs.progressChart1.initChart(data1, 80)
-            this.$refs.progressChart2.initChart(data2, 90)
-            this.$refs.progressChart3.initChart(data3, 100)
+import { fieldTree } from "@/api/utils.js";
+import { addTreePro } from "@/utils/common.js";
+import { videoAlarmApi, dingApi } from "@/api/view.js";
 
-            let data = [{ data: this.houseAnimal.animal_score },{ data: this.houseAnimal.animal_avg_density },{ data: this.houseAnimal.animal_unit_area}]
-            this.$refs.progressChart.initChart(data, this.houseAnimal.asset_score)
-          }
-        })
-        houseStaffApi({house_id: this.fieldId}).then(res => {
-          if (res.code == 200) {
-            this.houseStaff = res.data
-            let xData = []
-            let yData = [{name: '员工绩效', data: []}]
-            this.houseStaff.data.map(item => {
-              xData.push(item.date)
-              yData[0].data.push(item.staff_score)
-            })
-            this.$refs.lineChart4.initChart(xData, yData)
-          }
-        })
-			},
-      treeCallback(value) {
-        this.fieldId = value.id[0]
-        this.fieldName = value.name[0]
-        if (this.fieldId) {
-          this.initData()
+export default {
+  data() {
+    return {
+      columns: [], // 树形选择器数据
+      videoUrl: "", // 视频url
+      listData: [], // 列表数据
+      limit: 3,
+      page: 1,
+      loading: "loadmore"
+    };
+  },
+  computed: {
+    windowHeight() {
+      return uni.getSystemInfoSync().windowHeight;
+    },
+    safetyTop() {
+      return uni.getSystemInfoSync().safeAreaInsets.top;
+    }
+  },
+  onLoad() {
+    uni.hideTabBar()
+    this.getFieldTree()
+  },
+  onShow() {
+    if (this.fieldId) {
+      this.page = 1;
+      this.listData = [];
+      this.getList();
+    }
+  },
+  methods: {
+    getFieldTree() {
+      // 获取栏位数据 并设置第一个子元素为默认选中
+      fieldTree().then(res => {
+        if (res.code === 200) {
+          let newTree = addTreePro(res.data[0], 'checked', true)
+          this.columns = [newTree]
         }
+      })
+    },
+    treeCallback(value) {
+      this.fieldId = value.id[0]
+      if (this.fieldId) {
+        this.listData = [];
+        this.getList();
       }
-		}
-	}
+    },
+    getList() {
+      this.loading = "loading";
+      videoAlarmApi({
+        pen_id: this.fieldId,
+        page: this.page,
+        limit: this.limit
+      }).then(res => {
+        if (res.code == 200) {
+          this.videoUrl = res.data.video_url
+          this.listData = this.listData.concat(res.data.alarm_data)
+          if (this.listData.length < res.data.total) {
+            this.loading = "loadmore"
+          } else {
+            this.loading = "nomore"
+          }
+        }
+      }).catch(() => {
+        this.loading = "nomore"
+      })
+    },
+    loadmore() {
+      if (this.loading == "loadmore") {
+        this.page += 1
+        this.getList()
+      }
+    },
+    dingClick(id) {
+      dingApi({ pen_id: this.fieldId }).then(res => {
+        if (res.code == 200) {
+          this.$refs.uToast.show({ message: "提醒消息发送成功" })
+        }
+      })
+    },
+    upwardClick() {
+      uni.navigateTo({ url: "/pages/view/components/reporting/index" })
+    },
+    enterDetails(id) {
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id })
+    },
+    linkToVideoLive() {
+      uni.navigateTo({ url: "/pages/video/index" })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-	.view-container {
-    .content {
-		  background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
-      padding: 0 24rpx 24rpx;
-      .fields-view, .manager-view{
-        width: 100%;
-        margin-top: 24rpx;
+.list-container {
+  .upward {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    position: fixed;
+    right: 24rpx;
+    bottom: 360rpx;
+    background: #d6e7ff;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+  .content {
+    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    padding: 0 24rpx 24rpx;
+    .dot {
+      width: 16rpx;
+      height: 16rpx;
+      border-radius: 50%;
+      background-color: #10cc8f;
+      margin: 22rpx 0;
+    }
+    .manager-view{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .fields-chart {
+        height: 160rpx;
+      }
+      .manager-info {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .fields-chart {
-          width: 250rpx;
-          height: 250rpx;
-        }
-        .fields-info, .manager-info {
+        flex-direction: column;
+        justify-content: flex-start;
+        .info-item {
           display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          .info-item {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-          }
-        }
-      }
-      .daily-briefing {
-        width: 100%;
-        height: 500rpx;
-      }
-      .dot {
-        width: 16rpx;
-        height: 16rpx;
-        border-radius: 50%;
-        background-color: #10cc8f;
-        margin: 22rpx 0;
-      }
-      .assets-item {
-        width: 100%;
-        height: 300rpx;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .chart-left {
-          width: 200rpx;
-          height: 200rpx;
-          margin-top: 48rpx;
-        }
-        .chart-right {
-          width: 500rpx;
-          height: 300rpx;
+          justify-content: flex-start;
+          align-items: center;
         }
       }
     }
-	}
+    .video-section {
+      width: 100%;
+      height: 360rpx;
+      background: #333333;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+    }
+    .warin-section {
+      height: 854rpx;
+      .list-item {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
+        .item-info {
+          height: 210rpx;
+          margin-left: 24rpx;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: flex-start;
+          position: relative;
+        }
+      }
+      .ding {
+        position: absolute;
+        right: 0rpx;
+        top: 0rpx;
+      }
+    }
+  }
+}
 </style>

@@ -2,95 +2,124 @@
 	<view class="home-container">
     <uni-navtopbar title="值守卫士" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-treeSelect :columns="columns" @treeCallback="treeCallback"/>
-      <!-- 栏位数据 -->
-      <uni-subTitle customIcon="camera" title="一厂/二舍/三栏" url="pages/home/guardBiological/index"/>
-      <view class="fields-view">
-        <view class="fields-chart">
-          <uni-progress ref="progressChart"></uni-progress>
-        </view>
-        <view class="fields-info">
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-Pasturage" size="38rpx" color="#1890FF"></u-icon>
-            <u--text text="管理动物数: 80" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+      <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="manager-view">
+          <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+                <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
+            </view>
+            <view class="manager-info">
+              <view class="info-item">
+              <view class="dot"></view>
+                <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              </view>
+              <view class="info-item">
+                <view class="dot"></view>
+                <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
           </view>
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-midu" size="38rpx" color="#91CB74"></u-icon>
-            <u--text text="畜群平均密度: 60平方米" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+        </view>
+      </uni-card>
+      <!-- 今日天气 -->
+      <uni-subTitle customIcon="tianqi" title="今日天气"/>
+      <view class="weather-header">
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-richu" size="32rpx" color="#fff"></u-icon>
+          <view class="value">{{ '05:37' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-rila" size="32rpx" color="#fff"></u-icon>
+          <view class="value">{{ '18:23' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-fengli" size="26rpx" color="#fff"></u-icon>
+          <view class="value">{{ '东北风 3级' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="28rpx" color="#fff"></u-icon>
+          <view class="value">{{ '41%' }}</view>
+        </view>
+        <view class="weather-hader-item">
+          <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
+          <view class="value alarm">{{ '高温高湿' }}</view>
+        </view>
+      </view>
+      <view class="weather-body">
+        <view class="body-item">
+          <view class="item-row">
+            <view class="date">今天</view>
+            <view class="air">{{ '良' }}</view>
+            <view class="temp">{{ '28~14' }}℃</view>
           </view>
-          <view class="info-item">
-            <u-icon custom-prefix="custom-icon custom-icon-mianji" size="38rpx" color="#FAC858"></u-icon>
-            <u--text text="单位面积/动物： 0.2" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          <view class="item-row">
+            <view class="status">{{ '多云' }}</view>
+            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+          </view>
+        </view>
+        <view class="body-item">
+          <view class="item-row">
+            <view class="date">明天</view>
+            <view class="air">{{ '良' }}</view>
+            <view class="temp">{{ '28~14' }}℃</view>
+          </view>
+          <view class="item-row">
+            <view class="status">{{ '多云' }}</view>
+            <u--image :showLoading="true" :src="`/static/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
           </view>
         </view>
       </view>
-      <!-- 资产管理评分 -->
-      <uni-subTitle customIcon="jixiaoguanli" title="资产管理评分"/>
-      <!-- <view style="height:500rpx">
-        <uni-line ref="lineChart1"></uni-line>
-      </view> -->
-      <view class="biological-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart1"></uni-progress>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="weather-chart">
+          <uni-tarea ref="weatherChart" unit="℃" :max="30"></uni-tarea>
         </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart1"></uni-line>
+      </uni-card>
+      <uni-subTitle customIcon="shenei" title="舍内环境" />
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="switch-tab">
+          <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
         </view>
-      </view>
-      <view class="biological-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart2"></uni-progress>
+        <view class="tab-num">
+          <view class="num-item" style="color:#DE868F;width: 20%;">30℃</view>
+          <view class="num-item" style="color:#93D2F3;width: 20%;">60%</view>
+          <view class="num-item" style="color:#FCCA00;width: 20%;">120lx</view>
+          <view class="num-item" style="color:#7F83F7;width: 20%;">32℃</view>
+          <view class="num-item" style="color:#B886F8;width: 20%;">78</view>
         </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart2"></uni-line>
+        <view class="active-chart">
+          <uni-line ref="activeChart"></uni-line>
         </view>
-      </view>
-      <view class="biological-item">
-        <view class="chart-left">
-          <uni-progress ref="progressChart3"></uni-progress>
-        </view>
-        <view class="chart-right">
-          <uni-line ref="lineChart3"></uni-line>
-        </view>
-      </view>
-      <!-- 环境预警 -->
-      <uni-subTitle customIcon="shumu" title="环境预警" url="/pages/home/environment/index" />
-      <view class="env-warning">
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-taiyang" size="38rpx" color="#E99D42"></u-icon>
-          <u--text text="温度过高,建议降温" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-        </view>
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-shuidi" size="38rpx" color="#93D2F3"></u-icon>
-          <u--text text="湿度偏高建议通风" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-        </view>
-        <view class="env-row">
-          <u-icon custom-prefix="custom-icon custom-icon-dianfang" size="38rpx" color="#A16222"></u-icon>
-          <u--text text="x栏x舍x位,温度异常告警" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-        </view>
-      </view>
-      <!-- 负责人信息 -->
-      <uni-subTitle icon="account" title="负责人" />
-      <view class="manager-view">
-        <view class="avator">
-          <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx"></u--image>
-          <view class="name">杨大坤</view>
-        </view>
-        <view :style="{ height: '250rpx', width:'542rpx'}">
-          <uni-line ref="lineChart"></uni-line>
-        </view>
-      </view>
+      </uni-card>
       <!-- 昨日总结 -->
-      <uni-subTitle customIcon="xinxi" title="昨日总结" />
-      <view class="daily-briefing">
-        <view v-for="(item,index) in summary" :key="index" class="daily-item">
-          <view class="dot"></view>
-          <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+      <uni-subTitle customIcon="xinxi" title="昨日总结(小AI日报生成)" />
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="daily-briefing">
+          <view v-for="(item,index) in summary" :key="index" class="daily-item">
+            <view class="dot"></view>
+            <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+          </view>
         </view>
-      </view>
+      </uni-card>
+      <uni-subTitle icon="calendar-fill" title="今日待办"/>
+      <scroll-view class="warning-list" :scroll-y="true">
+        <view v-for="(item, index) in todayHandler" :key="index" class="warning-item" :style="{background: '#E6F7FF'}">
+          <view class="item-title">
+            <u-icon name="error-circle-fill" color="#199DFF" size="28rpx"></u-icon>
+            <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
+          </view>
+          <u--text :text="item.content" color="#0F4239" size="28rpx" lines="1"></u--text>
+        </view>
+      </scroll-view>
       <!-- 事件处理 -->
-      <uni-subTitle customIcon="chart" title="事件处理" />
-      <view class="warning-list">
+      <uni-subTitle customIcon="chart" title="风险提示"/>
+      <scroll-view class="warning-list" :scroll-y="true">
         <view v-for="(item, index) in warningList" :key="index" class="warning-item" :style="{background: item.bgColor}">
           <view class="item-title">
             <u-icon :name="item.icon" :color="item.iconColor" size="28rpx"></u-icon>
@@ -98,7 +127,7 @@
           </view>
           <u--text :text="item.content" color="#0F4239" size="28rpx" lines="1"></u--text>
         </view>
-      </view>
+      </scroll-view>
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
 	</view>
@@ -108,6 +137,8 @@
 	export default {
 		data() {
 			return {
+        list: ['温度', '湿度', '光照', 'HI', 'THI'],
+        current: 0,
         summary: [
           {content: '目标检测算法统计，昨日在主舍区共'},
           {content: '畜群活跃度等级为7/10，显示'},
@@ -115,20 +146,14 @@
           {content: '车辆出入统计显示次货正常，无侵事件。'}
         ],
         warningList: [
-          { type: 1, title: '死亡告警', content: '2024年4月5日, x厂内发现死体', icon: 'close-circle-fill', iconColor: '#F5232D', bgColor: '#FFF1F0'},
-          { type: 2, title: '体弱报警', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill', iconColor: '#199DFF', bgColor: '#E6F7FF'},
-          { type: 3, title: '环境报警', content: '2024年4月5日, x厂内发现死体', icon: 'info-circle-fill', iconColor: '#51C41B', bgColor: '#F6FFED'},
-          { type: 4, title: '濒死报警', content: '2024年4月5日, x厂内发现死体', icon: 'clock-fill', iconColor: '#FAAD15', bgColor: '#FFFBE6'},
+          { type: 1, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'close-circle-fill', iconColor: '#F5232D', bgColor: '#FFF1F0'},
+          { type: 3, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'info-circle-fill', iconColor: '#51C41B', bgColor: '#F6FFED'},
+          { type: 3, title: '管理风险', content: '2024年4月5日, x厂内发现死体', icon: 'clock-fill', iconColor: '#FAAD15', bgColor: '#FFFBE6'},
         ],
-        columns: [
-          {
-            id: 2,
-            label: '牧场2',
-            children: [
-              {id: 21, label: '厂1', children: [{id:1, label: '栏1'}]},
-              {id: 22, label: '厂2'}
-            ]
-          }
+        todayHandler: [
+          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
+          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
+          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
         ]
       }
 		},
@@ -139,40 +164,71 @@
 		},
 		onLoad() {
       uni.hideTabBar()
-			this.initData()
+      this.sectionChange(0)
+			// this.initData()
 		},
+    onReady() {
+      this.initData()
+    },
 		methods: {
+      sectionChange(index) {
+        console.log(index)
+        this.current = index
+        if (this.current == 0) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "温度",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#DE868F'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1, '℃')
+        }
+        if (this.current == 1) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "湿度",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#93D2F3'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1, '%')
+        }
+        if (this.current == 2) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "光照度",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#FCCA00'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1, 'lx')
+        }
+        if (this.current == 3) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "HI",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#7F83F7'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1, '℃')
+        }
+        if (this.current == 4) {
+          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+          let series1 =  [{
+            name: "THI",
+            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
+            color: '#B886F8'
+          }]
+          this.$refs.activeChart.initChart(xData1, series1)
+        }
+      },
 			initData(e) {
-       this.$nextTick(() => {
-        let xData = ['1月','2月','3月','4月','5月','6月']
-
-        let data1 = [{ data: '0.6', color: '#1890FF'}]
-        let data2 = [{ data: '0.6', color: '#91CB74'}]
-        let data3 = [{ data: '0.6', color: '#FAC858'}]
-        let yData1 = [{ name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},]
-        let yData2 = [{ name: '栏位占用', data: ['60', '70', '30', '25', '46', '33'], color: '#91CB74'}]
-        let yData3 = [{ name: '异常警告', data: ['3', '8', '2', '1', '5', '3'], color: '#FAC858'}]
-        this.$refs.lineChart1.initChart(xData, yData1)
-        this.$refs.lineChart2.initChart(xData, yData2)
-        this.$refs.lineChart3.initChart(xData, yData3)
-        this.$refs.progressChart1.initChart(data1, 90)
-        this.$refs.progressChart2.initChart(data2, 80)
-        this.$refs.progressChart3.initChart(data3, 90)
-        // let yData1 = [
-        //   { name: '畜群健康', data: ['10', '21', '13', '16', '21', '19']},
-        //   { name: '栏位占用', data: ['60', '70', '30', '25', '46', '33']},
-        //   { name: '异常警告', data: ['3', '8', '2', '1', '5', '3']}
-        // ]
-        // this.$refs.lineChart1.initChart(xData, yData1)
-        let data = [{ data: '0.8', color: '#1890FF'},{ data: '0.2', color: '#FAC858'},{ data: '0.6', color: '#FF6216'}]
-        this.$refs.progressChart.initChart(data)
-        let yData = [{ name: '员工绩效', data: ['60', '70', '30', '25', '46', '33']}]
-        this.$refs.lineChart.initChart(xData, yData)
-       })
-			},
-      treeCallback(value) {
-        console.log(value)
-      }
+        let xData1 = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00', '08:00','09:00','10:00', '11:00', '12:00']
+        let series =  [{
+          name: "温度",
+          data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12'],
+          color: '#19AECE'
+        }]
+        this.$refs.weatherChart.initChart(xData1, series)
+			}
 		}
 	}
 </script>
@@ -182,20 +238,98 @@
     .content {
       background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
       padding: 0 24rpx 24rpx;
-      .fields-view{
+      .dot {
+        width: 16rpx;
+        height: 16rpx;
+        border-radius: 50%;
+        background-color: #10cc8f;
+        margin: 22rpx 0;
+      }
+      .weather-header {
         width: 100%;
-        margin-top: 24rpx;
+        background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+        border-radius: 12rpx;
+        padding: 24rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .weather-hader-item {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .value {
+            color: #fff;
+            font-size: 24rpx;
+            margin-left: 8rpx;
+            line-height: 28rpx;
+          }
+          .alarm {
+            color: rgb(235, 37, 37);
+          }
+        }
+      }
+      .weather-body {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 12rpx 0;
+        .body-item {
+          width: calc(50% - 6rpx);
+          height: 120rpx;
+          background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+          border-radius: 12rpx;
+          padding: 24rpx;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          .item-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            color: #fff;
+            font-size: 24rpx;
+            view {
+              line-height: 28rpx;
+            }
+          }
+        }
+      }
+      .weather-chart {
+        width: 100%;
+        height: 250rpx;
+      }
+      .tab-num {
+        width: 100%;
+        height: 56rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .num-item {
+          text-align: center;
+          font-weight: bold;
+          font-size: 28rpx;
+        }
+      }
+      .active-chart {
+        width: 100%;
+        height: 360rpx;
+      }
+      .manager-view{
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         .fields-chart {
-          width: 250rpx;
-          height: 250rpx;
+          height: 160rpx;
         }
-        .fields-info, .manager-info {
+        .manager-info {
           display: flex;
           flex-direction: column;
-          justify-content: space-around;
+          justify-content: flex-start;
           .info-item {
             display: flex;
             justify-content: flex-start;
@@ -203,71 +337,21 @@
           }
         }
       }
-      .biological-item {
-        width: 100%;
-        height: 300rpx;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .chart-left {
-          width: 200rpx;
-          height: 200rpx;
-          margin-top: 48rpx;
-        }
-        .chart-right {
-          width: 500rpx;
-          height: 300rpx;
-        }
-      }
-      .manager-view {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .avator {
-          width: 160rpx;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          align-items: center;
-          margin-top: 12rpx;
-          .name {
-            margin-top: 12rpx;
-          }
-        }
-      }
-      .env-warning {
-        width: 100%;
-        .env-row {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin: 24rpx 0;
-        }
-      }
       .daily-briefing {
         width: 100%;
-        margin-top: 24rpx;
         .daily-item {
           display: flex;
           justify-content: flex-start;
           align-self: flex-start;
-          .dot {
-            width: 16rpx;
-            height: 16rpx;
-            border-radius: 50%;
-            background-color: #10cc8f;
-            margin: 22rpx 0;
-          }
         }
       }
       .warning-list {
+        max-height: 440rpx;
         .warning-item {
           height: 130rpx;
           padding: 24rpx;
           border-radius: 16rpx;
-          margin-top: 24rpx;
+          margin-bottom: 24rpx;
           display: flex;
           justify-content: space-around;
           flex-direction: column;

@@ -71,7 +71,7 @@ export default {
 .date-select-container {
   width: 100%;
   height: 100%;
-  padding: 24rpx 0;
+  padding-top: 24rpx;
   z-index: 10000;
 }
 </style>
