@@ -2,47 +2,24 @@
   <view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <u-icon
-        name="map"
-        color="#10cc8f"
-        size="46rpx"
-        :label="position + ' ' + currentDate"
-        labelSize="28rpx"
-        labelColor="#0F4239"
-      ></u-icon>
+      <u-icon name="map" color="#10cc8f" size="46rpx" :label="position + ' ' + currentDate" labelSize="28rpx" labelColor="#0F4239"></u-icon>
       <!-- 今日天气 -->
       <uni-subTitle customIcon="tianqi" title="今日天气" />
       <view class="weather-header">
         <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-richu"
-            size="32rpx"
-            color="#fff"
-          ></u-icon>
+          <u-icon custom-prefix="custom-icon custom-icon-richu" size="32rpx" color="#fff"></u-icon>
           <view class="value">{{ "05:37" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-rila"
-            size="32rpx"
-            color="#fff"
-          ></u-icon>
+          <u-icon custom-prefix="custom-icon custom-icon-rila" size="32rpx" color="#fff"></u-icon>
           <view class="value">{{ "18:23" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-fengli"
-            size="26rpx"
-            color="#fff"
-          ></u-icon>
+          <u-icon custom-prefix="custom-icon custom-icon-fengli" size="26rpx" color="#fff"></u-icon>
           <view class="value">{{ "东北风 3级" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-kongqishidu"
-            size="28rpx"
-            color="#fff"
-          ></u-icon>
+          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="28rpx" color="#fff"></u-icon>
           <view class="value">{{ "41%" }}</view>
         </view>
         <view class="weather-hader-item">
@@ -59,13 +36,7 @@
           </view>
           <view class="item-row">
             <view class="status">{{ "多云" }}</view>
-            <u--image
-              :showLoading="true"
-              :src="`/static/weather/5@2x.png`"
-              width="14px"
-              height="14px"
-              mode="scaleToFill"
-            ></u--image>
+            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
           </view>
         </view>
         <view class="body-item">
@@ -76,13 +47,7 @@
           </view>
           <view class="item-row">
             <view class="status">{{ "多云" }}</view>
-            <u--image
-              :showLoading="true"
-              :src="`/static/weather/6@2x.png`"
-              width="14px"
-              height="14px"
-              mode="scaleToFill"
-            ></u--image>
+            <u--image :showLoading="true" :src="`/static/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
           </view>
         </view>
       </view>
@@ -92,19 +57,10 @@
         </view>
       </uni-card>
       <!-- 生产概况 -->
-      <uni-subTitle
-        customIcon="shengchan"
-        title="生产概况"
-        url="pages/home/production/index"
-      />
+      <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/production/index" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="switch-tab">
-          <u-subsection
-            :list="list"
-            :current="current"
-            activeColor="#333333"
-            @change="sectionChange"
-          ></u-subsection>
+          <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
         </view>
         <view class="tab-num">
           <view class="num-item" style="color: #81b33b">8千头</view>
@@ -150,15 +106,11 @@
       <uni-subTitle icon="volume-off" title="消警比例" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="eliminateAlarm">
-          <uni-mixchart ref="eliminateAlarmChart"></uni-mixchart>
+          <uni-kchart ref="eliminateAlarmChart"></uni-kchart>
         </view>
       </uni-card>
       <!-- 风险提示 -->
-      <uni-subTitle
-        icon="volume-off"
-        title="风险提示"
-        url="pages/home/risk/index"
-      />
+      <uni-subTitle icon="volume-off" title="风险提示" url="pages/home/risk/index" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="danger-statistic">
           <view class="danger-item">
@@ -185,12 +137,7 @@
         </view>
       </uni-card>
       <view class="ai-btn">
-        <u-button
-          color="#3DAD82"
-          shape="circle"
-          text="小牧AI日报"
-          @click="enterAiReport()"
-        ></u-button>
+        <u-button color="#3DAD82" shape="circle" text="小牧AI日报" @click="enterAiReport()"></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
@@ -199,43 +146,32 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       position: "安徽窝阳",
       currentDate: "2024-5-19",
       list: ["动态存栏", "栏位占用", "疑死数量"],
       current: 0,
-      heatList: [{ field: "栏位数1", num1: 15, num2: 21, num3: 50 }]
+      heatList: [{ field: "栏位数1", num1: 15, num2: 21, num3: 50 }],
     };
   },
   computed: {
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
-    }
+    },
   },
-  onReady() {
+  onReady () {
     uni.hideTabBar();
     this.initData();
     this.sectionChange(0);
   },
   methods: {
-    sectionChange(index) {
+    // 生产概况
+    sectionChange (index) {
       console.log(index);
       this.current = index;
+      let xData1 = ["05-01", "05-02", "05-03", "05-04", "05-05", "05-06", "05-07", "05-08", "05-09", "05-10", "05-11"]
       if (this.current == 0) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
         let series1 = [
           {
             name: "动态存栏",
@@ -250,27 +186,14 @@ export default {
               "21",
               "21",
               "14",
-              "25"
+              "25",
             ],
-            color: "#81B33B"
-          }
+            color: "#81B33B",
+          },
         ];
         this.$refs.activeChart.initChart(xData1, series1);
       }
       if (this.current == 1) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
         let series1 = [
           {
             name: "栏位占用",
@@ -285,27 +208,14 @@ export default {
               "21",
               "21",
               "14",
-              "25"
+              "25",
             ],
-            color: "#347CAF"
-          }
+            color: "#347CAF",
+          },
         ];
         this.$refs.activeChart.initChart(xData1, series1);
       }
       if (this.current == 2) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
         let series1 = [
           {
             name: "疑死数量",
@@ -320,75 +230,40 @@ export default {
               "21",
               "21",
               "14",
-              "25"
+              "25",
             ],
-            color: "#BD3124"
-          }
+            color: "#BD3124",
+          },
         ];
         this.$refs.activeChart.initChart(xData1, series1);
       }
     },
-    initData() {
-      let xData = [
-        "00:00",
-        "01:00",
-        "02:00",
-        "03:00",
-        "04:00",
-        "05:00",
-        "06:00",
-        "07:00",
-        "08:00",
-        "09:00",
-        "10:00",
-        "11:00",
-        "12:00"
-      ];
+    initData () {
+      // 24小时天气
+      let xData = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00"]
       let series = [
         {
           name: "温度",
-          data: [
-            "23",
-            "21",
-            "21",
-            "14",
-            "25",
-            "26",
-            "27",
-            "17",
-            "18",
-            "19",
-            "16",
-            "15",
-            "12"
-          ],
-          color: "#19AECE"
-        }
+          data: ["23", "21", "21", "14", "25", "26", "27", "17", "18", "19",],
+          color: "#19AECE",
+        },
       ];
       this.$refs.weatherChart.initChart(xData, series);
 
       // 消警比例
-      let xData1 = ["05-01", "05-02", "05-03", "05-04", "05-05", "05-06"];
+      let xData1 = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
       let series1 = [
-        {
-          name: "平均",
-          type: "line",
-          color: "#2fc25b",
-          data: [120, 140, 105, 170, 95, 160]
-        },
-        {
-          name: "最高",
-          type: "point",
-          color: "#f04864",
-          data: [131, 151, 165, 180, 105, 170]
-        },
-        {
-          name: "最低",
-          type: "point",
-          color: "#81B337",
-          data: [111, 131, 95, 160, 85, 150]
-        }
-      ];
+        [64.54, 59.51, 30.86, 69.65],
+        [32.08, 73.4, 59.25, 33.54],
+        [74.81, 26.31, 70.1, 28.14],
+        [33.61, 47.18, 21.6, 51.44],
+        [40.44, 24.29, 34.27, 52.02],
+        [26.42, 18.61, 14.59, 33.67],
+        [14.68, 10.59, 16.58, 20.96],
+        [10.16, 86.6, 64.83, 33.29],
+        [82.17, 63.97, 53.25, 86.33],
+        [55.77, 70.28, 53.31, 76.22]
+      ]
       this.$refs.eliminateAlarmChart.initChart(xData1, series1, "%");
 
       // 风险提示
@@ -399,10 +274,10 @@ export default {
       this.$refs.assetProgressChart.initChart(data2, 18);
       this.$refs.manProgressChart.initChart(data3, 11);
     },
-    enterAiReport() {
+    enterAiReport () {
       uni.navigateTo({ url: "/pages/home/dailyReport/index" });
-    }
-  }
+    },
+  },
 };
 </script>
 

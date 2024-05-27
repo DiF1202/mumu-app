@@ -1,29 +1,20 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="tarea" :chartData="chartData" :opts="opts" :ontouch="true" />
+    <qiun-data-charts type="candle" :opts="opts" :chartData="chartData" :disableScroll="true" :ontouch="true" />
   </view>
 </template>
+
 <script>
 import qiunDataCharts from '@/components/uCharts/qiun-data-charts/qiun-data-charts.vue'
 export default {
   components: { qiunDataCharts },
-  props: {
-    unit: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: Number,
-      default: 30
-    },
-  },
   data () {
     return {
       chartData: {},
       opts: {
-        background: 'none',
-        enableScroll: true,
         padding: [12, 0, 0, 0],
+        enableScroll: true,
+        enableMarkLine: false,
         legend: {
           show: false
         },
@@ -31,8 +22,9 @@ export default {
           itemCount: 7,
           scrollShow: true,
           scrollColor: 'rgba(0, 0, 0, 0.45)',
-          boundaryGap: 'center',
           fontColor: 'rgba(0, 0, 0, 0.45)',
+          fontSize: 12,
+          boundaryGap: 'center',
         },
         yAxis: {
           gridType: 'dash',
@@ -40,39 +32,54 @@ export default {
           showTitle: true,
           data: [
             {
-              max: this.max,
               type: 'value',
+              tofix: 1,
               fontColor: 'rgba(0, 0, 0, 0.45)',
-              title: this.unit ? `${this.unit}` : '',
+              title: '',
               titleFontSize: 12,
               titleFontColor: 'rgba(0, 0, 0, 0.45)',
             }
           ]
         },
         extra: {
-          area: {
-            type: "curve",
-            opacity: 1,
-            addLine: true,
-            width: 2,
-            gradient: true
+          candle: {
+            color: {
+              upLine: "#f04864",
+              upFill: "#f04864",
+              downLine: "#2fc25b",
+              downFill: "#2fc25b"
+            },
+            average: {
+              show: true,
+              name: ["MA1"],
+              day: [1],
+              color: ["#1890ff"]
+            }
           }
         }
       }
-    }
+    };
   },
   methods: {
-    initChart (xData, series) {
-      this.chartData = JSON.parse(JSON.stringify({
+    initChart (xData, yData, unit) {
+      this.opts.yAxis.data[0].title = unit || ''
+      let res = {
         categories: xData,
-        series: series
-      }))
+        series: [
+          {
+            name: "消警比例",
+            data: yData
+          }
+        ]
+      }
+      this.chartData = JSON.parse(JSON.stringify(res));
     },
   }
-}
+};
 </script>
 
-<style lang="scss">
+<style scoped>
+/* 请根据实际需求修改父元素尺寸，组件自动识别宽高 */
 .charts-box {
   width: 100%;
   height: 100%;

@@ -471,12 +471,11 @@ const cfu = {
 		"padding": [15,15,0,15],
 		"enableScroll": true,
 		"enableMarkLine": true,
-		"dataLabel": false,
+		"dataLabel": true,
 		"xAxis": {
 			"labelCount": 4,
 			"itemCount": 40,
 			"disableGrid": true,
-			"gridColor": "#CCCCCC",
 			"gridType": "solid",
 			"dashLength": 4,
 			"scrollShow": true,
@@ -498,9 +497,9 @@ const cfu = {
 				},
 				"average": {
 					"show": true,
-					"name": ["MA5","MA10","MA30"],
-					"day": [5,10,20],
-					"color": ["#1890ff","#2fc25b","#facc14"]
+					"name": [],
+					"day": [],
+					"color": []
 				}
 			},
 			"markLine": {
