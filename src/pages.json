@@ -1,14 +1,5 @@
 {
 	"pages": [
-		// 首页子页
-		{
-			"path": "pages/home/production/index",
-			"style": {
-				"navigationBarTitleText": "生产详情",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -25,6 +16,33 @@
 				"navigationStyle": "custom"
 			}
 		},
+		// 总览(管家)-生产详情
+		{
+			"path": "pages/home/production/index",
+			"style": {
+				"navigationBarTitleText": "生产详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 总览(管家)-风险提示
+		{
+			"path": "pages/home/risk/index",
+			"style": {
+				"navigationBarTitleText": "风险提示",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		// 远程查看(管家)
+		{
+			"path": "pages/view/butler/index",
+			"style": {
+				"navigationBarTitleText": "远程查看",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 总览(卫士)
 		{
 			"path": "pages/home/guard/index",
@@ -33,10 +51,11 @@
 				"navigationStyle": "custom"
 			}
 		},
+		// 远程产看(卫士)
 		{
-			"path": "pages/home/risk/index",
+			"path": "pages/view/guard/index",
 			"style": {
-				"navigationBarTitleText": "风险提示",
+				"navigationBarTitleText": "远程巡检",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
@@ -72,15 +91,6 @@
 				"navigationStyle": "custom"
 			}
 		},
-		// 远程查看(管家)
-		{
-			"path": "pages/view/butler/index",
-			"style": {
-				"navigationBarTitleText": "远程查看",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
 		// 远程查看-实况视频(列表页)
 		{
 			"path": "pages/view/components/list/index",
@@ -103,15 +113,6 @@
 			"path": "pages/view/components/reporting/index",
 			"style": {
 				"navigationBarTitleText": "自主上报",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
-			}
-		},
-		// 远程产看(卫士)
-		{
-			"path": "pages/view/guard/index",
-			"style": {
-				"navigationBarTitleText": "远程巡检",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}

@@ -110,7 +110,7 @@
         </view>
       </uni-card>
       <!-- 风险提示 -->
-      <uni-subTitle icon="volume-off" title="风险提示" url="pages/home/risk/index" />
+      <uni-subTitle icon="warning" title="风险提示" url="pages/home/risk/index" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="danger-statistic">
           <view class="danger-item">

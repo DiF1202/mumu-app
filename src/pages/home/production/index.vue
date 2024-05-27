@@ -120,7 +120,7 @@
       <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="car" size="38rpx" color="#10cc8f" labelPos="right" label="车辆出入" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon name="car" size="42rpx" color="#10cc8f" labelPos="right" label="车辆出入" labelColor="#333333" labelSize="24rpx"></u-icon>
         </view>
         <view class="car-chart">
           <uni-carchart ref="carChart"></uni-carchart>

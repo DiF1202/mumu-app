@@ -94,7 +94,7 @@
           <view class="num-item" style="color:#B886F8;width: 20%;">78</view>
         </view>
         <view class="active-chart">
-          <uni-line ref="activeChart"></uni-line>
+          <uni-kchart ref="activeChart"></uni-kchart>
         </view>
       </uni-card>
       <!-- 昨日总结 -->
@@ -164,62 +164,45 @@
 		},
 		onLoad() {
       uni.hideTabBar()
-      this.sectionChange(0)
-			// this.initData()
 		},
     onReady() {
       this.initData()
+      this.sectionChange(0)
     },
 		methods: {
+      // 舍内环境
       sectionChange(index) {
-        console.log(index)
         this.current = index
+        let xData = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
+        let series = [
+          [23.54, 23.51, 23.86, 23.65],
+          [23.08, 23.4, 23.25, 23.54],
+          [23.81, 23.31, 23.1, 23.14],
+          [23.61, 23.18, 23.6, 23.44],
+          [23.44, 23.29, 23.27, 23.02],
+          [23.42, 23.61, 23.59, 23.67],
+          [23.68, 23.59, 23.58, 23.96],
+          [23.16, 23.6, 23.83, 23.29],
+          [23.17, 23.97, 23.25, 23.33],
+          [23.77, 23.28, 23.31, 23.22]
+        ]
         if (this.current == 0) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "温度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#DE868F'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '℃')
+          this.$refs.activeChart.initChart(xData, series, '℃', '#DE868F')
         }
         if (this.current == 1) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "湿度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#93D2F3'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '%')
+          this.$refs.activeChart.initChart(xData, series, '%', '#93D2F3')
         }
         if (this.current == 2) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "光照度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#FCCA00'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, 'lx')
+          this.$refs.activeChart.initChart(xData, series, 'lx', '#FCCA00')
         }
         if (this.current == 3) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "HI",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#7F83F7'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '℃')
+          this.$refs.activeChart.initChart(xData, series, '℃', '#7F83F7')
         }
         if (this.current == 4) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "THI",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#B886F8'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1)
+          this.$refs.activeChart.initChart(xData, series, '', '#B886F8')
         }
       },
+      // 24h天气
 			initData(e) {
         let xData1 = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00', '08:00','09:00','10:00', '11:00', '12:00']
         let series =  [{
