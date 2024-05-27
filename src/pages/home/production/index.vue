@@ -23,7 +23,7 @@
           <view class="num-item" style="color:#B886F8;width: 20%;">78</view>
         </view>
         <view class="active-chart">
-          <uni-line ref="activeChart"></uni-line>
+          <uni-kchart ref="activeChart"></uni-kchart>
         </view>
       </uni-card>
       <uni-subTitle icon="rmb-circle" title="生物资产" />
@@ -80,7 +80,7 @@
       <uni-subTitle customIcon="heart" title="畜群活跃度统计" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="active-chart">
-          <uni-mixchart ref="activityChart"></uni-mixchart>
+          <uni-kchart ref="activityChart"></uni-kchart>
         </view>
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
@@ -114,16 +114,16 @@
           <view class="num-item" style="color:#347CAF;width: 33%;">35分</view>
         </view>
         <view class="active-chart">
-          <uni-mixchart ref="attendanceChart"></uni-mixchart>
+          <uni-kchart ref="attendanceChart"></uni-kchart>
         </view>
       </uni-card>
       <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="car" size="38rpx" color="#10cc8f" labelPos="right" label="饲养员考勤" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon name="car" size="38rpx" color="#10cc8f" labelPos="right" label="车辆出入" labelColor="#333333" labelSize="24rpx"></u-icon>
         </view>
         <view class="car-chart">
-          <uni-scatter ref="carChart"></uni-scatter>
+          <uni-carchart ref="carChart"></uni-carchart>
         </view>
       </uni-card>
     </view>
@@ -158,79 +158,30 @@
       this.sectionChange2(0)
     },
     methods: {
+      // 饲养员考勤
       sectionChange2(index) {
         this.current1 = index
+        let xData = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
+        let series = [
+          [36.54, 36.51, 36.86, 36.65],
+          [36.08, 36.4, 36.25, 36.54],
+          [36.81, 36.31, 36.1, 36.14],
+          [36.61, 36.18, 36.6, 36.44],
+          [36.44, 36.29, 36.27, 36.02],
+          [36.42, 36.61, 36.59, 36.67],
+          [36.68, 36.59, 36.58, 36.96],
+          [36.16, 36.6, 36.83, 36.29],
+          [36.17, 36.97, 36.25, 36.33],
+          [36.77, 36.28, 36.31, 36.22]
+        ]
         if (this.current1 == 0) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [
-            {
-              name: "当天",
-              type: "line",
-              color: "#81B337",
-              data: [120, 140, 105, 170, 95, 160, 120, 140, 105, 170, 95, 160]
-            },
-            {
-              name: "最高",
-              type: "point",
-              color: "#f04864",
-              data: [131, 151, 165, 180, 105, 170, 131, 151, 165, 180, 105, 170]
-            },
-            {
-              name: "最低",
-              type: "point",
-              color: "#81B337",
-              data: [111, 131, 95, 160, 85, 150, 111, 131, 95, 160, 85, 150]
-            },
-          ]
-          this.$refs.attendanceChart.initChart(xData1, series1, 'h')
+          this.$refs.attendanceChart.initChart(xData, series, '%', '#81B337')
         }
         if (this.current1 == 1) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [
-            {
-              name: "当天",
-              type: "line",
-              color: "#CBA43F",
-              data: [120, 140, 105, 170, 95, 160, 120, 140, 105, 170, 95, 160]
-            },
-            {
-              name: "最高",
-              type: "point",
-              color: "#f04864",
-              data: [131, 151, 165, 180, 105, 170, 131, 151, 165, 180, 105, 170]
-            },
-            {
-              name: "最低",
-              type: "point",
-              color: "#81B337",
-              data: [111, 131, 95, 160, 85, 150, 111, 131, 95, 160, 85, 150]
-            },
-          ]
-          this.$refs.attendanceChart.initChart(xData1, series1, 'h')
+          this.$refs.attendanceChart.initChart(xData, series, 'min', "#CBA43F")
         }
         if (this.current1 == 2) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [
-            {
-              name: "当天",
-              type: "line",
-              color: "#347CAF",
-              data: [120, 140, 105, 170, 95, 160, 120, 140, 105, 170, 95, 160]
-            },
-            {
-              name: "最高",
-              type: "point",
-              color: "#f04864",
-              data: [131, 151, 165, 180, 105, 170, 131, 151, 165, 180, 105, 170]
-            },
-            {
-              name: "最低",
-              type: "point",
-              color: "#81B337",
-              data: [111, 131, 95, 160, 85, 150, 111, 131, 95, 160, 85, 150]
-            },
-          ]
-          this.$refs.attendanceChart.initChart(xData1, series1, 'h')
+          this.$refs.attendanceChart.initChart(xData, series, 'min', "#347CAF")
         }
       },
       sectionChange1(index) {
@@ -254,53 +205,36 @@
           this.$refs.warningChart.initChart(xData1, series1, '头')
         }
       },
+      // 舍内环境
       sectionChange(index) {
-        console.log(index)
         this.current = index
+        let xData = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
+        let series = [
+          [23.54, 23.51, 23.86, 23.65],
+          [23.08, 23.4, 23.25, 23.54],
+          [23.81, 23.31, 23.1, 23.14],
+          [23.61, 23.18, 23.6, 23.44],
+          [23.44, 23.29, 23.27, 23.02],
+          [23.42, 23.61, 23.59, 23.67],
+          [23.68, 23.59, 23.58, 23.96],
+          [23.16, 23.6, 23.83, 23.29],
+          [23.17, 23.97, 23.25, 23.33],
+          [23.77, 23.28, 23.31, 23.22]
+        ]
         if (this.current == 0) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "温度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#DE868F'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '℃')
+          this.$refs.activeChart.initChart(xData, series, '℃', '#DE868F')
         }
         if (this.current == 1) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "湿度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#93D2F3'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '%')
+          this.$refs.activeChart.initChart(xData, series, '%', '#93D2F3')
         }
         if (this.current == 2) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "光照度",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#FCCA00'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, 'lx')
+          this.$refs.activeChart.initChart(xData, series, 'lx', '#FCCA00')
         }
         if (this.current == 3) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "HI",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#7F83F7'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1, '℃')
+          this.$refs.activeChart.initChart(xData, series, '℃', '#7F83F7')
         }
         if (this.current == 4) {
-          let xData1 = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-          let series1 =  [{
-            name: "THI",
-            data: ['23', '21', '21', '14', '25', '26', '27','21', '21', '14', '25',],
-            color: '#B886F8'
-          }]
-          this.$refs.activeChart.initChart(xData1, series1)
+          this.$refs.activeChart.initChart(xData, series, '', '#B886F8')
         }
       },
       pickerCallback1(e) {
@@ -326,31 +260,23 @@
         }]
         this.$refs.occupationChart.initChart(xData2, series2)
 
-
-        let xData3 = ['05-01','05-02','05-03','05-04','05-05','05-06', '05-07','05-08','05-09','05-10','05-11','05-12']
+        // 畜群活跃度
+        let xData3 = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
         let series4 = [
-          {
-            name: "平均",
-            type: "line",
-            color: "#B886F8",
-            data: [12, -14, 10, -17, 9, -16, 12, -14, 10, -17, 9, -16]
-          },
-          {
-            name: "最高",
-            type: "point",
-            color: "#f04864",
-            data: [13, -15, 16, -18, 10, -17, 13, -15, 16, -18, 7, -17]
-          },
-          {
-            name: "最低",
-            type: "point",
-            color: "#81B337",
-            data: [11, -13, 9, -16, 8, -15, 11, -13, 9, -16, 8, -15]
-          },
+          [0.54, 0.51, 0.86, 0.65],
+          [0.08, 0.4, 0.25, 0.54],
+          [0.81, 0.31, 0.1, 0.14],
+          [0.61, 0.18, 0.6, 0.44],
+          [-0.44, -0.29, -0.27, -0.02],
+          [0.42, 0.61, 0.59, 0.67],
+          [0.68, 0.59, 0.58, 0.96],
+          [-0.16, -0.6, -0.83, -0.29],
+          [0.17, 0.97, 0.25, 0.33],
+          [0.77, 0.28, 0.31, 0.22]
         ]
-        this.$refs.activityChart.initChart(xData3, series4)
+        this.$refs.activityChart.initChart(xData3, series4, '%')
         
-
+        // 畜群节律统计
         let xData = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
         let yData = [
           {
@@ -371,7 +297,7 @@
         ]
         this.$refs.rhythmChart.initChart(xData, yData, 'h')
 
-
+        // 车辆出入
         this.$refs.carChart.initChart()
       },
     }

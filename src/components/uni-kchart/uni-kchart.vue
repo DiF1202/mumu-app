@@ -44,10 +44,10 @@ export default {
         extra: {
           candle: {
             color: {
-              upLine: "#f04864",
-              upFill: "#f04864",
-              downLine: "#2fc25b",
-              downFill: "#2fc25b"
+              upLine: "#333333",
+              upFill: "#F9DADA",
+              downLine: "#333333",
+              downFill: "#F3A4A3"
             },
             average: {
               show: true,
@@ -61,7 +61,8 @@ export default {
     };
   },
   methods: {
-    initChart (xData, yData, unit) {
+    initChart (xData, yData, unit, color) {
+      this.opts.extra.candle.average.color[0] = color || "#1890ff"
       this.opts.yAxis.data[0].title = unit || ''
       let res = {
         categories: xData,
@@ -72,7 +73,7 @@ export default {
           }
         ]
       }
-      this.chartData = JSON.parse(JSON.stringify(res));
+      this.chartData = JSON.parse(JSON.stringify(res))
     },
   }
 };

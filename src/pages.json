@@ -1,5 +1,14 @@
 {
 	"pages": [
+		// 首页子页
+		{
+			"path": "pages/home/production/index",
+			"style": {
+				"navigationBarTitleText": "生产详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -21,15 +30,6 @@
 			"path": "pages/home/guard/index",
 			"style": {
 				"navigationBarTitleText": "总览",
-				"navigationStyle": "custom"
-			}
-		},
-		// 首页子页
-		{
-			"path": "pages/home/production/index",
-			"style": {
-				"navigationBarTitleText": "生产详情",
-				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},
