@@ -170,7 +170,7 @@ export default {
       let yData = { name: name, data: [], color: color }
       arr.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push(20)
+        yData.data.push(item.score)
       })
       let max = Math.max(...yData.data)
       this.$refs.activeChart.initChart(xData, [yData], max, unit)
@@ -195,7 +195,7 @@ export default {
       let yData = { name: "消警比例", data: [] }
       this.production_data.alarm_data.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push(item.alarm_handle_rate.slice(0, 2).concat(item.alarm_handle_rate.slice(3)))
+        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
       })
       this.$refs.eliminateAlarmChart.initChart(xData, [yData], "%")
     },

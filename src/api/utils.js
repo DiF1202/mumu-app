@@ -21,3 +21,10 @@ export function alarmType() {
     url: '/api/mini/get-alarm-type-list'
   })
 }
+// 栋舍类型
+export function houseType() {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-house-type-list'
+  })
+}

@@ -1,5 +1,14 @@
 {
 	"pages": [
+		// 总览(管家)-生产详情
+		{
+			"path": "pages/home/production/index",
+			"style": {
+				"navigationBarTitleText": "生产详情",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
 		// 登录
 		{
 			"path": "pages/login/index",
@@ -13,15 +22,6 @@
 			"path": "pages/home/butler/index",
 			"style": {
 				"navigationBarTitleText": "总览",
-				"navigationStyle": "custom"
-			}
-		},
-		// 总览(管家)-生产详情
-		{
-			"path": "pages/home/production/index",
-			"style": {
-				"navigationBarTitleText": "生产详情",
-				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
 		},

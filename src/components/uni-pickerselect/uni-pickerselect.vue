@@ -14,7 +14,7 @@
       disabled
     />
     <!-- 真机无滚动穿透问题，模拟器有 -->
-    <u-picker :show="show" :columns="columns" keyName="name" @confirm="confirm" @cancel="show=false"></u-picker>
+    <u-picker :show="show" :columns="columns" keyName="name" @confirm="confirm" @cancel="show=false" :defaultIndex="[0]"></u-picker>
 	</view>
 </template>
 
@@ -54,6 +54,15 @@ export default {
       }
     }
   },
+  watch: {
+    columns: {
+      handler(val) {
+        if (val) {
+          this.value = val[0][0].name
+        }
+      }
+    }
+  },
   methods: {
     open() {
       this.show = true
@@ -61,7 +70,7 @@ export default {
     confirm(e) {
       this.value = e.value[0].name
       this.show = false
-      this.$emit('pickerCallback', e)
+      this.$emit('pickerCallback', e.value[0])
     }
   }
 }
