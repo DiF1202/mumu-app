@@ -155,6 +155,8 @@ export default {
       animal_risk_count: {}, // 异常动物数量
       animal_activity: {}, // 畜群活跃度统计
       alarm_handle_rate: {}, // 畜群节律
+      attendance: {}, // 饲养员考勤
+      vehicle_activity: {}, // 车辆出入
       columns1: [],
       columns2: [],
       house_type_id: '1',
@@ -162,7 +164,6 @@ export default {
     }
   },
   onReady () {
-    this.sectionChange2(0)
     this.getHouseType()
   },
   methods: {
@@ -301,44 +302,95 @@ export default {
         this.animal_risk_count = res.data.animal_assets.animal_risk_count
         this.animal_activity = res.data.animal_assets.animal_activity
         this.alarm_handle_rate = res.data.animal_assets.alarm_handle_rate
+        this.attendance = res.data.manage.attendance
+        this.vehicle_activity = res.data.manage.vehicle_activity
         this.sectionChange(0) // 舍内环境
         this.animalCount() // 动态存栏
         this.penOccupancy() // 栏位占用
         this.sectionChange1(0) // 异常动物数量
         this.animalActivity() // 畜群活跃度统计
         this.alarmHandle() // 畜群节律
+        this.sectionChange2(0)
+        this.vehicleActivity() // 车辆出入
       })
-      // 车辆出入
-      this.$refs.carChart.initChart()
     },
-     // 饲养员考勤
-     sectionChange2 (index) {
-      this.current1 = index
-      let xData = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
-      let yData = {
-        name: "消警比例", data: [
-          [36.54, 36.51, 36.86, 36.65],
-          [36.08, 36.4, 36.25, 36.54],
-          [36.81, 36.31, 36.1, 36.14],
-          [36.61, 36.18, 36.6, 36.44],
-          [36.44, 36.29, 36.27, 36.02],
-          [36.42, 36.61, 36.59, 36.67],
-          [36.68, 36.59, 36.58, 36.96],
-          [36.16, 36.6, 36.83, 36.29],
-          [36.17, 36.97, 36.25, 36.33],
-          [36.77, 36.28, 36.31, 36.22]
-        ]
-      }
-      if (this.current1 == 0) {
-        this.$refs.attendanceChart.initChart(xData, [yData], '%', '#81B337')
-      }
-      if (this.current1 == 1) {
-        this.$refs.attendanceChart.initChart(xData, [yData], 'min', "#CBA43F")
-      }
-      if (this.current1 == 2) {
-        this.$refs.attendanceChart.initChart(xData, [yData], 'min', "#347CAF")
+    vehicleActivity() {
+      // let xData = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
+      // let yData = [
+      //   {
+      //     data: [8, 9, 8, 7, 8, 8, 7, 9, 8, 7, 9],
+      //     color: 'transparent'
+      //   },
+      //   {
+      //     data: [1, 2, 3, 2, 1, 2, 2, 1, 2, 1, 1],
+      //     color: 'orange'
+      //   },
+      //   {
+      //     data: [4, 5, 0, 4, 5, 3, 4, 5, 5, 4, 3],
+      //     color: 'transparent'
+      //   },
+      //   {
+      //     data: [2, 1, 0, 2, 1, 3, 1, 1, 2, 1, 2],
+      //     color: 'orange'
+      //   },
+      //   {
+      //     data: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      //     color: 'transparent'
+      //   },
+      //   {
+      //     data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      //     color: 'orange'
+      //   },
+      // ]
+      let data = [
+        {score: [[1, 3],[12, 13],[15, 17]]},
+        {score: [[1,23],[13, 14] ]}
+      ]
+      let lengthD = []
+      let dataN = []
+      let xData = []
+      let yData = []
+      data.map(item => {
+        lengthD.push(item.score.length)
+      })
+      let maxD = Math.max(...lengthD)
+      console.log(maxD, lengthD)
+      data.map(item => {
+        item.score.map((ele, index) => {
+          ele[index] = (ele[1] - ele[0])
+        })
+      })
+      console.log(data, 11111)
+      console.log()
+      for(let i = 0; i < maxD; i++) {
+        console.log(i)
+
       }
     },
+    attendanceHandler(arr, name, unit, color) {
+      let xData = []
+      let yData = { name: name, data: [] }
+      arr.map(item => {
+        xData.push(item.date.slice(5))
+        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+      })
+      this.$refs.attendanceChart.initChart(xData, [yData], unit, color)
+    },
+    // 饲养员考勤
+    sectionChange2 (index) {
+      this.current2 = index
+      switch(index) {
+        case 0:
+          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '消警比例', '%', '#81B337')
+          break
+        case 1:
+          this.attendanceHandler(this.attendance.patrol_time_data, '寻舍时长', 'h', '#CBA43F')
+          break
+        case 2: 
+          this.attendanceHandler(this.attendance.remote_time_data, '远程时长', 'h', '#347CAF')
+          break
+      }
+    }
   }
 }
 </script>

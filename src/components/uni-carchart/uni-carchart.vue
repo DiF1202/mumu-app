@@ -59,34 +59,7 @@
 			this.initChart()
 		},
 	  methods: {
-	    initChart() {
-				let xData = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-        let yData = [
-          {
-            data: [8, 9, 8, 7, 8, 8, 7, 9, 8, 7, 9],
-            color: 'transparent'
-          },
-          {
-            data: [1, 2, 3, 2, 1, 2, 2, 1, 2, 1, 1],
-            color: 'orange'
-          },
-					{
-            data: [4, 5, 0, 4, 5, 3, 4, 5, 5, 4, 3],
-            color: 'transparent'
-          },
-					{
-            data: [2, 1, 0, 2, 1, 3, 1, 1, 2, 1, 2],
-            color: 'orange'
-          },
-					{
-            data: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: 'transparent'
-          },
-					{
-            data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            color: 'orange'
-          },
-        ]
+	    initChart(xData, yData) {
 				let res = {
 					categories: xData,
 					series: yData
