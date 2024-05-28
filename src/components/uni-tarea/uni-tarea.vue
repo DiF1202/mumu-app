@@ -28,7 +28,7 @@ export default {
           show: false
         },
         xAxis: {
-          itemCount: 7,
+          itemCount: 5,
           scrollShow: true,
           scrollColor: 'rgba(0, 0, 0, 0.45)',
           boundaryGap: 'center',
@@ -43,7 +43,7 @@ export default {
               max: this.max,
               type: 'value',
               fontColor: 'rgba(0, 0, 0, 0.45)',
-              title: this.unit ? `${this.unit}` : '',
+              title: this.unit || '',
               titleFontSize: 12,
               titleFontColor: 'rgba(0, 0, 0, 0.45)',
             }
@@ -62,7 +62,9 @@ export default {
     }
   },
   methods: {
-    initChart (xData, series) {
+    initChart (xData, series, max, unit) {
+      this.opts.yAxis.data[0].max = max || '30'
+      this.opts.yAxis.data[0].title = unit || ''
       this.chartData = JSON.parse(JSON.stringify({
         categories: xData,
         series: series

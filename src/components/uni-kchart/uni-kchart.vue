@@ -66,12 +66,7 @@ export default {
       this.opts.yAxis.data[0].title = unit || ''
       let res = {
         categories: xData,
-        series: [
-          {
-            name: "消警比例",
-            data: yData
-          }
-        ]
+        series: yData
       }
       this.chartData = JSON.parse(JSON.stringify(res))
     },

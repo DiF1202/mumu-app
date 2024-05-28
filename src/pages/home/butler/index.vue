@@ -63,9 +63,9 @@
           <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #81b33b">8千头</view>
-          <view class="num-item" style="color: #347caf">60%</view>
-          <view class="num-item" style="color: #bd3124">46头</view>
+          <view class="num-item" style="color: #81b33b">{{ production_data?.animal_count }}</view>
+          <view class="num-item" style="color: #347caf">{{ production_data?.pen_occupancy_rate }}</view>
+          <view class="num-item" style="color: #bd3124">{{ production_data?.death_count }}</view>
         </view>
         <view class="active-chart">
           <uni-tarea ref="activeChart" unit="℃" :max="30"></uni-tarea>
@@ -77,11 +77,11 @@
         <view class="active-statistic">
           <view class="active-item">
             <view class="item-label">较昨日：</view>
-            <view class="item-num">+4%</view>
+            <view class="item-num">{{ production_data?.animal_activity_change?.daily }}</view>
           </view>
           <view class="active-item">
             <view class="item-label">较过去一周：</view>
-            <view class="item-num">-14%</view>
+            <view class="item-num">{{ production_data?.animal_activity_change?.weekly }}</view>
           </view>
         </view>
       </uni-card>
@@ -94,11 +94,11 @@
           <view class="header-item">舒适</view>
         </view>
         <scroll-view class="table-body" :scroll-y="true">
-          <view v-for="(row, index) in heatList" :key="index" class="body-row">
-            <view class="row-item">{{ row.field }}</view>
-            <view class="row-item bold">{{ row.num1 }}</view>
-            <view class="row-item bold">{{ row.num2 }}</view>
-            <view class="row-item bold">{{ row.num3 }}</view>
+          <view class="body-row">
+            <view class="row-item">栏位数</view>
+            <view class="row-item bold">{{ production_data?.thermal_env_count?.hot }}</view>
+            <view class="row-item bold">{{ production_data?.thermal_env_count?.cold }}</view>
+            <view class="row-item bold">{{ production_data?.thermal_env_count?.cozy }}</view>
           </view>
         </scroll-view>
       </uni-card>
@@ -118,21 +118,21 @@
               <uni-progress ref="envProgressChart"></uni-progress>
             </view>
             <view class="item-subTitle">环境风险</view>
-            <view class="item-subTitle">较昨日-5%</view>
+            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.env }}%</view>
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="assetProgressChart"></uni-progress>
             </view>
-            <view class="item-subTitle">资产风险</view>
-            <view class="item-subTitle">较昨日-5%</view>
+            <view class="item-subTitle">动物风险</view>
+            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.animal}}%</view>
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="manProgressChart"></uni-progress>
             </view>
-            <view class="item-subTitle">管理风险</view>
-            <view class="item-subTitle">较昨日-5%</view>
+            <view class="item-subTitle">生产风险</view>
+            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.production}}%</view>
           </view>
         </view>
       </uni-card>
@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import { overViewApi } from '@/api/home.js'
 export default {
   data () {
     return {
@@ -152,57 +153,71 @@ export default {
       currentDate: "2024-5-19",
       list: ["动态存栏", "栏位占用", "疑死数量"],
       current: 0,
-      heatList: [{ field: "栏位数1", num1: 15, num2: 21, num3: 50 }],
-    };
+      production_data: {},
+      risk_note: {},
+    }
   },
-  computed: {
-    safetyTop () {
-      return uni.getSystemInfoSync().safeAreaInsets.top;
-    },
+  onLoad () {
+    uni.hideTabBar()
   },
   onReady () {
-    uni.hideTabBar();
-    this.initData();
-    this.sectionChange(0);
+    this.initData()
   },
   methods: {
     // 生产概况
+    handlerData (arr, name, color, unit) {
+      let xData = []
+      let yData = { name: name, data: [], color: color }
+      arr.map(item => {
+        xData.push(item.date.slice(5))
+        yData.data.push(20)
+      })
+      let max = Math.max(...yData.data)
+      this.$refs.activeChart.initChart(xData, [yData], max, unit)
+    },
     sectionChange (index) {
-      console.log(index);
-      this.current = index;
-      let xData1 = ["05-01", "05-02", "05-03", "05-04", "05-05", "05-06", "05-07", "05-08", "05-09", "05-10", "05-11"]
-      if (this.current == 0) {
-        let series1 = [
-          {
-            name: "动态存栏",
-            data: ["23", "21", "21","14", "25", "26", "27", "21", "21","14","25" ],
-            color: "#81B33B",
-          },
-        ];
-        this.$refs.activeChart.initChart(xData1, series1);
-      }
-      if (this.current == 1) {
-        let series1 = [
-          {
-            name: "栏位占用",
-            data: ["23","21","21", "14","25", "26", "27", "21", "21", "14", "25" ],
-            color: "#347CAF",
-          },
-        ];
-        this.$refs.activeChart.initChart(xData1, series1);
-      }
-      if (this.current == 2) {
-        let series1 = [
-          {
-            name: "疑死数量",
-            data: ["23", "21", "21", "14", "25", "26", "27", "21", "21", "14", "25" ],
-            color: "#BD3124",
-          },
-        ];
-        this.$refs.activeChart.initChart(xData1, series1);
+      this.current = index
+      switch (index) {
+        case 0:
+          this.handlerData(this.production_data.animal_count_data, "动态存栏", "#81B33B", '头')
+          break
+        case 1:
+          this.handlerData(this.production_data.pen_occupancy_rate_data, "栏位占用", "#347CAF", '%')
+          break
+        case 2:
+          this.handlerData(this.production_data.pen_occupancy_rate_data, "疑死数量", "#BD3124", '头')
+          break
       }
     },
+    // 消警比例
+    eliminateAlarm () {
+      let xData = []
+      let yData = { name: "消警比例", data: [] }
+      this.production_data.alarm_data.map(item => {
+        xData.push(item.date.slice(5))
+        yData.data.push(item.alarm_handle_rate.slice(0, 2).concat(item.alarm_handle_rate.slice(3)))
+      })
+      this.$refs.eliminateAlarmChart.initChart(xData, [yData], "%")
+    },
+    // 风险提示
+    riskNote () {
+      let data1 = [{ data: "1", color: "#CCF738" }];
+      let data2 = [{ data: "1", color: "#DE868F" }];
+      let data3 = [{ data: "1", color: "#FCCA00" }];
+      this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count)
+      this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count)
+      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count)
+    },
+    // 初始化
     initData () {
+      overViewApi().then(res => {
+        console.log(res)
+        this.production_data = res.data.production_data
+        this.risk_note = res.data.risk_note
+        this.sectionChange(0)
+        this.eliminateAlarm()
+        this.riskNote()
+      })
       // 24小时天气
       let xData = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00"]
       let series = [
@@ -212,32 +227,9 @@ export default {
           color: "#19AECE",
         },
       ];
-      this.$refs.weatherChart.initChart(xData, series);
-
-      // 消警比例
-      let xData1 = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
-      let series1 = [
-        [64.54, 59.51, 30.86, 69.65],
-        [32.08, 73.4, 59.25, 33.54],
-        [74.81, 26.31, 70.1, 28.14],
-        [33.61, 47.18, 21.6, 51.44],
-        [40.44, 24.29, 34.27, 52.02],
-        [26.42, 18.61, 14.59, 33.67],
-        [14.68, 10.59, 16.58, 20.96],
-        [10.16, 86.6, 64.83, 33.29],
-        [82.17, 63.97, 53.25, 86.33],
-        [55.77, 70.28, 53.31, 76.22]
-      ]
-      this.$refs.eliminateAlarmChart.initChart(xData1, series1, "%");
-
-      // 风险提示
-      let data1 = [{ data: "1", color: "#CCF738" }];
-      let data2 = [{ data: "1", color: "#DE868F" }];
-      let data3 = [{ data: "1", color: "#FCCA00" }];
-      this.$refs.envProgressChart.initChart(data1, 17);
-      this.$refs.assetProgressChart.initChart(data2, 18);
-      this.$refs.manProgressChart.initChart(data3, 11);
+      this.$refs.weatherChart.initChart(xData, series)
     },
+    // 跳转日报
     enterAiReport () {
       uni.navigateTo({ url: "/pages/home/dailyReport/index" });
     },
