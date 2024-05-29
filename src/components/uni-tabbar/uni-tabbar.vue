@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       tabList:
-        userStore().user_info.identity_type === 1 ? guardTabList : butlerTabList
+        userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
     };
   },
   methods: {
