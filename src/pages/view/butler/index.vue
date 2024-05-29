@@ -3,28 +3,28 @@
     <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle icon="order" title="畜舍情况"/>
+      <uni-subTitle icon="order" title="畜舍情况" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
           <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'负责人：' + staff_name" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'动态存栏：' + animal_count" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'栏位占用：' + pen_occupancy_rate" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'疑死数量: ' + death_count" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
           </view>
         </view>
@@ -41,35 +41,16 @@
           <u-list-item v-for="(item, index) in listData" :key="index">
             <uni-card margin="0" padding="0" spacing="24rpx">
               <view class="list-item" @click="enterDetails(item.alarm_id)">
-                <u--image
-                  :showLoading="true"
-                  src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-                  width="280rpx"
-                  height="210rpx"
-                ></u--image>
+                <u--image :showLoading="true" src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" width="280rpx" height="210rpx"></u--image>
                 <view class="item-info">
                   <view>
-                    <u--text
-                      :text="item.alarm_name"
-                      size="36rpx"
-                      color="#333333"
-                      :bold="true"
-                    ></u--text>
+                    <u--text :text="item.alarm_name" size="36rpx" color="#333333" :bold="true"></u--text>
                   </view>
                   <view>
-                    <u--text
-                      :text="'时间：' + item.alarm_time"
-                      size="28rpx"
-                      color="#333333"
-                    ></u--text>
+                    <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
                   </view>
                   <view>
-                    <u-tag
-                      :text="item.alarm_status"
-                      :type="item.alarm_status === '已处理' ? 'success' : 'error'"
-                      shape="circle"
-                      size="mini"
-                    ></u-tag>
+                    <u-tag :text="item.alarm_status" :type="item.alarm_status === '已处理' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
                   </view>
                   <!-- <view class="select-item">
                     <u-checkbox-group v-model="item.select">
@@ -77,20 +58,14 @@
                     </u-checkbox-group>
                   </view> -->
                 </view>
-                <view class="ding" @click.stop="dingClick(item.id)">
+                <view class="ding" @click.stop="openDing(item.alarm_id)">
                   <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
                 </view>
               </view>
             </uni-card>
             <u-gap height="12rpx"></u-gap>
           </u-list-item>
-          <u-loadmore
-            :status="loading"
-            loadingIcon="semicircle"
-            height="88rpx"
-            fontSize="32rpx"
-            @loadmore="loadmore"
-          />
+          <u-loadmore :status="loading" loadingIcon="semicircle" height="88rpx" fontSize="32rpx" @loadmore="loadmore" />
         </u-list>
       </view>
     </view>
@@ -98,6 +73,11 @@
       <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
     </view>
     <u-toast ref="uToast"></u-toast>
+    <u-modal :show="dingShow" @confirm="dingClick" :showCancelButton="true" @cancel="dingShow = false">
+      <view class="slot-content" style="width: 100%;">
+        <u--textarea v-model="dingText" border="none" autoHeight placeholder="请输入提醒消息" style="background: #F7F7F7;"></u--textarea>
+      </view>
+    </u-modal>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
   </view>
 </template>
@@ -108,29 +88,37 @@ import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 
 export default {
-  data() {
+  data () {
     return {
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
       listData: [], // 列表数据
+      staff_name: '',
+      animal_count: '',
+      pen_occupancy_rate: '',
+      death_count: '',
+      dingShow: false,
+      alarmId: '',
+      dingText: '',
+      fieldId: '',
       limit: 3,
       page: 1,
       loading: "loadmore"
     };
   },
   computed: {
-    windowHeight() {
+    windowHeight () {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad() {
+  onLoad () {
     uni.hideTabBar()
     this.getFieldTree()
   },
-  onShow() {
+  onShow () {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
@@ -138,7 +126,7 @@ export default {
     }
   },
   methods: {
-    getFieldTree() {
+    getFieldTree () {
       // 获取栏位数据 并设置第一个子元素为默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -147,14 +135,14 @@ export default {
         }
       })
     },
-    treeCallback(value) {
+    treeCallback (value) {
       this.fieldId = value.id[0]
       if (this.fieldId) {
         this.listData = [];
         this.getList();
       }
     },
-    getList() {
+    getList () {
       this.loading = "loading";
       videoAlarmApi({
         pen_id: this.fieldId,
@@ -162,6 +150,10 @@ export default {
         limit: this.limit
       }).then(res => {
         if (res.code == 200) {
+          this.staff_name = res.data.staff_name || ''
+          this.animal_count = res.data.animal_count || ''
+          this.pen_occupancy_rate = res.data.pen_occupancy_rate || ''
+          this.death_count = res.data.death_count || ''
           this.videoUrl = res.data.video_url
           this.listData = this.listData.concat(res.data.alarm_data)
           if (this.listData.length < res.data.total) {
@@ -174,26 +166,31 @@ export default {
         this.loading = "nomore"
       })
     },
-    loadmore() {
+    loadmore () {
       if (this.loading == "loadmore") {
         this.page += 1
         this.getList()
       }
     },
-    dingClick(id) {
-      dingApi({ pen_id: this.fieldId }).then(res => {
+    openDing (id) {
+      this.alarmId = id
+      this.dingShow = true
+    },
+    dingClick () {
+      dingApi({ pen_id: this.fieldId, alarm_ids: [this.alarmId], text: this.dingText }).then(res => {
         if (res.code == 200) {
           this.$refs.uToast.show({ message: "提醒消息发送成功" })
+          this.dingShow = false
         }
       })
     },
-    upwardClick() {
+    upwardClick () {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" })
     },
-    enterDetails(id) {
+    enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id })
     },
-    linkToVideoLive() {
+    linkToVideoLive () {
       uni.navigateTo({ url: "/pages/video/index" })
     }
   }
@@ -224,7 +221,7 @@ export default {
       background-color: #10cc8f;
       margin: 22rpx 0;
     }
-    .manager-view{
+    .manager-view {
       width: 100%;
       display: flex;
       justify-content: space-between;

@@ -296,7 +296,6 @@ export default {
     // 初始化数据
     initData () {
       productionApi({ house_type_id: this.house_type_id, date_type: this.date_type }).then(res => {
-        console.log(res)
         this.housing_environment = res.data.housing_environment
         this.animal_count_data = res.data.animal_assets.animal_count_data
         this.pen_occupancy_rate = res.data.animal_assets.pen_occupancy_rate

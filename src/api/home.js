@@ -12,7 +12,15 @@ const productionApi = (params) => {
     params
   })
 }
+const overViewGuardApi = () => {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-house-env-view',
+  })
+}
+
 export {
   overViewApi,
-  productionApi
+  productionApi,
+  overViewGuardApi
 }

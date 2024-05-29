@@ -1,5 +1,5 @@
 <template>
-	<view class="home-container">
+  <view class="home-container">
     <uni-navtopbar title="值守卫士" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
@@ -9,27 +9,27 @@
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-                <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-              </view>
+              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
             <view class="info-item">
               <view class="dot"></view>
               <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
-            </view>
-            <view class="manager-info">
-              <view class="info-item">
+          </view>
+          <view class="manager-info">
+            <view class="info-item">
               <view class="dot"></view>
-                <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
-              </view>
-              <view class="info-item">
-                <view class="dot"></view>
-                <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
             </view>
           </view>
         </view>
       </uni-card>
       <!-- 今日天气 -->
-      <uni-subTitle customIcon="tianqi" title="今日天气"/>
+      <uni-subTitle customIcon="tianqi" title="今日天气" />
       <view class="weather-header">
         <view class="weather-hader-item">
           <u-icon custom-prefix="custom-icon custom-icon-richu" size="32rpx" color="#fff"></u-icon>
@@ -107,7 +107,7 @@
           </view>
         </view>
       </uni-card>
-      <uni-subTitle icon="calendar-fill" title="今日待办"/>
+      <uni-subTitle icon="calendar-fill" title="今日待办" />
       <scroll-view class="warning-list" :scroll-y="true">
         <view v-for="(item, index) in todayHandler" :key="index" class="warning-item" :style="{background: '#E6F7FF'}">
           <view class="item-title">
@@ -118,7 +118,7 @@
         </view>
       </scroll-view>
       <!-- 事件处理 -->
-      <uni-subTitle customIcon="chart" title="风险提示"/>
+      <uni-subTitle customIcon="chart" title="风险提示" />
       <scroll-view class="warning-list" :scroll-y="true">
         <view v-for="(item, index) in warningList" :key="index" class="warning-item" :style="{background: item.bgColor}">
           <view class="item-title">
@@ -130,221 +130,241 @@
       </scroll-view>
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
-	</view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-        list: ['温度', '湿度', '光照', 'HI', 'THI'],
-        current: 0,
-        summary: [
-          {content: '目标检测算法统计，昨日在主舍区共'},
-          {content: '畜群活跃度等级为7/10，显示'},
-          {content: '未发现紧急预警事件，动物逃风险很低。'},
-          {content: '车辆出入统计显示次货正常，无侵事件。'}
-        ],
-        warningList: [
-          { type: 1, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'close-circle-fill', iconColor: '#F5232D', bgColor: '#FFF1F0'},
-          { type: 3, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'info-circle-fill', iconColor: '#51C41B', bgColor: '#F6FFED'},
-          { type: 3, title: '管理风险', content: '2024年4月5日, x厂内发现死体', icon: 'clock-fill', iconColor: '#FAAD15', bgColor: '#FFFBE6'},
-        ],
-        todayHandler: [
-          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
-          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
-          { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill'},
-        ]
+import { overViewGuardApi } from '@/api/home.js'
+export default {
+  data () {
+    return {
+      list: ['温度', '湿度', '光照', 'HI', 'THI'],
+      current: 0,
+      staff_name: '',
+      animal_count: '',
+      pen_occupancy_rate: '',
+      death_count: '',
+      housing_environment: {},
+      summary: [
+        { content: '目标检测算法统计，昨日在主舍区共' },
+        { content: '畜群活跃度等级为7/10，显示' },
+        { content: '未发现紧急预警事件，动物逃风险很低。' },
+        { content: '车辆出入统计显示次货正常，无侵事件。' }
+      ],
+      warningList: [
+        { type: 1, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'close-circle-fill', iconColor: '#F5232D', bgColor: '#FFF1F0' },
+        { type: 3, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'info-circle-fill', iconColor: '#51C41B', bgColor: '#F6FFED' },
+        { type: 3, title: '管理风险', content: '2024年4月5日, x厂内发现死体', icon: 'clock-fill', iconColor: '#FAAD15', bgColor: '#FFFBE6' },
+      ],
+      todayHandler: [
+        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
+        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
+        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
+      ]
+    }
+  },
+  computed: {
+    safetyTop () {
+      return uni.getSystemInfoSync().safeAreaInsets.top
+    }
+  },
+  onLoad () {
+    uni.hideTabBar()
+  },
+  onReady () {
+    this.initData()
+    // this.sectionChange(0)
+  },
+  methods: {
+    // 舍内环境
+    sectionChange (index) {
+      this.current = index
+      switch (index) {
+        case 0:
+          this.initHouseEnv(this.housing_environment.temperature_data, "温度", '℃', '#DE868F')
+          break
+        case 1:
+          this.initHouseEnv(this.housing_environment.humidity_data, "湿度", '%', '#93D2F3')
+          break
+        case 2:
+          this.initHouseEnv(this.housing_environment.illuminance_data, "光照", 'lx', '#FCCA00')
+          break
+        case 3:
+          this.initHouseEnv(this.housing_environment.HI_data, "HI", '℃', '#7F83F7')
+          break
+        case 4:
+          this.initHouseEnv(this.housing_environment.THI_data, "THI", '', '#B886F8')
+          break
       }
-		},
-		computed: {
-      safetyTop() {
-        return uni.getSystemInfoSync().safeAreaInsets.top
-      }
-		},
-		onLoad() {
-      uni.hideTabBar()
-		},
-    onReady() {
-      this.initData()
-      this.sectionChange(0)
     },
-		methods: {
-      // 舍内环境
-      sectionChange(index) {
-        this.current = index
-        let xData = ["5/25", "5/26", "5/27", "5/28", "5/29", "5/30", "5/31", "6/3", "6/4", "6/5"]
-        let series = [
-          [23.54, 23.51, 23.86, 23.65],
-          [23.08, 23.4, 23.25, 23.54],
-          [23.81, 23.31, 23.1, 23.14],
-          [23.61, 23.18, 23.6, 23.44],
-          [23.44, 23.29, 23.27, 23.02],
-          [23.42, 23.61, 23.59, 23.67],
-          [23.68, 23.59, 23.58, 23.96],
-          [23.16, 23.6, 23.83, 23.29],
-          [23.17, 23.97, 23.25, 23.33],
-          [23.77, 23.28, 23.31, 23.22]
-        ]
-        if (this.current == 0) {
-          this.$refs.activeChart.initChart(xData, series, '℃', '#DE868F')
-        }
-        if (this.current == 1) {
-          this.$refs.activeChart.initChart(xData, series, '%', '#93D2F3')
-        }
-        if (this.current == 2) {
-          this.$refs.activeChart.initChart(xData, series, 'lx', '#FCCA00')
-        }
-        if (this.current == 3) {
-          this.$refs.activeChart.initChart(xData, series, '℃', '#7F83F7')
-        }
-        if (this.current == 4) {
-          this.$refs.activeChart.initChart(xData, series, '', '#B886F8')
-        }
-      },
-      // 24h天气
-			initData(e) {
-        let xData1 = ['00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00', '08:00','09:00','10:00', '11:00', '12:00']
-        let series =  [{
-          name: "温度",
-          data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12'],
-          color: '#19AECE'
-        }]
-        this.$refs.weatherChart.initChart(xData1, series)
-			}
-		}
-	}
+    initHouseEnv (arr, name, unit, color) {
+      let xData = []
+      let yData = { name: name, data: [] }
+      arr.map(item => {
+        xData.push(item.date.slice(5))
+        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+      })
+      this.$refs.activeChart.initChart(xData, [yData], unit, color)
+    },
+    // 24h天气
+    initData () {
+      overViewGuardApi().then(res => {
+        this.staff_name = res.data.staff_name || ''
+        this.animal_count = res.data.animal_count || ''
+        this.pen_occupancy_rate = res.data.pen_occupancy_rate || ''
+        this.death_count = res.data.death_count || ''
+        this.housing_environment = res.data.housing_environment
+        this.sectionChange(0)
+      })
+      let xData1 = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00']
+      let series = [{
+        name: "温度",
+        data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12'],
+        color: '#19AECE'
+      }]
+      this.$refs.weatherChart.initChart(xData1, series)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-	.home-container {
-    .content {
-      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
-      padding: 0 24rpx 24rpx;
-      .dot {
-        width: 16rpx;
-        height: 16rpx;
-        border-radius: 50%;
-        background-color: #10cc8f;
-        margin: 22rpx 0;
+.home-container {
+  .content {
+    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    padding: 0 24rpx 24rpx;
+    .dot {
+      width: 16rpx;
+      height: 16rpx;
+      border-radius: 50%;
+      background-color: #10cc8f;
+      margin: 22rpx 0;
+    }
+    .weather-header {
+      width: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(25, 174, 206, 0.9) 0%,
+        rgba(25, 174, 206, 0.5) 100%
+      );
+      border-radius: 12rpx;
+      padding: 24rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .weather-hader-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .value {
+          color: #fff;
+          font-size: 24rpx;
+          margin-left: 8rpx;
+          line-height: 28rpx;
+        }
+        .alarm {
+          color: rgb(235, 37, 37);
+        }
       }
-      .weather-header {
-        width: 100%;
-        background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
+    }
+    .weather-body {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12rpx 0;
+      .body-item {
+        width: calc(50% - 6rpx);
+        height: 120rpx;
+        background: linear-gradient(
+          90deg,
+          rgba(25, 174, 206, 0.9) 0%,
+          rgba(25, 174, 206, 0.5) 100%
+        );
         border-radius: 12rpx;
         padding: 24rpx;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        .weather-hader-item {
+        .item-row {
+          width: 100%;
           display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          .value {
-            color: #fff;
-            font-size: 24rpx;
-            margin-left: 8rpx;
-            line-height: 28rpx;
-          }
-          .alarm {
-            color: rgb(235, 37, 37);
-          }
-        }
-      }
-      .weather-body {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 12rpx 0;
-        .body-item {
-          width: calc(50% - 6rpx);
-          height: 120rpx;
-          background: linear-gradient(90deg, rgba(25, 174, 206, 0.9) 0%, rgba(25, 174, 206, 0.5) 100%);
-          border-radius: 12rpx;
-          padding: 24rpx;
-          display: flex;
-          flex-direction: column;
           justify-content: space-between;
           align-items: center;
-          .item-row {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #fff;
-            color: #fff;
-            font-size: 24rpx;
-            view {
-              line-height: 28rpx;
-            }
-          }
-        }
-      }
-      .weather-chart {
-        width: 100%;
-        height: 250rpx;
-      }
-      .tab-num {
-        width: 100%;
-        height: 56rpx;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .num-item {
-          text-align: center;
-          font-weight: bold;
-          font-size: 28rpx;
-        }
-      }
-      .active-chart {
-        width: 100%;
-        height: 360rpx;
-      }
-      .manager-view{
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .fields-chart {
-          height: 160rpx;
-        }
-        .manager-info {
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          .info-item {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-          }
-        }
-      }
-      .daily-briefing {
-        width: 100%;
-        .daily-item {
-          display: flex;
-          justify-content: flex-start;
-          align-self: flex-start;
-        }
-      }
-      .warning-list {
-        max-height: 440rpx;
-        .warning-item {
-          height: 130rpx;
-          padding: 24rpx;
-          border-radius: 16rpx;
-          margin-bottom: 24rpx;
-          display: flex;
-          justify-content: space-around;
-          flex-direction: column;
-          .item-title {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
+          color: #fff;
+          color: #fff;
+          font-size: 24rpx;
+          view {
+            line-height: 28rpx;
           }
         }
       }
     }
-	}
+    .weather-chart {
+      width: 100%;
+      height: 250rpx;
+    }
+    .tab-num {
+      width: 100%;
+      height: 56rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .num-item {
+        text-align: center;
+        font-weight: bold;
+        font-size: 28rpx;
+      }
+    }
+    .active-chart {
+      width: 100%;
+      height: 360rpx;
+    }
+    .manager-view {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .fields-chart {
+        height: 160rpx;
+      }
+      .manager-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        .info-item {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+    }
+    .daily-briefing {
+      width: 100%;
+      .daily-item {
+        display: flex;
+        justify-content: flex-start;
+        align-self: flex-start;
+      }
+    }
+    .warning-list {
+      max-height: 440rpx;
+      .warning-item {
+        height: 130rpx;
+        padding: 24rpx;
+        border-radius: 16rpx;
+        margin-bottom: 24rpx;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        .item-title {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
 </style>

@@ -67,8 +67,8 @@ export const fetch = (options) => {
         } else {
           // 其他错误
           uni.showToast({
-            icon: null,
-            title: res.data.message || '请求错误'
+            icon: 'error',
+            title: res.data.message || res.data.msg || '请求错误'
           })
           reject(res)
         }
@@ -76,7 +76,7 @@ export const fetch = (options) => {
       fail(err) {
         // 网络错误
         uni.showToast({
-          icon: null,
+          icon: 'fail',
           title: '网络错误，换个网络试试'
         })
         // 网络错误
@@ -104,7 +104,7 @@ export const upload = (options) => {
         } else {
           // 其他错误
           uni.showToast({
-            icon: null,
+            icon: 'error',
             title: data.data.message || '请求错误'
           })
           reject(data)
@@ -113,7 +113,7 @@ export const upload = (options) => {
       fail: (err) => {
         // 网络错误
         uni.showToast({
-          icon: null,
+          icon: 'fail',
           title: '网络错误，换个网络试试'
         })
         reject(err)
