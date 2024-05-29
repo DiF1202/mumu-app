@@ -2,7 +2,7 @@
   <view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <u-icon name="map" color="#10cc8f" size="46rpx" :label="position + ' ' + currentDate" labelSize="28rpx" labelColor="#0F4239"></u-icon>
+      <u-icon name="map" color="#10cc8f" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon>
       <!-- 今日天气 -->
       <uni-subTitle customIcon="tianqi" title="今日天气" />
       <view class="weather-header">
@@ -149,7 +149,7 @@ import { overViewApi } from '@/api/home.js'
 export default {
   data () {
     return {
-      position: "安徽窝阳",
+      farm_name: "安徽窝阳",
       currentDate: "2024-5-19",
       list: ["动态存栏", "栏位占用", "疑死数量"],
       current: 0,
@@ -195,7 +195,7 @@ export default {
       let yData = { name: "消警比例", data: [] }
       this.production_data.alarm_data.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+        yData.data.push([item.alarm_handle_rate[1], item.alarm_handle_rate[3], item.alarm_handle_rate[0], item.alarm_handle_rate[4]])
       })
       this.$refs.eliminateAlarmChart.initChart(xData, [yData], "%")
     },
@@ -212,6 +212,7 @@ export default {
     initData () {
       overViewApi().then(res => {
         console.log(res)
+        this.farm_name = res.data.farm_name
         this.production_data = res.data.production_data
         this.risk_note = res.data.risk_note
         this.sectionChange(0)

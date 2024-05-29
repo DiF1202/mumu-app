@@ -140,6 +140,7 @@
 <script>
 import { houseType } from '@/api/utils.js'
 import { productionApi } from '@/api/home.js'
+import { transformData } from '@/utils/common.js'
 export default {
   data () {
     return {
@@ -188,7 +189,7 @@ export default {
           break
       }
     },
-    initHouseEnv(arr, name, unit, color) {
+    initHouseEnv (arr, name, unit, color) {
       let xData = []
       let yData = { name: name, data: [] }
       arr.map(item => {
@@ -198,7 +199,7 @@ export default {
       this.$refs.activeChart.initChart(xData, [yData], unit, color)
     },
     // 动态存栏
-    animalCount() {
+    animalCount () {
       let xData = []
       let yData = { name: '动态存栏', data: [], color: '#81B337' }
       this.animal_count_data.map(item => {
@@ -209,7 +210,7 @@ export default {
       this.$refs.animalCount.initChart(xData, [yData], max, '头')
     },
     // 栏位占用
-    penOccupancy() {
+    penOccupancy () {
       let xData = []
       let yData = { name: '动态存栏', data: [], color: '#81B337' }
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
@@ -222,7 +223,7 @@ export default {
     // 异常动物数量
     sectionChange1 (index) {
       this.current1 = index
-      switch(index) {
+      switch (index) {
         case 0:
           this.animalRisk(this.animal_risk_count.death_data, "疑死数量", '头', '#BD3124')
           break
@@ -231,9 +232,9 @@ export default {
           break
       }
     },
-    animalRisk(arr, name, unit, color) {
+    animalRisk (arr, name, unit, color) {
       let xData = []
-      let yData = {name: name, data: [],  color: color}
+      let yData = { name: name, data: [], color: color }
       arr.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
@@ -241,7 +242,7 @@ export default {
       this.$refs.animalRisk.initChart(xData, [yData], unit)
     },
     // 畜群活跃度统计
-    animalActivity() {
+    animalActivity () {
       let xData = []
       let yData = { name: "畜群活跃度", data: [] }
       this.animal_activity.animal_activity_fluctuation.map(item => {
@@ -251,13 +252,13 @@ export default {
       this.$refs.animalActivity.initChart(xData, [yData], "%")
     },
     // 畜群节律
-    alarmHandle() {
+    alarmHandle () {
       // 畜群节律统计
       let xData = []
       let yData = [
-        { name: "平均睡眠时长", data: [], color: '#B886F8'},
+        { name: "平均睡眠时长", data: [], color: '#B886F8' },
         { name: "平均饮水时长", data: [], color: '#CCF783' },
-        { name: "平均采食时长", data: [], color: '#93D2F3'}
+        { name: "平均采食时长", data: [], color: '#93D2F3' }
       ]
       this.alarm_handle_rate.map(item => {
         xData.push(item.date.slice(5))
@@ -268,7 +269,7 @@ export default {
       this.$refs.alarmHandle.initChart(xData, yData, 'h')
     },
     // 请求pick数据
-    async getHouseType() {
+    async getHouseType () {
       await houseType().then(res => {
         this.columns1 = [res.data]
         this.columns2 = [
@@ -294,7 +295,7 @@ export default {
     },
     // 初始化数据
     initData () {
-      productionApi({ house_type_id: this.house_type_id, date_type: this.date_type}).then(res => {
+      productionApi({ house_type_id: this.house_type_id, date_type: this.date_type }).then(res => {
         console.log(res)
         this.housing_environment = res.data.housing_environment
         this.animal_count_data = res.data.animal_assets.animal_count_data
@@ -314,60 +315,16 @@ export default {
         this.vehicleActivity() // 车辆出入
       })
     },
-    vehicleActivity() {
-      // let xData = ['05-01','05-02','05-03','05-04','05-05','05-06','05-07','05-08','05-09','05-10','05-11']
-      // let yData = [
-      //   {
-      //     data: [8, 9, 8, 7, 8, 8, 7, 9, 8, 7, 9],
-      //     color: 'transparent'
-      //   },
-      //   {
-      //     data: [1, 2, 3, 2, 1, 2, 2, 1, 2, 1, 1],
-      //     color: 'orange'
-      //   },
-      //   {
-      //     data: [4, 5, 0, 4, 5, 3, 4, 5, 5, 4, 3],
-      //     color: 'transparent'
-      //   },
-      //   {
-      //     data: [2, 1, 0, 2, 1, 3, 1, 1, 2, 1, 2],
-      //     color: 'orange'
-      //   },
-      //   {
-      //     data: [5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      //     color: 'transparent'
-      //   },
-      //   {
-      //     data: [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      //     color: 'orange'
-      //   },
-      // ]
-      let data = [
-        {score: [[1, 3],[12, 13],[15, 17]]},
-        {score: [[1,23],[13, 14] ]}
-      ]
-      let lengthD = []
-      let dataN = []
+    vehicleActivity () {
       let xData = []
-      let yData = []
-      data.map(item => {
-        lengthD.push(item.score.length)
+      this.vehicle_activity.map(item => {
+        xData.push(item.date.slice(5))
       })
-      let maxD = Math.max(...lengthD)
-      console.log(maxD, lengthD)
-      data.map(item => {
-        item.score.map((ele, index) => {
-          ele[index] = (ele[1] - ele[0])
-        })
-      })
-      console.log(data, 11111)
-      console.log()
-      for(let i = 0; i < maxD; i++) {
-        console.log(i)
-
-      }
+      let yData = transformData(this.vehicle_activity)
+      console.log(xData, yData)
+      this.$refs.carChart.initChart(xData, yData)
     },
-    attendanceHandler(arr, name, unit, color) {
+    attendanceHandler (arr, name, unit, color) {
       let xData = []
       let yData = { name: name, data: [] }
       arr.map(item => {
@@ -379,14 +336,14 @@ export default {
     // 饲养员考勤
     sectionChange2 (index) {
       this.current2 = index
-      switch(index) {
+      switch (index) {
         case 0:
           this.attendanceHandler(this.attendance.alarm_handle_rate_data, '消警比例', '%', '#81B337')
           break
         case 1:
           this.attendanceHandler(this.attendance.patrol_time_data, '寻舍时长', 'h', '#CBA43F')
           break
-        case 2: 
+        case 2:
           this.attendanceHandler(this.attendance.remote_time_data, '远程时长', 'h', '#347CAF')
           break
       }

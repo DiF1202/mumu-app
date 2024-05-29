@@ -65,3 +65,69 @@ export const timeHandler = (time) => {
   // 拼接字符串  
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;  
 }
+
+// 处理车辆出入数据
+// export const flattenScores = (input) => {  
+//   return input.map(item => {  
+//       // 假设我们已经修正了键名错误，将 socre 改为 score  
+//       let flattenedScore = item.score.flatMap(range => range);  
+//       return { score: flattenedScore }; // 返回新的对象，其中 score 是扁平化后的数组  
+//   });  
+// }
+// export const transformScores = (input) => {  
+//   return input.map(item => {  
+//       const score = item.score;  
+//       const data = [score[0]]; // 第一个数是数组的第一个值  
+
+//       // 从第二个元素开始，计算差值并添加到data数组中  
+//       for (let i = 1; i < score.length; i++) {  
+//           data.push(score[i] - score[i - 1]);  
+//       }  
+
+//       // 如果data数组长度小于6，用0填充到长度为6  
+//       while (data.length < 6) {  
+//           data.push(0);  
+//       }  
+//       return { data };  
+//   });  
+// }  
+export const transformData = (input) => {
+  let data = input.map(item => {  
+    let flattenedScore = item.score.flatMap(range => range);  
+    return { score: flattenedScore }; // 返回新的对象，其中 score 是扁平化后的数组  
+  })
+  let data2 = data.map(item => {  
+      const score = item.score;  
+      const data = [score[0]]  
+      // 从第二个元素开始，计算差值并添加到data数组中  
+      for (let i = 1; i < score.length; i++) {  
+          data.push(score[i] - score[i - 1]);  
+      }  
+      // 如果data数组长度小于6，用0填充到长度为6  
+      while (data.length < 6) {  
+          data.push(0);  
+      }  
+      return { data };  
+  })
+  const output = [];  
+  const colors = ['transparent', 'orange']; // 定义颜色数组，根据需求调整  
+  let colorIndex = 0; // 跟踪当前颜色索引  
+  // 遍历每个原始 data 数组  
+  data2.forEach(item => {  
+    // 遍历 data 数组中的每个元素  
+    for (let i = 0; i < item.data.length; i++) {  
+        // 如果 output 数组的长度小于当前索引加 1，则添加一个新的对象  
+        if (output.length <= i) {  
+            output.push({ data: [], color: colors[colorIndex] });  
+        }  
+
+        // 将当前元素添加到对应索引的 output 对象的 data 数组中  
+        output[i].data.push(item.data[i] || 0); // 如果不存在，则用 0 填充  
+
+        // 切换颜色（如果需要的话）  
+        colorIndex = (colorIndex + 1) % colors.length; // 循环使用颜色数组  
+    }  
+  });  
+
+  return output;  
+}
