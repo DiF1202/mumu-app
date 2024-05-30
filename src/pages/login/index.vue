@@ -1,96 +1,118 @@
 <template>
-  <view class="login-container" :style="{paddingTop:`${safetyTop}px`,height: `${windowHeight + 50}px` }">
+  <view
+    class="login-container"
+    :style="{ paddingTop: `${safetyTop}px`, height: `${windowHeight + 50}px` }"
+  >
     <view class="logo-content">
-      <u--image src="/static/icon/logo.png" width="120rpx" height="120rpx"></u--image>
+      <u--image
+        src="/static/icon/logo.png"
+        width="120rpx"
+        height="120rpx"
+      ></u--image>
       <text class="title">牧目科技</text>
       <!-- <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon> -->
     </view>
     <view class="weixin-btn">
-      <button type="default" open-type="getPhoneNumber" @getphonenumber="wxLogin" class="button">
-        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx"></u-icon>
+      <button
+        type="default"
+        open-type="getPhoneNumber"
+        @getphonenumber="wxLogin"
+        class="button"
+      >
+        <u-icon
+          name="weixin-circle-fill"
+          color="#10cc8f"
+          size="28"
+          label="微信登录"
+          labelPos="top"
+          labelSize="24rpx"
+        ></u-icon>
       </button>
     </view>
   </view>
 </template>
 
 <script>
-import { loginApi } from '@/api/login'
-import { userStore } from '@/store'
+import { loginApi } from "@/api/login";
+import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       inputStyle: {
-        paddingLeft: '40rpx',
-        background: 'rgba(234, 243, 255, 1)',
-        height: '100rpx',
+        paddingLeft: "40rpx",
+        background: "rgba(234, 243, 255, 1)",
+        height: "100rpx"
       },
       loadingShow: false
-    }
+    };
   },
   computed: {
-    safetyTop () {
-      return uni.getSystemInfoSync().safeAreaInsets.top
+    safetyTop() {
+      return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    windowHeight () {
-      return uni.getSystemInfoSync().windowHeight - 50
+    windowHeight() {
+      return uni.getSystemInfoSync().windowHeight - 50;
     }
   },
-  onLoad () {
-    const token = userStore().user_info.token
+  onLoad() {
+    const token = userStore().user_info.token;
     if (token) {
-      this.pageTo()
+      this.pageTo();
     }
   },
   methods: {
-    wxLogin (e) {
-      console.log(e)
-      this.loadingShow = true
-      if (e.detail.errMsg === 'getPhoneNumber:ok') {
+    wxLogin(e) {
+      console.log(e);
+      this.loadingShow = true;
+      if (e.detail.errMsg === "getPhoneNumber:ok") {
         uni.login({
-          provider: 'weixin',
-          success: (res) => {
-            if (res.errMsg == 'login:ok') {
-              console.log(res.code, 'login:ok')
-              loginApi({ wx_login_code: res.code, get_phone_code: e.detail.code }).then(loginRes => {
-                console.log(loginRes, 'loginRes')
-                if (loginRes.code == 200) {
-                  userStore().set_user_info(loginRes.data)
-                  this.loadingShow = false
-                  uni.showToast({
-                    icon: null,
-                    title: '登录成功'
-                  })
-                  this.pageTo()
-                }
-              }).catch(() => {
-                this.loadingShow = false
-                uni.showToast({
-                  icon: 'fail',
-                  title: '登录失败'
-                })
+          provider: "weixin",
+          success: res => {
+            if (res.errMsg == "login:ok") {
+              console.log(res.code, "login:ok");
+              loginApi({
+                wx_login_code: res.code,
+                get_phone_code: e.detail.code
               })
+                .then(loginRes => {
+                  console.log(loginRes, "loginRes");
+                  if (loginRes.code == 200) {
+                    userStore().set_user_info(loginRes.data);
+                    this.loadingShow = false;
+                    uni.showToast({
+                      icon: null,
+                      title: "登录成功"
+                    });
+                    this.pageTo();
+                  }
+                })
+                .catch(() => {
+                  this.loadingShow = false;
+                  uni.showToast({
+                    icon: "fail",
+                    title: "登录失败"
+                  });
+                });
             }
           }
-        })
+        });
       } else {
-        this.loadingShow = false
+        this.loadingShow = false;
         uni.showToast({
           icon: null,
-          title: '无权限'
-        })
+          title: "无权限"
+        });
       }
     },
-    pageTo () {
+    pageTo() {
       if (userStore().user_info.identity_type === 1) {
-        uni.reLaunch({ url: '/pages/home/guard/index' })
-
+        uni.reLaunch({ url: "/pages/home/butler/index" });
       } else {
-        uni.reLaunch({ url: '/pages/home/butler/index' })
-
+        uni.reLaunch({ url: "/pages/home/guard/index" });
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,31 @@
 <template>
-  <u-tabbar :value="tabCurrent" :fixed="true" :placeholder="true" :safeAreaInsetBottom="true" activeColor="#10CC8F" inactiveColor="#333333">
-    <u-tabbar-item v-for="(tabItem, index) in tabList" :key="index" :text="tabItem.text" @click="tabHandler(tabItem, index)">
+  <u-tabbar
+    :value="tabCurrent"
+    :fixed="true"
+    :placeholder="true"
+    :safeAreaInsetBottom="true"
+    activeColor="#10CC8F"
+    inactiveColor="#333333"
+  >
+    <u-tabbar-item
+      v-for="(tabItem, index) in tabList"
+      :key="index"
+      :text="tabItem.text"
+      @click="tabHandler(tabItem, index)"
+    >
       <template #active-icon>
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`" size="42rpx" color="#10CC8F"></u-icon>
+        <u-icon
+          :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`"
+          size="42rpx"
+          color="#10CC8F"
+        ></u-icon>
       </template>
       <template #inactive-icon>
-        <u-icon :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`" size="42rpx" color="#333333"></u-icon>
+        <u-icon
+          :custom-prefix="`custom-icon custom-icon-${tabItem.icon}`"
+          size="42rpx"
+          color="#333333"
+        ></u-icon>
       </template>
     </u-tabbar-item>
   </u-tabbar>
@@ -21,14 +41,14 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       tabList:
-        userStore().user_info.identity_type === 1 ? guardTabList : butlerTabList
+        userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
     };
   },
   methods: {
-    tabHandler (item, index) {
+    tabHandler(item, index) {
       if (index < 2) {
         uni.switchTab({ url: item.pagePath });
       } else {
