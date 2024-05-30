@@ -211,8 +211,8 @@ export default {
       envListAlarmData: [], //环境风险告警
       animalListAlarmData: [], //动物资产告警
       productionListAlarmData: [], //管理风险告警
-      houseTypeId: 1,
-      dateTypeId: 1
+      houseTypeId: null,
+      dateTypeId: null
     };
   },
 
@@ -224,10 +224,12 @@ export default {
   },
   methods: {
     async getRiskReportData() {
-      const res = await getRiskReportApi({
-        house_type_id: this.houseTypeId,
-        date_type: this.dateTypeId
-      });
+      const params = {};
+      if (this.dateTypeId)
+        Object.assign(params, { date_type: this.dateTypeId });
+      if (this.houseTypeId)
+        Object.assign(params, { house_type_id: this.houseTypeId });
+      const res = await getRiskReportApi(params);
       const {
         staff_risk_rank = [],
         env_risk_rank = [],
@@ -243,7 +245,6 @@ export default {
       return true;
     },
     renderCharts(dataSource, name, unit, color) {
-      console.log(color);
       let xData = [];
       let yData = { name: name, data: [], color: color };
       dataSource.map(item => {
@@ -277,16 +278,17 @@ export default {
         );
       }
     },
+    enterDetails(id) {
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
+    },
+
     pickerCallback1(e) {
       this.houseTypeId = e.id;
       this.getRiskReportData();
-      console.log(e.id);
     },
     pickerCallback2(e) {
       this.dateTypeId = e.id;
       this.getRiskReportData();
-
-      console.log(e);
     }
   }
 };
