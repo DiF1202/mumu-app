@@ -23,7 +23,8 @@
           <view class="num-item" style="color:#B886F8;width: 20%;">{{housing_environment?.THI}}</view>
         </view>
         <view class="active-chart">
-          <uni-kchart ref="activeChart"></uni-kchart>
+          <!-- <uni-kchart ref="activeChart"></uni-kchart> -->
+          <uni-boxplot ref="activeChart"></uni-boxplot>
         </view>
       </uni-card>
       <uni-subTitle icon="rmb-circle" title="生物资产" />
@@ -85,7 +86,8 @@
           <u-icon custom-prefix="custom-icon custom-icon-heart" size="38rpx" color="#10cc8f" labelPos="right" label="畜群活跃度统计" labelColor="#333333" labelSize="24rpx"></u-icon>
         </view>
         <view class="active-chart">
-          <uni-kchart ref="animalActivity"></uni-kchart>
+          <!-- <uni-kchart ref="animalActivity"></uni-kchart> -->
+          <uni-boxplot ref="animalActivity"></uni-boxplot>
         </view>
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
@@ -121,7 +123,8 @@
           <view class="num-item" style="color:#347CAF;width: 33%;">35分</view>
         </view>
         <view class="active-chart">
-          <uni-kchart ref="attendanceChart"></uni-kchart>
+          <!-- <uni-kchart ref="attendanceChart"></uni-kchart> -->
+          <uni-boxplot ref="attendanceChart"></uni-boxplot>
         </view>
       </uni-card>
       <u-gap height="12rpx"></u-gap>
@@ -173,30 +176,32 @@ export default {
       this.current = index
       switch (index) {
         case 0:
-          this.initHouseEnv(this.housing_environment.temperature_data, "温度", '℃', '#DE868F')
+          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F')
           break
         case 1:
-          this.initHouseEnv(this.housing_environment.humidity_data, "湿度", '%', '#93D2F3')
+          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3')
           break
         case 2:
-          this.initHouseEnv(this.housing_environment.illuminance_data, "光照", 'lx', '#FCCA00')
+          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00')
           break
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, "HI", '℃', '#7F83F7')
+          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7')
           break
         case 4:
-          this.initHouseEnv(this.housing_environment.THI_data, "THI", '', '#B886F8')
+          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8')
           break
       }
     },
-    initHouseEnv (arr, name, unit, color) {
+    initHouseEnv (arr, unit, color) {
       let xData = []
-      let yData = { name: name, data: [] }
+      let yData = []
+      let lineData = []
       arr.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+        yData.push(item.score)
+        lineData.push(item.score[2])
       })
-      this.$refs.activeChart.initChart(xData, [yData], unit, color)
+      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color)
     },
     // 动态存栏
     animalCount () {
@@ -244,12 +249,14 @@ export default {
     // 畜群活跃度统计
     animalActivity () {
       let xData = []
-      let yData = { name: "畜群活跃度", data: [] }
+      let yData = []
+      let lineData = []
       this.animal_activity.animal_activity_fluctuation.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+        yData.push(item.score)
+        lineData.push(item.score[2])
       })
-      this.$refs.animalActivity.initChart(xData, [yData], "%")
+      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#10cc8f')
     },
     // 畜群节律
     alarmHandle () {
@@ -323,27 +330,29 @@ export default {
       console.log(xData, yData)
       this.$refs.carChart.initChart(xData, yData)
     },
-    attendanceHandler (arr, name, unit, color) {
+    attendanceHandler (arr, unit, color) {
       let xData = []
-      let yData = { name: name, data: [] }
+      let yData = []
+      let lineData = []
       arr.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push([item.score[1], item.score[3], item.score[0], item.score[4]])
+        yData.push(item.score)
+        lineData.push(item.score[2])
       })
-      this.$refs.attendanceChart.initChart(xData, [yData], unit, color)
+      this.$refs.attendanceChart.initChart(xData, yData, lineData, unit, color)
     },
     // 饲养员考勤
     sectionChange2 (index) {
       this.current2 = index
       switch (index) {
         case 0:
-          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '消警比例', '%', '#81B337')
+          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337')
           break
         case 1:
-          this.attendanceHandler(this.attendance.patrol_time_data, '寻舍时长', 'h', '#CBA43F')
+          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F')
           break
         case 2:
-          this.attendanceHandler(this.attendance.remote_time_data, '远程时长', 'h', '#347CAF')
+          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF')
           break
       }
     }

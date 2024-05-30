@@ -106,7 +106,8 @@
       <uni-subTitle icon="volume-off" title="消警比例" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="eliminateAlarm">
-          <uni-kchart ref="eliminateAlarmChart"></uni-kchart>
+          <!-- <uni-kchart ref="eliminateAlarmChart"></uni-kchart> -->
+          <uni-boxplot ref="eliminateAlarmChart"></uni-boxplot>
         </view>
       </uni-card>
       <!-- 风险提示 -->
@@ -192,12 +193,14 @@ export default {
     // 消警比例
     eliminateAlarm () {
       let xData = []
-      let yData = { name: "消警比例", data: [] }
+      let yData = []
+      let lineData = []
       this.production_data.alarm_data.map(item => {
         xData.push(item.date.slice(5))
-        yData.data.push([item.alarm_handle_rate[1], item.alarm_handle_rate[3], item.alarm_handle_rate[0], item.alarm_handle_rate[4]])
+        yData.push(item.alarm_handle_rate)
+        lineData.push(item.alarm_handle_rate[2])
       })
-      this.$refs.eliminateAlarmChart.initChart(xData, [yData], "%")
+      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8f')
     },
     // 风险提示
     riskNote () {
