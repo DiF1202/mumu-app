@@ -8,6 +8,7 @@
             prefixIcon="grid"
             :columns="animalsType"
             @pickerCallback="pickerCallback1"
+            :value="houseTypeId"
           />
         </view>
         <view class="filter-date">
@@ -28,9 +29,15 @@
           ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #de868f; width: 20%">12次</view>
-          <view class="num-item" style="color: #93d2f3; width: 20%">105次</view>
-          <view class="num-item" style="color: #fcca00; width: 20%">45次</view>
+          <view class="num-item" style="color: #de868f; width: 33%"
+            >{{ riskCountData?.env_risk_count }}次</view
+          >
+          <view class="num-item" style="color: #93d2f3; width: 33%"
+            >{{ riskCountData?.animal_risk_count }}次</view
+          >
+          <view class="num-item" style="color: #fcca00; width: 33%"
+            >{{ riskCountData?.production_risk_count }}次</view
+          >
         </view>
         <view class="active-chart">
           <uni-line ref="activeChart"></uni-line>
@@ -39,42 +46,42 @@
       <uni-subTitle icon="account-fill" title="员工风控" />
       <scroll-view class="table-body" :scroll-y="true">
         <view v-for="(row, index) in heatList" :key="index" class="body-row">
-          <view class="row-item">{{ row.name }}</view>
-          <view class="row-item bold">{{ row.place }}</view>
-          <view class="row-item bold midWidth">{{ row.unHandleRiskNum }}</view>
-          <view class="row-item bold midWidth">{{ row.bySelfRiskNum }}</view>
+          <view class="row-item">{{ row.staff_name }}</view>
+          <view class="row-item bold">{{ row.house_name }}</view>
+          <view class="row-item bold midWidth">{{ row.untreated }}</view>
+          <view class="row-item bold midWidth">{{ row.self_report }}</view>
         </view>
       </scroll-view>
       <uni-subTitle icon="pushpin-fill" title="环境风险" />
 
       <swiper indicator-dots autoplay>
-        <swiper-item v-for="(item, index) in listAlarmData" :key="index">
+        <swiper-item v-for="(item, index) in envListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
               <u--image
                 :showLoading="true"
-                :src="item.poster_url"
+                :src="item.poster_url || defaultImg"
                 width="280rpx"
                 height="210rpx"
               ></u--image>
               <view class="item-info">
                 <view>
                   <u--text
-                    :text="'时间：' + item.alarm_time"
+                    :text="'时间：' + item.date"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'地点：' + item.location"
+                    :text="'地点：' + item.address"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'负责人：' + item.handler_name"
+                    :text="'负责人：' + item.staff_name"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
@@ -86,33 +93,33 @@
       </swiper>
       <uni-subTitle icon="rmb-circle" title="资产风险" />
       <swiper indicator-dots autoplay>
-        <swiper-item v-for="(item, index) in listAlarmData" :key="index">
+        <swiper-item v-for="(item, index) in animalListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
               <u--image
                 :showLoading="true"
-                :src="item.poster_url"
+                :src="item.poster_url || defaultImg"
                 width="280rpx"
                 height="210rpx"
               ></u--image>
               <view class="item-info">
                 <view>
                   <u--text
-                    :text="'时间：' + item.alarm_time"
+                    :text="'时间：' + item.date"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'地点：' + item.location"
+                    :text="'地点：' + item.address"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'负责人：' + item.handler_name"
+                    :text="'负责人：' + item.staff_name"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
@@ -124,33 +131,36 @@
       </swiper>
       <uni-subTitle icon="file-text-fill" title="管理风险" />
       <swiper indicator-dots autoplay>
-        <swiper-item v-for="(item, index) in listAlarmData" :key="index">
+        <swiper-item
+          v-for="(item, index) in productionListAlarmData"
+          :key="index"
+        >
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
               <u--image
                 :showLoading="true"
-                :src="item.poster_url"
+                :src="item.poster_url || defaultImg"
                 width="280rpx"
                 height="210rpx"
               ></u--image>
               <view class="item-info">
                 <view>
                   <u--text
-                    :text="'时间：' + item.alarm_time"
+                    :text="'时间：' + item.date"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'地点：' + item.location"
+                    :text="'地点：' + item.address"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view>
                   <u--text
-                    :text="'负责人：' + item.handler_name"
+                    :text="'负责人：' + item.staff_name"
                     size="28rpx"
                     color="#333333"
                   ></u--text>
@@ -165,37 +175,26 @@
 </template>
 
 <script>
+import { getRiskReportApi } from "@/api/view.js";
+
+const initHeatList = [
+  {
+    staff_name: "负责人",
+    house_name: "负责畜舍",
+    untreated: "未处理风险数",
+    self_report: "自主上报风险数"
+  }
+];
+
 export default {
   data() {
     return {
       list: ["环境风险", "资产风险", "管理风险"],
       current: 0,
-      heatList: [
-        {
-          name: "负责人",
-          place: "负责畜舍",
-          unHandleRiskNum: "未处理风险数",
-          bySelfRiskNum: "自主上报风险数"
-        },
-        {
-          name: "李小龙",
-          place: "育肥",
-          unHandleRiskNum: "123",
-          bySelfRiskNum: "123"
-        },
-        {
-          name: "李小龙",
-          place: "育肥",
-          unHandleRiskNum: "123",
-          bySelfRiskNum: "123"
-        },
-        {
-          name: "李小龙",
-          place: "育肥",
-          unHandleRiskNum: "123",
-          bySelfRiskNum: "123"
-        }
-      ],
+      heatList: [],
+      riskCountData: {},
+      defaultImg:
+        "https://img2.baidu.com/it/u=421118277,4243220711&fm=253&fmt=auto&app=138&f=PNG?w=460&h=307",
       animalsType: [
         [
           { id: 1, name: "育肥" },
@@ -209,301 +208,85 @@ export default {
           { id: 2, name: "年" }
         ]
       ],
-      listAlarmData: [
-        {
-          alarm_id: 1,
-          alarm_name: "死亡告警",
-          alarm_status: "已处理",
-          alarm_time: "2024-05-04 17:55:09",
-          handler_name: "雨飞管家",
-          location: "1号舍区--栏位01",
-          poster_url:
-            "https://img2.baidu.com/it/u=421118277,4243220711&fm=253&fmt=auto&app=138&f=PNG?w=460&h=307",
-          report_type: 1
-        },
-        {
-          alarm_id: 1,
-          alarm_name: "死亡告警2",
-          alarm_status: "已处理",
-          alarm_time: "2024-05-04 17:55:09",
-          handler_name: "雨飞管家",
-          location: "1号舍区--栏位01",
-          poster_url:
-            "https://img2.baidu.com/it/u=421118277,4243220711&fm=253&fmt=auto&app=138&f=PNG?w=460&h=307",
-          report_type: 1
-        },
-        {
-          alarm_id: 1,
-          alarm_name: "死亡告警3",
-          alarm_status: "已处理",
-          alarm_time: "2024-05-04 17:55:09",
-          handler_name: "雨飞管家",
-          location: "1号舍区--栏位01",
-          poster_url:
-            "https://img2.baidu.com/it/u=421118277,4243220711&fm=253&fmt=auto&app=138&f=PNG?w=460&h=307",
-          report_type: 1
-        }
-      ]
+      envListAlarmData: [], //环境风险告警
+      animalListAlarmData: [], //动物资产告警
+      productionListAlarmData: [], //管理风险告警
+      houseTypeId: 1,
+      dateTypeId: 1
     };
   },
-  onReady() {
-    this.initData();
-    this.sectionChange(0);
+
+  async mounted() {
+    const res = await this.getRiskReportData();
+    if (res === true) {
+      this.sectionChange(0);
+    }
   },
   methods: {
+    async getRiskReportData() {
+      const res = await getRiskReportApi({
+        house_type_id: this.houseTypeId,
+        date_type: this.dateTypeId
+      });
+      const {
+        staff_risk_rank = [],
+        env_risk_rank = [],
+        animal_risk_rank = [],
+        production_risk_rank = [],
+        risk_count = []
+      } = res?.data || {};
+      this.heatList = [...initHeatList, ...staff_risk_rank];
+      this.envListAlarmData = env_risk_rank || [];
+      this.animalListAlarmData = animal_risk_rank || [];
+      this.productionListAlarmData = production_risk_rank || [];
+      this.riskCountData = risk_count || [];
+      return true;
+    },
+    renderCharts(dataSource, name, unit, color) {
+      console.log(color);
+      let xData = [];
+      let yData = { name: name, data: [], color: color };
+      dataSource.map(item => {
+        xData.push(item.date.slice(5));
+        yData.data.push(item.score);
+      });
+      this.$refs.activeChart.initChart(xData, [yData], unit, color);
+    },
     sectionChange(index) {
-      console.log(index);
       this.current = index;
-      if (this.current == 0) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
-        let series1 = [
-          {
-            name: "温度",
-            data: [
-              "23",
-              "21",
-              "21",
-              "14",
-              "25",
-              "26",
-              "27",
-              "21",
-              "21",
-              "14",
-              "25"
-            ],
-            color: "#DE868F"
-          }
-        ];
-        this.$refs.activeChart.initChart(xData1, series1, "℃");
-      }
-      if (this.current == 1) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
-        let series1 = [
-          {
-            name: "湿度",
-            data: [
-              "23",
-              "21",
-              "21",
-              "14",
-              "25",
-              "26",
-              "27",
-              "21",
-              "21",
-              "14",
-              "25"
-            ],
-            color: "#93D2F3"
-          }
-        ];
-        this.$refs.activeChart.initChart(xData1, series1, "%");
-      }
-      if (this.current == 2) {
-        let xData1 = [
-          "05-01",
-          "05-02",
-          "05-03",
-          "05-04",
-          "05-05",
-          "05-06",
-          "05-07",
-          "05-08",
-          "05-09",
-          "05-10",
-          "05-11"
-        ];
-        let series1 = [
-          {
-            name: "光照度",
-            data: [
-              "23",
-              "21",
-              "21",
-              "14",
-              "25",
-              "26",
-              "27",
-              "21",
-              "21",
-              "14",
-              "25"
-            ],
-            color: "#FCCA00"
-          }
-        ];
-        this.$refs.activeChart.initChart(xData1, series1, "lx");
+      if (this.current === 0) {
+        this.renderCharts(
+          this.riskCountData?.env_risk_data,
+          "环境风险",
+          "",
+          "#de868f"
+        );
+      } else if (this.current === 1) {
+        this.renderCharts(
+          this.riskCountData?.animal_risk_data,
+          "资产风险",
+          "",
+          "#93d2f3"
+        );
+      } else if (this.current === 2) {
+        this.renderCharts(
+          this.riskCountData?.production_risk_data,
+          "管理风险",
+          "",
+          "#fcca00"
+        );
       }
     },
     pickerCallback1(e) {
-      console.log(e);
+      this.houseTypeId = e.id;
+      this.getRiskReportData();
+      console.log(e.id);
     },
     pickerCallback2(e) {
+      this.dateTypeId = e.id;
+      this.getRiskReportData();
+
       console.log(e);
-    },
-    initData() {
-      let xData1 = [
-        "05-01",
-        "05-02",
-        "05-03",
-        "05-04",
-        "05-05",
-        "05-06",
-        "05-07",
-        "05-08",
-        "05-09",
-        "05-10",
-        "05-11"
-      ];
-      let series1 = [
-        {
-          name: "THI",
-          data: [
-            "23",
-            "21",
-            "21",
-            "14",
-            "25",
-            "26",
-            "27",
-            "21",
-            "21",
-            "14",
-            "25"
-          ],
-          color: "#81B337"
-        }
-      ];
-      this.$refs.enterChart.initChart(xData1, series1);
-
-      let xData2 = [
-        "05-01",
-        "05-02",
-        "05-03",
-        "05-04",
-        "05-05",
-        "05-06",
-        "05-07",
-        "05-08",
-        "05-09",
-        "05-10",
-        "05-11"
-      ];
-      let series2 = [
-        {
-          name: "THI",
-          data: [
-            "23",
-            "21",
-            "21",
-            "14",
-            "25",
-            "26",
-            "27",
-            "21",
-            "21",
-            "14",
-            "25"
-          ],
-          color: "#347CAF"
-        }
-      ];
-      this.$refs.occupationChart.initChart(xData2, series2);
-
-      let xData3 = [
-        "05-01",
-        "05-02",
-        "05-03",
-        "05-04",
-        "05-05",
-        "05-06",
-        "05-07",
-        "05-08",
-        "05-09",
-        "05-10",
-        "05-11",
-        "05-12"
-      ];
-      let series4 = [
-        {
-          name: "平均",
-          type: "line",
-          color: "#B886F8",
-          data: [12, -14, 10, -17, 9, -16, 12, -14, 10, -17, 9, -16]
-        },
-        {
-          name: "最高",
-          type: "point",
-          color: "#f04864",
-          data: [13, -15, 16, -18, 10, -17, 13, -15, 16, -18, 7, -17]
-        },
-        {
-          name: "最低",
-          type: "point",
-          color: "#81B337",
-          data: [11, -13, 9, -16, 8, -15, 11, -13, 9, -16, 8, -15]
-        }
-      ];
-      this.$refs.activityChart.initChart(xData3, series4);
-
-      let xData = [
-        "05-01",
-        "05-02",
-        "05-03",
-        "05-04",
-        "05-05",
-        "05-06",
-        "05-07",
-        "05-08",
-        "05-09",
-        "05-10",
-        "05-11"
-      ];
-      let yData = [
-        {
-          name: "平均睡眠时长",
-          data: [23, 12, 11, 20, 11, 12, 16, 18, 22, 21, 10],
-          color: "#B886F8"
-        },
-        {
-          name: "平均饮水时长",
-          data: [20, 23, 15, 16, 21, 9, 12, 11, 5, 11, 5],
-          color: "#CCF783"
-        },
-        {
-          name: "平均采食时长",
-          data: [12, 21, 5, 19, 11, 21, 12, 11, 8, 11, 12],
-          color: "#93D2F3"
-        }
-      ];
-      this.$refs.rhythmChart.initChart(xData, yData, "h");
-
-      this.$refs.carChart.initChart();
     }
   }
 };
