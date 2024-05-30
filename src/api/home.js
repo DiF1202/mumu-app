@@ -18,9 +18,29 @@ const overViewGuardApi = () => {
     url: '/api/mini/get-house-env-view',
   })
 }
-
+const summaryApi = () => {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-yesterday-summary'
+  })
+}
+const dingListApi = () => {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-ding-list'
+  })
+}
+const riskStatementApi = () => {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-guardian-risk-statement'
+  })
+}
 export {
   overViewApi,
   productionApi,
-  overViewGuardApi
+  overViewGuardApi,
+  summaryApi,
+  dingListApi,
+  riskStatementApi
 }

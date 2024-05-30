@@ -10,22 +10,13 @@
         </view>
       </view>
       <view class="menu-section">
-        <u-cell icon="phone" :iconStyle="iconStyle" :title="user_info.mobile" :titleStyle="titleStyle" :border="true" ></u-cell>
-        <u-cell icon="map" :iconStyle="iconStyle" :title="user_info.area" :titleStyle="titleStyle" :border="true" ></u-cell>
+        <u-cell icon="phone" :iconStyle="iconStyle" :title="user_info.mobile" :titleStyle="titleStyle" :border="true"></u-cell>
+        <u-cell icon="map" :iconStyle="iconStyle" :title="user_info.area" :titleStyle="titleStyle" :border="true"></u-cell>
         <u-cell icon="list-dot" :iconStyle="iconStyle" :title="user_info.farm_house_list.join('/')" :titleStyle="titleStyle" :border="true"></u-cell>
       </view>
       <u-gap height="24rpx"></u-gap>
       <view class="menu-section">
-        <u-cell 
-          icon="setting"
-          :iconStyle="iconStyle"
-          title="退出登录"
-          :titleStyle="titleStyle"
-          :border="false"
-          isLink
-          rightIconStyle="fontSize:40rpx;"
-          @click="menuItemClick()"
-        >
+        <u-cell icon="setting" :iconStyle="iconStyle" title="退出登录" :titleStyle="titleStyle" :border="true" isLink rightIconStyle="fontSize:40rpx;" @click="menuItemClick()">
         </u-cell>
       </view>
     </view>
@@ -34,65 +25,65 @@
 </template>
 
 <script>
-  import { userStore } from '@/store'
-  export default {
-    data() {
-      return {
-        iconStyle: {
-          color: "#10cc8f",
-          fontSize: '48rpx',
-          lineHeight: '48rpx'
-        },
-        titleStyle: {
-          color: "#333333",
-          fontSize: '34rpx',
-          fontWeight: 'bold'
-        }
-      }
-    },
-    computed: {
-      windowHeight() {
-        return uni.getSystemInfoSync().windowHeight
+import { userStore } from '@/store'
+export default {
+  data () {
+    return {
+      iconStyle: {
+        color: "#10cc8f",
+        fontSize: '48rpx',
+        lineHeight: '48rpx'
       },
-      safetyTop() {
-        return uni.getSystemInfoSync().safeAreaInsets.top
-      },
-      user_info() {
-        return userStore().user_info;
-      },
-    },
-    methods: {
-      menuItemClick() {
-        userStore().clear_user_info()
-        uni.reLaunch({ url: '/pages/login/index' })
+      titleStyle: {
+        color: "#333333",
+        fontSize: '34rpx',
+        fontWeight: 'bold'
       }
     }
+  },
+  computed: {
+    windowHeight () {
+      return uni.getSystemInfoSync().windowHeight
+    },
+    safetyTop () {
+      return uni.getSystemInfoSync().safeAreaInsets.top
+    },
+    user_info () {
+      return userStore().user_info;
+    },
+  },
+  methods: {
+    menuItemClick () {
+      userStore().clear_user_info()
+      uni.reLaunch({ url: '/pages/login/index' })
+    }
   }
+}
 </script>
 
 <style lang="scss">
-  .mine-container {
-    .content {
-      background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 100%);
-      padding: 80rpx 24rpx 24rpx;
-    }
-    .mine-section {
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-      padding-bottom: 92rpx;
-			.mine-info {
-				padding: 0 28rpx;
-			}
-    }
-		.menu-section {
-      border-radius: 16rpx;
-      transform: translateY(-20rpx);
-      background: #fff;
-      padding: 0 24rpx;
-			.title-box {
-				display: flex;
-			}
-		}
+.mine-container {
+  .content {
+    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 100%);
+    padding: 80rpx 24rpx 24rpx;
   }
+  .mine-section {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 92rpx;
+    .mine-info {
+      padding: 0 28rpx;
+    }
+  }
+  .menu-section {
+    border-radius: 16rpx;
+    transform: translateY(-20rpx);
+    background: #fff;
+    padding: 24rpx;
+    .title-box {
+      display: flex;
+    }
+  }
+}
 </style>

@@ -9,21 +9,21 @@
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
         </view>
@@ -113,9 +113,9 @@
         <view v-for="(item, index) in todayHandler" :key="index" class="warning-item" :style="{background: '#E6F7FF'}">
           <view class="item-title">
             <u-icon name="error-circle-fill" color="#199DFF" size="28rpx"></u-icon>
-            <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
+            <u--text text="DING" color="#333333" size="28rpx"></u--text>
           </view>
-          <u--text :text="item.content" color="#0F4239" size="28rpx" lines="1"></u--text>
+          <u--text :text="item.ding_content" color="#0F4239" size="28rpx" lines="1"></u--text>
         </view>
       </scroll-view>
       <!-- 事件处理 -->
@@ -126,7 +126,7 @@
             <u-icon :name="item.icon" :color="item.iconColor" size="28rpx"></u-icon>
             <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
           </view>
-          <u--text :text="item.content" color="#0F4239" size="28rpx" lines="1"></u--text>
+          <u--text :text="item.ding_content" color="#0F4239" size="28rpx" lines="1"></u--text>
         </view>
       </scroll-view>
     </view>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { overViewGuardApi } from '@/api/home.js'
+import { overViewGuardApi, summaryApi, dingListApi, riskStatementApi } from '@/api/home.js'
 export default {
   data () {
     return {
@@ -146,22 +146,9 @@ export default {
       pen_occupancy_rate: '',
       death_count: '',
       housing_environment: {},
-      summary: [
-        { content: '目标检测算法统计，昨日在主舍区共' },
-        { content: '畜群活跃度等级为7/10，显示' },
-        { content: '未发现紧急预警事件，动物逃风险很低。' },
-        { content: '车辆出入统计显示次货正常，无侵事件。' }
-      ],
-      warningList: [
-        { type: 1, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'close-circle-fill', iconColor: '#F5232D', bgColor: '#FFF1F0' },
-        { type: 3, title: '资产风险', content: '2024年4月5日, x厂内发现死体', icon: 'info-circle-fill', iconColor: '#51C41B', bgColor: '#F6FFED' },
-        { type: 3, title: '管理风险', content: '2024年4月5日, x厂内发现死体', icon: 'clock-fill', iconColor: '#FAAD15', bgColor: '#FFFBE6' },
-      ],
-      todayHandler: [
-        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
-        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
-        { type: 1, title: 'DING', content: '2024年4月5日, x厂内发现死体', icon: 'error-circle-fill' },
-      ]
+      summary: [],
+      warningList: [],
+      todayHandler: []
     }
   },
   computed: {
@@ -174,7 +161,6 @@ export default {
   },
   onReady () {
     this.initData()
-    // this.sectionChange(0)
   },
   methods: {
     // 舍内环境
@@ -218,6 +204,33 @@ export default {
         this.death_count = res.data.death_count || ''
         this.housing_environment = res.data.housing_environment
         this.sectionChange(0)
+      })
+      summaryApi().then(res => {
+        this.summary = res.data.yesterday_summary
+      })
+      dingListApi().then(res => {
+        this.todayHandler = res.data
+      })
+      riskStatementApi().then(res => {
+        let arr = [res.data.env_risk, res.data.animal_risk, res.data.production_risk]
+        arr.map(item => {
+          if (item.title == '环境风险') {
+            item.icon = 'info-circle-fill'
+            item.iconColor = '#51C41B'
+            item.bgColor = '#F6FFED'
+          }
+          if (item.title == '管理风险') {
+            item.icon = 'close-circle-fill'
+            item.iconColor = '#F5232D'
+            item.bgColor = '#FFF1F0'
+          }
+          if (item.title == '动物风险') {
+            item.icon = 'clock-fill'
+            item.iconColor = '#FAAD15'
+            item.bgColor = '#FFFBE6'
+          }
+        })
+        this.warningList = res.data
       })
       let xData1 = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00']
       let series = [{

@@ -10,21 +10,21 @@
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'负责人：' + staff_name" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'负责人：' + staff_name" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'动态存栏：' + animal_count" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'动态存栏：' + animal_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'栏位占用：' + pen_occupancy_rate" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'栏位占用：' + pen_occupancy_rate" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'疑死数量: ' + death_count" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+              <u--text :text="'疑死数量: ' + death_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
         </view>
