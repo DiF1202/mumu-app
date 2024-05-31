@@ -111,7 +111,7 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您123?",
+          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?",
           id: this.uuid()
         }
       ],
@@ -194,14 +194,16 @@ export default {
           temperature: 0.7,
           max_tokens: 0,
           prompt_name: "default",
-          id: curUserMsgId
+          person_id: curUserMsgId
         },
         success: function (res) {
           console.log("流结束了");
           self.inputBoxDisabled = false;
           self.msgLoad = false;
+          console.log(res);
         },
         fail: function (err) {
+          console.log(err);
           self.inputBoxDisabled = false;
           // 如果失败了看看看有没有，上一条记录有无返回看看有没有存进去了
           let existingMsgIndex = self.msgList.findIndex(
