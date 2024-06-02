@@ -178,7 +178,7 @@
 import { fieldTree } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
-
+import { userStore } from "@/store";
 export default {
   data() {
     return {
@@ -241,6 +241,23 @@ export default {
         pen_id: this.fieldId,
         page: this.page,
         limit: this.limit
+      }).then(res => {
+        if (res.code == 200) {
+          this.staff_name = res.data.staff_name || ''
+          this.animal_count = res.data.animal_count || ''
+          this.pen_occupancy_rate = res.data.pen_occupancy_rate || ''
+          this.death_count = res.data.death_count || ''
+          this.videoUrl = res.data.video_url
+          this.listData = this.listData.concat(res.data.alarm_data)
+          userStore().set_alarm_num(5);
+          if (this.listData.length < res.data.total) {
+            this.loading = "loadmore"
+          } else {
+            this.loading = "nomore"
+          }
+        }
+      }).catch(() => {
+        this.loading = "nomore"
       })
         .then(res => {
           if (res.code == 200) {
