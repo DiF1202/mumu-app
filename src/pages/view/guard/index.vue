@@ -6,7 +6,12 @@
       :style="{ height: `${windowHeight - safetyTop - 40}px` }"
     >
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index"/>
+      <uni-subTitle
+        icon="order"
+        title="畜舍情况"
+        value="实况视频"
+        url="pages/video/index"
+      />
       <!-- <view class="video-section" @click="linkToVideoLive">
         <u-icon name="play-circle-fill" size="40"></u-icon>
       </view> -->
@@ -14,17 +19,20 @@
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
           <u-list-item v-for="(item, index) in listData" :key="index">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <u--image
-                :showLoading="true"
-                src="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-                width="280rpx"
-                height="210rpx"
-              ></u--image>
+              <view class="image-wrapper">
+                <u--image
+                  class="responsive-image"
+                  :showLoading="true"
+                  src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
+                  width="280rpx"
+                  height="158rpx"
+                ></u--image>
+              </view>
               <view class="item-info">
                 <view>
                   <u--text
                     :text="item.alarm_name"
-                    size="36rpx"
+                    size="32rpx"
                     color="#333333"
                     :bold="true"
                   ></u--text>
@@ -32,21 +40,27 @@
                 <view>
                   <u--text
                     :text="'时间：' + item.alarm_time"
-                    size="28rpx"
+                    size="26rpx"
                     color="#333333"
                   ></u--text>
                 </view>
                 <view class="tag-box">
-                  <view style="margin-right: 12rpx;">
+                  <view style="margin-right: 12rpx">
                     <u-tag
                       :text="item.alarm_status"
-                      :type="item.alarm_status === '已处理' ? 'success' : 'error'"
+                      :type="
+                        item.alarm_status === '已处理' ? 'success' : 'error'
+                      "
                       shape="circle"
                       size="mini"
                     ></u-tag>
                   </view>
                   <view>
-                    <u-tag :text="item.report_type== 1 ? 'AI生成' : '自主上报' " shape="circle" size="mini"></u-tag>
+                    <u-tag
+                      :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
+                      shape="circle"
+                      size="mini"
+                    ></u-tag>
                   </view>
                 </view>
                 <!-- <view class="select-item">
@@ -71,7 +85,13 @@
       </view>
       <view class="upward" @click="upwardClick">
         <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
-        <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报"  @click="upwardClick"></u-button>
+        <u-button
+          color="#3DAD82"
+          type="primary"
+          shape="circle"
+          text="自主上报"
+          @click="upwardClick"
+        ></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -104,7 +124,7 @@ export default {
     }
   },
   onLoad(options) {
-    uni.hideTabBar()
+    uni.hideTabBar();
     this.getFieldTree(options.fieldId);
   },
   onShow() {
@@ -125,7 +145,7 @@ export default {
       });
     },
     treeCallback(value) {
-      this.page = 1
+      this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
         this.listData = [];
@@ -212,7 +232,7 @@ export default {
     }
     .video-section {
       width: 100%;
-      height: 400rpx;
+      height: 360rpx;
       background: #333333;
       margin-bottom: 24rpx;
       display: flex;
@@ -225,7 +245,7 @@ export default {
       padding-bottom: 100rpx;
       .list-item {
         width: 100%;
-        height: 258rpx;
+        /* height: 258rpx; */
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -235,7 +255,7 @@ export default {
         border-radius: 16rpx;
         position: relative;
         .item-info {
-          height: 210rpx;
+          height: 160rpx;
           margin-left: 24rpx;
           display: flex;
           flex-direction: column;
@@ -249,5 +269,19 @@ export default {
       }
     }
   }
+}
+.image-wrapper {
+  width: 280rpx;
+  height: 158rpx;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.responsive-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

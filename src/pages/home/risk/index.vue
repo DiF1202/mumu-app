@@ -58,12 +58,14 @@
         <swiper-item v-for="(item, index) in envListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <u--image
-                :showLoading="true"
-                :src="item.poster_url || defaultImg"
-                width="280rpx"
-                height="210rpx"
-              ></u--image>
+              <view class="image-wrapper">
+                <u--image
+                  :showLoading="true"
+                  :src="item.poster_url || defaultImg"
+                  width="280rpx"
+                  height="158rpx"
+                ></u--image>
+              </view>
               <view class="item-info">
                 <view>
                   <u--text
@@ -96,12 +98,14 @@
         <swiper-item v-for="(item, index) in animalListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <u--image
-                :showLoading="true"
-                :src="item.poster_url || defaultImg"
-                width="280rpx"
-                height="210rpx"
-              ></u--image>
+              <view class="image-wrapper">
+                <u--image
+                  :showLoading="true"
+                  :src="item.poster_url || defaultImg"
+                  width="280rpx"
+                  height="158rpx"
+                ></u--image>
+              </view>
               <view class="item-info">
                 <view>
                   <u--text
@@ -137,12 +141,14 @@
         >
           <uni-card margin="0" padding="0" spacing="24rpx">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <u--image
-                :showLoading="true"
-                :src="item.poster_url || defaultImg"
-                width="280rpx"
-                height="210rpx"
-              ></u--image>
+              <view class="image-wrapper">
+                <u--image
+                  :showLoading="true"
+                  :src="item.poster_url || defaultImg"
+                  width="280rpx"
+                  height="158rpx"
+                ></u--image>
+              </view>
               <view class="item-info">
                 <view>
                   <u--text
@@ -194,7 +200,7 @@ export default {
       heatList: [],
       riskCountData: {},
       defaultImg:
-        "https://img2.baidu.com/it/u=421118277,4243220711&fm=253&fmt=auto&app=138&f=PNG?w=460&h=307",
+        "https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
       animalsType: [
         [
           { id: 1, name: "育肥" },
@@ -400,7 +406,7 @@ export default {
   align-items: center;
   position: relative;
   .item-info {
-    height: 210rpx;
+    height: 160rpx;
     margin-left: 24rpx;
     display: flex;
     flex-direction: column;
