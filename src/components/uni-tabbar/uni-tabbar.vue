@@ -49,7 +49,12 @@ export default {
   },
   methods: {
     tabHandler(item, index) {
+<<<<<<< HEAD
       if (index == 2) {
+=======
+      console.log(index);
+      if (index === 2) {
+>>>>>>> 0a1e95efea74785b1e03104363126cc91a8d5ccc
         uni.navigateTo({ url: item.pagePath });
       } else {
         uni.switchTab({ url: item.pagePath });
