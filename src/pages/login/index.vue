@@ -5,7 +5,7 @@
   >
     <view class="logo-content">
       <u--image
-        src="/static/icon/logo.png"
+        src="https://m.zzxmt.cn/cdn/icon/logo.png"
         width="120rpx"
         height="120rpx"
       ></u--image>

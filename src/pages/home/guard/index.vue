@@ -5,25 +5,51 @@
       <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
-          <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
+          <u--image
+            :showLoading="true"
+            src="https://m.zzxmt.cn/cdn/icon/woman.png"
+            width="160rpx"
+            height="160rpx"
+            shape="circle"
+          ></u--image>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'负责人：' + '李小龙'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'负责人：' + '李小龙'"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'动态存栏：' + '21'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'动态存栏：' + '21'"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'栏位占用：' + '22'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'栏位占用：' + '22'"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'疑死数量: ' + '12'" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'疑死数量: ' + '12'"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
           </view>
         </view>
@@ -32,47 +58,75 @@
       <uni-subTitle customIcon="tianqi" title="今日天气" />
       <view class="weather-header">
         <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-richu" size="32rpx" color="#fff"></u-icon>
-          <view class="value">{{ '05:37' }}</view>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-richu"
+            size="32rpx"
+            color="#fff"
+          ></u-icon>
+          <view class="value">{{ "05:37" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-rila" size="32rpx" color="#fff"></u-icon>
-          <view class="value">{{ '18:23' }}</view>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-rila"
+            size="32rpx"
+            color="#fff"
+          ></u-icon>
+          <view class="value">{{ "18:23" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-fengli" size="26rpx" color="#fff"></u-icon>
-          <view class="value">{{ '东北风 3级' }}</view>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-fengli"
+            size="26rpx"
+            color="#fff"
+          ></u-icon>
+          <view class="value">{{ "东北风 3级" }}</view>
         </view>
         <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="28rpx" color="#fff"></u-icon>
-          <view class="value">{{ '41%' }}</view>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-kongqishidu"
+            size="28rpx"
+            color="#fff"
+          ></u-icon>
+          <view class="value">{{ "41%" }}</view>
         </view>
         <view class="weather-hader-item">
           <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
-          <view class="value alarm">{{ '高温高湿' }}</view>
+          <view class="value alarm">{{ "高温高湿" }}</view>
         </view>
       </view>
       <view class="weather-body">
         <view class="body-item">
           <view class="item-row">
             <view class="date">今天</view>
-            <view class="air">{{ '良' }}</view>
-            <view class="temp">{{ '28~14' }}℃</view>
+            <view class="air">{{ "良" }}</view>
+            <view class="temp">{{ "28~14" }}℃</view>
           </view>
           <view class="item-row">
-            <view class="status">{{ '多云' }}</view>
-            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+            <view class="status">{{ "多云" }}</view>
+            <u--image
+              :showLoading="true"
+              :src="`/static/weather/5@2x.png`"
+              width="14px"
+              height="14px"
+              mode="scaleToFill"
+            ></u--image>
           </view>
         </view>
         <view class="body-item">
           <view class="item-row">
             <view class="date">明天</view>
-            <view class="air">{{ '良' }}</view>
-            <view class="temp">{{ '28~14' }}℃</view>
+            <view class="air">{{ "良" }}</view>
+            <view class="temp">{{ "28~14" }}℃</view>
           </view>
           <view class="item-row">
-            <view class="status">{{ '多云' }}</view>
-            <u--image :showLoading="true" :src="`/static/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+            <view class="status">{{ "多云" }}</view>
+            <u--image
+              :showLoading="true"
+              :src="`/static/weather/6@2x.png`"
+              width="14px"
+              height="14px"
+              mode="scaleToFill"
+            ></u--image>
           </view>
         </view>
       </view>
@@ -84,14 +138,19 @@
       <uni-subTitle customIcon="shenei" title="舍内环境" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="switch-tab">
-          <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
+          <u-subsection
+            :list="list"
+            :current="current"
+            activeColor="#333333"
+            @change="sectionChange"
+          ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color:#DE868F;width: 20%;">30℃</view>
-          <view class="num-item" style="color:#93D2F3;width: 20%;">60%</view>
-          <view class="num-item" style="color:#FCCA00;width: 20%;">120lx</view>
-          <view class="num-item" style="color:#7F83F7;width: 20%;">32℃</view>
-          <view class="num-item" style="color:#B886F8;width: 20%;">78</view>
+          <view class="num-item" style="color: #de868f; width: 20%">30℃</view>
+          <view class="num-item" style="color: #93d2f3; width: 20%">60%</view>
+          <view class="num-item" style="color: #fcca00; width: 20%">120lx</view>
+          <view class="num-item" style="color: #7f83f7; width: 20%">32℃</view>
+          <view class="num-item" style="color: #b886f8; width: 20%">78</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="activeChart"></uni-kchart> -->
@@ -102,31 +161,68 @@
       <uni-subTitle customIcon="xinxi" title="昨日总结(小AI日报生成)" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="daily-briefing">
-          <view v-for="(item,index) in summary" :key="index" class="daily-item">
+          <view
+            v-for="(item, index) in summary"
+            :key="index"
+            class="daily-item"
+          >
             <view class="dot"></view>
-            <u--text :text="item.content" color="#0F4239" size="28rpx" margin="12rpx"></u--text>
+            <u--text
+              :text="item.content"
+              color="#0F4239"
+              size="28rpx"
+              margin="12rpx"
+            ></u--text>
           </view>
         </view>
       </uni-card>
       <uni-subTitle icon="calendar-fill" title="今日待办" />
       <scroll-view class="warning-list" :scroll-y="true">
-        <view v-for="(item, index) in todayHandler" :key="index" class="warning-item" :style="{background: '#E6F7FF'}">
+        <view
+          v-for="(item, index) in todayHandler"
+          :key="index"
+          class="warning-item"
+          :style="{ background: '#E6F7FF' }"
+        >
           <view class="item-title">
-            <u-icon name="error-circle-fill" color="#199DFF" size="28rpx"></u-icon>
+            <u-icon
+              name="error-circle-fill"
+              color="#199DFF"
+              size="28rpx"
+            ></u-icon>
             <u--text text="DING" color="#333333" size="28rpx"></u--text>
           </view>
-          <u--text :text="item.ding_content" color="#0F4239" size="28rpx" lines="1"></u--text>
+          <u--text
+            :text="item.ding_content"
+            color="#0F4239"
+            size="28rpx"
+            lines="1"
+          ></u--text>
         </view>
       </scroll-view>
       <!-- 事件处理 -->
       <uni-subTitle customIcon="chart" title="风险提示" />
       <scroll-view class="warning-list" :scroll-y="true">
-        <view v-for="(item, index) in warningList" :key="index" class="warning-item" :style="{background: item.bgColor}">
+        <view
+          v-for="(item, index) in warningList"
+          :key="index"
+          class="warning-item"
+          :style="{ background: item.bgColor }"
+        >
           <view class="item-title">
-            <u-icon :name="item.icon" :color="item.iconColor" size="28rpx"></u-icon>
+            <u-icon
+              :name="item.icon"
+              :color="item.iconColor"
+              size="28rpx"
+            ></u-icon>
             <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
           </view>
-          <u--text :text="item.ding_content" color="#0F4239" size="28rpx" lines="1"></u--text>
+          <u--text
+            :text="item.ding_content"
+            color="#0F4239"
+            size="28rpx"
+            lines="1"
+          ></u--text>
         </view>
       </scroll-view>
     </view>
@@ -135,115 +231,182 @@
 </template>
 
 <script>
-import { overViewGuardApi, summaryApi, dingListApi, riskStatementApi } from '@/api/home.js'
+import {
+  overViewGuardApi,
+  summaryApi,
+  dingListApi,
+  riskStatementApi
+} from "@/api/home.js";
 import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
-      list: ['温度', '湿度', '光照', 'HI', 'THI'],
+      list: ["温度", "湿度", "光照", "HI", "THI"],
       current: 0,
-      staff_name: '',
-      animal_count: '',
-      pen_occupancy_rate: '',
-      death_count: '',
+      staff_name: "",
+      animal_count: "",
+      pen_occupancy_rate: "",
+      death_count: "",
       housing_environment: {},
       summary: [],
       warningList: [],
       todayHandler: []
-    }
+    };
   },
   computed: {
-    safetyTop () {
-      return uni.getSystemInfoSync().safeAreaInsets.top
+    safetyTop() {
+      return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad () {
-    uni.hideTabBar()
+  onLoad() {
+    uni.hideTabBar();
   },
-  onReady () {
-    this.initData()
+  onReady() {
+    this.initData();
   },
   methods: {
     // 舍内环境
-    sectionChange (index) {
-      this.current = index
+    sectionChange(index) {
+      this.current = index;
       switch (index) {
         case 0:
-          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F', '平均温度')
-          break
+          this.initHouseEnv(
+            this.housing_environment.temperature_data,
+            "℃",
+            "#DE868F",
+            "平均温度"
+          );
+          break;
         case 1:
-          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3', '平均湿度')
-          break
+          this.initHouseEnv(
+            this.housing_environment.humidity_data,
+            "%",
+            "#93D2F3",
+            "平均湿度"
+          );
+          break;
         case 2:
-          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照')
-          break
+          this.initHouseEnv(
+            this.housing_environment.illuminance_data,
+            "lx",
+            "#FCCA00",
+            "平均光照"
+          );
+          break;
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI')
-          break
+          this.initHouseEnv(
+            this.housing_environment.HI_data,
+            "℃",
+            "#7F83F7",
+            "平均HI"
+          );
+          break;
         case 4:
-          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI')
-          break
+          this.initHouseEnv(
+            this.housing_environment.THI_data,
+            "",
+            "#B886F8",
+            "平均THI"
+          );
+          break;
       }
     },
-    initHouseEnv (arr, unit, color, name) {
-      let xData = []
-      let yData = []
-      let lineData = []
+    initHouseEnv(arr, unit, color, name) {
+      let xData = [];
+      let yData = [];
+      let lineData = [];
       arr.map(item => {
-        xData.push(item.date.slice(5))
-        yData.push(item.score)
-        lineData.push(item.score[2])
-      })
-      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color, name)
+        xData.push(item.date.slice(5));
+        yData.push(item.score);
+        lineData.push(item.score[2]);
+      });
+      this.$refs.activeChart.initChart(
+        xData,
+        yData,
+        lineData,
+        unit,
+        color,
+        name
+      );
     },
     // 24h天气
-    initData () {
+    initData() {
       overViewGuardApi().then(res => {
-        this.staff_name = res.data.staff_name || ''
-        this.animal_count = res.data.animal_count || ''
-        this.pen_occupancy_rate = res.data.pen_occupancy_rate || ''
-        this.death_count = res.data.death_count || ''
-        this.housing_environment = res.data.housing_environment
-        this.sectionChange(0)
+        this.staff_name = res.data.staff_name || "";
+        this.animal_count = res.data.animal_count || "";
+        this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
+        this.death_count = res.data.death_count || "";
+        this.housing_environment = res.data.housing_environment;
+        this.sectionChange(0);
         userStore().set_alarm_num(5);
-      })
+      });
       summaryApi().then(res => {
-        this.summary = res.data.yesterday_summary
-      })
+        this.summary = res.data.yesterday_summary;
+      });
       dingListApi().then(res => {
-        this.todayHandler = res.data
-      })
+        this.todayHandler = res.data;
+      });
       riskStatementApi().then(res => {
         // let arr = [res.data.env_risk, res.data.animal_risk, res.data.production_risk]
         res.data.map(item => {
-          if (item.title == '环境风险') {
-            item.icon = 'info-circle-fill'
-            item.iconColor = '#51C41B'
-            item.bgColor = '#F6FFED'
+          if (item.title == "环境风险") {
+            item.icon = "info-circle-fill";
+            item.iconColor = "#51C41B";
+            item.bgColor = "#F6FFED";
           }
-          if (item.title == '管理风险') {
-            item.icon = 'close-circle-fill'
-            item.iconColor = '#F5232D'
-            item.bgColor = '#FFF1F0'
+          if (item.title == "管理风险") {
+            item.icon = "close-circle-fill";
+            item.iconColor = "#F5232D";
+            item.bgColor = "#FFF1F0";
           }
-          if (item.title == '动物风险') {
-            item.icon = 'clock-fill'
-            item.iconColor = '#FAAD15'
-            item.bgColor = '#FFFBE6'
+          if (item.title == "动物风险") {
+            item.icon = "clock-fill";
+            item.iconColor = "#FAAD15";
+            item.bgColor = "#FFFBE6";
           }
-        })
-        this.warningList = res.data
-      })
-      let xData1 = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00']
-      let series = [{
-        name: "温度",
-        data: ['23', '21', '21', '14', '25', '26', '27', '17', '18', '19', '16', '15', '12'],
-        color: '#19AECE'
-      }]
-      this.$refs.weatherChart.initChart(xData1, series)
+        });
+        this.warningList = res.data;
+      });
+      let xData1 = [
+        "00:00",
+        "01:00",
+        "02:00",
+        "03:00",
+        "04:00",
+        "05:00",
+        "06:00",
+        "07:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00"
+      ];
+      let series = [
+        {
+          name: "温度",
+          data: [
+            "23",
+            "21",
+            "21",
+            "14",
+            "25",
+            "26",
+            "27",
+            "17",
+            "18",
+            "19",
+            "16",
+            "15",
+            "12"
+          ],
+          color: "#19AECE"
+        }
+      ];
+      this.$refs.weatherChart.initChart(xData1, series);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

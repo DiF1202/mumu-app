@@ -24,7 +24,7 @@
               </view>
               <view class="chat-user-img margin-left">
                 <image
-                  src="../../static/icon/woman.png"
+                  src="https://m.zzxmt.cn/cdn/icon/woman.png"
                   mode="aspectFill"
                   style="height: 75rpx; width: 75rpx"
                 ></image>
@@ -35,7 +35,7 @@
               <view class="chat-robot-img flex-row-center">
                 <image
                   style="height: 75rpx; width: 75rpx"
-                  src="../../static/icon/logo.png"
+                  src="https://m.zzxmt.cn/cdn/icon/logo.png"
                   mode="aspectFit"
                 ></image>
               </view>
@@ -51,7 +51,7 @@
             <view class="chat-robot-img flex-row-center">
               <image
                 style="height: 75rpx; width: 75rpx"
-                src="../../static/icon/logo.png"
+                src="https://m.zzxmt.cn/cdn/icon/logo.png"
                 mode="aspectFit"
               ></image>
             </view>
