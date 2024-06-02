@@ -113,7 +113,7 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您1?",
+          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?",
           id: this.uuid()
         }
       ],
@@ -287,6 +287,7 @@ export default {
       //清空输入框
       this.msgList = this.msgList.concat(curUserMsgList);
       this.msgContent = "";
+      this.handleBlur();
       this.showLastMsg();
     }
   }
@@ -308,7 +309,7 @@ export default {
     height: 100%;
     .msg-list {
       flex: 1;
-      padding: 24rpx 24rpx 0 24rpx;
+      padding: 30rpx 30rpx 0 30rpx;
       overflow: hidden;
     }
   }
@@ -321,7 +322,7 @@ export default {
   width: 750rpx;
   display: flex;
   flex-direction: column;
-  padding: 10px 0px;
+  padding: 14px 0px;
   background-color: #fff;
   background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
 }
@@ -329,6 +330,7 @@ export default {
 .foot-box-content {
   display: flex;
   justify-content: space-around;
+  align-content: center;
 }
 
 .textarea-box {
@@ -343,7 +345,7 @@ export default {
   /* #ifndef APP-NVUE */
   overflow: auto;
   /* #endif */
-  width: 450rpx;
+  width: 500rpx;
   font-size: 14px;
 }
 
@@ -383,14 +385,15 @@ export default {
 /* 其他 */
 .chat-robot-img {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
-  margin-right: 10rpx;
+  margin-right: 20rpx;
+  border-radius: 20rpx;
 }
 
 .chat-user-img {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   margin-left: 10rpx;
 }
@@ -417,7 +420,7 @@ export default {
 
 .message-text {
   padding: 10px;
-  border-radius: 35rpx;
+  border-radius: 20rpx;
 }
 
 .bg-cyan {
