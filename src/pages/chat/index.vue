@@ -68,7 +68,7 @@
       </scroll-view>
 
       <!-- 底部导航栏 -->
-      <view class="foot-box">
+      <view class="foot-box" :style="{ bottom: keyboardHeight + 'px' }">
         <view class="foot-box-content">
           <view class="textarea-box">
             <textarea
@@ -81,6 +81,8 @@
               :adjust-position="false"
               :disable-default-padding="false"
               placeholder-class="input-placeholder"
+              @focus="handleFocus"
+              @blur="handleBlur"
             ></textarea>
           </view>
           <view class="send-btn-box">
@@ -111,7 +113,7 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?",
+          msg: "你好我是畜牧助手,请问有什么问题可以帮助您1?",
           id: this.uuid()
         }
       ],
@@ -133,6 +135,18 @@ export default {
     }
   },
   methods: {
+    handleFocus(event) {
+      // 获取键盘高度
+      this.keyboardHeight = event.detail.height || 0;
+
+      // 滚动到最新消息
+      this.showLastMsg();
+    },
+    handleBlur() {
+      // 收起键盘后，恢复页面滚动
+      this.keyboardHeight = 0;
+      this.showLastMsg();
+    },
     // 滚动窗口以显示最新的一条消息
     showLastMsg() {
       // 等待DOM更新
@@ -285,6 +299,7 @@ export default {
   height: 100vh;
   background-color: rgb(240, 240, 240);
   .content {
+    position: relative;
     background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     display: flex;
     flex-direction: column;
@@ -301,6 +316,8 @@ export default {
 
 /* 底部 */
 .foot-box {
+  position: absolute;
+  bottom: 0rpx;
   width: 750rpx;
   display: flex;
   flex-direction: column;
