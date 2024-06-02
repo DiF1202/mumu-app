@@ -123,9 +123,9 @@ export default {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad(options) {
+  onLoad() {
     uni.hideTabBar();
-    this.getFieldTree(options.fieldId);
+    this.getFieldTree()
   },
   onShow() {
     if (this.fieldId) {
@@ -141,7 +141,7 @@ export default {
         userStore().set_alarm_num(total)
       })
     },
-    getFieldTree(id) {
+    getFieldTree() {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
         if (res.code === 200) {

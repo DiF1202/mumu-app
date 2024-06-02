@@ -208,6 +208,8 @@ export default {
   },
   onLoad() {
     uni.hideTabBar();
+    this.getFieldTree()
+
   },
   onShow() {
     if (this.fieldId) {
@@ -256,6 +258,7 @@ export default {
             this.death_count = res.data.death_count || "";
             this.videoUrl = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
+            console.log(this.listData.length, res.data.total)
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
             } else {
@@ -266,24 +269,6 @@ export default {
         .catch(() => {
           this.loading = "nomore";
         })
-        .then(res => {
-          if (res.code == 200) {
-            this.staff_name = res.data.staff_name || "";
-            this.animal_count = res.data.animal_count || "";
-            this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
-            this.death_count = res.data.death_count || "";
-            this.videoUrl = res.data.video_url;
-            this.listData = this.listData.concat(res.data.alarm_data);
-            if (this.listData.length < res.data.total) {
-              this.loading = "loadmore";
-            } else {
-              this.loading = "nomore";
-            }
-          }
-        })
-        .catch(() => {
-          this.loading = "nomore";
-        });
     },
     loadmore() {
       if (this.loading == "loadmore") {
