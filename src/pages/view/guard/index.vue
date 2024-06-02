@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { fieldTree } from "@/api/utils.js";
+import { fieldTree, alarmUnhandlerNumApi } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 import { userStore } from "@/store";
@@ -135,6 +135,12 @@ export default {
     }
   },
   methods: {
+    getUnhadlerNum() {
+      alarmUnhandlerNumApi().then(res => {
+        let total = res.data.un_handle_total || 0
+        userStore().set_alarm_num(total)
+      })
+    },
     getFieldTree(id) {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
@@ -154,6 +160,7 @@ export default {
     },
     getList() {
       this.loading = "loading";
+      this.getUnhadlerNum()
       videoAlarmApi({
         pen_id: this.fieldId,
         page: this.page,
@@ -163,7 +170,6 @@ export default {
           if (res.code == 200) {
             this.videoUrl = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
-            userStore().set_alarm_num(5);
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
             } else {

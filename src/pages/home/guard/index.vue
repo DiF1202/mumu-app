@@ -105,7 +105,7 @@
             <view class="status">{{ "多云" }}</view>
             <u--image
               :showLoading="true"
-              :src="`/static/weather/5@2x.png`"
+              :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
               width="14px"
               height="14px"
               mode="scaleToFill"
@@ -122,7 +122,7 @@
             <view class="status">{{ "多云" }}</view>
             <u--image
               :showLoading="true"
-              :src="`/static/weather/6@2x.png`"
+              :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
               width="14px"
               height="14px"
               mode="scaleToFill"
@@ -237,7 +237,6 @@ import {
   dingListApi,
   riskStatementApi
 } from "@/api/home.js";
-import { userStore } from "@/store";
 export default {
   data() {
     return {
@@ -338,7 +337,6 @@ export default {
         this.death_count = res.data.death_count || "";
         this.housing_environment = res.data.housing_environment;
         this.sectionChange(0);
-        userStore().set_alarm_num(5);
       });
       summaryApi().then(res => {
         this.summary = res.data.yesterday_summary;

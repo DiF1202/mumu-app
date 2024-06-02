@@ -28,3 +28,10 @@ export function houseType() {
     url: '/api/mini/get-house-type-list'
   })
 }
+// 告警未处理总条数
+export function alarmUnhandlerNumApi() {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-un-handle-total'
+  })
+}

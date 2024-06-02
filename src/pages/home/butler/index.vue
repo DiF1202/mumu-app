@@ -36,7 +36,7 @@
           </view>
           <view class="item-row">
             <view class="status">{{ "多云" }}</view>
-            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
           </view>
         </view>
         <view class="body-item">
@@ -47,7 +47,7 @@
           </view>
           <view class="item-row">
             <view class="status">{{ "多云" }}</view>
-            <u--image :showLoading="true" :src="`/static/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
           </view>
         </view>
       </view>
@@ -147,7 +147,6 @@
 
 <script>
 import { overViewApi } from '@/api/home.js'
-import { userStore } from "@/store";
 export default {
   data () {
     return {
@@ -223,7 +222,6 @@ export default {
         this.sectionChange(0)
         this.eliminateAlarm()
         this.riskNote()
-        userStore().set_alarm_num(5);
       })
       // 24小时天气
       let xData = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00"]

@@ -7,7 +7,7 @@
         <view class="row1">
           <view class="temp">{{ '28' }}℃</view>
           <view class="tempElse">
-            <u--image :showLoading="true" :src="`/static/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
+            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`" width="28px" height="28px" mode="scaleToFill"></u--image>
             <view>{{ '多云' }}</view>
             <view>{{ '东南' }}风</view>
             <view>{{ '10' }}级</view>
@@ -28,7 +28,7 @@
         <view class="future-weather">
           <view v-for="(item, index) in futureWeather" :key="index" class="future-item">
             <view class="date">{{ item.date }}</view>
-            <u--image :showLoading="true" :src="`/static/weather/${item.icon}@2x.png`" width="19px" height="19px" mode="scaleToFill"></u--image>
+            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/${item.icon}@2x.png`" width="19px" height="19px" mode="scaleToFill"></u--image>
             <view>{{ item.rain }}</view>
             <view>{{ item.temp }}℃</view>
             <view>{{ item.air }}</view>

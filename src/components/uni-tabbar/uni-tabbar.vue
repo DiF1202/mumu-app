@@ -35,6 +35,7 @@
 <script>
 import { userStore } from "@/store";
 import { butlerTabList, guardTabList } from "@/utils/tabBar.js";
+import { alarmUnhandlerNumApi } from "@/api/utils.js"
 export default {
   props: {
     tabCurrent: {
@@ -52,6 +53,12 @@ export default {
     alarm_num() {
       return userStore().alarm_num;
     }
+  },
+  onLoad() {
+    alarmUnhandlerNumApi().then(res => {
+      let total = res.data.un_handle_total || 0
+      userStore().set_alarm_num(total)
+    })
   },
   methods: {
     tabHandler(item, index) {
