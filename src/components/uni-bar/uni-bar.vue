@@ -16,6 +16,7 @@
 					legend: {
 						position: 'top',
 						float: 'right',
+						fontSize: 10
 					},
 					xAxis: {
 						disableGrid: true,

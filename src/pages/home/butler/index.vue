@@ -200,7 +200,8 @@ export default {
         yData.push(item.alarm_handle_rate)
         lineData.push(item.alarm_handle_rate[2])
       })
-      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8f')
+      console.log(xData, yData, lineData)
+      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8f', '平均消警比例')
     },
     // 风险提示
     riskNote () {

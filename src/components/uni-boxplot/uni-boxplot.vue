@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import LEchart from '@/components/l-echart/l-echart.vue'
-import { onMounted, reactive, ref } from "vue"
+import { ref } from "vue"
 // #ifdef VUE3
 // #ifdef MP
 const echarts = require('../../static/echarts.min.js') // 由于vue3 使用vite 不支持umd格式的包，小程序依然可以使用
@@ -13,17 +13,70 @@ import * as echarts from 'echarts' // 由于 vue3 使用vite 不支持umd格式�
 // #endif
 // #endif
 let chartRef = ref() // 获取dom
-const initChart = (xData, yData, lineData, unit, lineColor,) => {
+const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
   let option = {
     grid: {
-      top: '20',
+      top: '25',
       bottom: '0',
-      left: '0',
+      left: 0,
       right: '0',
       containLabel: true,
     },
+    legend: {
+      top: 0,
+      right: 0,
+    },
+    dataZoom:[
+    {
+            "type": "inside",
+            "show": false,
+            "xAxisIndex": [
+                0
+            ],
+            "zoomOnMouseWheel": false,
+            "moveOnMouseWheel": true,
+            "moveOnMouseMove": true,
+            "z": 4,
+            "filterMode": "filter",
+            "startValue": 0,
+            "endValue": 4,
+            "disabled": false,
+            "zoomLock": true,
+            "preventDefaultMouseMove": true,
+            "throttle": 100
+        },
+        {
+            "type": "slider",
+            "realtime": true,
+            "show": false,
+            "height": 6,
+            "width": 56,
+            "xAxisIndex": [
+                0
+            ],
+            "fillerColor": "rgba(96, 172, 252,0.8)",
+            "borderColor": "rgba(96, 172, 252,0.6)",
+            "backgroundColor": "rgba(96, 172, 252,0.3)",
+            "showDataShadow": false,
+            "showDetail": false,
+            "left": 0,
+            "bottom": 6,
+            "moveHandleSize": 0,
+            "z": 4,
+            "filterMode": "filter",
+            "startValue": 0,
+            "endValue": 4,
+            "borderRadius": 3,
+            "handleSize": "0",
+            "zoomLock": true,
+            "brushSelect": false,
+            "throttle": 100
+        }
+    ],
     xAxis: {
       type: 'category',
+      scale: true,
+      splitNumber: 8,
       axisLabel: {
         color: 'rgba(0, 0, 0, 0.45)',
       },
@@ -92,6 +145,7 @@ const initChart = (xData, yData, lineData, unit, lineColor,) => {
         }
       },
       {
+        name: legendName || '',
         type: 'line',
         symbol: 'circle',
         color: lineColor || '',

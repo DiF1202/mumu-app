@@ -168,23 +168,23 @@ export default {
       this.current = index
       switch (index) {
         case 0:
-          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F')
+          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F', '平均温度')
           break
         case 1:
-          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3')
+          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3', '平均湿度')
           break
         case 2:
-          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00')
+          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照')
           break
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7')
+          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI')
           break
         case 4:
-          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8')
+          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI')
           break
       }
     },
-    initHouseEnv (arr, unit, color) {
+    initHouseEnv (arr, unit, color, name) {
       let xData = []
       let yData = []
       let lineData = []
@@ -193,7 +193,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color)
+      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color, name)
     },
     // 24h天气
     initData () {
@@ -212,8 +212,8 @@ export default {
         this.todayHandler = res.data
       })
       riskStatementApi().then(res => {
-        let arr = [res.data.env_risk, res.data.animal_risk, res.data.production_risk]
-        arr.map(item => {
+        // let arr = [res.data.env_risk, res.data.animal_risk, res.data.production_risk]
+        res.data.map(item => {
           if (item.title == '环境风险') {
             item.icon = 'info-circle-fill'
             item.iconColor = '#51C41B'

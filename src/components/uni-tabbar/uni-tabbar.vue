@@ -44,15 +44,15 @@ export default {
   data() {
     return {
       tabList:
-        userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
+        userStore().user_info.identity_type === 1 ?  butlerTabList : guardTabList
     };
   },
   methods: {
     tabHandler(item, index) {
-      if (index < 2) {
-        uni.switchTab({ url: item.pagePath });
-      } else {
+      if (index == 2) {
         uni.navigateTo({ url: item.pagePath });
+      } else {
+        uni.switchTab({ url: item.pagePath });
       }
     }
   }

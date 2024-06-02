@@ -3,7 +3,7 @@
     <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle icon="order" title="畜舍情况" />
+      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index"/>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
           <u--image :showLoading="true" src="/static/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
@@ -29,12 +29,12 @@
           </view>
         </view>
       </uni-card>
-      <u-gap height="12rpx"></u-gap>
+      <!-- <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="video-section" @click="linkToVideoLive">
           <u-icon name="play-circle-fill" size="40"></u-icon>
         </view>
-      </uni-card>
+      </uni-card> -->
       <u-gap height="12rpx"></u-gap>
       <view class="warin-section">
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
@@ -49,8 +49,18 @@
                   <view>
                     <u--text :text="'时间：' + item.alarm_time" size="28rpx" color="#333333"></u--text>
                   </view>
-                  <view>
-                    <u-tag :text="item.alarm_status" :type="item.alarm_status === '已处理' ? 'success' : 'error'" shape="circle" size="mini"></u-tag>
+                  <view class="tag-box">
+                    <view style="margin-right: 12rpx;">
+                      <u-tag
+                        :text="item.alarm_status"
+                        :type="item.alarm_status === '已处理' ? 'success' : 'error'"
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
+                    </view>
+                    <view>
+                      <u-tag :text="item.report_type== 1 ? 'AI生成' : '自主上报' " shape="circle" size="mini"></u-tag>
+                    </view>
                   </view>
                   <!-- <view class="select-item">
                     <u-checkbox-group v-model="item.select">
@@ -69,8 +79,9 @@
         </u-list>
       </view>
     </view>
-    <view class="upward" @click="upwardClick">
-      <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
+    <view class="upward">
+      <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
+      <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报"  @click="upwardClick"></u-button>
     </view>
     <u-toast ref="uToast"></u-toast>
     <u-modal :show="dingShow" @confirm="dingClick" :showCancelButton="true" @cancel="dingShow = false">
@@ -101,7 +112,7 @@ export default {
       alarmId: '',
       dingText: '',
       fieldId: '',
-      limit: 3,
+      limit: 5,
       page: 1,
       loading: "loadmore"
     };
@@ -136,6 +147,7 @@ export default {
       })
     },
     treeCallback (value) {
+      this.page = 1
       this.fieldId = value.id[0]
       if (this.fieldId) {
         this.listData = [];
@@ -200,13 +212,12 @@ export default {
 <style lang="scss" scoped>
 .list-container {
   .upward {
-    width: 80rpx;
+    width: 100%;
     height: 80rpx;
-    border-radius: 50%;
+    padding: 0 100rpx;
     position: fixed;
-    right: 24rpx;
-    bottom: 360rpx;
-    background: #d6e7ff;
+    right: 0rpx;
+    bottom: 180rpx;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -249,7 +260,8 @@ export default {
       justify-content: center;
     }
     .warin-section {
-      height: 854rpx;
+      height: 850rpx;
+      padding-bottom: 100rpx;
       .list-item {
         width: 100%;
         display: flex;
@@ -266,6 +278,9 @@ export default {
           position: relative;
         }
       }
+      .tag-box {
+          display: flex;
+        }
       .ding {
         position: absolute;
         right: 0rpx;

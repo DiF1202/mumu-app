@@ -19,13 +19,14 @@
 	      chartData: {},
 				opts: {
 					// 自定义图表样式在opts中配置相关属性
-					padding: [12, 0, 0, 0],
+					padding: [0, 0, 0, 0],
 					enableScroll: true,
 					legend: {
-						show: false,
+						show: true,
 						position: 'top',
 						float: 'right',
-						margin: 12,
+						margin: 0,
+						fontSize: 10
 					},
 					xAxis: {
 						disableGrid: true,

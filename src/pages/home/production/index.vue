@@ -130,7 +130,7 @@
       <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="car" size="42rpx" color="#10cc8f" labelPos="right" label="车辆出入" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon name="car" size="42rpx" color="#10cc8f" labelPos="right" label="车辆活动记录" labelColor="#333333" labelSize="24rpx"></u-icon>
         </view>
         <view class="car-chart">
           <uni-carchart ref="carChart"></uni-carchart>
@@ -176,23 +176,23 @@ export default {
       this.current = index
       switch (index) {
         case 0:
-          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F')
+          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F', '平均温度')
           break
         case 1:
-          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3')
+          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3', '平均湿度')
           break
         case 2:
-          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00')
+          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照度')
           break
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7')
+          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI')
           break
         case 4:
-          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8')
+          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI')
           break
       }
     },
-    initHouseEnv (arr, unit, color) {
+    initHouseEnv (arr, unit, color, name) {
       let xData = []
       let yData = []
       let lineData = []
@@ -201,7 +201,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color)
+      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color, name)
     },
     // 动态存栏
     animalCount () {
@@ -217,7 +217,7 @@ export default {
     // 栏位占用
     penOccupancy () {
       let xData = []
-      let yData = { name: '动态存栏', data: [], color: '#81B337' }
+      let yData = { name: '栏位占用', data: [], color: '#81B337' }
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
@@ -256,7 +256,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#10cc8f')
+      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#10cc8f', '平均畜群活跃度')
     },
     // 畜群节律
     alarmHandle () {
@@ -330,7 +330,7 @@ export default {
       console.log(xData, yData)
       this.$refs.carChart.initChart(xData, yData)
     },
-    attendanceHandler (arr, unit, color) {
+    attendanceHandler (arr, unit, color, name) {
       let xData = []
       let yData = []
       let lineData = []
@@ -339,20 +339,20 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.attendanceChart.initChart(xData, yData, lineData, unit, color)
+      this.$refs.attendanceChart.initChart(xData, yData, lineData, unit, color, name)
     },
     // 饲养员考勤
     sectionChange2 (index) {
       this.current2 = index
       switch (index) {
         case 0:
-          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337')
+          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337', '平均消警比例')
           break
         case 1:
-          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F')
+          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F', '平均巡舍时长')
           break
         case 2:
-          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF')
+          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF', '平均远程时长')
           break
       }
     }

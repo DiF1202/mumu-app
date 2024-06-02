@@ -23,9 +23,13 @@ export default {
       opts: {
         background: 'none',
         enableScroll: true,
-        padding: [12, 0, 0, 0],
+        padding: [0, 0, 0, 0],
         legend: {
-          show: false
+          show: true,
+          position: 'top',
+          float: 'right',
+          margin: 0,
+          fontSize: 10
         },
         xAxis: {
           itemCount: 5,

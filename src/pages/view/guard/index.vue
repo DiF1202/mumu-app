@@ -6,9 +6,10 @@
       :style="{ height: `${windowHeight - safetyTop - 40}px` }"
     >
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <view class="video-section" @click="linkToVideoLive">
+      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index"/>
+      <!-- <view class="video-section" @click="linkToVideoLive">
         <u-icon name="play-circle-fill" size="40"></u-icon>
-      </view>
+      </view> -->
       <view class="warin-section">
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
           <u-list-item v-for="(item, index) in listData" :key="index">
@@ -35,13 +36,18 @@
                     color="#333333"
                   ></u--text>
                 </view>
-                <view>
-                  <u-tag
-                    :text="item.alarm_status"
-                    :type="item.alarm_status === '已处理' ? 'success' : 'error'"
-                    shape="circle"
-                    size="mini"
-                  ></u-tag>
+                <view class="tag-box">
+                  <view style="margin-right: 12rpx;">
+                    <u-tag
+                      :text="item.alarm_status"
+                      :type="item.alarm_status === '已处理' ? 'success' : 'error'"
+                      shape="circle"
+                      size="mini"
+                    ></u-tag>
+                  </view>
+                  <view>
+                    <u-tag :text="item.report_type== 1 ? 'AI生成' : '自主上报' " shape="circle" size="mini"></u-tag>
+                  </view>
                 </view>
                 <!-- <view class="select-item">
                   <u-checkbox-group v-model="item.select">
@@ -64,7 +70,8 @@
         </u-list>
       </view>
       <view class="upward" @click="upwardClick">
-        <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
+        <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
+        <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报"  @click="upwardClick"></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -118,6 +125,7 @@ export default {
       });
     },
     treeCallback(value) {
+      this.page = 1
       this.fieldId = value.id[0];
       if (this.fieldId) {
         this.listData = [];
@@ -192,13 +200,12 @@ export default {
       top: 38rpx;
     }
     .upward {
-      width: 80rpx;
+      width: 100%;
       height: 80rpx;
-      border-radius: 50%;
-      position: absolute;
-      right: 24rpx;
-      bottom: 360rpx;
-      background: #d6e7ff;
+      padding: 0 100rpx;
+      position: fixed;
+      right: 0rpx;
+      bottom: 180rpx;
       display: flex;
       justify-content: center;
       align-self: center;
@@ -214,7 +221,8 @@ export default {
       margin-top: 24rpx;
     }
     .warin-section {
-      height: calc(100% - 536rpx);
+      height: calc(100% - 200rpx);
+      padding-bottom: 100rpx;
       .list-item {
         width: 100%;
         height: 258rpx;
@@ -234,6 +242,9 @@ export default {
           justify-content: space-around;
           align-items: flex-start;
           position: relative;
+        }
+        .tag-box {
+          display: flex;
         }
       }
     }
