@@ -4,6 +4,7 @@ export const userStore = defineStore('user', {
   state: () => {
     return {
       user_info: {},
+      alarm_num: 0
     }
   },
   actions: {
@@ -13,6 +14,9 @@ export const userStore = defineStore('user', {
     },
     clear_user_info() {
       this.user_info = {}
+    },
+    set_alarm_num(val) {
+      this.alarm_num = val
     }
   },
   persist: {

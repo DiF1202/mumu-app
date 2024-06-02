@@ -10,7 +10,7 @@ const butlerTabList = [
     "pagePath": "/pages/view/butler/index",
     "text": "查看",
     "icon": "view1",
-    "iconSelect": "view1-copy"
+    "iconSelect": "view1-copy",
   },
   {
     "pagePath": "/pages/chat/index",
@@ -37,7 +37,8 @@ const guardTabList = [
     "pagePath": "/pages/view/guard/index",
     "text": "巡检",
     "icon": "view",
-    "iconSelect": "view-fill"
+    "iconSelect": "view-fill",
+    "badge": "3"
   },
   {
     "pagePath": "/pages/chat/index",

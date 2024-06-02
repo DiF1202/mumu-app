@@ -11,6 +11,7 @@
       v-for="(tabItem, index) in tabList"
       :key="index"
       :text="tabItem.text"
+      :badge="index == 1 ? alarm_num : ''"
       @click="tabHandler(tabItem, index)"
     >
       <template #active-icon>
@@ -46,6 +47,11 @@ export default {
       tabList:
         userStore().user_info.identity_type === 1 ?  butlerTabList : guardTabList
     };
+  },
+  computed: {
+    alarm_num() {
+      return userStore().alarm_num;
+    }
   },
   methods: {
     tabHandler(item, index) {

@@ -97,7 +97,7 @@
 import { fieldTree } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
-
+import { userStore } from "@/store";
 export default {
   data () {
     return {
@@ -168,6 +168,7 @@ export default {
           this.death_count = res.data.death_count || ''
           this.videoUrl = res.data.video_url
           this.listData = this.listData.concat(res.data.alarm_data)
+          userStore().set_alarm_num(5);
           if (this.listData.length < res.data.total) {
             this.loading = "loadmore"
           } else {

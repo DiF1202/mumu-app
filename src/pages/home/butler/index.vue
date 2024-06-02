@@ -147,6 +147,7 @@
 
 <script>
 import { overViewApi } from '@/api/home.js'
+import { userStore } from "@/store";
 export default {
   data () {
     return {
@@ -222,6 +223,7 @@ export default {
         this.sectionChange(0)
         this.eliminateAlarm()
         this.riskNote()
+        userStore().set_alarm_num(5);
       })
       // 24小时天气
       let xData = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00"]

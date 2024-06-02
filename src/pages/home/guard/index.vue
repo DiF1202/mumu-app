@@ -136,6 +136,7 @@
 
 <script>
 import { overViewGuardApi, summaryApi, dingListApi, riskStatementApi } from '@/api/home.js'
+import { userStore } from "@/store";
 export default {
   data () {
     return {
@@ -204,6 +205,7 @@ export default {
         this.death_count = res.data.death_count || ''
         this.housing_environment = res.data.housing_environment
         this.sectionChange(0)
+        userStore().set_alarm_num(5);
       })
       summaryApi().then(res => {
         this.summary = res.data.yesterday_summary
