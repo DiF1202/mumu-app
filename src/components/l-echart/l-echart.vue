@@ -46,7 +46,7 @@ export default {
     // #ifdef MP-WEIXIN || MP-TOUTIAO
     type: {
       type: String,
-      default: '' // 2d
+      default: '2d' // 2d
     },
     // #endif
     // #ifdef APP-NVUE
