@@ -187,6 +187,13 @@ export default {
       uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
       return "u" + uuid.join("").replaceAll("-", "");
     },
+    decodeUint8Array(array) {
+      let result = "";
+      for (let i = 0; i < array.length; i++) {
+        result += String.fromCharCode(array[i]);
+      }
+      return decodeURIComponent(escape(result));
+    },
     async getChat(userQueryString, curUserMsgId) {
       const self = this; // 在函数外部捕获this
       let completeResponse = ""; // 用来拼接流式传输分片的完整内容
@@ -241,11 +248,14 @@ export default {
           }
         }
       });
+
       // 这里监听消息
       requestTask.onChunkReceived(function (res) {
         self.msgLoad = false;
-        const decoder = new TextDecoder("utf-8");
-        const textChunk = decoder.decode(new Uint8Array(res.data));
+        // const decoder = new TextDecoder("utf-8");
+        // const textChunk = decoder.decode(new Uint8Array(res?.data));
+        const textChunk = self.decodeUint8Array(new Uint8Array(res.data));
+
         const match = pattern.exec(textChunk);
         if (match?.[1]) {
           completeResponse += match[1];
