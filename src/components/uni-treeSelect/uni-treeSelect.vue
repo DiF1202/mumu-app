@@ -1,5 +1,5 @@
 <template>
-	<view class="field-select-container" @click="openTree">
+  <view class="field-select-container" @click="openTree">
     <u--input
       v-model="label"
       :prefixIcon="prefixIcon"
@@ -7,18 +7,18 @@
       :suffixIcon="suffixIcon"
       :suffixIconStyle="suffixIconStyle"
       :placeholder="placeholder"
-      border="false"
       shape="circle"
-      color="#0F4239"
+      color="#333333"
       disabledColor="#F4F4F4"
       disabled
+      customStyle="border-color:#cccccc"
     />
-	</view>
-  <uni-tree 
+  </view>
+  <uni-tree
     ref="qiantree"
     labelKey="name"
-    valueKey="id" 
-    :treeData="columns" 
+    valueKey="id"
+    :treeData="columns"
     @confirm="confirmTree"
   ></uni-tree>
 </template>
@@ -49,7 +49,7 @@ export default {
       default: '请选择'
     }
   },
-  data() {
+  data () {
     return {
       label: "",
       id: '',
@@ -66,10 +66,10 @@ export default {
     }
   },
   methods: {
-    openTree() {
+    openTree () {
       this.$refs.qiantree._show()
     },
-    confirmTree(e) {
+    confirmTree (e) {
       this.id = e.id[0]
       this.label = e.name[0]
       this.$emit('treeCallback', e)

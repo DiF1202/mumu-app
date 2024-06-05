@@ -19,15 +19,8 @@
         <view class="warning-handler">
           <u--form labelPosition="left" :model="form" ref="uForm" label-width="auto">
             <u-form-item label="处置方式" prop="disposer" required>
-              <u-radio-group v-model="form.disposer">
-                <u-radio
-                  v-for="(item, index) in isReal"
-                  :key="index"
-                  :label="item.name"
-                  :name="item.value"
-                  size="30rpx"
-                  :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }"
-                >
+              <u-radio-group v-model="form.disposer" :labelDisabled="false">
+                <u-radio v-for="(item, index) in isReal" :key="index" :label="item.name" :name="item.value" size="30rpx" :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }">
                 </u-radio>
               </u-radio-group>
             </u-form-item>
@@ -47,7 +40,7 @@ import { userStore } from '@/store'
 import { alarmDetailApi, alarmHandlerApi } from '@/api/view.js'
 
 export default {
-  data() {
+  data () {
     return {
       alarmId: '',
       detailsData: {
@@ -66,18 +59,18 @@ export default {
     }
   },
   computed: {
-    user_role() {
+    user_role () {
       return userStore().user_info.identity_type
     }
   },
-  onLoad(options) {
+  onLoad (options) {
     this.alarmId = options.id
     this.getDetail()
   },
   methods: {
     // 获取报警详情
-    getDetail() {
-      alarmDetailApi({alarm_id: this.alarmId}).then(res => {
+    getDetail () {
+      alarmDetailApi({ alarm_id: this.alarmId }).then(res => {
         console.log(res)
         if (res.code == 200) {
           this.detailsData = res.data
@@ -86,13 +79,13 @@ export default {
         }
       })
     },
-    submit() {
-      alarmHandlerApi({alarm_id: this.alarmId, type: this.form.disposer}).then(res => {
+    submit () {
+      alarmHandlerApi({ alarm_id: this.alarmId, type: this.form.disposer }).then(res => {
         console.log(res)
         if (res.code == 200) {
           this.$refs.uToast.show({
             message: "操作成功",
-            complete() {
+            complete () {
               uni.navigateBack();
             }
           })
@@ -106,7 +99,8 @@ export default {
 <style lang="scss" scoped>
 .details-container {
   .content {
-    background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+    // background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 48rpx;
     .video-section {
       width: 100%;

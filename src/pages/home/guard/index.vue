@@ -4,131 +4,84 @@
     <view class="content">
       <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
       <uni-card margin="0" padding="0" spacing="24rpx">
-        <view class="manager-view">
-          <u--image
-            :showLoading="true"
-            src="https://m.zzxmt.cn/cdn/icon/woman.png"
-            width="160rpx"
-            height="160rpx"
-            shape="circle"
-          ></u--image>
-          <view class="manager-info">
-            <view class="info-item">
-              <view class="dot"></view>
-              <u--text
-                :text="'负责人：' + '李小龙'"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
-            </view>
-            <view class="info-item">
-              <view class="dot"></view>
-              <u--text
-                :text="'动态存栏：' + '21'"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
-            </view>
+        <view class="weather-header">
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-richu"
+              size="32rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '05:37' }}</view>
           </view>
-          <view class="manager-info">
-            <view class="info-item">
-              <view class="dot"></view>
-              <u--text
-                :text="'栏位占用：' + '22'"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
-            </view>
-            <view class="info-item">
-              <view class="dot"></view>
-              <u--text
-                :text="'疑死数量: ' + '12'"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
-            </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-rila"
+              size="32rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '18:23' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-fengli"
+              size="26rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '东北风 3级' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-kongqishidu"
+              size="28rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '41%' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
+            <view class="value alarm">{{ '高温高湿' }}</view>
           </view>
         </view>
       </uni-card>
-      <!-- 今日天气 -->
-      <uni-subTitle customIcon="tianqi" title="今日天气" />
-      <view class="weather-header">
-        <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-richu"
-            size="32rpx"
-            color="#fff"
-          ></u-icon>
-          <view class="value">{{ "05:37" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-rila"
-            size="32rpx"
-            color="#fff"
-          ></u-icon>
-          <view class="value">{{ "18:23" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-fengli"
-            size="26rpx"
-            color="#fff"
-          ></u-icon>
-          <view class="value">{{ "东北风 3级" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon
-            custom-prefix="custom-icon custom-icon-kongqishidu"
-            size="28rpx"
-            color="#fff"
-          ></u-icon>
-          <view class="value">{{ "41%" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
-          <view class="value alarm">{{ "高温高湿" }}</view>
-        </view>
-      </view>
       <view class="weather-body">
-        <view class="body-item">
-          <view class="item-row">
-            <view class="date">今天</view>
-            <view class="air">{{ "良" }}</view>
-            <view class="temp">{{ "28~14" }}℃</view>
+        <uni-card margin="0" padding="0" spacing="24rpx">
+          <view class="body-item">
+            <view class="item-row">
+              <view class="date">今天</view>
+              <view class="air">{{ '良' }}</view>
+              <view class="temp">{{ '28~14' }}℃</view>
+            </view>
+            <view class="item-row">
+              <view class="status">{{ '多云' }}</view>
+              <u--image
+                :showLoading="true"
+                :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
+                width="14px"
+                height="14px"
+                mode="scaleToFill"
+              ></u--image>
+            </view>
           </view>
-          <view class="item-row">
-            <view class="status">{{ "多云" }}</view>
-            <u--image
-              :showLoading="true"
-              :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
-              width="14px"
-              height="14px"
-              mode="scaleToFill"
-            ></u--image>
+        </uni-card>
+        <uni-card margin="0" padding="0" spacing="24rpx">
+          <view class="body-item">
+            <view class="item-row">
+              <view class="date">明天</view>
+              <view class="air">{{ '良' }}</view>
+              <view class="temp">{{ '28~14' }}℃</view>
+            </view>
+            <view class="item-row">
+              <view class="status">{{ '多云' }}</view>
+              <u--image
+                :showLoading="true"
+                :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
+                width="14px"
+                height="14px"
+                mode="scaleToFill"
+              ></u--image>
+            </view>
           </view>
-        </view>
-        <view class="body-item">
-          <view class="item-row">
-            <view class="date">明天</view>
-            <view class="air">{{ "良" }}</view>
-            <view class="temp">{{ "28~14" }}℃</view>
-          </view>
-          <view class="item-row">
-            <view class="status">{{ "多云" }}</view>
-            <u--image
-              :showLoading="true"
-              :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
-              width="14px"
-              height="14px"
-              mode="scaleToFill"
-            ></u--image>
-          </view>
-        </view>
+        </uni-card>
       </view>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="weather-chart">
@@ -238,7 +191,7 @@ import {
   riskStatementApi
 } from "@/api/home.js";
 export default {
-  data() {
+  data () {
     return {
       list: ["温度", "湿度", "光照", "HI", "THI"],
       current: 0,
@@ -253,19 +206,19 @@ export default {
     };
   },
   computed: {
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad() {
+  onLoad () {
     uni.hideTabBar();
   },
-  onReady() {
+  onReady () {
     this.initData();
   },
   methods: {
     // 舍内环境
-    sectionChange(index) {
+    sectionChange (index) {
       this.current = index;
       switch (index) {
         case 0:
@@ -310,7 +263,7 @@ export default {
           break;
       }
     },
-    initHouseEnv(arr, unit, color, name) {
+    initHouseEnv (arr, unit, color, name) {
       let xData = [];
       let yData = [];
       let lineData = [];
@@ -329,7 +282,7 @@ export default {
       );
     },
     // 24h天气
-    initData() {
+    initData () {
       overViewGuardApi().then(res => {
         this.staff_name = res.data.staff_name || "";
         this.animal_count = res.data.animal_count || "";
@@ -401,7 +354,7 @@ export default {
           color: "#19AECE"
         }
       ];
-      this.$refs.weatherChart.initChart(xData1, series);
+      this.$refs.weatherChart.initChart(xData1, series, '', '℃');
     }
   }
 };
@@ -410,7 +363,8 @@ export default {
 <style lang="scss" scoped>
 .home-container {
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 24rpx;
     .dot {
       width: 16rpx;
@@ -421,13 +375,13 @@ export default {
     }
     .weather-header {
       width: 100%;
-      background: linear-gradient(
-        90deg,
-        rgba(25, 174, 206, 0.9) 0%,
-        rgba(25, 174, 206, 0.5) 100%
-      );
-      border-radius: 12rpx;
-      padding: 24rpx;
+      // background: linear-gradient(
+      //   90deg,
+      //   rgba(25, 174, 206, 0.9) 0%,
+      //   rgba(25, 174, 206, 0.5) 100%
+      // );
+      // border-radius: 12rpx;
+      // padding: 24rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -436,8 +390,8 @@ export default {
         justify-content: flex-start;
         align-items: center;
         .value {
-          color: #fff;
-          font-size: 24rpx;
+          color: #333333;
+          font-size: 26rpx;
           margin-left: 8rpx;
           line-height: 28rpx;
         }
@@ -453,15 +407,15 @@ export default {
       align-items: center;
       margin: 12rpx 0;
       .body-item {
-        width: calc(50% - 6rpx);
-        height: 120rpx;
-        background: linear-gradient(
-          90deg,
-          rgba(25, 174, 206, 0.9) 0%,
-          rgba(25, 174, 206, 0.5) 100%
-        );
-        border-radius: 12rpx;
-        padding: 24rpx;
+        width: 297rpx;
+        height: 72rpx;
+        // background: linear-gradient(
+        //   90deg,
+        //   rgba(25, 174, 206, 0.9) 0%,
+        //   rgba(25, 174, 206, 0.5) 100%
+        // );
+        // border-radius: 12rpx;
+        // padding: 24rpx;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -471,9 +425,8 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          color: #fff;
-          color: #fff;
-          font-size: 24rpx;
+          color: #333333;
+          font-size: 26rpx;
           view {
             line-height: 28rpx;
           }
@@ -484,6 +437,71 @@ export default {
       width: 100%;
       height: 250rpx;
     }
+    // .weather-header {
+    //   width: 100%;
+    //   background: linear-gradient(
+    //     90deg,
+    //     rgba(25, 174, 206, 0.9) 0%,
+    //     rgba(25, 174, 206, 0.5) 100%
+    //   );
+    //   border-radius: 12rpx;
+    //   padding: 24rpx;
+    //   display: flex;
+    //   justify-content: space-between;
+    //   align-items: center;
+    //   .weather-hader-item {
+    //     display: flex;
+    //     justify-content: flex-start;
+    //     align-items: center;
+    //     .value {
+    //       color: #fff;
+    //       font-size: 24rpx;
+    //       margin-left: 8rpx;
+    //       line-height: 28rpx;
+    //     }
+    //     .alarm {
+    //       color: rgb(235, 37, 37);
+    //     }
+    //   }
+    // }
+    // .weather-body {
+    //   width: 100%;
+    //   display: flex;
+    //   justify-content: space-between;
+    //   align-items: center;
+    //   margin: 12rpx 0;
+    //   .body-item {
+    //     width: calc(50% - 6rpx);
+    //     height: 120rpx;
+    //     background: linear-gradient(
+    //       90deg,
+    //       rgba(25, 174, 206, 0.9) 0%,
+    //       rgba(25, 174, 206, 0.5) 100%
+    //     );
+    //     border-radius: 12rpx;
+    //     padding: 24rpx;
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     .item-row {
+    //       width: 100%;
+    //       display: flex;
+    //       justify-content: space-between;
+    //       align-items: center;
+    //       color: #fff;
+    //       color: #fff;
+    //       font-size: 24rpx;
+    //       view {
+    //         line-height: 28rpx;
+    //       }
+    //     }
+    //   }
+    // }
+    // .weather-chart {
+    //   width: 100%;
+    //   height: 250rpx;
+    // }
     .tab-num {
       width: 100%;
       height: 56rpx;

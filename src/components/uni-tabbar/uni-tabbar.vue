@@ -43,25 +43,25 @@ export default {
       default: 0
     }
   },
-  data() {
+  data () {
     return {
       tabList:
-        userStore().user_info.identity_type === 1 ?  butlerTabList : guardTabList
+        userStore().user_info.identity_type === 1 ? butlerTabList : guardTabList
     };
   },
   computed: {
-    alarm_num() {
+    alarm_num () {
       return userStore().alarm_num;
     }
   },
-  mounted() {
+  mounted () {
     alarmUnhandlerNumApi().then(res => {
       let total = res.data.un_handle_total || 0
       userStore().set_alarm_num(total)
     })
   },
   methods: {
-    tabHandler(item, index) {
+    tabHandler (item, index) {
       if (index == 2) {
         uni.navigateTo({ url: item.pagePath });
       } else {

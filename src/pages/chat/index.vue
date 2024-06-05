@@ -3,14 +3,7 @@
     <view class="content">
       <uni-navtopbar title="畜牧助手" :back="true"></uni-navtopbar>
 
-      <scroll-view
-        class="msg-list"
-        :scroll-into-view="scrollIntoView"
-        scroll-with-animation
-        scroll-y="true"
-        style="width: 100%"
-        :enable-flex="true"
-      >
+      <scroll-view class="msg-list" :scroll-into-view="scrollIntoView" scroll-with-animation scroll-y="true" style="width: 100%" :enable-flex="true">
         <!-- 用来获取消息体高度 -->
         <view id="okk" scroll-with-animation>
           <!-- 消息 -->
@@ -23,21 +16,13 @@
                 </view>
               </view>
               <view class="chat-user-img margin-left">
-                <image
-                  src="https://m.zzxmt.cn/cdn/icon/woman.png"
-                  mode="aspectFill"
-                  style="height: 75rpx; width: 75rpx"
-                ></image>
+                <image src="https://m.zzxmt.cn/cdn/icon/woman.png" mode="aspectFill" style="height: 75rpx; width: 75rpx"></image>
               </view>
             </view>
             <!-- 机器人消息 -->
             <view v-if="!x.my" class="robot-message">
               <view class="chat-robot-img flex-row-center">
-                <image
-                  style="height: 75rpx; width: 75rpx"
-                  src="https://m.zzxmt.cn/cdn/icon/logo.png"
-                  mode="aspectFit"
-                ></image>
+                <image style="height: 75rpx; width: 75rpx" src="https://m.zzxmt.cn/cdn/icon/logo.png" mode="aspectFit"></image>
               </view>
               <view class="message-content" @click="copyFn(x.msg)">
                 <view class="message-text bg-f9f9f9">
@@ -49,11 +34,7 @@
           <!-- loading是显示 -->
           <view v-if="msgLoad" class="robot-message">
             <view class="chat-robot-img flex-row-center">
-              <image
-                style="height: 75rpx; width: 75rpx"
-                src="https://m.zzxmt.cn/cdn/icon/logo.png"
-                mode="aspectFit"
-              ></image>
+              <image style="height: 75rpx; width: 75rpx" src="https://m.zzxmt.cn/cdn/icon/logo.png" mode="aspectFit"></image>
             </view>
             <view class="message-content" @click="copyFn(x.msg)">
               <view class="message-text bg-f9f9f9">
@@ -71,27 +52,10 @@
       <view class="foot-box" :style="{ bottom: keyboardHeight + 'px' }">
         <view class="foot-box-content">
           <view class="textarea-box">
-            <textarea
-              v-model="msgContent"
-              :cursor-spacing="15"
-              class="textarea"
-              :auto-height="true"
-              placeholder="请输入要你的问题"
-              :maxlength="-1"
-              :adjust-position="false"
-              :disable-default-padding="false"
-              placeholder-class="input-placeholder"
-              @focus="handleFocus"
-              @blur="handleBlur"
-            ></textarea>
+            <textarea v-model="msgContent" :cursor-spacing="15" class="textarea" :auto-height="true" placeholder="请输入要你的问题" :maxlength="-1" :adjust-position="false" :disable-default-padding="false" placeholder-class="input-placeholder" @focus="handleFocus" @blur="handleBlur"></textarea>
           </view>
           <view class="send-btn-box">
-            <button
-              @click="send"
-              :disabled="inputBoxDisabled || !msgContent"
-              class="send"
-              type="primary"
-            >
+            <button @click="send" :disabled="inputBoxDisabled || !msgContent" class="send" type="primary">
               发送
             </button>
           </view>
@@ -103,7 +67,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       msgLoad: false,
       anData: {},
@@ -126,29 +90,29 @@ export default {
       inputBoxDisabled: false
     };
   },
-  onLoad() {
+  onLoad () {
     // uni.hideTabBar();
   },
   computed: {
-    footBoxPaddingBottom() {
+    footBoxPaddingBottom () {
       return (this.keyboardHeight || 20) + "rpx";
     }
   },
   methods: {
-    handleFocus(event) {
+    handleFocus (event) {
       // 获取键盘高度
       this.keyboardHeight = event.detail.height || 0;
 
       // 滚动到最新消息
       this.showLastMsg();
     },
-    handleBlur() {
+    handleBlur () {
       // 收起键盘后，恢复页面滚动
       this.keyboardHeight = 0;
       this.showLastMsg();
     },
     // 滚动窗口以显示最新的一条消息
-    showLastMsg() {
+    showLastMsg () {
       // 等待DOM更新
       this.$nextTick(() => {
         // 将scrollIntoView属性设置为"last-msg-item"，以便滚动窗口到最后一条消息
@@ -161,7 +125,7 @@ export default {
       });
     },
     // 清空消息列表
-    clearAllMsg(e) {
+    clearAllMsg (e) {
       // 弹出确认清空聊天记录的提示框
       uni.showModal({
         title: "确认要清空聊天记录？",
@@ -176,7 +140,7 @@ export default {
       });
     },
     // uuid生存
-    uuid() {
+    uuid () {
       var uuid = [];
       var hexDigits = "0123456789abcdef";
       for (var i = 0; i < 36; i++) {
@@ -187,14 +151,14 @@ export default {
       uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
       return "u" + uuid.join("").replaceAll("-", "");
     },
-    decodeUint8Array(array) {
+    decodeUint8Array (array) {
       let result = "";
       for (let i = 0; i < array.length; i++) {
         result += String.fromCharCode(array[i]);
       }
       return decodeURIComponent(escape(result));
     },
-    async getChat(userQueryString, curUserMsgId) {
+    async getChat (userQueryString, curUserMsgId) {
       const self = this; // 在函数外部捕获this
       let completeResponse = ""; // 用来拼接流式传输分片的完整内容
       let pattern = /data: {"answer": "(.+?)"}/g;
@@ -281,7 +245,7 @@ export default {
         }
       });
     },
-    async send() {
+    async send () {
       const curUserMsgId = this.uuid();
       this.getChat(this.msgContent, curUserMsgId);
 
@@ -308,10 +272,12 @@ export default {
 .bg {
   /* padding: 20rpx; */
   height: 100vh;
-  background-color: rgb(240, 240, 240);
+  // background-color: rgb(240, 240, 240);
+  // background: #f4f4f4;
   .content {
     position: relative;
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     display: flex;
     flex-direction: column;
     justify-content: center;

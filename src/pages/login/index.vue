@@ -1,32 +1,13 @@
 <template>
-  <view
-    class="login-container"
-    :style="{ paddingTop: `${safetyTop}px`, height: `${windowHeight + 50}px` }"
-  >
+  <view class="login-container" :style="{ paddingTop: `${safetyTop}px`, height: `${windowHeight + 50}px` }">
     <view class="logo-content">
-      <u--image
-        src="https://m.zzxmt.cn/cdn/icon/logo.png"
-        width="120rpx"
-        height="120rpx"
-      ></u--image>
+      <u--image src="https://m.zzxmt.cn/cdn/icon/logo.png" width="120rpx" height="120rpx"></u--image>
       <text class="title">牧目科技</text>
       <!-- <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon> -->
     </view>
     <view class="weixin-btn">
-      <button
-        type="default"
-        open-type="getPhoneNumber"
-        @getphonenumber="wxLogin"
-        class="button"
-      >
-        <u-icon
-          name="weixin-circle-fill"
-          color="#10cc8f"
-          size="28"
-          label="微信登录"
-          labelPos="top"
-          labelSize="24rpx"
-        ></u-icon>
+      <button type="default" open-type="getPhoneNumber" @getphonenumber="wxLogin" class="button">
+        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx"></u-icon>
       </button>
     </view>
   </view>
@@ -36,7 +17,7 @@
 import { loginApi } from "@/api/login";
 import { userStore } from "@/store";
 export default {
-  data() {
+  data () {
     return {
       inputStyle: {
         paddingLeft: "40rpx",
@@ -47,21 +28,21 @@ export default {
     };
   },
   computed: {
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    windowHeight() {
+    windowHeight () {
       return uni.getSystemInfoSync().windowHeight - 50;
     }
   },
-  onLoad() {
+  onLoad () {
     const token = userStore().user_info.token;
     if (token) {
       this.pageTo();
     }
   },
   methods: {
-    wxLogin(e) {
+    wxLogin (e) {
       console.log(e);
       this.loadingShow = true;
       if (e.detail.errMsg === "getPhoneNumber:ok") {
@@ -104,11 +85,13 @@ export default {
         });
       }
     },
-    pageTo() {
+    pageTo () {
       if (userStore().user_info.identity_type === 1) {
         uni.reLaunch({ url: "/pages/home/butler/index" });
+
       } else {
         uni.reLaunch({ url: "/pages/home/guard/index" });
+
       }
     }
   }
@@ -118,11 +101,12 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   width: 100%;
-  background-image: linear-gradient(
-    180deg,
-    rgba(234, 243, 255, 1) 0%,
-    rgb(255, 255, 255) 100%
-  );
+  background: #f4f4f4;
+  // background-image: linear-gradient(
+  //   180deg,
+  //   #00443a 0%,
+  //   rgb(255, 255, 255) 100%
+  // );
   .logo-content {
     display: flex;
     flex-direction: column;
@@ -130,7 +114,6 @@ export default {
     align-items: center;
     padding-top: 240rpx;
     .title {
-      color: #333333;
       font-size: 36rpx;
       font-weight: bold;
       margin-top: 40rpx;

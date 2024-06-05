@@ -1,5 +1,9 @@
 <template>
-	<view class="date-select-container" @click="open" @touchmove.stop.prevent="() => {}">
+  <view
+    class="date-select-container"
+    @click="open"
+    @touchmove.stop.prevent="() => {}"
+  >
     <u--input
       v-model="value"
       :prefixIcon="prefixIcon"
@@ -7,15 +11,22 @@
       :suffixIcon="suffixIcon"
       :suffixIconStyle="suffixIconStyle"
       placeholder="请选择"
-      border="false"
       shape="circle"
       color="#0F4239"
       disabledColor="#F4F4F4"
       disabled
+      customStyle="border-color:#cccccc"
     />
     <!-- 真机无滚动穿透问题，模拟器有 -->
-    <u-picker :show="show" :columns="columns" keyName="name" @confirm="confirm" @cancel="show=false" :defaultIndex="[0]"></u-picker>
-	</view>
+    <u-picker
+      :show="show"
+      :columns="columns"
+      keyName="name"
+      @confirm="confirm"
+      @cancel="show = false"
+      :defaultIndex="[0]"
+    ></u-picker>
+  </view>
 </template>
 
 <script>
@@ -38,7 +49,7 @@ export default {
       default: []
     }
   },
-  data() {
+  data () {
     return {
       value: '',
       show: false,
@@ -56,7 +67,7 @@ export default {
   },
   watch: {
     columns: {
-      handler(val) {
+      handler (val) {
         if (val) {
           this.value = val[0][0].name
         }
@@ -64,10 +75,10 @@ export default {
     }
   },
   methods: {
-    open() {
+    open () {
       this.show = true
     },
-    confirm(e) {
+    confirm (e) {
       this.value = e.value[0].name
       this.show = false
       this.$emit('pickerCallback', e.value[0])

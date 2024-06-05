@@ -10,23 +10,16 @@
             <!-- <u--input v-model="pen_name" placeholder="请选择栏位"  border="none" inputAlign="right" disabledColor="tranparent" disabled></u--input> -->
             <template #right>
               <u-icon name="arrow-right" size="30rpx" color="#333333"></u-icon>
-           </template>
+            </template>
           </u-form-item>
           <u-form-item label="告警类型" prop="abnormal_type_id" borderBottom required>
             <u-radio-group v-model="form.abnormal_type_id">
-              <u-radio
-                v-for="(item, index) in alarmTypeList"
-                :key="index"
-                :label="item.name"
-                :name="item.id"
-                size="30rpx"
-                :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }"
-              >
+              <u-radio v-for="(item, index) in alarmTypeList" :key="index" :label="item.name" :name="item.id" size="30rpx" :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }">
               </u-radio>
             </u-radio-group>
           </u-form-item>
           <u-form-item label="上报内容" prop="report_content" borderBottom required labelPosition="top">
-            <u--textarea v-model="form.report_content" placeholder="请输入上报内容"  border="none" inputAlign="right" :autoHeight="true" customStyle="background:transparent;marginTop:24rpx;color:#333333"></u--textarea>
+            <u--textarea v-model="form.report_content" placeholder="请输入上报内容" border="none" inputAlign="right" :autoHeight="true" customStyle="background:transparent;marginTop:24rpx;color:#333333"></u--textarea>
           </u-form-item>
           <u-form-item label="上报图片" prop="picture_url" required labelPosition="top">
             <uni-uploading ref="alarmPicture"></uni-uploading>
@@ -37,7 +30,7 @@
         <u-button type="primary" plain shape="circle" text="提交" @click="submit"></u-button>
       </view>
     </view>
-    <uni-tree ref="qiantree" labelKey="name" valueKey="id" :treeData="columns"  @confirm="confirmTree" ></uni-tree>
+    <uni-tree ref="qiantree" labelKey="name" valueKey="id" :treeData="columns" @confirm="confirmTree"></uni-tree>
     <u-toast ref="uToast"></u-toast>
   </view>
 </template>
@@ -46,7 +39,7 @@
 import { reportAlarmApi } from '@/api/view.js'
 import { fieldTree, alarmType } from '@/api/utils.js'
 export default {
-  data() {
+  data () {
     return {
       form: {
         pen_id: ""
@@ -62,15 +55,15 @@ export default {
       alarmTypeList: [],
     }
   },
-  onLoad() {
+  onLoad () {
     this.getFieldTree()
     this.getAlarmType()
   },
-  onReady() {
+  onReady () {
     this.$refs.uForm.setRules(this.rules);
   },
   methods: {
-    submit() {
+    submit () {
       if (this.$refs.alarmPicture.fileList[0]?.url) {
         this.form.picture_url = this.$refs.alarmPicture.fileList[0].url
       } else {
@@ -86,14 +79,14 @@ export default {
         })
       })
     },
-    getFieldTree() {
+    getFieldTree () {
       fieldTree().then(res => {
         if (res.code === 200) {
           this.columns = res.data
         }
       })
     },
-    getAlarmType() {
+    getAlarmType () {
       alarmType().then(res => {
         console.log(res, 11111)
         if (res.code == 200) {
@@ -101,10 +94,10 @@ export default {
         }
       })
     },
-    openFiledTree() {
+    openFiledTree () {
       this.$refs.qiantree._show()
     },
-    confirmTree(e) {
+    confirmTree (e) {
       this.form.pen_id = e.id[0]
       this.pen_name = e.name[0]
     }
@@ -115,7 +108,8 @@ export default {
 <style lang="scss" scoped>
 .details-container {
   .content {
-    background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+    // background: linear-gradient(to bottom, #D6E7FF 0%, #FFFFFF 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 48rpx;
     .reporting-handler {
       padding-left: 24rpx;

@@ -2,54 +2,96 @@
   <view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <u-icon name="map" color="#10cc8f" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon>
+      <!-- <u-icon name="map" color="#10cc8f" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
+      <u-icon
+        name="map"
+        color="#10cc8f"
+        size="46rpx"
+        :label="farm_name"
+        labelSize="28rpx"
+        labelColor="#333333"
+      ></u-icon>
       <!-- 今日天气 -->
       <uni-subTitle customIcon="tianqi" title="今日天气" />
-      <view class="weather-header">
-        <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-richu" size="32rpx" color="#fff"></u-icon>
-          <view class="value">{{ "05:37" }}</view>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="weather-header">
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-richu"
+              size="32rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '05:37' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-rila"
+              size="32rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '18:23' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-fengli"
+              size="26rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '东北风 3级' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon
+              custom-prefix="custom-icon custom-icon-kongqishidu"
+              size="28rpx"
+              color="#333333"
+            ></u-icon>
+            <view class="value">{{ '41%' }}</view>
+          </view>
+          <view class="weather-hader-item">
+            <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
+            <view class="value alarm">{{ '高温高湿' }}</view>
+          </view>
         </view>
-        <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-rila" size="32rpx" color="#fff"></u-icon>
-          <view class="value">{{ "18:23" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-fengli" size="26rpx" color="#fff"></u-icon>
-          <view class="value">{{ "东北风 3级" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon custom-prefix="custom-icon custom-icon-kongqishidu" size="28rpx" color="#fff"></u-icon>
-          <view class="value">{{ "41%" }}</view>
-        </view>
-        <view class="weather-hader-item">
-          <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
-          <view class="value alarm">{{ "高温高湿" }}</view>
-        </view>
-      </view>
+      </uni-card>
       <view class="weather-body">
-        <view class="body-item">
-          <view class="item-row">
-            <view class="date">今天</view>
-            <view class="air">{{ "良" }}</view>
-            <view class="temp">{{ "28~14" }}℃</view>
+        <uni-card margin="0" padding="0" spacing="24rpx">
+          <view class="body-item">
+            <view class="item-row">
+              <view class="date">今天</view>
+              <view class="air">{{ '良' }}</view>
+              <view class="temp">{{ '28~14' }}℃</view>
+            </view>
+            <view class="item-row">
+              <view class="status">{{ '多云' }}</view>
+              <u--image
+                :showLoading="true"
+                :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
+                width="14px"
+                height="14px"
+                mode="scaleToFill"
+              ></u--image>
+            </view>
           </view>
-          <view class="item-row">
-            <view class="status">{{ "多云" }}</view>
-            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
+        </uni-card>
+        <uni-card margin="0" padding="0" spacing="24rpx">
+          <view class="body-item">
+            <view class="item-row">
+              <view class="date">明天</view>
+              <view class="air">{{ '良' }}</view>
+              <view class="temp">{{ '28~14' }}℃</view>
+            </view>
+            <view class="item-row">
+              <view class="status">{{ '多云' }}</view>
+              <u--image
+                :showLoading="true"
+                :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
+                width="14px"
+                height="14px"
+                mode="scaleToFill"
+              ></u--image>
+            </view>
           </view>
-        </view>
-        <view class="body-item">
-          <view class="item-row">
-            <view class="date">明天</view>
-            <view class="air">{{ "良" }}</view>
-            <view class="temp">{{ "28~14" }}℃</view>
-          </view>
-          <view class="item-row">
-            <view class="status">{{ "多云" }}</view>
-            <u--image :showLoading="true" :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`" width="14px" height="14px" mode="scaleToFill"></u--image>
-          </view>
-        </view>
+        </uni-card>
       </view>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="weather-chart">
@@ -57,15 +99,30 @@
         </view>
       </uni-card>
       <!-- 生产概况 -->
-      <uni-subTitle customIcon="shengchan" title="生产概况" url="pages/home/production/index" />
+      <uni-subTitle
+        customIcon="shengchan"
+        title="生产概况"
+        url="pages/home/production/index"
+      />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="switch-tab">
-          <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
+          <u-subsection
+            :list="list"
+            :current="current"
+            activeColor="#333333"
+            @change="sectionChange"
+          ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #81b33b">{{ production_data?.animal_count }}</view>
-          <view class="num-item" style="color: #347caf">{{ production_data?.pen_occupancy_rate }}</view>
-          <view class="num-item" style="color: #bd3124">{{ production_data?.death_count }}</view>
+          <view class="num-item" style="color: #81b33b">{{
+            production_data?.animal_count
+          }}</view>
+          <view class="num-item" style="color: #347caf">{{
+            production_data?.pen_occupancy_rate
+          }}</view>
+          <view class="num-item" style="color: #bd3124">{{
+            production_data?.death_count
+          }}</view>
         </view>
         <view class="active-chart">
           <uni-tarea ref="activeChart" unit="℃" :max="30"></uni-tarea>
@@ -77,11 +134,15 @@
         <view class="active-statistic">
           <view class="active-item">
             <view class="item-label">较昨日：</view>
-            <view class="item-num">{{ production_data?.animal_activity_change?.daily }}</view>
+            <view class="item-num">{{
+              production_data?.animal_activity_change?.daily
+            }}</view>
           </view>
           <view class="active-item">
             <view class="item-label">较过去一周：</view>
-            <view class="item-num">{{ production_data?.animal_activity_change?.weekly }}</view>
+            <view class="item-num">{{
+              production_data?.animal_activity_change?.weekly
+            }}</view>
           </view>
         </view>
       </uni-card>
@@ -96,9 +157,15 @@
         <scroll-view class="table-body" :scroll-y="true">
           <view class="body-row">
             <view class="row-item">栏位数</view>
-            <view class="row-item bold">{{ production_data?.thermal_env_count?.hot }}</view>
-            <view class="row-item bold">{{ production_data?.thermal_env_count?.cold }}</view>
-            <view class="row-item bold">{{ production_data?.thermal_env_count?.cozy }}</view>
+            <view class="row-item bold">{{
+              production_data?.thermal_env_count?.hot
+            }}</view>
+            <view class="row-item bold">{{
+              production_data?.thermal_env_count?.cold
+            }}</view>
+            <view class="row-item bold">{{
+              production_data?.thermal_env_count?.cozy
+            }}</view>
           </view>
         </scroll-view>
       </uni-card>
@@ -111,7 +178,11 @@
         </view>
       </uni-card>
       <!-- 风险提示 -->
-      <uni-subTitle icon="warning" title="风险提示" url="pages/home/risk/index" />
+      <uni-subTitle
+        icon="warning"
+        title="风险提示"
+        url="pages/home/risk/index"
+      />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="danger-statistic">
           <view class="danger-item">
@@ -119,26 +190,37 @@
               <uni-progress ref="envProgressChart"></uni-progress>
             </view>
             <view class="item-subTitle">环境风险</view>
-            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.env }}%</view>
+            <view class="item-subTitle"
+              >较昨日{{ risk_note?.risk_change_daily?.env }}%</view
+            >
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="assetProgressChart"></uni-progress>
             </view>
             <view class="item-subTitle">动物风险</view>
-            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.animal}}%</view>
+            <view class="item-subTitle"
+              >较昨日{{ risk_note?.risk_change_daily?.animal }}%</view
+            >
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="manProgressChart"></uni-progress>
             </view>
             <view class="item-subTitle">生产风险</view>
-            <view class="item-subTitle">较昨日{{ risk_note?.risk_change_daily?.production}}%</view>
+            <view class="item-subTitle"
+              >较昨日{{ risk_note?.risk_change_daily?.production }}%</view
+            >
           </view>
         </view>
       </uni-card>
       <view class="ai-btn">
-        <u-button color="#3DAD82" shape="circle" text="小牧AI日报" @click="enterAiReport()"></u-button>
+        <u-button
+          color="#3DAD82"
+          shape="circle"
+          text="小牧AI日报"
+          @click="enterAiReport()"
+        ></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
@@ -232,7 +314,7 @@ export default {
           color: "#19AECE",
         },
       ];
-      this.$refs.weatherChart.initChart(xData, series)
+      this.$refs.weatherChart.initChart(xData, series, '', '℃')
     },
     // 跳转日报
     enterAiReport () {
@@ -245,17 +327,18 @@ export default {
 <style lang="scss" scoped>
 .home-container {
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 24rpx;
     .weather-header {
       width: 100%;
-      background: linear-gradient(
-        90deg,
-        rgba(25, 174, 206, 0.9) 0%,
-        rgba(25, 174, 206, 0.5) 100%
-      );
-      border-radius: 12rpx;
-      padding: 24rpx;
+      // background: linear-gradient(
+      //   90deg,
+      //   rgba(25, 174, 206, 0.9) 0%,
+      //   rgba(25, 174, 206, 0.5) 100%
+      // );
+      // border-radius: 12rpx;
+      // padding: 24rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -264,8 +347,8 @@ export default {
         justify-content: flex-start;
         align-items: center;
         .value {
-          color: #fff;
-          font-size: 24rpx;
+          color: #333333;
+          font-size: 26rpx;
           margin-left: 8rpx;
           line-height: 28rpx;
         }
@@ -281,15 +364,15 @@ export default {
       align-items: center;
       margin: 12rpx 0;
       .body-item {
-        width: calc(50% - 6rpx);
-        height: 120rpx;
-        background: linear-gradient(
-          90deg,
-          rgba(25, 174, 206, 0.9) 0%,
-          rgba(25, 174, 206, 0.5) 100%
-        );
-        border-radius: 12rpx;
-        padding: 24rpx;
+        width: 297rpx;
+        height: 72rpx;
+        // background: linear-gradient(
+        //   90deg,
+        //   rgba(25, 174, 206, 0.9) 0%,
+        //   rgba(25, 174, 206, 0.5) 100%
+        // );
+        // border-radius: 12rpx;
+        // padding: 24rpx;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -299,9 +382,8 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          color: #fff;
-          color: #fff;
-          font-size: 24rpx;
+          color: #333333;
+          font-size: 26rpx;
           view {
             line-height: 28rpx;
           }
@@ -340,7 +422,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #0f4239;
+        color: #333333;
         font-size: 28rpx;
       }
     }
@@ -353,7 +435,7 @@ export default {
       border-bottom: 1rpx solid #d6d7d9;
       .header-item {
         font-size: 28rpx;
-        color: #0f4239;
+        color: #333333;
         width: 25%;
         text-align: center;
       }
@@ -371,7 +453,7 @@ export default {
       }
       .row-item {
         font-size: 28rpx;
-        color: #0f4239;
+        color: #333333;
         width: 25%;
         text-align: center;
       }
@@ -397,7 +479,7 @@ export default {
           width: 200rpx;
           text-align: center;
           font-size: 28rpx;
-          color: #0f4239;
+          color: #333333;
         }
       }
     }

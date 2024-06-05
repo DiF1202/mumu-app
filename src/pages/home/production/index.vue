@@ -363,7 +363,8 @@ export default {
 <style lang="scss" scoped>
 .production-container {
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 48rpx;
     .header-filter {
       display: flex;

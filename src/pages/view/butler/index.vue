@@ -3,59 +3,28 @@
     <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle
-        icon="order"
-        title="畜舍情况"
-        value="实况视频"
-        url="pages/video/index"
-      />
+      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
-          <u--image
-            :showLoading="true"
-            src="https://m.zzxmt.cn/cdn/icon/woman.png"
-            width="160rpx"
-            height="160rpx"
-            shape="circle"
-          ></u--image>
+          <u--image :showLoading="true" src="https://m.zzxmt.cn/cdn/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text
-                :text="'负责人：' + staff_name"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
+              <u--text :text="'负责人：' + staff_name" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text
-                :text="'动态存栏：' + animal_count"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
+              <u--text :text="'动态存栏：' + animal_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text
-                :text="'栏位占用：' + pen_occupancy_rate"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
+              <u--text :text="'栏位占用：' + pen_occupancy_rate" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text
-                :text="'疑死数量: ' + death_count"
-                color="#0F4239"
-                size="24rpx"
-                margin="12rpx"
-              ></u--text>
+              <u--text :text="'疑死数量: ' + death_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
             </view>
           </view>
         </view>
@@ -73,47 +42,23 @@
             <uni-card margin="0" padding="0" spacing="24rpx">
               <view class="list-item" @click="enterDetails(item.alarm_id)">
                 <view class="image-wrapper">
-                  <u--image
-                    class="responsive-image"
-                    :showLoading="true"
-                    src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
-                    width="280rpx"
-                    height="158rpx"
-                  ></u--image>
+                  <u--image class="responsive-image" :showLoading="true" src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" width="280rpx" height="158rpx"></u--image>
                 </view>
                 <view class="item-info">
                   <view>
-                    <u--text
-                      :text="item.alarm_name"
-                      size="32rpx"
-                      color="#333333"
-                      :bold="true"
-                    ></u--text>
+                    <u--text :text="item.alarm_name" size="32rpx" color="#333333" :bold="true"></u--text>
                   </view>
                   <view>
-                    <u--text
-                      :text="'时间：' + item.alarm_time"
-                      size="26rpx"
-                      color="#333333"
-                    ></u--text>
+                    <u--text :text="'时间：' + item.alarm_time" size="26rpx" color="#333333"></u--text>
                   </view>
                   <view class="tag-box">
                     <view style="margin-right: 12rpx">
-                      <u-tag
-                        :text="item.alarm_status"
-                        :type="
+                      <u-tag :text="item.alarm_status" :type="
                           item.alarm_status === '已处理' ? 'success' : 'error'
-                        "
-                        shape="circle"
-                        size="mini"
-                      ></u-tag>
+                        " shape="circle" size="mini"></u-tag>
                     </view>
                     <view>
-                      <u-tag
-                        :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
-                        shape="circle"
-                        size="mini"
-                      ></u-tag>
+                      <u-tag :text="item.report_type == 1 ? 'AI识别' : '自主上报'" shape="circle" size="mini"></u-tag>
                     </view>
                   </view>
                   <!-- <view class="select-item">
@@ -123,51 +68,24 @@
                   </view> -->
                 </view>
                 <view class="ding" @click.stop="openDing(item.alarm_id)">
-                  <u-icon
-                    name="bell-fill"
-                    size="38rpx"
-                    color="#10cc8f"
-                  ></u-icon>
+                  <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
                 </view>
               </view>
             </uni-card>
             <u-gap height="12rpx"></u-gap>
           </u-list-item>
-          <u-loadmore
-            :status="loading"
-            loadingIcon="semicircle"
-            height="88rpx"
-            fontSize="32rpx"
-            @loadmore="loadmore"
-          />
+          <u-loadmore :status="loading" loadingIcon="semicircle" height="88rpx" fontSize="32rpx" @loadmore="loadmore" />
         </u-list>
       </view>
     </view>
     <view class="upward">
       <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
-      <u-button
-        color="#3DAD82"
-        type="primary"
-        shape="circle"
-        text="自主上报"
-        @click="upwardClick"
-      ></u-button>
+      <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报" @click="upwardClick"></u-button>
     </view>
     <u-toast ref="uToast"></u-toast>
-    <u-modal
-      :show="dingShow"
-      @confirm="dingClick"
-      :showCancelButton="true"
-      @cancel="dingShow = false"
-    >
+    <u-modal :show="dingShow" @confirm="dingClick" :showCancelButton="true" @cancel="dingShow = false">
       <view class="slot-content" style="width: 100%">
-        <u--textarea
-          v-model="dingText"
-          border="none"
-          autoHeight
-          placeholder="请输入提醒消息"
-          style="background: #f7f7f7"
-        ></u--textarea>
+        <u--textarea v-model="dingText" border="none" autoHeight placeholder="请输入提醒消息" style="background: #f7f7f7"></u--textarea>
       </view>
     </u-modal>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -180,7 +98,7 @@ import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
-  data() {
+  data () {
     return {
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
@@ -199,19 +117,19 @@ export default {
     };
   },
   computed: {
-    windowHeight() {
+    windowHeight () {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad() {
+  onLoad () {
     uni.hideTabBar();
     this.getFieldTree()
 
   },
-  onShow() {
+  onShow () {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
@@ -219,13 +137,13 @@ export default {
     }
   },
   methods: {
-    getUnhadlerNum() {
+    getUnhadlerNum () {
       alarmUnhandlerNumApi().then(res => {
         let total = res.data.un_handle_total || 0
         userStore().set_alarm_num(total)
       })
     },
-    getFieldTree() {
+    getFieldTree () {
       // 获取栏位数据 并设置第一个子元素为默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -234,7 +152,7 @@ export default {
         }
       });
     },
-    treeCallback(value) {
+    treeCallback (value) {
       this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
@@ -242,7 +160,7 @@ export default {
         this.getList();
       }
     },
-    getList() {
+    getList () {
       this.loading = "loading";
       this.getUnhadlerNum()
       videoAlarmApi({
@@ -270,17 +188,17 @@ export default {
           this.loading = "nomore";
         })
     },
-    loadmore() {
+    loadmore () {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    openDing(id) {
+    openDing (id) {
       this.alarmId = id;
       this.dingShow = true;
     },
-    dingClick() {
+    dingClick () {
       dingApi({
         pen_id: this.fieldId,
         alarm_ids: [this.alarmId],
@@ -292,13 +210,13 @@ export default {
         }
       });
     },
-    upwardClick() {
+    upwardClick () {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails(id) {
+    enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive() {
+    linkToVideoLive () {
       uni.navigateTo({ url: "/pages/video/index" });
     }
   }
@@ -319,7 +237,8 @@ export default {
     align-self: center;
   }
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 24rpx;
     .dot {
       width: 16rpx;
