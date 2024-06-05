@@ -3,7 +3,14 @@
     <view class="content">
       <uni-navtopbar title="畜牧助手" :back="true"></uni-navtopbar>
 
-      <scroll-view class="msg-list" :scroll-into-view="scrollIntoView" scroll-with-animation scroll-y="true" style="width: 100%" :enable-flex="true">
+      <scroll-view
+        class="msg-list"
+        :scroll-into-view="scrollIntoView"
+        scroll-with-animation
+        scroll-y="true"
+        style="width: 100%"
+        :enable-flex="true"
+      >
         <!-- 用来获取消息体高度 -->
         <view id="okk" scroll-with-animation>
           <!-- 消息 -->
@@ -16,13 +23,21 @@
                 </view>
               </view>
               <view class="chat-user-img margin-left">
-                <image src="https://m.zzxmt.cn/cdn/icon/woman.png" mode="aspectFill" style="height: 75rpx; width: 75rpx"></image>
+                <image
+                  src="https://m.zzxmt.cn/cdn/icon/woman.png"
+                  mode="aspectFill"
+                  style="height: 75rpx; width: 75rpx"
+                ></image>
               </view>
             </view>
             <!-- 机器人消息 -->
             <view v-if="!x.my" class="robot-message">
               <view class="chat-robot-img flex-row-center">
-                <image style="height: 75rpx; width: 75rpx" src="https://m.zzxmt.cn/cdn/icon/logo.png" mode="aspectFit"></image>
+                <image
+                  style="height: 75rpx; width: 75rpx"
+                  src="https://m.zzxmt.cn/cdn/icon/logo.png"
+                  mode="aspectFit"
+                ></image>
               </view>
               <view class="message-content" @click="copyFn(x.msg)">
                 <view class="message-text bg-f9f9f9">
@@ -34,7 +49,11 @@
           <!-- loading是显示 -->
           <view v-if="msgLoad" class="robot-message">
             <view class="chat-robot-img flex-row-center">
-              <image style="height: 75rpx; width: 75rpx" src="https://m.zzxmt.cn/cdn/icon/logo.png" mode="aspectFit"></image>
+              <image
+                style="height: 75rpx; width: 75rpx"
+                src="https://m.zzxmt.cn/cdn/icon/logo.png"
+                mode="aspectFit"
+              ></image>
             </view>
             <view class="message-content" @click="copyFn(x.msg)">
               <view class="message-text bg-f9f9f9">
@@ -49,13 +68,31 @@
       </scroll-view>
 
       <!-- 底部导航栏 -->
+      <view class="foot-box-shadow"></view>
       <view class="foot-box" :style="{ bottom: keyboardHeight + 'px' }">
         <view class="foot-box-content">
           <view class="textarea-box">
-            <textarea v-model="msgContent" :cursor-spacing="15" class="textarea" :auto-height="true" placeholder="请输入要你的问题" :maxlength="-1" :adjust-position="false" :disable-default-padding="false" placeholder-class="input-placeholder" @focus="handleFocus" @blur="handleBlur"></textarea>
+            <textarea
+              v-model="msgContent"
+              :cursor-spacing="15"
+              class="textarea"
+              :auto-height="true"
+              placeholder="请输入要你的问题"
+              :maxlength="-1"
+              :adjust-position="false"
+              :disable-default-padding="false"
+              placeholder-class="input-placeholder"
+              @focus="handleFocus"
+              @blur="handleBlur"
+            ></textarea>
           </view>
           <view class="send-btn-box">
-            <button @click="send" :disabled="inputBoxDisabled || !msgContent" class="send" type="primary">
+            <button
+              @click="send"
+              :disabled="inputBoxDisabled || !msgContent"
+              class="send"
+              type="primary"
+            >
               发送
             </button>
           </view>
@@ -67,7 +104,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       msgLoad: false,
       anData: {},
@@ -90,29 +127,29 @@ export default {
       inputBoxDisabled: false
     };
   },
-  onLoad () {
+  onLoad() {
     // uni.hideTabBar();
   },
   computed: {
-    footBoxPaddingBottom () {
+    footBoxPaddingBottom() {
       return (this.keyboardHeight || 20) + "rpx";
     }
   },
   methods: {
-    handleFocus (event) {
+    handleFocus(event) {
       // 获取键盘高度
       this.keyboardHeight = event.detail.height || 0;
 
       // 滚动到最新消息
       this.showLastMsg();
     },
-    handleBlur () {
+    handleBlur() {
       // 收起键盘后，恢复页面滚动
       this.keyboardHeight = 0;
       this.showLastMsg();
     },
     // 滚动窗口以显示最新的一条消息
-    showLastMsg () {
+    showLastMsg() {
       // 等待DOM更新
       this.$nextTick(() => {
         // 将scrollIntoView属性设置为"last-msg-item"，以便滚动窗口到最后一条消息
@@ -125,7 +162,7 @@ export default {
       });
     },
     // 清空消息列表
-    clearAllMsg (e) {
+    clearAllMsg(e) {
       // 弹出确认清空聊天记录的提示框
       uni.showModal({
         title: "确认要清空聊天记录？",
@@ -140,7 +177,7 @@ export default {
       });
     },
     // uuid生存
-    uuid () {
+    uuid() {
       var uuid = [];
       var hexDigits = "0123456789abcdef";
       for (var i = 0; i < 36; i++) {
@@ -151,18 +188,20 @@ export default {
       uuid[8] = uuid[13] = uuid[18] = uuid[23] = "-";
       return "u" + uuid.join("").replaceAll("-", "");
     },
-    decodeUint8Array (array) {
+    decodeUint8Array(array) {
       let result = "";
       for (let i = 0; i < array.length; i++) {
         result += String.fromCharCode(array[i]);
       }
       return decodeURIComponent(escape(result));
     },
-    async getChat (userQueryString, curUserMsgId) {
+    async getChat(userQueryString, curUserMsgId) {
       const self = this; // 在函数外部捕获this
-      let completeResponse = ""; // 用来拼接流式传输分片的完整内容
-      let pattern = /data: {"answer": "(.+?)"}/g;
       let id = this.uuid();
+
+      // 重置 completeResponse 和 self.buffer
+      self.completeResponse = ""; // 用来拼接流式传输分片的完整内容
+      self.buffer = ""; // 初始化缓冲区用于存储未处理的文本块
 
       const requestTask = uni.request({
         url: "http://47.99.151.88:9004/chat/knowledge_base_chat",
@@ -186,6 +225,29 @@ export default {
           self.inputBoxDisabled = false;
           self.msgLoad = false;
           console.log(res);
+          if (res.statusCode !== 200) {
+            self.inputBoxDisabled = false;
+            // 如果失败了看看看有没有，上一条记录有无返回看看有没有存进去了
+            let existingMsgIndex = self.msgList.findIndex(
+              item => item?.id === id
+            );
+            self.msgLoad = false;
+            if (existingMsgIndex !== -1) {
+              // 更新已有消息的内容
+              self.$set(self.msgList, existingMsgIndex, {
+                my: false,
+                msg: "请求失败，请重试",
+                id: id
+              });
+            } else {
+              // 如果消息列表中没有，就添加一个新的消息条目
+              self.msgList.push({
+                my: false,
+                msg: "请求失败，请重试",
+                id: id
+              });
+            }
+          }
         },
         fail: function (err) {
           console.log(err);
@@ -213,39 +275,63 @@ export default {
         }
       });
 
-      // 这里监听消息
+      // 初始化模式
+      const pattern = /data: (\{.*?\})/g;
+
       requestTask.onChunkReceived(function (res) {
         self.msgLoad = false;
-        // const decoder = new TextDecoder("utf-8");
-        // const textChunk = decoder.decode(new Uint8Array(res?.data));
-        const textChunk = self.decodeUint8Array(new Uint8Array(res.data));
 
-        const match = pattern.exec(textChunk);
-        if (match?.[1]) {
-          completeResponse += match[1];
-          let existingMsgIndex = self.msgList.findIndex(
-            item => item?.id === id
-          );
-          if (existingMsgIndex !== -1) {
-            // 更新已有消息的内容
-            self.$set(self.msgList, existingMsgIndex, {
-              my: false,
-              msg: completeResponse,
-              id: id
-            });
-          } else {
-            // 如果消息列表中没有，就添加一个新的消息条目
-            self.msgList.push({
-              my: false,
-              msg: completeResponse,
-              id: id
-            });
+        // 读取接收到的数据块并拼接到缓冲区中
+        const textChunk = self.decodeUint8Array(new Uint8Array(res.data));
+        console.log(textChunk);
+        self.buffer += textChunk;
+
+        let match;
+        let lastIndex = 0; // 记录上一次处理的位置
+
+        // 处理缓冲区中的数据
+        while ((match = pattern.exec(self.buffer)) !== null) {
+          const jsonStr = match[1];
+          try {
+            const data = JSON.parse(jsonStr);
+            if (data.answer) {
+              self.completeResponse += data.answer;
+
+              let existingMsgIndex = self.msgList.findIndex(
+                item => item?.id === id
+              );
+              if (existingMsgIndex !== -1) {
+                // 更新已有消息的内容
+                self.$set(self.msgList, existingMsgIndex, {
+                  my: false,
+                  msg: self.completeResponse,
+                  id: id
+                });
+              } else {
+                // 如果消息列表中没有，就添加一个新的消息条目
+                self.msgList.push({
+                  my: false,
+                  msg: self.completeResponse,
+                  id: id
+                });
+              }
+              // 使用 nextTick 确保 DOM 更新完成后执行滚动操作
+              self.$nextTick(() => {
+                self.showLastMsg(); // 滚动到最新的消息
+              });
+            }
+            lastIndex = pattern.lastIndex; // 记录最后一次匹配的位置
+          } catch (e) {
+            console.error("JSON 解析错误: ", e);
           }
-          self.showLastMsg(); // 滚动到最新的消息
         }
+
+        // 移除已处理的部分
+        self.buffer = self.buffer.slice(lastIndex);
       });
     },
-    async send () {
+
+    async send() {
       const curUserMsgId = this.uuid();
       this.getChat(this.msgContent, curUserMsgId);
 
@@ -301,6 +387,11 @@ export default {
   padding: 14px 0px;
   background-color: #fff;
   background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+}
+
+.foot-box-shadow {
+  height: 120rpx;
+  width: 100%;
 }
 
 .foot-box-content {
