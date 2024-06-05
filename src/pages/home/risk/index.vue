@@ -193,7 +193,7 @@ const initHeatList = [
 ];
 
 export default {
-  data() {
+  data () {
     return {
       list: ["环境风险", "资产风险", "管理风险"],
       current: 0,
@@ -222,14 +222,14 @@ export default {
     };
   },
 
-  async mounted() {
+  async mounted () {
     const res = await this.getRiskReportData();
     if (res === true) {
       this.sectionChange(0);
     }
   },
   methods: {
-    async getRiskReportData() {
+    async getRiskReportData () {
       const params = {};
       if (this.dateTypeId)
         Object.assign(params, { date_type: this.dateTypeId });
@@ -250,7 +250,7 @@ export default {
       this.riskCountData = risk_count || [];
       return true;
     },
-    renderCharts(dataSource, name, unit, color) {
+    renderCharts (dataSource, name, unit, color) {
       let xData = [];
       let yData = { name: name, data: [], color: color };
       dataSource.map(item => {
@@ -259,7 +259,7 @@ export default {
       });
       this.$refs.activeChart.initChart(xData, [yData], unit, color);
     },
-    sectionChange(index) {
+    sectionChange (index) {
       this.current = index;
       if (this.current === 0) {
         this.renderCharts(
@@ -284,15 +284,15 @@ export default {
         );
       }
     },
-    enterDetails(id) {
+    enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
 
-    pickerCallback1(e) {
+    pickerCallback1 (e) {
       this.houseTypeId = e.id;
       this.getRiskReportData();
     },
-    pickerCallback2(e) {
+    pickerCallback2 (e) {
       this.dateTypeId = e.id;
       this.getRiskReportData();
     }
@@ -303,7 +303,8 @@ export default {
 <style lang="scss" scoped>
 .production-container {
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    background: #f4f4f4;
     padding: 0 24rpx 48rpx;
     .header-filter {
       display: flex;
