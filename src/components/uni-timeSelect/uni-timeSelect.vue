@@ -1,5 +1,5 @@
 <template>
-	<view class="date-select-container" @click="openCalendar">
+  <view class="date-select-container" @click="openCalendar">
     <u--input
       v-model="date"
       :prefixIcon="prefixIcon"
@@ -14,7 +14,7 @@
       disabled
     />
     <u-calendar :show="show" mode="range" @confirm="confirm"></u-calendar>
-	</view>
+  </view>
 </template>
 
 <script>
@@ -30,10 +30,10 @@ export default {
     },
     iconColor: {
       type: String,
-      default: '#10cc8f'
+      default: '#00443A'
     }
   },
-  data() {
+  data () {
     return {
       date: '',
       show: false,
@@ -50,10 +50,10 @@ export default {
     }
   },
   methods: {
-    openCalendar() {
+    openCalendar () {
       this.show = true
     },
-    confirm(e) {
+    confirm (e) {
       console.log(e)
       this.date = e[0] + '~' + e[1]
       this.$emit('dateCallback', e)

@@ -2,10 +2,10 @@
   <view class="home-container">
     <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
     <view class="content">
-      <!-- <u-icon name="map" color="#10cc8f" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
+      <!-- <u-icon name="map" color="#00443A" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
       <u-icon
         name="map"
-        color="#10cc8f"
+        color="#00443A"
         size="46rpx"
         :label="farm_name"
         labelSize="28rpx"
@@ -283,7 +283,7 @@ export default {
         lineData.push(item.alarm_handle_rate[2])
       })
       console.log(xData, yData, lineData)
-      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8f', '平均消警比例')
+      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
     },
     // 风险提示
     riskNote () {

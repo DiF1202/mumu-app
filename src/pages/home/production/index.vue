@@ -4,23 +4,45 @@
     <view class="content">
       <view class="header-filter">
         <view class="filter-fileds">
-          <uni-pickerselect prefixIcon="grid" :columns="columns1" @pickerCallback="pickerCallback1" />
+          <uni-pickerselect
+            prefixIcon="grid"
+            :columns="columns1"
+            @pickerCallback="pickerCallback1"
+          />
         </view>
         <view class="filter-date">
-          <uni-pickerselect :columns="columns2" @pickerCallback="pickerCallback2" />
+          <uni-pickerselect
+            :columns="columns2"
+            @pickerCallback="pickerCallback2"
+          />
         </view>
       </view>
       <uni-subTitle customIcon="shenei" title="舍内环境" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="switch-tab">
-          <u-subsection :list="list" :current="current" activeColor="#333333" @change="sectionChange"></u-subsection>
+          <u-subsection
+            :list="list"
+            :current="current"
+            activeColor="#333333"
+            @change="sectionChange"
+          ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color:#DE868F;width: 20%;">{{housing_environment?.temperature}}℃</view>
-          <view class="num-item" style="color:#93D2F3;width: 20%;">{{housing_environment?.humidity}}%</view>
-          <view class="num-item" style="color:#FCCA00;width: 20%;">{{housing_environment?.illuminance}}lx</view>
-          <view class="num-item" style="color:#7F83F7;width: 20%;">{{housing_environment?.HI}}℃</view>
-          <view class="num-item" style="color:#B886F8;width: 20%;">{{housing_environment?.THI}}</view>
+          <view class="num-item" style="color: #de868f; width: 20%"
+            >{{ housing_environment?.temperature }}℃</view
+          >
+          <view class="num-item" style="color: #93d2f3; width: 20%"
+            >{{ housing_environment?.humidity }}%</view
+          >
+          <view class="num-item" style="color: #fcca00; width: 20%"
+            >{{ housing_environment?.illuminance }}lx</view
+          >
+          <view class="num-item" style="color: #7f83f7; width: 20%"
+            >{{ housing_environment?.HI }}℃</view
+          >
+          <view class="num-item" style="color: #b886f8; width: 20%">{{
+            housing_environment?.THI
+          }}</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="activeChart"></uni-kchart> -->
@@ -30,7 +52,15 @@
       <uni-subTitle icon="rmb-circle" title="生物资产" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon custom-prefix="custom-icon custom-icon-xinxi" size="38rpx" color="#10cc8f" labelPos="right" label="动态存栏" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-xinxi"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="动态存栏"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <view class="active-chart">
           <uni-tarea ref="animalCount" :max="30"></uni-tarea>
@@ -39,7 +69,15 @@
       <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="list" size="38rpx" color="#10cc8f" labelPos="right" label="栏位占用" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            name="list"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="栏位占用"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <view class="active-chart">
           <uni-tarea ref="penOccupancy" :max="30"></uni-tarea>
@@ -47,35 +85,58 @@
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
             <view class="item-label">栏位占用：</view>
-            <view class="item-num">{{pen_occupancy_rate?.pen_occupancy_rate}}</view>
+            <view class="item-num">{{
+              pen_occupancy_rate?.pen_occupancy_rate
+            }}</view>
           </view>
           <view class="active-item">
             <view class="item-label">动态活动范围：</view>
-            <view class="item-num">{{pen_occupancy_rate?.dynamic_area}}</view>
+            <view class="item-num">{{ pen_occupancy_rate?.dynamic_area }}</view>
           </view>
         </view>
         <view class="active-statistic">
           <view class="active-item">
             <view class="item-label">单位面积/动物：</view>
-            <view class="item-num">{{pen_occupancy_rate?.animal_per_area}}</view>
+            <view class="item-num">{{
+              pen_occupancy_rate?.animal_per_area
+            }}</view>
           </view>
           <view class="active-item">
             <view class="item-label">昨日转群次数：</view>
-            <view class="item-num">{{pen_occupancy_rate?.transfer_count}}</view>
+            <view class="item-num">{{
+              pen_occupancy_rate?.transfer_count
+            }}</view>
           </view>
         </view>
       </uni-card>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="warning" size="38rpx" color="#10cc8f" labelPos="right" label="异常动物数量" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            name="warning"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="异常动物数量"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <u-gap height="12rpx"></u-gap>
         <view class="switch-tab">
-          <u-subsection :list="list1" :current="current1" activeColor="#333333" @change="sectionChange1"></u-subsection>
+          <u-subsection
+            :list="list1"
+            :current="current1"
+            activeColor="#333333"
+            @change="sectionChange1"
+          ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color:#DE868F;width: 50%;">{{animal_risk_count?.death}}头</view>
-          <view class="num-item" style="color:#93D2F3;width: 50%;">{{animal_risk_count?.moribund}}头</view>
+          <view class="num-item" style="color: #de868f; width: 50%"
+            >{{ animal_risk_count?.death }}头</view
+          >
+          <view class="num-item" style="color: #93d2f3; width: 50%"
+            >{{ animal_risk_count?.moribund }}头</view
+          >
         </view>
         <view class="active-chart">
           <uni-line ref="animalRisk"></uni-line>
@@ -83,7 +144,15 @@
       </uni-card>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon custom-prefix="custom-icon custom-icon-heart" size="38rpx" color="#10cc8f" labelPos="right" label="畜群活跃度统计" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-heart"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="畜群活跃度统计"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="animalActivity"></uni-kchart> -->
@@ -102,7 +171,15 @@
       </uni-card>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon custom-prefix="custom-icon custom-icon-shuimian" size="38rpx" color="#10cc8f" labelPos="right" label="畜群节律统计" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-shuimian"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="畜群节律统计"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <view class="active-chart">
           <uni-bar ref="alarmHandle"></uni-bar>
@@ -111,16 +188,29 @@
       <uni-subTitle customIcon="jixiaoguanli" title="管理详情" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon custom-prefix="custom-icon custom-icon-user1" size="38rpx" color="#10cc8f" labelPos="right" label="饲养员考勤" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            custom-prefix="custom-icon custom-icon-user1"
+            size="38rpx"
+            color="#00443A"
+            labelPos="right"
+            label="饲养员考勤"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <u-gap height="12rpx"></u-gap>
         <view class="switch-tab">
-          <u-subsection :list="list2" :current="current2" activeColor="#333333" @change="sectionChange2"></u-subsection>
+          <u-subsection
+            :list="list2"
+            :current="current2"
+            activeColor="#333333"
+            @change="sectionChange2"
+          ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color:#81B337;width: 33%;">50%</view>
-          <view class="num-item" style="color:#CBA43F;width: 33%;">40分</view>
-          <view class="num-item" style="color:#347CAF;width: 33%;">35分</view>
+          <view class="num-item" style="color: #81b337; width: 33%">50%</view>
+          <view class="num-item" style="color: #cba43f; width: 33%">40分</view>
+          <view class="num-item" style="color: #347caf; width: 33%">35分</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="attendanceChart"></uni-kchart> -->
@@ -130,7 +220,15 @@
       <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
-          <u-icon name="car" size="42rpx" color="#10cc8f" labelPos="right" label="车辆活动记录" labelColor="#333333" labelSize="24rpx"></u-icon>
+          <u-icon
+            name="car"
+            size="42rpx"
+            color="#00443A"
+            labelPos="right"
+            label="车辆活动记录"
+            labelColor="#333333"
+            labelSize="24rpx"
+          ></u-icon>
         </view>
         <view class="car-chart">
           <uni-carchart ref="carChart"></uni-carchart>
@@ -256,7 +354,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#10cc8f', '平均畜群活跃度')
+      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#00443A', '平均畜群活跃度')
     },
     // 畜群节律
     alarmHandle () {
@@ -428,7 +526,7 @@ export default {
         width: 16rpx;
         height: 16rpx;
         border-radius: 50%;
-        background-color: #10cc8f;
+        background-color: #00443a;
         margin: 22rpx 0;
       }
     }

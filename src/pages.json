@@ -155,7 +155,7 @@
 	],
 	"tabBar": {
 		"color": "#333333",
-		"selectedColor": "#10CC8F",
+		"selectedColor": "#00443A",
 		"list": [
 			{
 				"pagePath": "pages/home/butler/index" // 管家首页

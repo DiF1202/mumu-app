@@ -1,9 +1,17 @@
 <template>
   <view class="list-container">
     <uni-navtopbar title="实况视频" :back="true"></uni-navtopbar>
-    <view class="content" :style="{ height: `${windowHeight - safetyTop - 40}px` }">
+    <view
+      class="content"
+      :style="{ height: `${windowHeight - safetyTop - 40}px` }"
+    >
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index" />
+      <uni-subTitle
+        icon="order"
+        title="畜舍情况"
+        value="实况视频"
+        url="pages/video/index"
+      />
       <!-- <view class="video-section" @click="linkToVideoLive">
         <u-icon name="play-circle-fill" size="40"></u-icon>
       </view> -->
@@ -12,23 +20,47 @@
           <u-list-item v-for="(item, index) in listData" :key="index">
             <view class="list-item" @click="enterDetails(item.alarm_id)">
               <view class="image-wrapper">
-                <u--image class="responsive-image" :showLoading="true" src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" width="280rpx" height="158rpx"></u--image>
+                <u--image
+                  class="responsive-image"
+                  :showLoading="true"
+                  src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
+                  width="280rpx"
+                  height="158rpx"
+                ></u--image>
               </view>
               <view class="item-info">
                 <view>
-                  <u--text :text="item.alarm_name" size="32rpx" color="#333333" :bold="true"></u--text>
+                  <u--text
+                    :text="item.alarm_name"
+                    size="32rpx"
+                    color="#333333"
+                    :bold="true"
+                  ></u--text>
                 </view>
                 <view>
-                  <u--text :text="'时间：' + item.alarm_time" size="26rpx" color="#333333"></u--text>
+                  <u--text
+                    :text="'时间：' + item.alarm_time"
+                    size="26rpx"
+                    color="#333333"
+                  ></u--text>
                 </view>
                 <view class="tag-box">
                   <view style="margin-right: 12rpx">
-                    <u-tag :text="item.alarm_status" :type="
+                    <u-tag
+                      :text="item.alarm_status"
+                      :type="
                         item.alarm_status === '已处理' ? 'success' : 'error'
-                      " shape="circle" size="mini"></u-tag>
+                      "
+                      shape="circle"
+                      size="mini"
+                    ></u-tag>
                   </view>
                   <view>
-                    <u-tag :text="item.report_type == 1 ? 'AI识别' : '自主上报'" shape="circle" size="mini"></u-tag>
+                    <u-tag
+                      :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
+                      shape="circle"
+                      size="mini"
+                    ></u-tag>
                   </view>
                 </view>
                 <!-- <view class="select-item">
@@ -38,16 +70,28 @@
                 </view> -->
               </view>
               <!-- <view class="ding" @click.stop="dingClick(item.id)">
-                <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+                <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
               </view> -->
             </view>
           </u-list-item>
-          <u-loadmore :status="loading" loadingIcon="semicircle" height="88rpx" fontSize="32rpx" @loadmore="loadmore" />
+          <u-loadmore
+            :status="loading"
+            loadingIcon="semicircle"
+            height="88rpx"
+            fontSize="32rpx"
+            @loadmore="loadmore"
+          />
         </u-list>
       </view>
       <view class="upward" @click="upwardClick">
-        <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
-        <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报" @click="upwardClick"></u-button>
+        <!-- <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon> -->
+        <u-button
+          color="#00443A"
+          type="primary"
+          shape="circle"
+          text="自主上报"
+          @click="upwardClick"
+        ></u-button>
       </view>
     </view>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>

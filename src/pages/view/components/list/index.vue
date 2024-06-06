@@ -50,7 +50,7 @@
                 </view> -->
               </view>
               <view class="ding" @click.stop="dingClick(item.id)">
-                <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+                <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
               </view>
             </view>
           </u-list-item>
@@ -64,7 +64,7 @@
         </u-list>
       </view>
       <view class="upward" @click="upwardClick">
-        <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon>
+        <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon>
       </view>
     </view>
     <u-toast ref="uToast"></u-toast>
@@ -77,7 +77,7 @@ import { findAndAdd } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 
 export default {
-  data() {
+  data () {
     return {
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
@@ -88,17 +88,17 @@ export default {
     };
   },
   computed: {
-    windowHeight() {
+    windowHeight () {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     }
   },
-  onLoad(options) {
+  onLoad (options) {
     this.getFieldTree(options.fieldId);
   },
-  onShow() {
+  onShow () {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
@@ -106,7 +106,7 @@ export default {
     }
   },
   methods: {
-    getFieldTree(id) {
+    getFieldTree (id) {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -115,14 +115,14 @@ export default {
         }
       });
     },
-    treeCallback(value) {
+    treeCallback (value) {
       this.fieldId = value.id[0];
       if (this.fieldId) {
         this.listData = [];
         this.getList();
       }
     },
-    getList() {
+    getList () {
       this.loading = "loading";
       videoAlarmApi({
         pen_id: this.fieldId,
@@ -144,30 +144,30 @@ export default {
           this.loading = "nomore";
         });
     },
-    loadmore() {
+    loadmore () {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    dingClick(id) {
+    dingClick (id) {
       dingApi({ pen_id: this.fieldId }).then(res => {
         if (res.code == 200) {
           this.$refs.uToast.show({ message: "提醒消息发送成功" });
         }
       });
     },
-    upwardClick() {
+    upwardClick () {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails(id) {
+    enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive() {
+    linkToVideoLive () {
       uni.navigateTo({ url: "/pages/video/index" });
     }
   },
-  mounted() {}
+  mounted () { }
 };
 </script>
 

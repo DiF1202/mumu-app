@@ -368,7 +368,7 @@ export default {
         width: 16rpx;
         height: 16rpx;
         border-radius: 50%;
-        background-color: #10cc8f;
+        background-color: #00443a;
         margin: 22rpx 0;
       }
     }

@@ -1,13 +1,32 @@
 <template>
-  <view class="login-container" :style="{ paddingTop: `${safetyTop}px`, height: `${windowHeight + 50}px` }">
+  <view
+    class="login-container"
+    :style="{ paddingTop: `${safetyTop}px`, height: `${windowHeight + 50}px` }"
+  >
     <view class="logo-content">
-      <u--image src="https://m.zzxmt.cn/cdn/icon/logo.png" width="120rpx" height="120rpx"></u--image>
+      <u--image
+        src="https://m.zzxmt.cn/cdn/icon/logo.png"
+        width="120rpx"
+        height="120rpx"
+      ></u--image>
       <text class="title">牧目科技</text>
-      <!-- <u-loading-icon color="#10cc8f" :show="loadingShow"></u-loading-icon> -->
+      <!-- <u-loading-icon color="#00443A" :show="loadingShow"></u-loading-icon> -->
     </view>
     <view class="weixin-btn">
-      <button type="default" open-type="getPhoneNumber" @getphonenumber="wxLogin" class="button">
-        <u-icon name="weixin-circle-fill" color="#10cc8f" size="28" label="微信登录" labelPos="top" labelSize="24rpx"></u-icon>
+      <button
+        type="default"
+        open-type="getPhoneNumber"
+        @getphonenumber="wxLogin"
+        class="button"
+      >
+        <u-icon
+          name="weixin-circle-fill"
+          color="#00443A"
+          size="28"
+          label="微信登录"
+          labelPos="top"
+          labelSize="24rpx"
+        ></u-icon>
       </button>
     </view>
   </view>

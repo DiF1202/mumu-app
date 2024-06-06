@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       isLoading: true, // 是否正在加载
       currentTextIndex: 0, // 当前输出文本段索引
@@ -70,7 +70,7 @@ export default {
       formattedText: [] // 格式化后的文本
     };
   },
-  created() {
+  created () {
     this.initData();
     setTimeout(() => {
       this.isLoading = false;
@@ -78,15 +78,15 @@ export default {
     }, 1000); // 加载1秒钟后开始打印
   },
   methods: {
-    initData() {
+    initData () {
       this.formattedText = this.sections.map(section =>
         Array(section.texts.length).fill("")
       );
     },
-    startTyping() {
+    startTyping () {
       this.typeText(0, 0);
     },
-    typeText(sectionIndex, textIndex) {
+    typeText (sectionIndex, textIndex) {
       if (sectionIndex >= this.sections.length) return;
       if (textIndex >= this.sections[sectionIndex].texts.length) {
         this.typeText(sectionIndex + 1, 0);
@@ -109,10 +109,10 @@ export default {
       };
       typeCharacter();
     },
-    isDotVisible(sectionIndex, textIndex) {
+    isDotVisible (sectionIndex, textIndex) {
       return this.formattedText[sectionIndex][textIndex].length > 0;
     },
-    isSubTitleVisible(sectionIndex) {
+    isSubTitleVisible (sectionIndex) {
       return this.formattedText[sectionIndex].some(text => text.length > 0);
     }
   }
@@ -146,7 +146,7 @@ export default {
         width: 16rpx;
         height: 16rpx;
         border-radius: 50%;
-        background-color: #10cc8f;
+        background-color: #00443a;
         margin: 22rpx 0;
       }
       .typing-text {

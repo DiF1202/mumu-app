@@ -3,28 +3,59 @@
     <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle icon="order" title="畜舍情况" value="实况视频" url="pages/video/index" />
+      <uni-subTitle
+        icon="order"
+        title="畜舍情况"
+        value="实况视频"
+        url="pages/video/index"
+      />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
-          <u--image :showLoading="true" src="https://m.zzxmt.cn/cdn/icon/woman.png" width="160rpx" height="160rpx" shape="circle"></u--image>
+          <u--image
+            :showLoading="true"
+            src="https://m.zzxmt.cn/cdn/icon/woman.png"
+            width="160rpx"
+            height="160rpx"
+            shape="circle"
+          ></u--image>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'负责人：' + staff_name" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'负责人：' + staff_name"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'动态存栏：' + animal_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'动态存栏：' + animal_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
           </view>
           <view class="manager-info">
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'栏位占用：' + pen_occupancy_rate" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'栏位占用：' + pen_occupancy_rate"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
             <view class="info-item">
               <view class="dot"></view>
-              <u--text :text="'疑死数量: ' + death_count" color="#0F4239" size="24rpx" margin="12rpx"></u--text>
+              <u--text
+                :text="'疑死数量: ' + death_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
             </view>
           </view>
         </view>
@@ -42,23 +73,47 @@
             <uni-card margin="0" padding="0" spacing="24rpx">
               <view class="list-item" @click="enterDetails(item.alarm_id)">
                 <view class="image-wrapper">
-                  <u--image class="responsive-image" :showLoading="true" src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" width="280rpx" height="158rpx"></u--image>
+                  <u--image
+                    class="responsive-image"
+                    :showLoading="true"
+                    src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
+                    width="280rpx"
+                    height="158rpx"
+                  ></u--image>
                 </view>
                 <view class="item-info">
                   <view>
-                    <u--text :text="item.alarm_name" size="32rpx" color="#333333" :bold="true"></u--text>
+                    <u--text
+                      :text="item.alarm_name"
+                      size="32rpx"
+                      color="#333333"
+                      :bold="true"
+                    ></u--text>
                   </view>
                   <view>
-                    <u--text :text="'时间：' + item.alarm_time" size="26rpx" color="#333333"></u--text>
+                    <u--text
+                      :text="'时间：' + item.alarm_time"
+                      size="26rpx"
+                      color="#333333"
+                    ></u--text>
                   </view>
                   <view class="tag-box">
                     <view style="margin-right: 12rpx">
-                      <u-tag :text="item.alarm_status" :type="
+                      <u-tag
+                        :text="item.alarm_status"
+                        :type="
                           item.alarm_status === '已处理' ? 'success' : 'error'
-                        " shape="circle" size="mini"></u-tag>
+                        "
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
                     </view>
                     <view>
-                      <u-tag :text="item.report_type == 1 ? 'AI识别' : '自主上报'" shape="circle" size="mini"></u-tag>
+                      <u-tag
+                        :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
                     </view>
                   </view>
                   <!-- <view class="select-item">
@@ -68,24 +123,51 @@
                   </view> -->
                 </view>
                 <view class="ding" @click.stop="openDing(item.alarm_id)">
-                  <u-icon name="bell-fill" size="38rpx" color="#10cc8f"></u-icon>
+                  <u-icon
+                    name="bell-fill"
+                    size="38rpx"
+                    color="#00443A"
+                  ></u-icon>
                 </view>
               </view>
             </uni-card>
             <u-gap height="12rpx"></u-gap>
           </u-list-item>
-          <u-loadmore :status="loading" loadingIcon="semicircle" height="88rpx" fontSize="32rpx" @loadmore="loadmore" />
+          <u-loadmore
+            :status="loading"
+            loadingIcon="semicircle"
+            height="88rpx"
+            fontSize="32rpx"
+            @loadmore="loadmore"
+          />
         </u-list>
       </view>
     </view>
     <view class="upward">
-      <!-- <u-icon name="arrow-upward" size="38rpx" color="#10cc8f"></u-icon> -->
-      <u-button color="#3DAD82" type="primary" shape="circle" text="自主上报" @click="upwardClick"></u-button>
+      <!-- <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon> -->
+      <u-button
+        color="#00443A"
+        type="primary"
+        shape="circle"
+        text="自主上报"
+        @click="upwardClick"
+      ></u-button>
     </view>
     <u-toast ref="uToast"></u-toast>
-    <u-modal :show="dingShow" @confirm="dingClick" :showCancelButton="true" @cancel="dingShow = false">
+    <u-modal
+      :show="dingShow"
+      @confirm="dingClick"
+      :showCancelButton="true"
+      @cancel="dingShow = false"
+    >
       <view class="slot-content" style="width: 100%">
-        <u--textarea v-model="dingText" border="none" autoHeight placeholder="请输入提醒消息" style="background: #f7f7f7"></u--textarea>
+        <u--textarea
+          v-model="dingText"
+          border="none"
+          autoHeight
+          placeholder="请输入提醒消息"
+          style="background: #f7f7f7"
+        ></u--textarea>
       </view>
     </u-modal>
     <uni-tabbar :tabCurrent="1"></uni-tabbar>
@@ -244,7 +326,7 @@ export default {
       width: 16rpx;
       height: 16rpx;
       border-radius: 50%;
-      background-color: #10cc8f;
+      background-color: #00443a;
       margin: 22rpx 0;
     }
     .manager-view {

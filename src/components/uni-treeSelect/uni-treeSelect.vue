@@ -42,7 +42,7 @@ export default {
     },
     iconColor: {
       type: String,
-      default: '#10cc8f'
+      default: '#00443A'
     },
     placeholder: {
       type: String,
