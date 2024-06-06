@@ -13,6 +13,7 @@
 			"path": "pages/home/butler/index",
 			"style": {
 				"navigationBarTitleText": "总览",
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},
@@ -57,6 +58,7 @@
 			"path": "pages/home/guard/index",
 			"style": {
 				"navigationBarTitleText": "总览",
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},
@@ -176,8 +178,8 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#F4F4F4",
+		"backgroundColor": "#F4F4F4"
 	},
 	"easycom": {
 		// 是否开启自动扫描

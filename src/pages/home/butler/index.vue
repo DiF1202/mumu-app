@@ -246,8 +246,11 @@ export default {
   onReady () {
     this.initData()
   },
+  onPullDownRefresh () {
+    this.initData()
+  },
   methods: {
-    // 生产概况
+    // 生产概况  
     handlerData (arr, name, color, unit) {
       let xData = []
       let yData = { name: name, data: [], color: color }
@@ -282,7 +285,6 @@ export default {
         yData.push(item.alarm_handle_rate)
         lineData.push(item.alarm_handle_rate[2])
       })
-      console.log(xData, yData, lineData)
       this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
     },
     // 风险提示
@@ -297,7 +299,8 @@ export default {
     // 初始化
     initData () {
       overViewApi().then(res => {
-        console.log(res)
+        uni.stopPullDownRefresh()
+        console.log('stopRefresj')
         this.farm_name = res.data.farm_name
         this.production_data = res.data.production_data
         this.risk_note = res.data.risk_note

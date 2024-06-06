@@ -1,6 +1,4 @@
-<template>
-  <uni-tabbar ></uni-tabbar>
-</template>
+<template></template>
 <script>
 export default {
   onLaunch: function () {
@@ -16,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "uview-plus/index.scss";
+@import 'uview-plus/index.scss';
 @import '@/styles/index.scss';
 /*每个页面公共css */
 </style>

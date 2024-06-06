@@ -216,6 +216,9 @@ export default {
   onReady () {
     this.initData();
   },
+  onPullDownRefresh () {
+    this.initData()
+  },
   methods: {
     // 舍内环境
     sectionChange (index) {
@@ -284,6 +287,7 @@ export default {
     // 24h天气
     initData () {
       overViewGuardApi().then(res => {
+        uni.stopPullDownRefresh()
         this.staff_name = res.data.staff_name || "";
         this.animal_count = res.data.animal_count || "";
         this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";

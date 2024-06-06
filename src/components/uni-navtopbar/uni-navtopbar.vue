@@ -1,12 +1,18 @@
 <template>
   <view class="navbar-container">
-    <view class="nav-bar" :style="{paddingTop:`${safetyTop}px`}">
+    <view class="nav-bar" :style="{ paddingTop: `${safetyTop}px` }">
       <view class="nav-contont" @click="goBack()">
-        <u-icon v-if="back && pages" name="arrow-left" color="#252525" size="36rpx" bold></u-icon>
+        <u-icon
+          v-if="back && pages"
+          name="arrow-left"
+          color="#252525"
+          size="36rpx"
+          bold
+        ></u-icon>
         <view class="nav-title">{{ title }}</view>
       </view>
     </view>
-    <u-gap :height="`${safetyTop + 40}px`" bgColor="#D6E7FF"></u-gap>
+    <u-gap :height="`${safetyTop + 40}px`" bgColor="#f4f4f4"></u-gap>
   </view>
 </template>
 
