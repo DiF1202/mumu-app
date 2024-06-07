@@ -161,6 +161,7 @@ export default {
         });
       });
     },
+
     // 清空消息列表
     clearAllMsg(e) {
       // 弹出确认清空聊天记录的提示框
@@ -195,6 +196,29 @@ export default {
       }
       return decodeURIComponent(escape(result));
     },
+
+    // 在流接收数据时调用此方法
+    updateMessage(id, content) {
+      let existingMsgIndex = this.msgList.findIndex(item => item?.id === id);
+      if (existingMsgIndex !== -1) {
+        // 更新已有消息的内容
+        this.$set(this.msgList, existingMsgIndex, {
+          my: false,
+          msg: content,
+          id: id
+        });
+      } else {
+        // 如果消息列表中没有，就添加一个新的消息条目
+        this.msgList.push({
+          my: false,
+          msg: content,
+          id: id
+        });
+      }
+      // 更新消息后滚动到最新消息
+      this.showLastMsg();
+    },
+
     async getChat(userQueryString, curUserMsgId) {
       const self = this; // 在函数外部捕获this
       let id = this.uuid();
@@ -224,7 +248,6 @@ export default {
           console.log("流结束了");
           self.inputBoxDisabled = false;
           self.msgLoad = false;
-          console.log(res);
           if (res.statusCode !== 200) {
             self.inputBoxDisabled = false;
             // 如果失败了看看看有没有，上一条记录有无返回看看有没有存进去了
@@ -248,6 +271,10 @@ export default {
               });
             }
           }
+          setTimeout(() => {
+            console.log("延迟滚动");
+            self.showLastMsg();
+          }, 300);
         },
         fail: function (err) {
           console.log(err);
@@ -272,6 +299,7 @@ export default {
               id: id
             });
           }
+          self.showLastMsg();
         }
       });
 
@@ -283,7 +311,6 @@ export default {
 
         // 读取接收到的数据块并拼接到缓冲区中
         const textChunk = self.decodeUint8Array(new Uint8Array(res.data));
-        console.log(textChunk);
         self.buffer += textChunk;
 
         let match;
@@ -296,33 +323,13 @@ export default {
             const data = JSON.parse(jsonStr);
             if (data.answer) {
               self.completeResponse += data.answer;
-
-              let existingMsgIndex = self.msgList.findIndex(
-                item => item?.id === id
-              );
-              if (existingMsgIndex !== -1) {
-                // 更新已有消息的内容
-                self.$set(self.msgList, existingMsgIndex, {
-                  my: false,
-                  msg: self.completeResponse,
-                  id: id
-                });
-              } else {
-                // 如果消息列表中没有，就添加一个新的消息条目
-                self.msgList.push({
-                  my: false,
-                  msg: self.completeResponse,
-                  id: id
-                });
-              }
-              // 使用 nextTick 确保 DOM 更新完成后执行滚动操作
-              self.$nextTick(() => {
-                self.showLastMsg(); // 滚动到最新的消息
-              });
+              self.updateMessage(id, self.completeResponse);
+              console.log(`更新消息: ${self.completeResponse}`);
             }
             lastIndex = pattern.lastIndex; // 记录最后一次匹配的位置
           } catch (e) {
             console.error("JSON 解析错误: ", e);
+            self.showLastMsg();
           }
         }
 
@@ -330,7 +337,6 @@ export default {
         self.buffer = self.buffer.slice(lastIndex);
       });
     },
-
     async send() {
       const curUserMsgId = this.uuid();
       this.getChat(this.msgContent, curUserMsgId);
@@ -349,6 +355,7 @@ export default {
       this.msgContent = "";
       this.handleBlur();
       this.showLastMsg();
+      console.log("发送调用刷新");
     }
   }
 };
