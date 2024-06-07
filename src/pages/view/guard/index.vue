@@ -1,10 +1,7 @@
 <template>
   <view class="list-container">
     <uni-navtopbar title="实况视频" :back="true"></uni-navtopbar>
-    <view
-      class="content"
-      :style="{ height: `${windowHeight - safetyTop - 40}px` }"
-    >
+    <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
       <uni-subTitle
         icon="order"
@@ -81,9 +78,10 @@
             fontSize="32rpx"
             @loadmore="loadmore"
           />
+          <u-gap height="80rpx"></u-gap>
         </u-list>
       </view>
-      <view class="upward" @click="upwardClick">
+      <view class="upward" :style="{ bottom: safetyBottom + 62 + 'px' }">
         <!-- <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon> -->
         <u-button
           color="#00443A"
@@ -94,7 +92,7 @@
         ></u-button>
       </view>
     </view>
-    <uni-tabbar :tabCurrent="1"></uni-tabbar>
+    <uni-tabbar :tabCurrent="1" ref="tabBarRef"></uni-tabbar>
     <u-toast ref="uToast"></u-toast>
   </view>
 </template>
@@ -121,6 +119,9 @@ export default {
     },
     safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
+    },
+    safetyBottom () {
+      return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
   onLoad () {
@@ -133,6 +134,11 @@ export default {
       this.listData = [];
       this.getList();
     }
+  },
+  onPullDownRefresh () {
+    this.page = 1;
+    this.listData = [];
+    this.getList()
   },
   methods: {
     getUnhadlerNum () {
@@ -167,6 +173,7 @@ export default {
         limit: this.limit
       })
         .then(res => {
+          uni.stopPullDownRefresh()
           if (res.code == 200) {
             this.videoUrl = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
@@ -179,6 +186,7 @@ export default {
         })
         .catch(() => {
           this.loading = "nomore";
+          uni.stopPullDownRefresh()
         });
     },
     loadmore () {
@@ -233,7 +241,7 @@ export default {
       padding: 0 100rpx;
       position: fixed;
       right: 0rpx;
-      bottom: 180rpx;
+      bottom: 100rpx;
       display: flex;
       justify-content: center;
       align-self: center;
@@ -249,8 +257,8 @@ export default {
       margin-top: 24rpx;
     }
     .warin-section {
-      height: calc(100% - 200rpx);
-      padding-bottom: 100rpx;
+      height: 1070rpx;
+      // padding-bottom: 100rpx;
       .list-item {
         width: 100%;
         /* height: 258rpx; */

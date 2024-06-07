@@ -4,30 +4,74 @@
     <view class="content">
       <uni-subTitle icon="play-right" title="告警回看" />
       <view class="video-section">
-        <video id="myVideo" :src="detailsData.video_url" autoplay controls class="video-play"></video>
+        <video
+          id="myVideo"
+          :src="detailsData.video_url"
+          autoplay
+          controls
+          class="video-play"
+        ></video>
       </view>
       <uni-subTitle icon="file-text" title="告警信息" />
       <view class="warning-info">
-        <u--text :text="'事件名称：' + detailsData.alarm_name" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'时间：' + detailsData.alarm_time" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'地点：' + detailsData.location" size="30rpx" color="#333333" margin="12rpx"></u--text>
-        <u--text :text="'状态：' + detailsData.alarm_status" size="30rpx" color="#333333" margin="12rpx"></u--text>
+        <u--text
+          :text="'事件名称：' + detailsData.alarm_name"
+          size="30rpx"
+          color="#333333"
+          margin="12rpx"
+        ></u--text>
+        <u--text
+          :text="'时间：' + detailsData.alarm_time"
+          size="30rpx"
+          color="#333333"
+          margin="12rpx"
+        ></u--text>
+        <u--text
+          :text="'地点：' + detailsData.location"
+          size="30rpx"
+          color="#333333"
+          margin="12rpx"
+        ></u--text>
+        <u--text
+          :text="'状态：' + detailsData.alarm_status"
+          size="30rpx"
+          color="#333333"
+          margin="12rpx"
+        ></u--text>
       </view>
       <!-- 报警处置 数据为未处置的 和 角色判断指定 展示 -->
       <view v-if="detailsData.alarm_status == '未处理'">
         <uni-subTitle icon="file-text" title="告警处置" />
         <view class="warning-handler">
-          <u--form labelPosition="left" :model="form" ref="uForm" label-width="auto">
+          <u--form
+            labelPosition="left"
+            :model="form"
+            ref="uForm"
+            label-width="auto"
+          >
             <u-form-item label="处置方式" prop="disposer" required>
               <u-radio-group v-model="form.disposer" :labelDisabled="false">
-                <u-radio v-for="(item, index) in isReal" :key="index" :label="item.name" :name="item.value" size="30rpx" :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }">
+                <u-radio
+                  v-for="(item, index) in isReal"
+                  :key="index"
+                  :label="item.name"
+                  :name="item.value"
+                  size="30rpx"
+                  :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }"
+                >
                 </u-radio>
               </u-radio-group>
             </u-form-item>
           </u--form>
         </view>
         <view class="form-btn">
-          <u-button type="primary" plain shape="circle" text="提交" @click="submit"></u-button>
+          <u-button
+            type="primary"
+            plain
+            shape="circle"
+            text="提交"
+            @click="submit"
+          ></u-button>
         </view>
       </view>
     </view>
@@ -123,6 +167,7 @@ export default {
       padding-left: 24rpx;
     }
     .form-btn {
+      height: 80rpx;
       margin-top: 24rpx;
     }
   }

@@ -40,7 +40,7 @@
 			"path": "pages/view/butler/index",
 			"style": {
 				"navigationBarTitleText": "远程查看",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},
@@ -67,7 +67,7 @@
 			"path": "pages/view/guard/index",
 			"style": {
 				"navigationBarTitleText": "远程巡检",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},

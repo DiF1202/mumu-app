@@ -488,6 +488,7 @@ export default {
     }
     .ai-btn {
       margin: 24rpx 100rpx;
+      height: 80rpx;
     }
   }
 }

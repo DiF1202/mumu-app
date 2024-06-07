@@ -106,11 +106,9 @@ export default {
     },
     pageTo () {
       if (userStore().user_info.identity_type === 1) {
-        uni.reLaunch({ url: "/pages/home/butler/index" });
-
+        uni.reLaunch({ url: "/pages/home/butler/index" })
       } else {
-        uni.reLaunch({ url: "/pages/home/guard/index" });
-
+        uni.reLaunch({ url: "/pages/home/guard/index" })
       }
     }
   }

@@ -4,33 +4,92 @@
     <view class="content">
       <uni-subTitle icon="file-text" title="上报异常" />
       <view class="reporting-handler">
-        <u--form labelPosition="left" :model="form" :rules="rules" ref="uForm" label-width="auto">
-          <u-form-item label="报警位置" prop="pen_id" borderBottom required @click="openFiledTree">
-            <u--text :text="pen_name || '请选择栏位'" align="right" :color="pen_name ? '#606266': '#c0c4cc'" size="30rpx"></u--text>
+        <u--form
+          labelPosition="left"
+          :model="form"
+          :rules="rules"
+          ref="uForm"
+          label-width="auto"
+        >
+          <u-form-item
+            label="报警位置"
+            prop="pen_id"
+            borderBottom
+            required
+            @click="openFiledTree"
+          >
+            <u--text
+              :text="pen_name || '请选择栏位'"
+              align="right"
+              :color="pen_name ? '#606266' : '#c0c4cc'"
+              size="30rpx"
+            ></u--text>
             <!-- <u--input v-model="pen_name" placeholder="请选择栏位"  border="none" inputAlign="right" disabledColor="tranparent" disabled></u--input> -->
             <template #right>
               <u-icon name="arrow-right" size="30rpx" color="#333333"></u-icon>
             </template>
           </u-form-item>
-          <u-form-item label="告警类型" prop="abnormal_type_id" borderBottom required>
+          <u-form-item
+            label="告警类型"
+            prop="abnormal_type_id"
+            borderBottom
+            required
+          >
             <u-radio-group v-model="form.abnormal_type_id">
-              <u-radio v-for="(item, index) in alarmTypeList" :key="index" :label="item.name" :name="item.id" size="30rpx" :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }">
+              <u-radio
+                v-for="(item, index) in alarmTypeList"
+                :key="index"
+                :label="item.name"
+                :name="item.id"
+                size="30rpx"
+                :customStyle="{ marginLeft: '16rpx', fontSize: '16rpx' }"
+              >
               </u-radio>
             </u-radio-group>
           </u-form-item>
-          <u-form-item label="上报内容" prop="report_content" borderBottom required labelPosition="top">
-            <u--textarea v-model="form.report_content" placeholder="请输入上报内容" border="none" inputAlign="right" :autoHeight="true" customStyle="background:transparent;marginTop:24rpx;color:#333333"></u--textarea>
+          <u-form-item
+            label="上报内容"
+            prop="report_content"
+            borderBottom
+            required
+            labelPosition="top"
+          >
+            <u--textarea
+              v-model="form.report_content"
+              placeholder="请输入上报内容"
+              border="none"
+              inputAlign="right"
+              :autoHeight="true"
+              customStyle="background:transparent;marginTop:24rpx;color:#333333"
+            ></u--textarea>
           </u-form-item>
-          <u-form-item label="上报图片" prop="picture_url" required labelPosition="top">
+          <u-form-item
+            label="上报图片"
+            prop="picture_url"
+            required
+            labelPosition="top"
+          >
             <uni-uploading ref="alarmPicture"></uni-uploading>
           </u-form-item>
         </u--form>
       </view>
       <view class="form-btn">
-        <u-button type="primary" plain shape="circle" text="提交" @click="submit"></u-button>
+        <u-button
+          type="primary"
+          plain
+          shape="circle"
+          text="提交"
+          @click="submit"
+        ></u-button>
       </view>
     </view>
-    <uni-tree ref="qiantree" labelKey="name" valueKey="id" :treeData="columns" @confirm="confirmTree"></uni-tree>
+    <uni-tree
+      ref="qiantree"
+      labelKey="name"
+      valueKey="id"
+      :treeData="columns"
+      @confirm="confirmTree"
+    ></uni-tree>
     <u-toast ref="uToast"></u-toast>
   </view>
 </template>
@@ -115,6 +174,7 @@ export default {
       padding-left: 24rpx;
     }
     .form-btn {
+      height: 80rpx;
       margin-top: 24rpx;
     }
   }

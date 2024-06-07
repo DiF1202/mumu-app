@@ -140,10 +140,11 @@
             fontSize="32rpx"
             @loadmore="loadmore"
           />
+          <u-gap height="80rpx"></u-gap>
         </u-list>
       </view>
     </view>
-    <view class="upward">
+    <view class="upward" :style="{ bottom: safetyBottom + 62 + 'px' }">
       <!-- <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon> -->
       <u-button
         color="#00443A"
@@ -204,12 +205,14 @@ export default {
     },
     safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
+    },
+    safetyBottom () {
+      return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
   onLoad () {
     uni.hideTabBar();
     this.getFieldTree()
-
   },
   onShow () {
     if (this.fieldId) {
@@ -217,6 +220,11 @@ export default {
       this.listData = [];
       this.getList();
     }
+  },
+  onPullDownRefresh () {
+    this.page = 1;
+    this.listData = [];
+    this.getList()
   },
   methods: {
     getUnhadlerNum () {
@@ -251,6 +259,7 @@ export default {
         limit: this.limit
       })
         .then(res => {
+          uni.stopPullDownRefresh()
           if (res.code == 200) {
             this.staff_name = res.data.staff_name || "";
             this.animal_count = res.data.animal_count || "";
@@ -267,6 +276,7 @@ export default {
           }
         })
         .catch(() => {
+          uni.stopPullDownRefresh()
           this.loading = "nomore";
         })
     },
@@ -313,7 +323,7 @@ export default {
     padding: 0 100rpx;
     position: fixed;
     right: 0rpx;
-    bottom: 180rpx;
+    bottom: 195rpx;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -358,7 +368,7 @@ export default {
     }
     .warin-section {
       height: 850rpx;
-      padding-bottom: 100rpx;
+      // padding-bottom: 100rpx;
       .list-item {
         width: 100%;
         display: flex;

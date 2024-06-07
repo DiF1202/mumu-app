@@ -136,6 +136,7 @@
           :key="index"
           class="warning-item"
           :style="{ background: '#E6F7FF' }"
+          @click="enterDetails(item.id)"
         >
           <view class="item-title">
             <u-icon
@@ -161,6 +162,7 @@
           :key="index"
           class="warning-item"
           :style="{ background: item.bgColor }"
+          @click="enterDetails(item.id)"
         >
           <view class="item-title">
             <u-icon
@@ -220,6 +222,9 @@ export default {
     this.initData()
   },
   methods: {
+    enterDetails (id) {
+      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
+    },
     // 舍内环境
     sectionChange (index) {
       this.current = index;
@@ -361,7 +366,7 @@ export default {
       this.$refs.weatherChart.initChart(xData1, series, '', '℃');
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
