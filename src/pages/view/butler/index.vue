@@ -147,7 +147,7 @@
     <view class="upward" :style="{ bottom: safetyBottom + 62 + 'px' }">
       <!-- <u-icon name="arrow-upward" size="38rpx" color="#00443A"></u-icon> -->
       <u-button
-        color="#00443A"
+        color="#10cc8F"
         type="primary"
         shape="circle"
         text="自主上报"

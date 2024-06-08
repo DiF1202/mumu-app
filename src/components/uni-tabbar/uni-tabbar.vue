@@ -4,7 +4,7 @@
     :fixed="true"
     :placeholder="true"
     :safeAreaInsetBottom="true"
-    activeColor="#00443A"
+    activeColor="#10cc8F"
     inactiveColor="#333333"
   >
     <u-tabbar-item
@@ -18,7 +18,7 @@
         <u-icon
           :custom-prefix="`custom-icon custom-icon-${tabItem.iconSelect}`"
           size="42rpx"
-          color="#00443A"
+          color="#10cc8F"
         ></u-icon>
       </template>
       <template #inactive-icon>

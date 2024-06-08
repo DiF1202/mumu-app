@@ -216,7 +216,7 @@
       </uni-card>
       <view class="ai-btn">
         <u-button
-          color="#00443A"
+          color="#10cc8F"
           shape="circle"
           text="小牧AI日报"
           @click="enterAiReport()"

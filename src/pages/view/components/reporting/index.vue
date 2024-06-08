@@ -75,8 +75,8 @@
       </view>
       <view class="form-btn">
         <u-button
+          color="#10cc8F"
           type="primary"
-          plain
           shape="circle"
           text="提交"
           @click="submit"
