@@ -25,68 +25,72 @@
 </template>
 
 <script>
+import { getAiReportDaily } from "@/api/home.js";
+
 export default {
-  data () {
+  data() {
     return {
       isLoading: true, // 是否正在加载
       currentTextIndex: 0, // 当前输出文本段索引
       typingSpeed: 20, // 打字速度，每个字符的延迟时间
-      sections: [
+      sections: [],
+      formattedText: [] // 格式化后的文本
+    };
+  },
+  created() {
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      getAiReportDaily()
+        .then(response => {
+          if (response.code === 200) {
+            this.transformData(response.data);
+          } else {
+            // 处理错误情况
+            console.error("Error fetching data:", response.msg);
+          }
+          this.isLoading = false;
+          this.startTyping();
+        })
+        .catch(error => {
+          console.error("API call failed:", error);
+        });
+    },
+    transformData(data) {
+      this.sections = [
         {
           title: "过去24h总结",
           icon: "houres",
-          texts: [
-            "光照开关情况:畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。"
-          ]
+          texts: data.day_summary.map(entry => entry.content)
         },
         {
           title: "动物监控与健康",
           icon: "camera",
-          texts: [
-            "动物数量与分布:目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变",
-            "活跃度与健康监测:畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。",
-            "预警事件:畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。"
-          ]
+          texts: data.animal.map(entry => entry.content)
         },
         {
           title: "设置与安全管理",
           icon: "setting",
-          texts: [
-            "设施监控:目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变",
-            "人车物管理:畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。"
-          ]
+          texts: data.manage.map(entry => entry.content)
         },
         {
           title: "未来建议",
           icon: "attach",
-          texts: [
-            "目标检测算法统计，昨日在主舍区共有牛群150头，羊群300头。动物数量保持稳定，无异常变",
-            "畜群活跃度等级为7/10，显示出良好的活动水平。未检测到异常行为，群体健康状况良好。",
-            "未发现紧急预警事件，动物逃逸或严重健康问题的风险很低。",
-            "车辆出入统计显示，共有10次货车进出，运输饲料和牲畜。所有人员通道活动正常，无未授权入侵事件。"
-          ]
+          texts: data.suggestions.map(entry => entry.content)
         }
-      ],
-      formattedText: [] // 格式化后的文本
-    };
-  },
-  created () {
-    this.initData();
-    setTimeout(() => {
-      this.isLoading = false;
-      this.startTyping();
-    }, 1000); // 加载1秒钟后开始打印
-  },
-  methods: {
-    initData () {
+      ];
+      this.initData();
+    },
+    initData() {
       this.formattedText = this.sections.map(section =>
         Array(section.texts.length).fill("")
       );
     },
-    startTyping () {
+    startTyping() {
       this.typeText(0, 0);
     },
-    typeText (sectionIndex, textIndex) {
+    typeText(sectionIndex, textIndex) {
       if (sectionIndex >= this.sections.length) return;
       if (textIndex >= this.sections[sectionIndex].texts.length) {
         this.typeText(sectionIndex + 1, 0);
@@ -109,10 +113,10 @@ export default {
       };
       typeCharacter();
     },
-    isDotVisible (sectionIndex, textIndex) {
+    isDotVisible(sectionIndex, textIndex) {
       return this.formattedText[sectionIndex][textIndex].length > 0;
     },
-    isSubTitleVisible (sectionIndex) {
+    isSubTitleVisible(sectionIndex) {
       return this.formattedText[sectionIndex].some(text => text.length > 0);
     }
   }
