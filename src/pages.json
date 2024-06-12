@@ -125,7 +125,7 @@
 		{
 			"path": "pages/chat/index",
 			"style": {
-				"navigationBarTitleText": "畜牧助手",
+				"navigationBarTitleText": "小牧AI助手",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
