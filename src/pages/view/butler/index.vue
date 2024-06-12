@@ -1,6 +1,6 @@
 <template>
   <view class="list-container">
-    <uni-navtopbar title="远程查看" :back="true"></uni-navtopbar>
+    <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
       <uni-subTitle

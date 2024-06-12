@@ -13,7 +13,13 @@ import * as echarts from 'echarts' // 由于 vue3 使用vite 不支持umd格式�
 // #endif
 // #endif
 let chartRef = ref() // 获取dom
+let startNum = 0
 const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
+  if (yData.length > 7) {
+    startNum = parseInt(100 - ((7 / yData.length) * 100))
+  } else {
+    startNum = 0
+  }
   let option = {
     grid: {
       top: '25',
@@ -29,10 +35,10 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
     dataZoom: [
       {
         "type": "inside",
+        "start": startNum,
+        "end": 100,
         "show": false,
-        "xAxisIndex": [
-          0
-        ],
+        "xAxisIndex": [0],
         "zoomOnMouseWheel": false,
         "moveOnMouseWheel": true,
         "moveOnMouseMove": true,
@@ -76,7 +82,7 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
     xAxis: {
       type: 'category',
       scale: true,
-      splitNumber: 8,
+      splitNumber: 7,
       axisLabel: {
         color: 'rgba(0, 0, 0, 0.45)',
       },

@@ -1,6 +1,12 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="candle" :opts="opts" :chartData="chartData" :disableScroll="true" :ontouch="true" />
+    <qiun-data-charts
+      type="candle"
+      :opts="opts"
+      :chartData="chartData"
+      :disableScroll="true"
+      :ontouch="true"
+    />
   </view>
 </template>
 
@@ -21,6 +27,7 @@ export default {
         xAxis: {
           itemCount: 7,
           scrollShow: true,
+          scrollAlign: 'right',
           scrollColor: 'rgba(0, 0, 0, 0.45)',
           fontColor: 'rgba(0, 0, 0, 0.45)',
           fontSize: 12,
