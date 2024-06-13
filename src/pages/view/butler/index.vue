@@ -60,12 +60,16 @@
           </view>
         </view>
       </uni-card>
-      <!-- <u-gap height="12rpx"></u-gap>
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
-        <view class="video-section" @click="linkToVideoLive">
-          <u-icon name="play-circle-fill" size="40"></u-icon>
-        </view>
-      </uni-card> -->
+        <video
+          id="myVideo"
+          :src="this.video_url"
+          autoplay
+          controls
+          class="video-section"
+        ></video>
+      </uni-card>
       <u-gap height="12rpx"></u-gap>
       <view class="warin-section">
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
@@ -181,12 +185,15 @@ import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
+      videolurl:
+        "https://mps01.ivm.myhuaweicloud.com:7081/live/live.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbSI6IkdCMjgxODEiLCJjIjowLCJjaGFubmVsX2lkIjoiOTk0NTI2MzUwNTEzMTA5OTExNjYiLCJkZXZpY2VfaWQiOiI5OTQ1MjYzNTA1MTE4MDAwMDAwMyIsImV4dG1jIjoxNzE4MjcwNzU1LCJpcCI6Im1wczAxLml2bS5teWh1YXdlaWNsb3VkLmNvbSIsImxrIjoiMTcxODIxMzE1NTI2NTQxNzM2MjJkYmM1YjMwIiwicmVxdWVzdF9pZCI6ImQzMmRlZjgxLTI4ZTAtMTFlZi05YmRjLTAyNTUwYTAwMDMxZSIsInN0IjowLCJ0cCI6MCwidXNlcl9pZCI6IjYxOTIxMTE1OTIwMjQwNTEwMTMzNzA3IiwidXQiOiJFTlRFUlBSSVNFIn0.A-b8JDm5ngpelqVlptdPEYUp1x3IouQezgGI3JIuSIc&device_id=99452635051180000003&channel_id=99452635051310991166&stream_type=0",
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
       listData: [], // 列表数据
       staff_name: "",
+      video_url: "",
       animal_count: "",
       pen_occupancy_rate: "",
       death_count: "",
@@ -200,40 +207,40 @@ export default {
     };
   },
   computed: {
-    windowHeight () {
+    windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    safetyBottom () {
+    safetyBottom() {
       return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
-  onLoad () {
+  onLoad() {
     uni.hideTabBar();
-    this.getFieldTree()
+    this.getFieldTree();
   },
-  onShow () {
+  onShow() {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
       this.getList();
     }
   },
-  onPullDownRefresh () {
+  onPullDownRefresh() {
     this.page = 1;
     this.listData = [];
-    this.getList()
+    this.getList();
   },
   methods: {
-    getUnhadlerNum () {
+    getUnhadlerNum() {
       alarmUnhandlerNumApi().then(res => {
-        let total = res.data.un_handle_total || 0
-        userStore().set_alarm_num(total)
-      })
+        let total = res.data.un_handle_total || 0;
+        userStore().set_alarm_num(total);
+      });
     },
-    getFieldTree () {
+    getFieldTree() {
       // 获取栏位数据 并设置第一个子元素为默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -242,7 +249,7 @@ export default {
         }
       });
     },
-    treeCallback (value) {
+    treeCallback(value) {
       this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
@@ -250,24 +257,24 @@ export default {
         this.getList();
       }
     },
-    getList () {
+    getList() {
       this.loading = "loading";
-      this.getUnhadlerNum()
+      this.getUnhadlerNum();
       videoAlarmApi({
         pen_id: this.fieldId,
         page: this.page,
         limit: this.limit
       })
         .then(res => {
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
           if (res.code == 200) {
             this.staff_name = res.data.staff_name || "";
             this.animal_count = res.data.animal_count || "";
             this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
             this.death_count = res.data.death_count || "";
-            this.videoUrl = res.data.video_url;
+            this.video_url = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
-            console.log(this.listData.length, res.data.total)
+            console.log(this.listData.length, res.data.total);
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
             } else {
@@ -276,21 +283,21 @@ export default {
           }
         })
         .catch(() => {
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
           this.loading = "nomore";
-        })
+        });
     },
-    loadmore () {
+    loadmore() {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    openDing (id) {
+    openDing(id) {
       this.alarmId = id;
       this.dingShow = true;
     },
-    dingClick () {
+    dingClick() {
       dingApi({
         pen_id: this.fieldId,
         alarm_ids: [this.alarmId],
@@ -302,13 +309,13 @@ export default {
         }
       });
     },
-    upwardClick () {
+    upwardClick() {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive () {
+    linkToVideoLive() {
       uni.navigateTo({ url: "/pages/video/index" });
     }
   }
