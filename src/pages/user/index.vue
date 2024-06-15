@@ -96,7 +96,7 @@ export default {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
   },
-  onLoad() {
+  onShow() {
     userInfo().then(res => {
       this.user_info = res.data
     })
