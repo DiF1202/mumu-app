@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { userStore } from "@/store";
+import { userInfo } from '@/api/utils.js'
 export default {
   data () {
     return {
@@ -84,7 +84,8 @@ export default {
         color: "#333333",
         fontSize: "34rpx",
         fontWeight: "bold"
-      }
+      },
+      user_info: {}
     };
   },
   computed: {
@@ -94,9 +95,11 @@ export default {
     safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    user_info () {
-      return userStore().user_info;
-    }
+  },
+  onLoad() {
+    userInfo().then(res => {
+      this.user_info = res.data
+    })
   },
   methods: {
     menuItemClick () {
