@@ -1,19 +1,36 @@
-import { fetch } from '@/utils/fetch'
-export function getWeatherNow() {
+import { fetch } from "@/utils/http";
+// 预警
+export function getRisk() {
   return fetch({
-    url: 'https://api.seniverse.com/v3/weather/now.json?key=Sur_mf0wnWZFjqk80&location=qingdao&language=zh-Hans&unit=c',
-    method: 'get'
-  })
-}
-export function getWeatherDaily() {
-  return fetch({
-    url: 'https://api.seniverse.com/v3/weather/daily.json?key=Sur_mf0wnWZFjqk80&location=qingdao&language=zh-Hans&unit=c&start=0&days=5',
+    url: 'https://api.seniverse.com/v3/weather/alarm.json?key=Sur_mf0wnWZFjqk80&location=hangzhou&detail=more',
     method: 'get',
   })
 }
-export function getTideDaily() {
+// 日出日落
+export function getSunDay() {
   return fetch({
-    url: 'https://api.seniverse.com/v3/tide/daily.json?key=Sur_mf0wnWZFjqk80&location=qingdao',
+    url: 'https://api.seniverse.com/v3/geo/sun.json?key=Sur_mf0wnWZFjqk80&location=hangzhou&language=zh-Hans&start=0&days=1',
+    method: 'get'
+  })
+}
+// 未来天气预报
+export function getWeatherDaily() {
+  return fetch({
+    url: 'https://api.seniverse.com/v3/weather/daily.json?key=Sur_mf0wnWZFjqk80&location=hangzhou&language=zh-Hans&unit=c&start=0&days=2',
+    method: 'get',
+  })
+}
+// 空气质量
+export function getAirQuality() {
+  return fetch({
+    url: 'https://api.seniverse.com/v3/air/daily.json?key=Sur_mf0wnWZFjqk80&language=zh-Hans&location=hangzhou&days=2',
+    method: 'get',
+  })
+}
+// 24H天气预报
+export function getDaily() {
+  return fetch({
+    url: 'https://api.seniverse.com/v3/weather/hourly.json?key=Sur_mf0wnWZFjqk80&location=hangzhou&language=zh-Hans&unit=c&start=0&hours=24',
     method: 'get',
   })
 }

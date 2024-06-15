@@ -74,9 +74,10 @@ export default {
     }
   },
   methods: {
-    initChart (xData, series, max, unit) {
+    initChart (xData, series, max, unit, align) {
       this.opts.yAxis.data[0].max = max || '30'
       this.opts.yAxis.data[0].title = unit || ''
+      this.opts.xAxis.scrollAlign = align || 'right'
       this.chartData = JSON.parse(JSON.stringify({
         categories: xData,
         series: series

@@ -21,7 +21,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '05:37' }}</view>
+            <view class="value">{{ sunUpDown.sunrise }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -29,7 +29,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '18:23' }}</view>
+            <view class="value">{{ sunUpDown.sunset }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -37,7 +37,7 @@
               size="26rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '东北风 3级' }}</view>
+            <view class="value">{{ today.wind_direction }}风{{ today.wind_scale }}级</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -45,11 +45,11 @@
               size="28rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '41%' }}</view>
+            <view class="value">{{ today.humidity}}%</view>
           </view>
           <view class="weather-hader-item">
             <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
-            <view class="value alarm">{{ '高温高湿' }}</view>
+            <view class="value alarm">{{ alarm }}</view>
           </view>
         </view>
       </uni-card>
@@ -58,18 +58,20 @@
           <view class="body-item">
             <view class="item-row">
               <view class="date">今天</view>
-              <view class="air">{{ '良' }}</view>
-              <view class="temp">{{ '28~14' }}℃</view>
+              <view class="air">{{ today.airQuilty }}</view>
+              <view class="temp">{{today.low}}~{{today.high}}℃</view>
             </view>
             <view class="item-row">
-              <view class="status">{{ '多云' }}</view>
-              <u--image
-                :showLoading="true"
-                :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
-                width="14px"
-                height="14px"
-                mode="scaleToFill"
-              ></u--image>
+              <view class="status">{{ today.text_day }}</view>
+              <view v-if="today.code_day" style="background: #ccc;">
+                <u--image
+                  :showLoading="true"
+                  :src="`https://m.zzxmt.cn/cdn/weather/${today.code_day}@2x.png`"
+                  width="16px"
+                  height="16px"
+                  mode="scaleToFill"
+                ></u--image>
+              </view>
             </view>
           </view>
         </uni-card>
@@ -77,18 +79,20 @@
           <view class="body-item">
             <view class="item-row">
               <view class="date">明天</view>
-              <view class="air">{{ '良' }}</view>
-              <view class="temp">{{ '28~14' }}℃</view>
+              <view class="air">{{tomorrow.airQuilty}}</view>
+              <view class="temp">{{tomorrow.low}}~{{tomorrow.high}}℃</view>
             </view>
             <view class="item-row">
-              <view class="status">{{ '多云' }}</view>
-              <u--image
-                :showLoading="true"
-                :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
-                width="14px"
-                height="14px"
-                mode="scaleToFill"
-              ></u--image>
+              <view class="status">{{ tomorrow.text_day }}</view>
+              <view v-if="tomorrow.code_day" style="background: #ccc;">
+                <u--image
+                  :showLoading="true"
+                  :src="`https://m.zzxmt.cn/cdn/weather/${tomorrow.code_day}@2x.png`"
+                  width="14px"
+                  height="14px"
+                  mode="scaleToFill"
+                ></u--image>
+              </view>
             </view>
           </view>
         </uni-card>
@@ -227,6 +231,7 @@
 
 <script>
 import { overViewApi } from '@/api/home.js'
+import { getSunDay, getWeatherDaily, getAirQuality, getRisk, getDaily } from '@/api/weather.js'
 export default {
   data () {
     return {
@@ -240,7 +245,11 @@ export default {
       animal: '0',
       production: '0',
       daily: '0',
-      weekly: '0'
+      weekly: '0',
+      sunUpDown: {},
+      today: {},
+      tomorrow: {},
+      alarm: '无预警',
     }
   },
   onLoad () {
@@ -316,16 +325,32 @@ export default {
         this.eliminateAlarm()
         this.riskNote()
       })
-      // 24小时天气
-      let xData = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00"]
-      let series = [
-        {
-          name: "温度",
-          data: ["23", "21", "21", "14", "25", "26", "27", "17", "18", "19",],
-          color: "#19AECE",
-        },
-      ];
-      this.$refs.weatherChart.initChart(xData, series, '', '℃')
+      getSunDay().then(res => {
+        this.sunUpDown = res[0].sun[0]
+      })
+      getWeatherDaily().then(res => {
+        this.today = res[0].daily[0]
+        this.tomorrow = res[0].daily[1]
+        getAirQuality().then(res => {
+          this.today.airQuilty = res[0].daily[0].quality
+          this.tomorrow.airQuilty = res[0].daily[1].quality
+        })  
+      })
+      getRisk().then(res => {
+        if (res[0].alarms.length > 0) {
+          this.alarm = res[0].alarms[0].type
+        }
+      })
+      getDaily().then(res => {
+        console.log(res)
+        let xData = []
+        let series = [{name: "温度",data: [],color: "#19AECE"}]
+        res[0].hourly.map(item =>{
+          xData.push(item.time.substring(11, 16))
+          series[0].data.push(item.temperature)
+        })
+        this.$refs.weatherChart.initChart(xData, series, '', '℃', 'left')
+      })
     },
     // 跳转日报
     enterAiReport () {

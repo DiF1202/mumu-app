@@ -3,73 +3,84 @@
     <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle
+      <u-gap height="12rpx"></u-gap>
+      <!-- <uni-subTitle
         icon="order"
         title="畜舍情况"
         value="实况视频"
         url="pages/video/index"
-      />
-      <!-- <view class="video-section" @click="linkToVideoLive">
-        <u-icon name="play-circle-fill" size="40"></u-icon>
-      </view> -->
+      /> -->
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <video
+          id="myVideo"
+          :src="this.video_url"
+          autoplay
+          controls
+          class="video-section"
+        ></video>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <view class="warin-section">
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
           <u-list-item v-for="(item, index) in listData" :key="index">
-            <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <view class="image-wrapper">
-                <u--image
-                  class="responsive-image"
-                  :showLoading="true"
-                  :src="item.poster_url"
-                  width="280rpx"
-                  height="158rpx"
-                ></u--image>
-              </view>
-              <view class="item-info">
-                <view>
-                  <u--text
-                    :text="item.alarm_name"
-                    size="32rpx"
-                    color="#333333"
-                    :bold="true"
-                  ></u--text>
+            <uni-card margin="0" padding="0" spacing="24rpx">
+              <view class="list-item" @click="enterDetails(item.alarm_id)">
+                <view class="image-wrapper">
+                  <u--image
+                    class="responsive-image"
+                    :showLoading="true"
+                    :src="item.poster_url"
+                    width="280rpx"
+                    height="158rpx"
+                  ></u--image>
                 </view>
-                <view>
-                  <u--text
-                    :text="'时间：' + item.alarm_time"
-                    size="26rpx"
-                    color="#333333"
-                  ></u--text>
-                </view>
-                <view class="tag-box">
-                  <view style="margin-right: 12rpx">
-                    <u-tag
-                      :text="item.alarm_status"
-                      :type="
-                        item.alarm_status === '已处理' ? 'success' : 'error'
-                      "
-                      shape="circle"
-                      size="mini"
-                    ></u-tag>
+                <view class="item-info">
+                  <view>
+                    <u--text
+                      :text="item.alarm_name"
+                      size="32rpx"
+                      color="#333333"
+                      :bold="true"
+                    ></u--text>
                   </view>
                   <view>
-                    <u-tag
-                      :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
-                      shape="circle"
-                      size="mini"
-                    ></u-tag>
+                    <u--text
+                      :text="'时间：' + item.alarm_time"
+                      size="26rpx"
+                      color="#333333"
+                    ></u--text>
                   </view>
+                  <view class="tag-box">
+                    <view style="margin-right: 12rpx">
+                      <u-tag
+                        :text="item.alarm_status"
+                        :type="
+                          item.alarm_status === '已处理' ? 'success' : 'error'
+                        "
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
+                    </view>
+                    <view>
+                      <u-tag
+                        :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
+                    </view>
+                  </view>
+                  <!-- <view class="select-item">
+                    <u-checkbox-group v-model="item.select">
+                      <u-checkbox :name="item.id" label=""></u-checkbox>
+                    </u-checkbox-group>
+                  </view> -->
                 </view>
-                <!-- <view class="select-item">
-                  <u-checkbox-group v-model="item.select">
-                    <u-checkbox :name="item.id" label=""></u-checkbox>
-                  </u-checkbox-group>
+                <!-- <view class="ding" @click.stop="dingClick(item.id)">
+                  <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
                 </view> -->
               </view>
-              <!-- <view class="ding" @click.stop="dingClick(item.id)">
-                <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
-              </view> -->
-            </view>
+            </uni-card>
+            <u-gap height="12rpx"></u-gap>
           </u-list-item>
           <u-loadmore
             :status="loading"
@@ -100,7 +111,7 @@
 <script>
 import { fieldTree, alarmUnhandlerNumApi } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
-import { videoAlarmApi, dingApi } from "@/api/view.js";
+import { videoAlarmApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
   data () {
@@ -195,13 +206,6 @@ export default {
         this.getList();
       }
     },
-    // dingClick(id) {
-    //   dingApi({pen_id: this.fieldId}).then(res => {
-    //     if (res.code == 200) {
-    //       this.$refs.uToast.show({ message: '提醒消息发送成功' })
-    //     }
-    //   })
-    // },
     upwardClick () {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
@@ -250,25 +254,18 @@ export default {
       width: 100%;
       height: 360rpx;
       background: #333333;
-      margin-bottom: 24rpx;
       display: flex;
       align-content: center;
       justify-content: center;
-      margin-top: 24rpx;
     }
     .warin-section {
-      height: 1070rpx;
+      height: 830rpx;
       // padding-bottom: 100rpx;
       .list-item {
         width: 100%;
-        /* height: 258rpx; */
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-bottom: 24rpx;
-        padding: 24rpx;
-        box-shadow: 0px 0px 10px #deebff inset;
-        border-radius: 16rpx;
         position: relative;
         .item-info {
           height: 160rpx;
