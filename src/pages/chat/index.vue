@@ -393,7 +393,7 @@ export default {
   flex-direction: column;
   padding: 14px 0px;
   background-color: #fff;
-  background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+  background: rgba(16, 204, 143, 0.3);
 }
 
 .foot-box-shadow {
@@ -498,7 +498,7 @@ export default {
 }
 
 .bg-cyan {
-  background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+  background: rgba(16, 204, 143, 0.3);
 }
 
 .bg-f9f9f9 {
