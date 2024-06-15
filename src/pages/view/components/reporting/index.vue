@@ -2,7 +2,7 @@
   <view class="details-container">
     <uni-navtopbar :title="this.pageTitle" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="file-text" title="上报异常" />
+      <uni-subTitle icon="file-text" :title="this.pageSubTitle" />
       <view class="reporting-handler">
         <u--form
           labelPosition="left"
@@ -155,6 +155,11 @@ export default {
       return userStore().user_info.identity_type === 1
         ? "自主反馈"
         : "自主上报";
+    },
+    pageSubTitle() {
+      return userStore().user_info.identity_type === 1
+        ? "反馈异常"
+        : "上报异常";
     }
   },
   methods: {
