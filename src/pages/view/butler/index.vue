@@ -3,12 +3,13 @@
     <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle
+      <!-- <uni-subTitle
         icon="order"
         title="畜舍情况"
         value="实况视频"
         url="pages/video/index"
-      />
+      /> -->
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
           <u--image
@@ -374,7 +375,7 @@ export default {
       justify-content: center;
     }
     .warin-section {
-      height: 850rpx;
+      height: 830rpx;
       // padding-bottom: 100rpx;
       .list-item {
         width: 100%;

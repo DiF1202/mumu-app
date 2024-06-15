@@ -315,13 +315,13 @@ export default {
     // 栏位占用
     penOccupancy () {
       let xData = []
-      let yData = { name: '栏位占用', data: [], color: '#81B337' }
+      let yData = { name: '栏位占用', data: [], color: '#19AECE' }
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
       let max = Math.max(...yData.data)
-      this.$refs.penOccupancy.initChart(xData, [yData], max, '头')
+      this.$refs.penOccupancy.initChart(xData, [yData], max, '%')
     },
     // 异常动物数量
     sectionChange1 (index) {

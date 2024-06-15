@@ -135,15 +135,11 @@
         <view class="active-statistic">
           <view class="active-item">
             <view class="item-label">较昨日：</view>
-            <view class="item-num">{{
-              production_data?.animal_activity_change?.daily
-            }}</view>
+            <view class="item-num" :class="daily.includes('+') ? 'plus' : 'reduce'">{{daily}}</view>
           </view>
           <view class="active-item">
             <view class="item-label">较过去一周：</view>
-            <view class="item-num">{{
-              production_data?.animal_activity_change?.weekly
-            }}</view>
+            <view class="item-num" :class="weekly.includes('+') ? 'plus' : 'reduce'">{{weekly}}</view>
           </view>
         </view>
       </uni-card>
@@ -151,21 +147,21 @@
       <uni-subTitle customIcon="wenduji" title="热环境" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="table-header">
-          <view class="header-item">热应急</view>
           <view class="header-item">冷应激</view>
           <view class="header-item">舒适</view>
+          <view class="header-item">热应激</view>
         </view>
         <scroll-view class="table-body" :scroll-y="true">
           <view class="body-row">
             <view class="row-item">栏位数</view>
-            <view class="row-item bold">{{
-              production_data?.thermal_env_count?.hot
-            }}</view>
-            <view class="row-item bold">{{
+            <view class="row-item bold" style="color: #347caf">{{
               production_data?.thermal_env_count?.cold
             }}</view>
-            <view class="row-item bold">{{
+            <view class="row-item bold" style="color: #81B33B">{{
               production_data?.thermal_env_count?.cozy
+            }}</view>
+             <view class="row-item bold" style="color: #FCCA00">{{
+              production_data?.thermal_env_count?.hot
             }}</view>
           </view>
         </scroll-view>
@@ -191,28 +187,28 @@
             <view class="item-chart">
               <uni-progress ref="envProgressChart"></uni-progress>
             </view>
-            <view class="item-subTitle">环境风险</view>
-            <view class="item-subTitle"
-              >较昨日{{ risk_note?.risk_change_daily?.env }}%</view
-            >
+            <view class="active-item">
+              <view class="item-label">较昨日</view>
+              <view class="item-num" :class="env.includes('-') ? 'reduce' : 'plus'">{{ env }}%</view>
+            </view>
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="assetProgressChart"></uni-progress>
             </view>
-            <view class="item-subTitle">动物风险</view>
-            <view class="item-subTitle"
-              >较昨日{{ risk_note?.risk_change_daily?.animal }}%</view
-            >
+            <view class="active-item">
+              <view class="item-label">较昨日</view>
+              <view class="item-num" :class="animal.includes('-') ? 'reduce' : 'plus'">{{ animal }}%</view>
+            </view>
           </view>
           <view class="danger-item">
             <view class="item-chart">
               <uni-progress ref="manProgressChart"></uni-progress>
             </view>
-            <view class="item-subTitle">生产风险</view>
-            <view class="item-subTitle"
-              >较昨日{{ risk_note?.risk_change_daily?.production }}%</view
-            >
+            <view class="active-item">
+              <view class="item-label">较昨日</view>
+              <view class="item-num" :class="production.includes('-') ? 'reduce' : 'plus'">{{ production }}%</view>
+            </view>
           </view>
         </view>
       </uni-card>
@@ -236,10 +232,15 @@ export default {
     return {
       farm_name: "安徽窝阳",
       currentDate: "2024-5-19",
-      list: ["动态存栏", "栏位占用", "疑死数量"],
+      list: ["动态存栏", "栏位占用", "异常数量"],
       current: 0,
       production_data: {},
       risk_note: {},
+      env: '0',
+      animal: '0',
+      production: '0',
+      daily: '0',
+      weekly: '0'
     }
   },
   onLoad () {
@@ -273,7 +274,7 @@ export default {
           this.handlerData(this.production_data.pen_occupancy_rate_data, "栏位占用", "#347CAF", '%')
           break
         case 2:
-          this.handlerData(this.production_data.pen_occupancy_rate_data, "疑死数量", "#BD3124", '头')
+          this.handlerData(this.production_data.pen_occupancy_rate_data, "异常数量", "#BD3124", '头')
           break
       }
     },
@@ -288,16 +289,16 @@ export default {
         lineData.push(item.alarm_handle_rate[2])
       })
       console.log(yData)
-      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
+      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8F', '平均消警比例')
     },
     // 风险提示
     riskNote () {
       let data1 = [{ data: "1", color: "#CCF738" }];
       let data2 = [{ data: "1", color: "#DE868F" }];
       let data3 = [{ data: "1", color: "#FCCA00" }];
-      this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count)
-      this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count)
-      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count)
+      this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count, '环境风险')
+      this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count, '动物风险')
+      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count, '生产风险')
     },
     // 初始化
     initData () {
@@ -306,6 +307,11 @@ export default {
         this.farm_name = res.data.farm_name
         this.production_data = res.data.production_data
         this.risk_note = res.data.risk_note
+        this.daily = this.production_data?.animal_activity_change?.daily
+        this.weekly = this.production_data?.animal_activity_change?.weekly
+        this.env = res.data.risk_note.risk_change_daily.env.toString()
+        this.animal = res.data.risk_note.risk_change_daily.animal.toString()
+        this.production = res.data.risk_note.risk_change_daily.production.toString()
         this.sectionChange(0)
         this.eliminateAlarm()
         this.riskNote()
@@ -469,22 +475,28 @@ export default {
     }
     .danger-statistic {
       width: 100%;
-      height: 300rpx;
+      height: 250rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
       .danger-item {
-        width: 200rpx;
+        width: 210rpx;
         height: 100%;
         .item-chart {
           width: 200rpx;
           height: 200rpx;
         }
-        .item-subTitle {
-          width: 200rpx;
-          text-align: center;
-          font-size: 28rpx;
+        .active-item {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           color: #333333;
+          font-size: 28rpx;
+          .item-num {
+            font-size: 30rpx;
+            font-weight: bold;
+          }
         }
       }
     }
