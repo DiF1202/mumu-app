@@ -3,14 +3,27 @@
     <uni-navtopbar title="牧场管家" :back="true"></uni-navtopbar>
     <view class="content">
       <!-- <u-icon name="map" color="#00443A" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
-      <u-icon
+      <view class="position">
+        <u--image
+          src="https://m.zzxmt.cn/cdn/icon/logo.png"
+          width="38rpx"
+          height="38rpx"
+        ></u--image>
+        <u--text
+          :text="farm_name"
+          color="#0F4239"
+          size="28rpx"
+          margin="12rpx"
+        ></u--text>
+      </view>
+      <!-- <u-icon
         name="home"
         color="#00443A"
         size="46rpx"
         :label="farm_name"
         labelSize="28rpx"
         labelColor="#333333"
-      ></u-icon>
+      ></u-icon> -->
       <!-- 今日天气 -->
       <uni-subTitle customIcon="tianqi" title="今日天气" />
       <uni-card margin="0" padding="0" spacing="24rpx">
@@ -366,6 +379,10 @@ export default {
     // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     background: #f4f4f4;
     padding: 0 24rpx 24rpx;
+    .position {
+      display: flex;
+      align-items: center;
+    }
     .weather-header {
       width: 100%;
       // background: linear-gradient(

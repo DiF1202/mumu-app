@@ -156,7 +156,7 @@
         color="#10cc8F"
         type="primary"
         shape="circle"
-        text="自主上报"
+        text="自主反馈"
         @click="upwardClick"
       ></u-button>
     </view>
