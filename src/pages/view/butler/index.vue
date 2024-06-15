@@ -14,7 +14,7 @@
         <view class="manager-view">
           <u--image
             :showLoading="true"
-            src="https://m.zzxmt.cn/cdn/icon/woman.png"
+            :src="avatar"
             width="160rpx"
             height="160rpx"
             shape="circle"
@@ -205,7 +205,8 @@ export default {
       fieldId: "",
       limit: 5,
       page: 1,
-      loading: "loadmore"
+      loading: "loadmore",
+      avatar: "https://m.zzxmt.cn/cdn/icon/woman.png"
     };
   },
   computed: {
@@ -275,6 +276,8 @@ export default {
             this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
             this.death_count = res.data.death_count || "";
             this.video_url = res.data.video_url;
+            this.avatar =
+              res.data.avatar || "https://m.zzxmt.cn/cdn/icon/woman.png";
             this.listData = this.listData.concat(res.data.alarm_data);
             console.log(res.data.video_url);
             console.log(this.listData.length, res.data.total);
