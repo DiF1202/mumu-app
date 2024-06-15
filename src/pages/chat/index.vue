@@ -1,7 +1,7 @@
 <template>
   <view class="bg">
     <view class="content">
-      <uni-navtopbar title="畜牧助手" :back="true"></uni-navtopbar>
+      <uni-navtopbar title="小牧AI助手" :back="true"></uni-navtopbar>
 
       <scroll-view
         class="msg-list"
@@ -114,7 +114,7 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?",
+          msg: "你好我是小牧AI助手,请问有什么问题可以帮助您?",
           id: this.uuid()
         }
       ],

@@ -1,6 +1,6 @@
 <template>
   <view class="home-container">
-    <uni-navtopbar title="信息概览" :back="true"></uni-navtopbar>
+    <uni-navtopbar title="牧场管家" :back="true"></uni-navtopbar>
     <view class="content">
       <!-- <u-icon name="map" color="#00443A" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
       <u-icon
@@ -102,6 +102,7 @@
       <uni-subTitle
         customIcon="shengchan"
         title="生产概况"
+        value="详情"
         url="pages/home/production/index"
       />
       <uni-card margin="0" padding="0" spacing="24rpx">
@@ -181,6 +182,7 @@
       <uni-subTitle
         icon="warning"
         title="风险提示"
+        value="详情"
         url="pages/home/risk/index"
       />
       <uni-card margin="0" padding="0" spacing="24rpx">
@@ -285,6 +287,7 @@ export default {
         yData.push(item.alarm_handle_rate)
         lineData.push(item.alarm_handle_rate[2])
       })
+      console.log(yData)
       this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
     },
     // 风险提示

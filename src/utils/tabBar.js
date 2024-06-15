@@ -8,13 +8,13 @@ const butlerTabList = [
   },
   {
     "pagePath": "/pages/view/butler/index",
-    "text": "查看",
+    "text": "监控",
     "icon": "view1",
     "iconSelect": "view1-copy",
   },
   {
     "pagePath": "/pages/chat/index",
-    "text": "助手",
+    "text": "小牧AI",
     "icon": "chat",
     "iconSelect": "chat-fill"
   },
@@ -42,7 +42,7 @@ const guardTabList = [
   },
   {
     "pagePath": "/pages/chat/index",
-    "text": "助手",
+    "text": "小牧AI",
     "icon": "chat",
     "iconSelect": "chat-fill"
   },

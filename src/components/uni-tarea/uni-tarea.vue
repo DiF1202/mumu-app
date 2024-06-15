@@ -1,6 +1,13 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="tarea" :chartData="chartData" :opts="opts" :ontouch="true" />
+    <qiun-data-charts
+      type="tarea"
+      :chartData="chartData"
+      :opts="opts"
+      :ontouch="true"
+      inScrollView
+      disableScroll
+    />
   </view>
 </template>
 <script>
@@ -34,6 +41,7 @@ export default {
         xAxis: {
           itemCount: 5,
           scrollShow: true,
+          scrollAlign: 'right',
           scrollColor: 'rgba(0, 0, 0, 0.45)',
           boundaryGap: 'center',
           fontColor: 'rgba(0, 0, 0, 0.45)',
