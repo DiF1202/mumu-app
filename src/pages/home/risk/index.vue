@@ -29,10 +29,10 @@
           ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #de868f; width: 33%"
+          <view class="num-item" style="color: #ccf738; width: 33%"
             >{{ riskCountData?.env_risk_count }}次</view
           >
-          <view class="num-item" style="color: #93d2f3; width: 33%"
+          <view class="num-item" style="color: #de868f; width: 33%"
             >{{ riskCountData?.animal_risk_count }}次</view
           >
           <view class="num-item" style="color: #fcca00; width: 33%"
@@ -193,7 +193,7 @@ const initHeatList = [
 ];
 
 export default {
-  data () {
+  data() {
     return {
       list: ["环境风险", "资产风险", "管理风险"],
       current: 0,
@@ -222,14 +222,14 @@ export default {
     };
   },
 
-  async mounted () {
+  async mounted() {
     const res = await this.getRiskReportData();
     if (res === true) {
       this.sectionChange(0);
     }
   },
   methods: {
-    async getRiskReportData () {
+    async getRiskReportData() {
       const params = {};
       if (this.dateTypeId)
         Object.assign(params, { date_type: this.dateTypeId });
@@ -250,7 +250,7 @@ export default {
       this.riskCountData = risk_count || [];
       return true;
     },
-    renderCharts (dataSource, name, unit, color) {
+    renderCharts(dataSource, name, unit, color) {
       let xData = [];
       let yData = { name: name, data: [], color: color };
       dataSource.map(item => {
@@ -259,21 +259,21 @@ export default {
       });
       this.$refs.activeChart.initChart(xData, [yData], unit, color);
     },
-    sectionChange (index) {
+    sectionChange(index) {
       this.current = index;
       if (this.current === 0) {
         this.renderCharts(
           this.riskCountData?.env_risk_data,
           "环境风险",
           "",
-          "#de868f"
+          "#CCF738"
         );
       } else if (this.current === 1) {
         this.renderCharts(
           this.riskCountData?.animal_risk_data,
           "资产风险",
           "",
-          "#93d2f3"
+          "#DE868F"
         );
       } else if (this.current === 2) {
         this.renderCharts(
@@ -284,15 +284,15 @@ export default {
         );
       }
     },
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
 
-    pickerCallback1 (e) {
+    pickerCallback1(e) {
       this.houseTypeId = e.id;
       this.getRiskReportData();
     },
-    pickerCallback2 (e) {
+    pickerCallback2(e) {
       this.dateTypeId = e.id;
       this.getRiskReportData();
     }
