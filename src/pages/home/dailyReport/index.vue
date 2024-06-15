@@ -71,12 +71,12 @@ export default {
         },
         {
           title: "设置与安全管理",
-          icon: "setting",
+          icon: "safement",
           texts: data.manage.map(entry => entry.content)
         },
         {
           title: "未来建议",
-          icon: "attach",
+          icon: "suggestion",
           texts: data.suggestions.map(entry => entry.content)
         }
       ];
@@ -140,7 +140,7 @@ export default {
     }
   }
   .content {
-    background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+    /* background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx); */
     padding: 0 24rpx 48rpx;
     .daily-item {
       display: flex;

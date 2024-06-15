@@ -10,8 +10,9 @@
         value="实况视频"
         url="pages/video/index"
       /> -->
-      <uni-card margin="0" padding="0" spacing="24rpx">
+      <uni-card v-if="this.video_url" margin="0" padding="0" spacing="24rpx">
         <video
+          v-if="this.video_url"
           id="myVideo"
           :src="this.video_url"
           autoplay
@@ -114,7 +115,7 @@ import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
@@ -125,40 +126,40 @@ export default {
     };
   },
   computed: {
-    windowHeight () {
+    windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    safetyBottom () {
+    safetyBottom() {
       return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
-  onLoad () {
+  onLoad() {
     uni.hideTabBar();
-    this.getFieldTree()
+    this.getFieldTree();
   },
-  onShow () {
+  onShow() {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
       this.getList();
     }
   },
-  onPullDownRefresh () {
+  onPullDownRefresh() {
     this.page = 1;
     this.listData = [];
-    this.getList()
+    this.getList();
   },
   methods: {
-    getUnhadlerNum () {
+    getUnhadlerNum() {
       alarmUnhandlerNumApi().then(res => {
-        let total = res.data.un_handle_total || 0
-        userStore().set_alarm_num(total)
-      })
+        let total = res.data.un_handle_total || 0;
+        userStore().set_alarm_num(total);
+      });
     },
-    getFieldTree () {
+    getFieldTree() {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -167,7 +168,7 @@ export default {
         }
       });
     },
-    treeCallback (value) {
+    treeCallback(value) {
       this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
@@ -175,16 +176,16 @@ export default {
         this.getList();
       }
     },
-    getList () {
+    getList() {
       this.loading = "loading";
-      this.getUnhadlerNum()
+      this.getUnhadlerNum();
       videoAlarmApi({
         pen_id: this.fieldId,
         page: this.page,
         limit: this.limit
       })
         .then(res => {
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
           if (res.code == 200) {
             this.videoUrl = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
@@ -197,32 +198,32 @@ export default {
         })
         .catch(() => {
           this.loading = "nomore";
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
         });
     },
-    loadmore () {
+    loadmore() {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    upwardClick () {
+    upwardClick() {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive () {
+    linkToVideoLive() {
       uni.navigateTo({ url: "/pages/video/index" });
     },
-    handleLoad () {
+    handleLoad() {
       console.log("Webview loaded successfully.");
     },
-    handleError (e) {
+    handleError(e) {
       console.log(e);
     }
   },
-  mounted () {
+  mounted() {
     // this.initPlayer();
   }
 };
