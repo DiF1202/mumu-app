@@ -13,6 +13,7 @@
 				opts: {
 					padding: [0,0,0,0],
 					enableScroll: true,
+					dataLabel: false,
 					legend: {
 						position: 'top',
 						float: 'right',
@@ -48,7 +49,7 @@
 							width: 20,
 							activeBgColor: "#000000",
 							activeBgOpacity: 0.08,
-							labelPosition: "center"
+							// labelPosition: "center"
 						}
 					}
 				}

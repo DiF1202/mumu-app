@@ -4,7 +4,7 @@
     <view class="content">
       <!-- <u-icon name="map" color="#00443A" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
       <u-icon
-        name="map"
+        name="home"
         color="#00443A"
         size="46rpx"
         :label="farm_name"
@@ -289,7 +289,7 @@ export default {
         lineData.push(item.alarm_handle_rate[2])
       })
       console.log(yData)
-      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#10cc8F', '平均消警比例')
+      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
     },
     // 风险提示
     riskNote () {

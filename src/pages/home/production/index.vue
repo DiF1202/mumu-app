@@ -208,9 +208,9 @@
           ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #81b337; width: 33%">50%</view>
-          <view class="num-item" style="color: #cba43f; width: 33%">40分</view>
-          <view class="num-item" style="color: #347caf; width: 33%">35分</view>
+          <view class="num-item" style="color: #81b337; width: 33%">{{attendance.alarm_handle_rate}}%</view>
+          <view class="num-item" style="color: #cba43f; width: 33%">{{attendance.patrol_time}}h</view>
+          <view class="num-item" style="color: #347caf; width: 33%">{{attendance.remote_time}}h</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="attendanceChart"></uni-kchart> -->
@@ -247,7 +247,7 @@ export default {
     return {
       list: ['温度', '湿度', '光照', 'HI', 'THI'],
       current: 0,
-      list1: ['疑死数量', '体弱数量'],
+      list1: ['活跃度异常数量', '进食异常数量'],
       current1: 0,
       list2: ['消警比例', '寻舍时长', '远程时长'],
       current2: 0,
@@ -274,23 +274,23 @@ export default {
       this.current = index
       switch (index) {
         case 0:
-          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F', '平均温度')
+          this.initHouseEnv(this.housing_environment.temperature_data, '℃', '#DE868F', '平均温度', '#DE868F')
           break
         case 1:
-          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3', '平均湿度')
+          this.initHouseEnv(this.housing_environment.humidity_data, '%', '#93D2F3', '平均湿度', '#93D2F3')
           break
         case 2:
-          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照度')
+          this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照度', '#FCCA00')
           break
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI')
+          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI', '#7F83F7')
           break
         case 4:
-          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI')
+          this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI', '#B886F8')
           break
       }
     },
-    initHouseEnv (arr, unit, color, name) {
+    initHouseEnv (arr, unit, color, name, boxColor) {
       let xData = []
       let yData = []
       let lineData = []
@@ -299,7 +299,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color, name)
+      this.$refs.activeChart.initChart(xData, yData, lineData, unit, color, name, boxColor)
     },
     // 动态存栏
     animalCount () {
@@ -328,10 +328,10 @@ export default {
       this.current1 = index
       switch (index) {
         case 0:
-          this.animalRisk(this.animal_risk_count.death_data, "疑死数量", '头', '#BD3124')
+          this.animalRisk(this.animal_risk_count.death_data, "活跃度异常数量", '头', '#BD3124')
           break
         case 1:
-          this.animalRisk(this.animal_risk_count.moribund_data, "体弱数量", '头', '#347CAF')
+          this.animalRisk(this.animal_risk_count.moribund_data, "进食异常数量", '头', '#347CAF')
           break
       }
     },
@@ -444,13 +444,13 @@ export default {
       this.current2 = index
       switch (index) {
         case 0:
-          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337', '平均消警比例')
+          this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337', '平均消警比例', '#81B337')
           break
         case 1:
-          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F', '平均巡舍时长')
+          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F', '平均巡舍时长', '#CBA43F')
           break
         case 2:
-          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF', '平均远程时长')
+          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF', '平均远程时长', '#347CAF')
           break
       }
     }
