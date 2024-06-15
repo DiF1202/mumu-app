@@ -20,7 +20,7 @@
                 <u--image
                   class="responsive-image"
                   :showLoading="true"
-                  src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
+                  :src="item.poster_url"
                   width="280rpx"
                   height="158rpx"
                 ></u--image>

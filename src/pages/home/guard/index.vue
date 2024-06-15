@@ -4,6 +4,58 @@
     <view class="content">
       <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
       <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="manager-view">
+          <u--image
+            :showLoading="true"
+            src="https://m.zzxmt.cn/cdn/icon/woman.png"
+            width="160rpx"
+            height="160rpx"
+            shape="circle"
+          ></u--image>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'负责人：' + staff_name"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'动态存栏：' + animal_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+          </view>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'栏位占用：' + pen_occupancy_rate"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'疑死数量: ' + death_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+          </view>
+        </view>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
+      <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="weather-header">
           <view class="weather-hader-item">
             <u-icon
@@ -375,6 +427,25 @@ export default {
     // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     background: #f4f4f4;
     padding: 0 24rpx 24rpx;
+    .manager-view {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .fields-chart {
+        height: 160rpx;
+      }
+      .manager-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        .info-item {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+    }
     .dot {
       width: 16rpx;
       height: 16rpx;

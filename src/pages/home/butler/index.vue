@@ -300,7 +300,6 @@ export default {
     initData () {
       overViewApi().then(res => {
         uni.stopPullDownRefresh()
-        console.log('stopRefresj')
         this.farm_name = res.data.farm_name
         this.production_data = res.data.production_data
         this.risk_note = res.data.risk_note
