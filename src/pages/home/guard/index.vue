@@ -2,12 +2,16 @@
   <view class="home-container">
     <uni-navtopbar title="值守卫士" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="account" :title="staff_name" :value="'负责栏位数:' + pen_count" />
+      <uni-subTitle
+        icon="account"
+        :title="staff_name"
+        :value="'负责栏位数:' + pen_count"
+      />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="manager-view">
           <u--image
             :showLoading="true"
-            src="https://m.zzxmt.cn/cdn/icon/woman.png"
+            :src="userAvatar"
             width="160rpx"
             height="160rpx"
             shape="circle"
@@ -68,7 +72,9 @@
               size="26rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ today.wind_direction }}风{{ today.wind_scale }}级</view>
+            <view class="value"
+              >{{ today.wind_direction }}风{{ today.wind_scale }}级</view
+            >
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -76,7 +82,7 @@
               size="28rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ today.humidity}}%</view>
+            <view class="value">{{ today.humidity }}%</view>
           </view>
           <view class="weather-hader-item">
             <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
@@ -90,11 +96,11 @@
             <view class="item-row">
               <view class="date">今天</view>
               <view class="air">{{ today.airQuilty }}</view>
-              <view class="temp">{{today.low}}~{{today.high}}℃</view>
+              <view class="temp">{{ today.low }}~{{ today.high }}℃</view>
             </view>
             <view class="item-row">
               <view class="status">{{ today.text_day }}</view>
-              <view v-if="today.code_day" style="background: #ccc;">
+              <view v-if="today.code_day" style="background: #ccc">
                 <u--image
                   :showLoading="true"
                   :src="`https://m.zzxmt.cn/cdn/weather/${today.code_day}@2x.png`"
@@ -110,12 +116,12 @@
           <view class="body-item">
             <view class="item-row">
               <view class="date">明天</view>
-              <view class="air">{{tomorrow.airQuilty}}</view>
-              <view class="temp">{{tomorrow.low}}~{{tomorrow.high}}℃</view>
+              <view class="air">{{ tomorrow.airQuilty }}</view>
+              <view class="temp">{{ tomorrow.low }}~{{ tomorrow.high }}℃</view>
             </view>
             <view class="item-row">
               <view class="status">{{ tomorrow.text_day }}</view>
-              <view v-if="tomorrow.code_day" style="background: #ccc;">
+              <view v-if="tomorrow.code_day" style="background: #ccc">
                 <u--image
                   :showLoading="true"
                   :src="`https://m.zzxmt.cn/cdn/weather/${tomorrow.code_day}@2x.png`"
@@ -237,17 +243,23 @@ import {
   dingListApi,
   riskStatementApi
 } from "@/api/home.js";
-import { getSunDay, getWeatherDaily, getAirQuality, getRisk, getDaily } from '@/api/weather.js'
-
+import {
+  getSunDay,
+  getWeatherDaily,
+  getAirQuality,
+  getRisk,
+  getDaily
+} from "@/api/weather.js";
+import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       list: ["温度", "湿度", "光照", "HI", "THI"],
       current: 0,
       staff_name: "",
       animal_count: "",
       pen_occupancy_rate: "",
-      pen_count: '',
+      pen_count: "",
       death_count: "",
       housing_environment: {},
       summary: [],
@@ -256,29 +268,34 @@ export default {
       sunUpDown: {},
       today: {},
       tomorrow: {},
-      alarm: '无预警',
+      alarm: "无预警"
     };
   },
   computed: {
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
+    },
+    userAvatar() {
+      return (
+        userStore().user_info.avatar || "https://m.zzxmt.cn/cdn/icon/woman.png"
+      );
     }
   },
-  onLoad () {
+  onLoad() {
     uni.hideTabBar();
   },
-  onReady () {
+  onReady() {
     this.initData();
   },
-  onPullDownRefresh () {
-    this.initData()
+  onPullDownRefresh() {
+    this.initData();
   },
   methods: {
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
     // 舍内环境
-    sectionChange (index) {
+    sectionChange(index) {
       this.current = index;
       switch (index) {
         case 0:
@@ -328,7 +345,7 @@ export default {
           break;
       }
     },
-    initHouseEnv (arr, unit, color, name, boxColor) {
+    initHouseEnv(arr, unit, color, name, boxColor) {
       let xData = [];
       let yData = [];
       let lineData = [];
@@ -347,14 +364,14 @@ export default {
         boxColor
       );
     },
-    initData () {
+    initData() {
       overViewGuardApi().then(res => {
-        uni.stopPullDownRefresh()
+        uni.stopPullDownRefresh();
         this.staff_name = res.data.staff_name || "";
         this.animal_count = res.data.animal_count || "";
         this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
         this.death_count = res.data.death_count || "";
-        this.pen_count = res.data.pen_count || ""
+        this.pen_count = res.data.pen_count || "";
         this.housing_environment = res.data.housing_environment;
         this.sectionChange(0);
       });
@@ -386,34 +403,34 @@ export default {
         this.warningList = res.data;
       });
       getSunDay().then(res => {
-        this.sunUpDown = res[0].sun[0]
-      })
+        this.sunUpDown = res[0].sun[0];
+      });
       getWeatherDaily().then(res => {
-        this.today = res[0].daily[0]
-        this.tomorrow = res[0].daily[1]
+        this.today = res[0].daily[0];
+        this.tomorrow = res[0].daily[1];
         getAirQuality().then(res => {
-          this.today.airQuilty = res[0].daily[0].quality
-          this.tomorrow.airQuilty = res[0].daily[1].quality
-        })  
-      })
+          this.today.airQuilty = res[0].daily[0].quality;
+          this.tomorrow.airQuilty = res[0].daily[1].quality;
+        });
+      });
       getRisk().then(res => {
         if (res[0].alarms.length > 0) {
-          this.alarm = res[0].alarms[0].type
+          this.alarm = res[0].alarms[0].type;
         }
-      })
+      });
       getDaily().then(res => {
-        console.log(res)
-        let xData = []
-        let series = [{name: "温度",data: [],color: "#19AECE"}]
-        res[0].hourly.map(item =>{
-          xData.push(item.time.substring(11, 16))
-          series[0].data.push(item.temperature)
-        })
-        this.$refs.weatherChart.initChart(xData, series, '', '℃', 'left')
-      })
+        console.log(res);
+        let xData = [];
+        let series = [{ name: "温度", data: [], color: "#19AECE" }];
+        res[0].hourly.map(item => {
+          xData.push(item.time.substring(11, 16));
+          series[0].data.push(item.temperature);
+        });
+        this.$refs.weatherChart.initChart(xData, series, "", "℃", "left");
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
