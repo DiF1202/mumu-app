@@ -62,8 +62,9 @@
         </view>
       </uni-card>
       <u-gap height="12rpx"></u-gap>
-      <uni-card margin="0" padding="0" spacing="24rpx">
+      <uni-card v-if="this.video_url" margin="0" padding="0" spacing="24rpx">
         <video
+          v-if="this.video_url"
           id="myVideo"
           :src="this.video_url"
           autoplay
@@ -275,6 +276,7 @@ export default {
             this.death_count = res.data.death_count || "";
             this.video_url = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
+            console.log(res.data.video_url);
             console.log(this.listData.length, res.data.total);
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
