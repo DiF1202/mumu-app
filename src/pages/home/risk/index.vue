@@ -57,7 +57,7 @@
       <swiper indicator-dots autoplay>
         <swiper-item v-for="(item, index) in envListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
-            <view class="list-item" @click="enterDetails(item.alarm_id)">
+            <view class="list-item" @click="enterDetails(item)">
               <view class="image-wrapper">
                 <u--image
                   :showLoading="true"
@@ -97,7 +97,7 @@
       <swiper indicator-dots autoplay>
         <swiper-item v-for="(item, index) in animalListAlarmData" :key="index">
           <uni-card margin="0" padding="0" spacing="24rpx">
-            <view class="list-item" @click="enterDetails(item.alarm_id)">
+            <view class="list-item" @click="enterDetails(item)">
               <view class="image-wrapper">
                 <u--image
                   :showLoading="true"
@@ -140,7 +140,7 @@
           :key="index"
         >
           <uni-card margin="0" padding="0" spacing="24rpx">
-            <view class="list-item" @click="enterDetails(item.alarm_id)">
+            <view class="list-item" @click="enterDetails(item)">
               <view class="image-wrapper">
                 <u--image
                   :showLoading="true"
@@ -284,8 +284,10 @@ export default {
         );
       }
     },
-    enterDetails(id) {
-      uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
+    enterDetails(item) {
+      uni.navigateTo({
+        url: "/pages/view/components/details/index?id=" + item.alarm_id
+      });
     },
 
     pickerCallback1(e) {

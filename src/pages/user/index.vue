@@ -8,7 +8,7 @@
       <view class="mine-section">
         <u--image
           :showLoading="true"
-          src="https://m.zzxmt.cn/cdn/icon/woman.png"
+          :src="this.user_info.avatar || this.defaultImg"
           width="67px"
           height="67px"
           shape="circle"
@@ -74,7 +74,7 @@
 import { userInfo } from '@/api/utils.js'
 import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       iconStyle: {
         color: "#00443A",
@@ -86,24 +86,25 @@ export default {
         fontSize: "34rpx",
         fontWeight: "bold"
       },
-      user_info: {}
+      user_info: {},
+      defaultImg: "https://m.zzxmt.cn/cdn/icon/woman.png"
     };
   },
   computed: {
-    windowHeight () {
+    windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
-    },
+    }
   },
   onShow() {
     userInfo().then(res => {
-      this.user_info = res.data
-    })
+      this.user_info = res.data;
+    });
   },
   methods: {
-    menuItemClick () {
+    menuItemClick() {
       userStore().clear_user_info();
       uni.reLaunch({ url: "/pages/login/index" });
     }

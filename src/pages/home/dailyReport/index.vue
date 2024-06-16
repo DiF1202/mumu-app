@@ -62,22 +62,42 @@ export default {
         {
           title: "过去24h总结",
           icon: "houres",
-          texts: data.day_summary.map(entry => entry.content)
+          texts: data.day_summary.map(entry => {
+            const renderContent = entry?.title
+              ? entry?.title + "：" + entry?.content
+              : entry?.content;
+            return renderContent;
+          })
         },
         {
           title: "动物监控与健康",
           icon: "camera",
-          texts: data.animal.map(entry => entry.content)
+          texts: data.animal.map(entry => {
+            const renderContent = entry?.title
+              ? entry?.title + "：" + entry?.content
+              : entry?.content;
+            return renderContent;
+          })
         },
         {
           title: "设置与安全管理",
           icon: "safement",
-          texts: data.manage.map(entry => entry.content)
+          texts: data.manage.map(entry => {
+            const renderContent = entry?.title
+              ? entry?.title + "：" + entry?.content
+              : entry?.content;
+            return renderContent;
+          })
         },
         {
           title: "未来建议",
           icon: "suggestion",
-          texts: data.suggestions.map(entry => entry.content)
+          texts: data.suggestions.map(entry => {
+            const renderContent = entry?.title
+              ? entry?.title + "：" + entry?.content
+              : entry?.content;
+            return renderContent;
+          })
         }
       ];
       this.initData();

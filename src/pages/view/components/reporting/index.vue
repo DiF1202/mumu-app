@@ -1,8 +1,8 @@
 <template>
   <view class="details-container">
-    <uni-navtopbar title="自主上报" :back="true"></uni-navtopbar>
+    <uni-navtopbar :title="this.pageTitle" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="file-text" title="上报异常" />
+      <uni-subTitle icon="file-text" :title="this.pageSubTitle" />
       <view class="reporting-handler">
         <u--form
           labelPosition="left"
@@ -95,73 +95,114 @@
 </template>
 
 <script>
-import { reportAlarmApi } from '@/api/view.js'
-import { fieldTree, alarmType } from '@/api/utils.js'
+import { userStore } from "@/store";
+import { reportAlarmApi } from "@/api/view.js";
+import { fieldTree, alarmType } from "@/api/utils.js";
 export default {
-  data () {
+  data() {
     return {
       form: {
         pen_id: ""
       },
-      pen_name: '',
+      pen_name: "",
       rules: {
-        pen_id: [{ type: "string", required: true, message: "请选择栏位", trigger: ["change"] }],
-        report_content: [{ type: "string", required: true, message: "请输入上报内容", trigger: ["blur"] }],
-        abnormal_type_id: [{ type: "number", required: true, message: "请选择类型", trigger: ["change"] }],
-        picture_url: [{ type: "string", required: true, message: "请上传图片", trigger: ["change"] }]
+        pen_id: [
+          {
+            type: "string",
+            required: true,
+            message: "请选择栏位",
+            trigger: ["change"]
+          }
+        ],
+        report_content: [
+          {
+            type: "string",
+            required: true,
+            message: "请输入上报内容",
+            trigger: ["blur"]
+          }
+        ],
+        abnormal_type_id: [
+          {
+            type: "number",
+            required: true,
+            message: "请选择类型",
+            trigger: ["change"]
+          }
+        ],
+        picture_url: [
+          {
+            type: "string",
+            required: true,
+            message: "请上传图片",
+            trigger: ["change"]
+          }
+        ]
       },
       columns: [],
-      alarmTypeList: [],
-    }
+      alarmTypeList: []
+    };
   },
-  onLoad () {
-    this.getFieldTree()
-    this.getAlarmType()
+  onLoad() {
+    this.getFieldTree();
+    this.getAlarmType();
   },
-  onReady () {
+  onReady() {
     this.$refs.uForm.setRules(this.rules);
   },
+  computed: {
+    pageTitle() {
+      return userStore().user_info.identity_type === 1
+        ? "自主反馈"
+        : "自主上报";
+    },
+    pageSubTitle() {
+      return userStore().user_info.identity_type === 1
+        ? "反馈异常"
+        : "上报异常";
+    }
+  },
   methods: {
-    submit () {
+    submit() {
       if (this.$refs.alarmPicture.fileList[0]?.url) {
-        this.form.picture_url = this.$refs.alarmPicture.fileList[0].url
+        this.form.picture_url = this.$refs.alarmPicture.fileList[0].url;
       } else {
-        this.form.picture_url = null
+        this.form.picture_url = null;
       }
-      console.log(this.form)
+      console.log(this.form);
       this.$refs.uForm.validate().then(() => {
         reportAlarmApi(this.form).then(res => {
           if (res.code == 200) {
-            this.$refs.uToast.show({ message: '上报成功' })
-            uni.navigateBack()
+            this.$refs.uToast.show({ message: "上报成功" });
+            uni.navigateBack();
           }
-        })
-      })
+        });
+      });
     },
-    getFieldTree () {
+    getFieldTree() {
       fieldTree().then(res => {
         if (res.code === 200) {
-          this.columns = res.data
+          this.columns = res.data;
         }
-      })
+      });
     },
-    getAlarmType () {
+    getAlarmType() {
       alarmType().then(res => {
-        console.log(res, 11111)
+        console.log(res, 11111);
         if (res.code == 200) {
-          this.alarmTypeList = res.data
+          this.alarmTypeList = res.data;
         }
-      })
+      });
     },
-    openFiledTree () {
-      this.$refs.qiantree._show()
+    openFiledTree() {
+      this.$refs.qiantree._show();
     },
-    confirmTree (e) {
-      this.form.pen_id = e.id[0]
-      this.pen_name = e.name[0]
+    confirmTree(e) {
+      this.form.pen_id = e.id[0];
+      this.pen_name = e.name[0];
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
