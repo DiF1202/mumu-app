@@ -247,7 +247,7 @@ export default {
     return {
       list: ['温度', '湿度', '光照', 'HI', 'THI'],
       current: 0,
-      list1: ['活跃度异常数量', '进食异常数量'],
+      list1: ['疑死数量', '体弱数量'],
       current1: 0,
       list2: ['消警比例', '寻舍时长', '远程时长'],
       current2: 0,
