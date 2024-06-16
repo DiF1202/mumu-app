@@ -72,6 +72,7 @@
 
 <script>
 import { userInfo } from '@/api/utils.js'
+import { userStore } from "@/store";
 export default {
   data () {
     return {
