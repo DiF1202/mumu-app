@@ -21,6 +21,7 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
     startNum = 0
   }
   let option = {
+    animation: false,
     grid: {
       top: 35,
       bottom: '0',
@@ -166,15 +167,14 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
         },
         data: lineData,
       }
-    ]
+    ],
+    animationDuration: 0,//这里两个动画设置可以让图表更顺滑
+    animationEasing: 'cubicInOut'//这里两个动画设置可以让图表更顺滑
   }
   chartRef.value.init(echarts, chart => {
-    chart.setOption(option)
+    chart.setOption(option, true)
   })
 }
-// onMounted(() => {
-//   initChart()
-// })
 defineExpose({ initChart })
 </script>
  

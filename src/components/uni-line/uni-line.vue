@@ -28,6 +28,7 @@ export default {
         // 自定义图表样式在opts中配置相关属性
         padding: [0, 0, 0, 0],
         enableScroll: true,
+        update: true,
         legend: {
           show: true,
           position: 'top',
@@ -70,9 +71,6 @@ export default {
         }
       }
     }
-  },
-  mounted () {
-    // this.initChart()
   },
   methods: {
     initChart (xData, yData, unit) {
