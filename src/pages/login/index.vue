@@ -20,11 +20,11 @@
         class="button"
       >
         <u-icon
-          name="weixin-circle-fill"
-          color="#00443A"
+          name="phone-fill"
+          color="#10cc8F"
           size="28"
-          label="微信登录"
-          labelPos="top"
+          label="手机号快捷登录"
+          labelPos="right"
           labelSize="24rpx"
         ></u-icon>
       </button>
@@ -140,7 +140,7 @@ export default {
   .weixin-btn {
     padding: 200rpx 0;
     .button {
-      width: 180rpx;
+      width: 300rpx;
       background: transparent;
     }
     button::after {

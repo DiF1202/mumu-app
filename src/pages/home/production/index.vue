@@ -109,6 +109,7 @@
           </view>
         </view>
       </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
           <u-icon
@@ -142,6 +143,7 @@
           <uni-line ref="animalRisk"></uni-line>
         </view>
       </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
           <u-icon
@@ -169,6 +171,7 @@
           </view>
         </view>
       </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="subtitle">
           <u-icon

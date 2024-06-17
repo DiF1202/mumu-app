@@ -31,6 +31,7 @@ export default {
         background: 'none',
         enableScroll: true,
         padding: [0, 0, 0, 0],
+        update: true,
         legend: {
           show: true,
           position: 'top',

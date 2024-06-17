@@ -33,7 +33,8 @@ export default {
           position: 'top',
           float: 'right',
           margin: 0,
-          fontSize: 10
+          fontSize: 10,
+          update: true
         },
         xAxis: {
           disableGrid: true,
