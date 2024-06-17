@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     wxLogin (e) {
-      console.log(e);
       this.loadingShow = true;
       if (e.detail.errMsg === "getPhoneNumber:ok") {
         uni.login({

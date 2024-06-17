@@ -35,3 +35,10 @@ export function alarmUnhandlerNumApi() {
     url: '/api/mini/get-un-handle-total'
   })
 }
+// 获取个人信息
+export function userInfo() {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-user-info'
+  })
+}

@@ -59,6 +59,8 @@ export const fetch = (options) => {
         if (res.data.code >= 200 && res.data.code < 300) {
           // 提取核心数据 res.data
           resolve(res.data)
+        } else if (res.data.results) {
+          resolve(res.data.results)
         } else if (res.data.code === 401) {
           // 401错误 清理用户信息 跳转登录页
           userStore().clear_user_info()

@@ -1,7 +1,7 @@
 <template>
   <view class="bg">
     <view class="content">
-      <uni-navtopbar title="畜牧助手" :back="true"></uni-navtopbar>
+      <uni-navtopbar title="小牧AI助手" :back="true"></uni-navtopbar>
 
       <scroll-view
         class="msg-list"
@@ -24,7 +24,7 @@
               </view>
               <view class="chat-user-img margin-left">
                 <image
-                  src="https://m.zzxmt.cn/cdn/icon/woman.png"
+                  :src="this.user_role.avatar || this.defaultImg"
                   mode="aspectFill"
                   style="height: 75rpx; width: 75rpx"
                 ></image>
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+import { userStore } from "@/store";
 export default {
   data() {
     return {
@@ -114,10 +115,11 @@ export default {
       msgList: [
         {
           my: false,
-          msg: "你好我是畜牧助手,请问有什么问题可以帮助您?",
+          msg: "你好我是小牧AI助手,请问有什么问题可以帮助您?",
           id: this.uuid()
         }
       ],
+      defaultImg: "https://m.zzxmt.cn/cdn/icon/woman.png",
       msgContent: "",
       msg: "",
       ptzt: 1,
@@ -133,6 +135,9 @@ export default {
   computed: {
     footBoxPaddingBottom() {
       return (this.keyboardHeight || 20) + "rpx";
+    },
+    user_role() {
+      return userStore().user_info;
     }
   },
   methods: {
@@ -393,7 +398,7 @@ export default {
   flex-direction: column;
   padding: 14px 0px;
   background-color: #fff;
-  background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+  background: rgba(16, 204, 143, 0.3);
 }
 
 .foot-box-shadow {
@@ -498,7 +503,7 @@ export default {
 }
 
 .bg-cyan {
-  background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
+  background: rgba(16, 204, 143, 0.3);
 }
 
 .bg-f9f9f9 {

@@ -14,7 +14,7 @@ import * as echarts from 'echarts' // 由于 vue3 使用vite 不支持umd格式�
 // #endif
 let chartRef = ref() // 获取dom
 let startNum = 0
-const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
+const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor) => {
   if (yData.length > 7) {
     startNum = parseInt(100 - ((7 / yData.length) * 100))
   } else {
@@ -22,7 +22,7 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
   }
   let option = {
     grid: {
-      top: '25',
+      top: 35,
       bottom: '0',
       left: 0,
       right: '0',
@@ -143,8 +143,8 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName) => {
           color: {
             type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
             colorStops: [
-              { offset: 0, color: '#F9DADA' },
-              { offset: 1, color: '#F3A4A3' }
+              { offset: 0, color: boxColor || '#F9DADA' },
+              { offset: 1, color: boxColor || '#F3A4A3' }
             ],
             globalCoord: false
           }

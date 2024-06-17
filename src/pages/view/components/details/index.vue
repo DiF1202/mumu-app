@@ -4,13 +4,8 @@
     <view class="content">
       <uni-subTitle icon="play-right" title="告警回看" />
       <view class="video-section">
-        <video
-          id="myVideo"
-          :src="detailsData.video_url"
-          autoplay
-          controls
-          class="video-play"
-        ></video>
+        <video v-if="detailsData.video_url"  id="myVideo" :src="detailsData.video_url" autoplay controls class="video-play"></video>
+        <u-image v-else :showLoading="true" :src="detailsData.poster_url" width="100%" height="400rpx"></u-image>
       </view>
       <uni-subTitle icon="file-text" title="告警信息" />
       <view class="warning-info">
@@ -150,7 +145,6 @@ export default {
       width: 100%;
       height: 400rpx;
       background: #333333;
-      margin-top: 24rpx;
       .video-play {
         width: 100%;
         height: 100%;
@@ -160,7 +154,6 @@ export default {
       // background: #deebff;
       box-shadow: 0px 0px 10px #deebff;
       padding: 12rpx;
-      margin-top: 24rpx;
       border-radius: 16rpx;
     }
     .warning-handler {
@@ -168,7 +161,6 @@ export default {
     }
     .form-btn {
       height: 80rpx;
-      margin-top: 24rpx;
     }
   }
 }

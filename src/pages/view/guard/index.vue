@@ -3,73 +3,85 @@
     <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
-      <uni-subTitle
+      <u-gap height="12rpx"></u-gap>
+      <!-- <uni-subTitle
         icon="order"
         title="畜舍情况"
         value="实况视频"
         url="pages/video/index"
-      />
-      <!-- <view class="video-section" @click="linkToVideoLive">
-        <u-icon name="play-circle-fill" size="40"></u-icon>
-      </view> -->
+      /> -->
+      <uni-card v-if="this.video_url" margin="0" padding="0" spacing="24rpx">
+        <video
+          v-if="this.video_url"
+          id="myVideo"
+          :src="this.video_url"
+          autoplay
+          controls
+          class="video-section"
+        ></video>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <view class="warin-section">
         <u-list @scrolltolower="loadmore" lowerThreshold="100" height="100%">
           <u-list-item v-for="(item, index) in listData" :key="index">
-            <view class="list-item" @click="enterDetails(item.alarm_id)">
-              <view class="image-wrapper">
-                <u--image
-                  class="responsive-image"
-                  :showLoading="true"
-                  src="https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500"
-                  width="280rpx"
-                  height="158rpx"
-                ></u--image>
-              </view>
-              <view class="item-info">
-                <view>
-                  <u--text
-                    :text="item.alarm_name"
-                    size="32rpx"
-                    color="#333333"
-                    :bold="true"
-                  ></u--text>
+            <uni-card margin="0" padding="0" spacing="24rpx">
+              <view class="list-item" @click="enterDetails(item.alarm_id)">
+                <view class="image-wrapper">
+                  <u--image
+                    class="responsive-image"
+                    :showLoading="true"
+                    :src="item.poster_url"
+                    width="280rpx"
+                    height="158rpx"
+                  ></u--image>
                 </view>
-                <view>
-                  <u--text
-                    :text="'时间：' + item.alarm_time"
-                    size="26rpx"
-                    color="#333333"
-                  ></u--text>
-                </view>
-                <view class="tag-box">
-                  <view style="margin-right: 12rpx">
-                    <u-tag
-                      :text="item.alarm_status"
-                      :type="
-                        item.alarm_status === '已处理' ? 'success' : 'error'
-                      "
-                      shape="circle"
-                      size="mini"
-                    ></u-tag>
+                <view class="item-info">
+                  <view>
+                    <u--text
+                      :text="item.alarm_name"
+                      size="32rpx"
+                      color="#333333"
+                      :bold="true"
+                    ></u--text>
                   </view>
                   <view>
-                    <u-tag
-                      :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
-                      shape="circle"
-                      size="mini"
-                    ></u-tag>
+                    <u--text
+                      :text="'时间：' + item.alarm_time"
+                      size="26rpx"
+                      color="#333333"
+                    ></u--text>
                   </view>
+                  <view class="tag-box">
+                    <view style="margin-right: 12rpx">
+                      <u-tag
+                        :text="item.alarm_status"
+                        :type="
+                          item.alarm_status === '已处理' ? 'success' : 'error'
+                        "
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
+                    </view>
+                    <view>
+                      <u-tag
+                        :text="item.report_type == 1 ? 'AI识别' : '自主上报'"
+                        shape="circle"
+                        size="mini"
+                      ></u-tag>
+                    </view>
+                  </view>
+                  <!-- <view class="select-item">
+                    <u-checkbox-group v-model="item.select">
+                      <u-checkbox :name="item.id" label=""></u-checkbox>
+                    </u-checkbox-group>
+                  </view> -->
                 </view>
-                <!-- <view class="select-item">
-                  <u-checkbox-group v-model="item.select">
-                    <u-checkbox :name="item.id" label=""></u-checkbox>
-                  </u-checkbox-group>
+                <!-- <view class="ding" @click.stop="dingClick(item.id)">
+                  <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
                 </view> -->
               </view>
-              <!-- <view class="ding" @click.stop="dingClick(item.id)">
-                <u-icon name="bell-fill" size="38rpx" color="#00443A"></u-icon>
-              </view> -->
-            </view>
+            </uni-card>
+            <u-gap height="12rpx"></u-gap>
           </u-list-item>
           <u-loadmore
             :status="loading"
@@ -100,10 +112,10 @@
 <script>
 import { fieldTree, alarmUnhandlerNumApi } from "@/api/utils.js";
 import { addTreePro } from "@/utils/common.js";
-import { videoAlarmApi, dingApi } from "@/api/view.js";
+import { videoAlarmApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       columns: [], // 树形选择器数据
       videoUrl: "", // 视频url
@@ -114,40 +126,40 @@ export default {
     };
   },
   computed: {
-    windowHeight () {
+    windowHeight() {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    safetyBottom () {
+    safetyBottom() {
       return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
-  onLoad () {
+  onLoad() {
     uni.hideTabBar();
-    this.getFieldTree()
+    this.getFieldTree();
   },
-  onShow () {
+  onShow() {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
       this.getList();
     }
   },
-  onPullDownRefresh () {
+  onPullDownRefresh() {
     this.page = 1;
     this.listData = [];
-    this.getList()
+    this.getList();
   },
   methods: {
-    getUnhadlerNum () {
+    getUnhadlerNum() {
       alarmUnhandlerNumApi().then(res => {
-        let total = res.data.un_handle_total || 0
-        userStore().set_alarm_num(total)
-      })
+        let total = res.data.un_handle_total || 0;
+        userStore().set_alarm_num(total);
+      });
     },
-    getFieldTree () {
+    getFieldTree() {
       // 获取栏位数据 并设置默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -156,7 +168,7 @@ export default {
         }
       });
     },
-    treeCallback (value) {
+    treeCallback(value) {
       this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
@@ -164,16 +176,16 @@ export default {
         this.getList();
       }
     },
-    getList () {
+    getList() {
       this.loading = "loading";
-      this.getUnhadlerNum()
+      this.getUnhadlerNum();
       videoAlarmApi({
         pen_id: this.fieldId,
         page: this.page,
         limit: this.limit
       })
         .then(res => {
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
           if (res.code == 200) {
             this.videoUrl = res.data.video_url;
             this.listData = this.listData.concat(res.data.alarm_data);
@@ -186,39 +198,32 @@ export default {
         })
         .catch(() => {
           this.loading = "nomore";
-          uni.stopPullDownRefresh()
+          uni.stopPullDownRefresh();
         });
     },
-    loadmore () {
+    loadmore() {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    // dingClick(id) {
-    //   dingApi({pen_id: this.fieldId}).then(res => {
-    //     if (res.code == 200) {
-    //       this.$refs.uToast.show({ message: '提醒消息发送成功' })
-    //     }
-    //   })
-    // },
-    upwardClick () {
+    upwardClick() {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive () {
+    linkToVideoLive() {
       uni.navigateTo({ url: "/pages/video/index" });
     },
-    handleLoad () {
+    handleLoad() {
       console.log("Webview loaded successfully.");
     },
-    handleError (e) {
+    handleError(e) {
       console.log(e);
     }
   },
-  mounted () {
+  mounted() {
     // this.initPlayer();
   }
 };
@@ -250,25 +255,18 @@ export default {
       width: 100%;
       height: 360rpx;
       background: #333333;
-      margin-bottom: 24rpx;
       display: flex;
       align-content: center;
       justify-content: center;
-      margin-top: 24rpx;
     }
     .warin-section {
-      height: 1070rpx;
+      height: 830rpx;
       // padding-bottom: 100rpx;
       .list-item {
         width: 100%;
-        /* height: 258rpx; */
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-bottom: 24rpx;
-        padding: 24rpx;
-        box-shadow: 0px 0px 10px #deebff inset;
-        border-radius: 16rpx;
         position: relative;
         .item-info {
           height: 160rpx;

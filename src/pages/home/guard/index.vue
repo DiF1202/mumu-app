@@ -2,7 +2,52 @@
   <view class="home-container">
     <uni-navtopbar title="值守卫士" :back="true"></uni-navtopbar>
     <view class="content">
-      <uni-subTitle icon="account" title="杨大坤" value="负责栏位:45" />
+      <uni-subTitle
+        icon="account"
+        :title="staff_name"
+        :value="'负责栏位数:' + pen_count"
+      />
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="manager-view">
+          <u--image
+            :showLoading="true"
+            :src="userAvatar"
+            width="160rpx"
+            height="160rpx"
+            shape="circle"
+          ></u--image>
+          <view class="manager-info">
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'动态存栏：' + animal_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'栏位占用：' + pen_occupancy_rate"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+            <view class="info-item">
+              <view class="dot"></view>
+              <u--text
+                :text="'疑死数量: ' + death_count"
+                color="#0F4239"
+                size="24rpx"
+                margin="12rpx"
+              ></u--text>
+            </view>
+          </view>
+        </view>
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="weather-header">
           <view class="weather-hader-item">
@@ -11,7 +56,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '05:37' }}</view>
+            <view class="value">{{ sunUpDown.sunrise }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -19,7 +64,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '18:23' }}</view>
+            <view class="value">{{ sunUpDown.sunset }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -27,7 +72,9 @@
               size="26rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '东北风 3级' }}</view>
+            <view class="value"
+              >{{ today.wind_direction }}风{{ today.wind_scale }}级</view
+            >
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -35,11 +82,11 @@
               size="28rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ '41%' }}</view>
+            <view class="value">{{ today.humidity }}%</view>
           </view>
           <view class="weather-hader-item">
             <u-icon name="bell" size="32rpx" color="rgb(235, 37, 37)"></u-icon>
-            <view class="value alarm">{{ '高温高湿' }}</view>
+            <view class="value alarm">{{ alarm }}</view>
           </view>
         </view>
       </uni-card>
@@ -48,18 +95,20 @@
           <view class="body-item">
             <view class="item-row">
               <view class="date">今天</view>
-              <view class="air">{{ '良' }}</view>
-              <view class="temp">{{ '28~14' }}℃</view>
+              <view class="air">{{ today.airQuilty }}</view>
+              <view class="temp">{{ today.low }}~{{ today.high }}℃</view>
             </view>
             <view class="item-row">
-              <view class="status">{{ '多云' }}</view>
-              <u--image
-                :showLoading="true"
-                :src="`https://m.zzxmt.cn/cdn/weather/5@2x.png`"
-                width="14px"
-                height="14px"
-                mode="scaleToFill"
-              ></u--image>
+              <view class="status">{{ today.text_day }}</view>
+              <view v-if="today.code_day" style="background: #ccc">
+                <u--image
+                  :showLoading="true"
+                  :src="`https://m.zzxmt.cn/cdn/weather/${today.code_day}@2x.png`"
+                  width="16px"
+                  height="16px"
+                  mode="scaleToFill"
+                ></u--image>
+              </view>
             </view>
           </view>
         </uni-card>
@@ -67,18 +116,20 @@
           <view class="body-item">
             <view class="item-row">
               <view class="date">明天</view>
-              <view class="air">{{ '良' }}</view>
-              <view class="temp">{{ '28~14' }}℃</view>
+              <view class="air">{{ tomorrow.airQuilty }}</view>
+              <view class="temp">{{ tomorrow.low }}~{{ tomorrow.high }}℃</view>
             </view>
             <view class="item-row">
-              <view class="status">{{ '多云' }}</view>
-              <u--image
-                :showLoading="true"
-                :src="`https://m.zzxmt.cn/cdn/weather/6@2x.png`"
-                width="14px"
-                height="14px"
-                mode="scaleToFill"
-              ></u--image>
+              <view class="status">{{ tomorrow.text_day }}</view>
+              <view v-if="tomorrow.code_day" style="background: #ccc">
+                <u--image
+                  :showLoading="true"
+                  :src="`https://m.zzxmt.cn/cdn/weather/${tomorrow.code_day}@2x.png`"
+                  width="14px"
+                  height="14px"
+                  mode="scaleToFill"
+                ></u--image>
+              </view>
             </view>
           </view>
         </uni-card>
@@ -192,41 +243,59 @@ import {
   dingListApi,
   riskStatementApi
 } from "@/api/home.js";
+import {
+  getSunDay,
+  getWeatherDaily,
+  getAirQuality,
+  getRisk,
+  getDaily
+} from "@/api/weather.js";
+import { userStore } from "@/store";
 export default {
-  data () {
+  data() {
     return {
       list: ["温度", "湿度", "光照", "HI", "THI"],
       current: 0,
       staff_name: "",
       animal_count: "",
       pen_occupancy_rate: "",
+      pen_count: "",
       death_count: "",
       housing_environment: {},
       summary: [],
       warningList: [],
-      todayHandler: []
+      todayHandler: [],
+      sunUpDown: {},
+      today: {},
+      tomorrow: {},
+      alarm: "无预警"
     };
   },
   computed: {
-    safetyTop () {
+    safetyTop() {
       return uni.getSystemInfoSync().safeAreaInsets.top;
+    },
+    userAvatar() {
+      return (
+        userStore().user_info.avatar || "https://m.zzxmt.cn/cdn/icon/woman.png"
+      );
     }
   },
-  onLoad () {
+  onLoad() {
     uni.hideTabBar();
   },
-  onReady () {
+  onReady() {
     this.initData();
   },
-  onPullDownRefresh () {
-    this.initData()
+  onPullDownRefresh() {
+    this.initData();
   },
   methods: {
-    enterDetails (id) {
+    enterDetails(id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
     // 舍内环境
-    sectionChange (index) {
+    sectionChange(index) {
       this.current = index;
       switch (index) {
         case 0:
@@ -234,7 +303,8 @@ export default {
             this.housing_environment.temperature_data,
             "℃",
             "#DE868F",
-            "平均温度"
+            "平均温度",
+            "#DE868F"
           );
           break;
         case 1:
@@ -242,7 +312,8 @@ export default {
             this.housing_environment.humidity_data,
             "%",
             "#93D2F3",
-            "平均湿度"
+            "平均湿度",
+            "#93D2F3"
           );
           break;
         case 2:
@@ -250,7 +321,8 @@ export default {
             this.housing_environment.illuminance_data,
             "lx",
             "#FCCA00",
-            "平均光照"
+            "平均光照",
+            "#FCCA00"
           );
           break;
         case 3:
@@ -258,7 +330,8 @@ export default {
             this.housing_environment.HI_data,
             "℃",
             "#7F83F7",
-            "平均HI"
+            "平均HI",
+            "#7F83F7"
           );
           break;
         case 4:
@@ -266,12 +339,13 @@ export default {
             this.housing_environment.THI_data,
             "",
             "#B886F8",
-            "平均THI"
+            "平均THI",
+            "#B886F8"
           );
           break;
       }
     },
-    initHouseEnv (arr, unit, color, name) {
+    initHouseEnv(arr, unit, color, name, boxColor) {
       let xData = [];
       let yData = [];
       let lineData = [];
@@ -286,17 +360,18 @@ export default {
         lineData,
         unit,
         color,
-        name
+        name,
+        boxColor
       );
     },
-    // 24h天气
-    initData () {
+    initData() {
       overViewGuardApi().then(res => {
-        uni.stopPullDownRefresh()
+        uni.stopPullDownRefresh();
         this.staff_name = res.data.staff_name || "";
         this.animal_count = res.data.animal_count || "";
         this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
         this.death_count = res.data.death_count || "";
+        this.pen_count = res.data.pen_count || "";
         this.housing_environment = res.data.housing_environment;
         this.sectionChange(0);
       });
@@ -327,46 +402,35 @@ export default {
         });
         this.warningList = res.data;
       });
-      let xData1 = [
-        "00:00",
-        "01:00",
-        "02:00",
-        "03:00",
-        "04:00",
-        "05:00",
-        "06:00",
-        "07:00",
-        "08:00",
-        "09:00",
-        "10:00",
-        "11:00",
-        "12:00"
-      ];
-      let series = [
-        {
-          name: "温度",
-          data: [
-            "23",
-            "21",
-            "21",
-            "14",
-            "25",
-            "26",
-            "27",
-            "17",
-            "18",
-            "19",
-            "16",
-            "15",
-            "12"
-          ],
-          color: "#19AECE"
+      getSunDay().then(res => {
+        this.sunUpDown = res[0].sun[0];
+      });
+      getWeatherDaily().then(res => {
+        this.today = res[0].daily[0];
+        this.tomorrow = res[0].daily[1];
+        getAirQuality().then(res => {
+          this.today.airQuilty = res[0].daily[0].quality;
+          this.tomorrow.airQuilty = res[0].daily[1].quality;
+        });
+      });
+      getRisk().then(res => {
+        if (res[0].alarms.length > 0) {
+          this.alarm = res[0].alarms[0].type;
         }
-      ];
-      this.$refs.weatherChart.initChart(xData1, series, '', '℃');
+      });
+      getDaily().then(res => {
+        console.log(res);
+        let xData = [];
+        let series = [{ name: "温度", data: [], color: "#19AECE" }];
+        res[0].hourly.map(item => {
+          xData.push(item.time.substring(11, 16));
+          series[0].data.push(item.temperature);
+        });
+        this.$refs.weatherChart.initChart(xData, series, "", "℃", "left");
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -536,10 +600,12 @@ export default {
         height: 160rpx;
       }
       .manager-info {
+        width: calc(100% - 180rpx);
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         justify-content: flex-start;
         .info-item {
+          width: 50%;
           display: flex;
           justify-content: flex-start;
           align-items: center;
