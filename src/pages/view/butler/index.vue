@@ -63,14 +63,20 @@
       </uni-card>
       <u-gap height="12rpx"></u-gap>
       <uni-card v-if="this.video_url" margin="0" padding="0" spacing="24rpx">
-        <video
-          v-if="this.video_url"
-          id="myVideo"
-          :src="this.video_url"
-          autoplay
-          controls
-          class="video-section"
-        ></video>
+        <view class="video-wrapper">
+          <video
+            v-if="this.video_url"
+            id="myVideo"
+            :src="this.video_url"
+            autoplay
+            controls
+            is-live
+            class="video-section"
+          ></video>
+          <view class="live-icon">
+            <u-icon name="live" size="28rpx" color="#FF0000"></u-icon>
+          </view>
+        </view>
       </uni-card>
       <u-gap height="12rpx"></u-gap>
       <view class="warin-section">
@@ -425,5 +431,16 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover; /* or use object-fit: contain; to include the whole image */
+}
+
+.video-wrapper {
+  position: relative;
+}
+
+.live-icon {
+  position: absolute;
+  top: 16px;
+  right: 16rpx;
+  z-index: 10; /* 确保图标在视频之上 */
 }
 </style>
