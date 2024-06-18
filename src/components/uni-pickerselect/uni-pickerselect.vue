@@ -1,9 +1,5 @@
 <template>
-  <view
-    class="date-select-container"
-    @click="open"
-    @touchmove.stop.prevent="() => {}"
-  >
+  <view class="date-select-container" @click="open">
     <u--input
       v-model="value"
       :prefixIcon="prefixIcon"
@@ -17,16 +13,18 @@
       disabled
       customStyle="border-color:#cccccc"
     />
-    <!-- 真机无滚动穿透问题，模拟器有 -->
-    <u-picker
-      :show="show"
-      :columns="columns"
-      keyName="name"
-      @confirm="confirm"
-      @cancel="show = false"
-      :defaultIndex="[0]"
-    ></u-picker>
   </view>
+  <!-- 真机无滚动穿透问题，模拟器有 -->
+  <u-picker
+    :show="show"
+    :columns="columns"
+    keyName="name"
+    @confirm="confirm"
+    @close="close"
+    @cancel="show = false"
+    :closeOnClickOverlay="true"
+    :defaultIndex="[0]"
+  ></u-picker>
 </template>
 
 <script>
@@ -68,6 +66,7 @@ export default {
   watch: {
     columns: {
       handler (val) {
+        console.log(3333333333333)
         if (val) {
           this.value = val[0][0].name
         }
@@ -76,7 +75,12 @@ export default {
   },
   methods: {
     open () {
+      console.log(1111111111)
       this.show = true
+    },
+    close () {
+      console.log(222222222)
+      this.show = false
     },
     confirm (e) {
       this.value = e.value[0].name

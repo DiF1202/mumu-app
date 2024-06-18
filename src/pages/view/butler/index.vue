@@ -166,6 +166,8 @@
       @confirm="dingClick"
       :showCancelButton="true"
       @cancel="dingShow = false"
+      @close="dingShow = false"
+      :closeOnClickOverlay="true"
     >
       <view class="slot-content" style="width: 100%">
         <u--textarea
@@ -187,7 +189,7 @@ import { addTreePro } from "@/utils/common.js";
 import { videoAlarmApi, dingApi } from "@/api/view.js";
 import { userStore } from "@/store";
 export default {
-  data() {
+  data () {
     return {
       videolurl:
         "https://mps01.ivm.myhuaweicloud.com:7081/live/live.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbSI6IkdCMjgxODEiLCJjIjowLCJjaGFubmVsX2lkIjoiOTk0NTI2MzUwNTEzMTA5OTExNjYiLCJkZXZpY2VfaWQiOiI5OTQ1MjYzNTA1MTE4MDAwMDAwMyIsImV4dG1jIjoxNzE4MjcwNzU1LCJpcCI6Im1wczAxLml2bS5teWh1YXdlaWNsb3VkLmNvbSIsImxrIjoiMTcxODIxMzE1NTI2NTQxNzM2MjJkYmM1YjMwIiwicmVxdWVzdF9pZCI6ImQzMmRlZjgxLTI4ZTAtMTFlZi05YmRjLTAyNTUwYTAwMDMxZSIsInN0IjowLCJ0cCI6MCwidXNlcl9pZCI6IjYxOTIxMTE1OTIwMjQwNTEwMTMzNzA3IiwidXQiOiJFTlRFUlBSSVNFIn0.A-b8JDm5ngpelqVlptdPEYUp1x3IouQezgGI3JIuSIc&device_id=99452635051180000003&channel_id=99452635051310991166&stream_type=0",
@@ -210,40 +212,40 @@ export default {
     };
   },
   computed: {
-    windowHeight() {
+    windowHeight () {
       return uni.getSystemInfoSync().windowHeight;
     },
-    safetyTop() {
+    safetyTop () {
       return uni.getSystemInfoSync().safeAreaInsets.top;
     },
-    safetyBottom() {
+    safetyBottom () {
       return uni.getSystemInfoSync().safeAreaInsets.bottom;
     }
   },
-  onLoad() {
+  onLoad () {
     uni.hideTabBar();
     this.getFieldTree();
   },
-  onShow() {
+  onShow () {
     if (this.fieldId) {
       this.page = 1;
       this.listData = [];
       this.getList();
     }
   },
-  onPullDownRefresh() {
+  onPullDownRefresh () {
     this.page = 1;
     this.listData = [];
     this.getList();
   },
   methods: {
-    getUnhadlerNum() {
+    getUnhadlerNum () {
       alarmUnhandlerNumApi().then(res => {
         let total = res.data.un_handle_total || 0;
         userStore().set_alarm_num(total);
       });
     },
-    getFieldTree() {
+    getFieldTree () {
       // 获取栏位数据 并设置第一个子元素为默认选中
       fieldTree().then(res => {
         if (res.code === 200) {
@@ -252,7 +254,7 @@ export default {
         }
       });
     },
-    treeCallback(value) {
+    treeCallback (value) {
       this.page = 1;
       this.fieldId = value.id[0];
       if (this.fieldId) {
@@ -260,7 +262,7 @@ export default {
         this.getList();
       }
     },
-    getList() {
+    getList () {
       this.loading = "loading";
       this.getUnhadlerNum();
       videoAlarmApi({
@@ -293,17 +295,17 @@ export default {
           this.loading = "nomore";
         });
     },
-    loadmore() {
+    loadmore () {
       if (this.loading == "loadmore") {
         this.page += 1;
         this.getList();
       }
     },
-    openDing(id) {
+    openDing (id) {
       this.alarmId = id;
       this.dingShow = true;
     },
-    dingClick() {
+    dingClick () {
       dingApi({
         pen_id: this.fieldId,
         alarm_ids: [this.alarmId],
@@ -315,13 +317,13 @@ export default {
         }
       });
     },
-    upwardClick() {
+    upwardClick () {
       uni.navigateTo({ url: "/pages/view/components/reporting/index" });
     },
-    enterDetails(id) {
+    enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
-    linkToVideoLive() {
+    linkToVideoLive () {
       uni.navigateTo({ url: "/pages/video/index" });
     }
   }
