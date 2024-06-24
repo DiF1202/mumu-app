@@ -5,8 +5,6 @@
       :chartData="chartData"
       :opts="opts"
       :ontouch="true"
-      inScrollView
-      disableScroll
     />
   </view>
 </template>

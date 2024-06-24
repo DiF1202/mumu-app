@@ -417,6 +417,8 @@ export default {
       echartsOpts: {},
       drawData:{},
       lastDrawTime:null,
+      startX: null,
+      startY: null
     };
   },
   created(){
@@ -1122,6 +1124,9 @@ export default {
       }
     },
     _touchStart(e) {
+      // console.log(e, 'start')
+      this.startX = e.touches[0].pageX
+      this.startY = e.touches[0].pageY
       let cid = this.cid
       lastMoveTime=Date.now();
       if(cfu.option[cid].enableScroll === true && e.touches.length == 1){
@@ -1130,22 +1135,36 @@ export default {
       this.emitMsg({name:'getTouchStart', params:{type:"touchStart", event:e.changedTouches[0], id:cid, opts: cfu.instance[cid].opts}});
     },
     _touchMove(e) {
-      let cid = this.cid
-      let currMoveTime = Date.now();
-      let duration = currMoveTime - lastMoveTime;
-      let touchMoveLimit = cfu.option[cid].touchMoveLimit || 24;
-      if (duration < Math.floor(1000 / touchMoveLimit)) return;//每秒60帧
-      lastMoveTime = currMoveTime;
-      if(cfu.option[cid].enableScroll === true && e.changedTouches.length == 1){
-        cfu.instance[cid].scroll(e);
+      // console.log(e, 'move')
+      const currentX = e.touches[0].pageX;
+      const currentY = e.touches[0].pageY;
+      const distanceX = Math.abs(currentX - this.startX);
+      const distanceY = Math.abs(currentY - this.startY);
+      if (distanceX > distanceY) {
+        // 横向滚动
+        // console.log('Horizontal scroll');
+        let cid = this.cid
+        let currMoveTime = Date.now();
+        let duration = currMoveTime - lastMoveTime;
+        let touchMoveLimit = cfu.option[cid].touchMoveLimit || 24;
+        if (duration < Math.floor(1000 / touchMoveLimit)) return;//每秒60帧
+        lastMoveTime = currMoveTime;
+        if(cfu.option[cid].enableScroll === true && e.changedTouches.length == 1){
+          cfu.instance[cid].scroll(e);
+        }
+        if(this.ontap === true && cfu.option[cid].enableScroll === false && this.onmovetip === true){
+          this._tap(e,true)
+        }
+        if(this.ontouch === true && cfu.option[cid].enableScroll === true && this.onzoom === true && e.changedTouches.length == 2){
+          cfu.instance[cid].dobuleZoom(e);
+        }
+        this.emitMsg({name: 'getTouchMove', params: {type:"touchMove", event:e.changedTouches[0], id: cid, opts: cfu.instance[cid].opts}});
+      } else {
+        // 纵向滚动
+        // console.log('Vertical scroll');
+        e.stopPropagation()
+        // e.preventDefault()
       }
-      if(this.ontap === true && cfu.option[cid].enableScroll === false && this.onmovetip === true){
-        this._tap(e,true)
-      }
-      if(this.ontouch === true && cfu.option[cid].enableScroll === true && this.onzoom === true && e.changedTouches.length == 2){
-        cfu.instance[cid].dobuleZoom(e);
-      }
-      this.emitMsg({name: 'getTouchMove', params: {type:"touchMove", event:e.changedTouches[0], id: cid, opts: cfu.instance[cid].opts}});
     },
     _touchEnd(e) {
       let cid = this.cid
