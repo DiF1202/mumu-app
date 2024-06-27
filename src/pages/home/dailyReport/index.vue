@@ -38,7 +38,33 @@ export default {
     };
   },
   created() {
-    this.fetchData();
+    // this.fetchData();
+    const self = this;
+    uni.request({
+      url: "http://47.99.151.88:9004/chat/chat",
+      method: "POST",
+      // responseType: "text",
+      data: {
+        query: "日报report",
+        stream: false,
+        model_name: "mumu-dev",
+        temperature: 0.0,
+        max_tokens: 0,
+        prompt_name: "日报report",
+        id: "12345678910"
+      },
+      success: function (res) {
+        const formatStr = res.data.replaceAll("data:", "").trim();
+        const farmData = JSON.parse(formatStr);
+        const resultData = farmData.process_data.data;
+        self.transformData(resultData);
+        self.isLoading = false;
+        self.startTyping();
+      },
+      fail: function (err) {
+        console.error("API call failed:", error);
+      }
+    });
   },
   methods: {
     fetchData() {
