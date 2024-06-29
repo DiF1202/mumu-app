@@ -4,7 +4,6 @@
       type="candle"
       :opts="opts"
       :chartData="chartData"
-      :disableScroll="true"
       :ontouch="true"
     />
   </view>

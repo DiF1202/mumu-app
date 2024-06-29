@@ -34,7 +34,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ today.sunrise }}</view>
+            <view class="value">{{ sunUpDown.sunrise }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -42,7 +42,7 @@
               size="32rpx"
               color="#333333"
             ></u-icon>
-            <view class="value">{{ today.sunset }}</view>
+            <view class="value">{{ sunUpDown.sunset }}</view>
           </view>
           <view class="weather-hader-item">
             <u-icon
@@ -266,7 +266,7 @@
 
 <script>
 import { overViewApi } from '@/api/home.js'
-// import { getSunDay, getWeatherDaily, getAirQuality, getRisk, getDaily } from '@/api/weather.js'
+import { getSunDay, getWeatherDaily, getAirQuality, getRisk, getDaily } from '@/api/weather.js'
 export default {
   data () {
     return {
@@ -282,27 +282,28 @@ export default {
       daily: '0',
       weekly: '0',
       alarm: '无预警',
+      sunUpDown: {},
       today: {
-        sunrise: "04:58",
-        sunset: '19:04',
-        wind_direction: '东风',
-        wind_scale: '5',
-        humidity: 77,
-        airQuilty: '良',
-        low: '20',
-        high: '27',
-        text_day: '多云',
-        code_day: '4'
+        // sunrise: "04:58",
+        // sunset: '19:04',
+        // wind_direction: '东风',
+        // wind_scale: '5',
+        // humidity: 77,
+        // airQuilty: '良',
+        // low: '20',
+        // high: '27',
+        // text_day: '多云',
+        // code_day: '4'
       },
       tomorrow: {
-        airQuilty: '良',
-        low: '20',
-        high: '27',
-        text_day: '多云',
-        code_day: '4'
+        // airQuilty: '良',
+        // low: '20',
+        // high: '27',
+        // text_day: '多云',
+        // code_day: '4'
       },
-      xData: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '12:00', '21:00', '22:00', '23:00', '24:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00'],
-      series: [{ name: "温度", data: [20, 21, 22, 23, 24, 25, 26, 27, 26, 25, 24, 23, 21, 20, 19, 18, 17, 20, 21, 22, 23, 23, 23, 24], color: "#19AECE" }]
+      // xData: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '12:00', '21:00', '22:00', '23:00', '24:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00'],
+      // series: [{ name: "温度", data: [20, 21, 22, 23, 24, 25, 26, 27, 26, 25, 24, 23, 21, 20, 19, 18, 17, 20, 21, 22, 23, 23, 23, 24], color: "#19AECE" }]
     }
   },
   onLoad () {
@@ -377,33 +378,33 @@ export default {
         this.eliminateAlarm()
         this.riskNote()
       })
-      // getSunDay().then(res => {
-      //   this.sunUpDown = res[0].sun[0]
-      // })
-      // getWeatherDaily().then(res => {
-      //   this.today = res[0].daily[0]
-      //   this.tomorrow = res[0].daily[1]
-      //   getAirQuality().then(res => {
-      //     this.today.airQuilty = res[0].daily[0].quality
-      //     this.tomorrow.airQuilty = res[0].daily[1].quality
-      //   })  
-      // })
-      // getRisk().then(res => {
-      //   if (res[0].alarms.length > 0) {
-      //     this.alarm = res[0].alarms[0].type
-      //   }
-      // })
-      // getDaily().then(res => {
-      //   console.log(res)
-      //   let xData = []
-      //   let series = [{name: "温度",data: [],color: "#19AECE"}]
-      //   res[0].hourly.map(item =>{
-      //     xData.push(item.time.substring(11, 16))
-      //     series[0].data.push(item.temperature)
-      //   })
-      //   this.$refs.weatherChart.initChart(xData, series, '', '℃', 'left')
-      // })
-      this.$refs.weatherChart.initChart(this.xData, this.series, '', '℃', 'left')
+      getSunDay().then(res => {
+        this.sunUpDown = res[0].sun[0]
+      })
+      getWeatherDaily().then(res => {
+        this.today = res[0].daily[0]
+        this.tomorrow = res[0].daily[1]
+        getAirQuality().then(res => {
+          this.today.airQuilty = res[0].daily[0].quality
+          this.tomorrow.airQuilty = res[0].daily[1].quality
+        })  
+      })
+      getRisk().then(res => {
+        if (res[0].alarms.length > 0) {
+          this.alarm = res[0].alarms[0].type
+        }
+      })
+      getDaily().then(res => {
+        console.log(res)
+        let xData = []
+        let series = [{name: "温度",data: [],color: "#19AECE"}]
+        res[0].hourly.map(item =>{
+          xData.push(item.time.substring(11, 16))
+          series[0].data.push(item.temperature)
+        })
+        this.$refs.weatherChart.initChart(xData, series, '', '℃', 'left')
+      })
+      // this.$refs.weatherChart.initChart(this.xData, this.series, '', '℃', 'left')
     },
     // 跳转日报
     enterAiReport () {

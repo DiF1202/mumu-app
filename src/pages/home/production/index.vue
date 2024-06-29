@@ -252,7 +252,7 @@ export default {
       current: 0,
       list1: ['疑死数量', '体弱数量'],
       current1: 0,
-      list2: ['消警比例', '寻舍时长', '远程时长'],
+      list2: ['消警比例', '巡舍时长', '远程时长'],
       current2: 0,
       housing_environment: {}, // 舍内环境
       animal_count_data: {}, // 动态存栏
