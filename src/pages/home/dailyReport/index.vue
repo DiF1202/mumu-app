@@ -32,39 +32,39 @@ export default {
     return {
       isLoading: true, // 是否正在加载
       currentTextIndex: 0, // 当前输出文本段索引
-      typingSpeed: 20, // 打字速度，每个字符的延迟时间
+      typingSpeed: 15, // 打字速度，每个字符的延迟时间
       sections: [],
       formattedText: [] // 格式化后的文本
     };
   },
   created() {
-    // this.fetchData();
-    const self = this;
-    uni.request({
-      url: "http://47.99.151.88:9004/chat/chat",
-      method: "POST",
-      // responseType: "text",
-      data: {
-        query: "日报report",
-        stream: false,
-        model_name: "mumu-dev",
-        temperature: 0.0,
-        max_tokens: 0,
-        prompt_name: "日报report",
-        id: "12345678910"
-      },
-      success: function (res) {
-        const formatStr = res.data.replaceAll("data:", "").trim();
-        const farmData = JSON.parse(formatStr);
-        const resultData = farmData.process_data.data;
-        self.transformData(resultData);
-        self.isLoading = false;
-        self.startTyping();
-      },
-      fail: function (err) {
-        console.error("API call failed:", error);
-      }
-    });
+    this.fetchData();
+    // const self = this;
+    // uni.request({
+    //   url: "http://47.99.151.88:9004/chat/chat",
+    //   method: "POST",
+    //   // responseType: "text",
+    //   data: {
+    //     query: "日报report",
+    //     stream: false,
+    //     model_name: "mumu-dev",
+    //     temperature: 0.0,
+    //     max_tokens: 0,
+    //     prompt_name: "日报report",
+    //     id: "12345678910"
+    //   },
+    //   success: function (res) {
+    //     const formatStr = res.data.replaceAll("data:", "").trim();
+    //     const farmData = JSON.parse(formatStr);
+    //     const resultData = farmData.process_data.data;
+    //     self.transformData(resultData);
+    //     self.isLoading = false;
+    //     self.startTyping();
+    //   },
+    //   fail: function (err) {
+    //     console.error("API call failed:", error);
+    //   }
+    // });
   },
   methods: {
     fetchData() {
