@@ -82,26 +82,26 @@
         <view class="active-chart">
           <uni-tarea ref="penOccupancy" :max="30"></uni-tarea>
         </view>
-        <view class="active-statistic" style="margin-top: 24rpx">
-          <view class="active-item">
+        <view class="active-statistic" style="margin-top: 24rpx;">
+          <view class="active-item" style="justify-content: flex-start;">
             <view class="item-label">栏位占用：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.pen_occupancy_rate
             }}</view>
           </view>
-          <view class="active-item">
+          <view class="active-item" style="justify-content: flex-start;">
             <view class="item-label">动态活动范围：</view>
             <view class="item-num">{{ pen_occupancy_rate?.dynamic_area }}</view>
           </view>
         </view>
         <view class="active-statistic">
-          <view class="active-item">
+          <view class="active-item" style="justify-content: flex-start;">
             <view class="item-label">单位面积/动物：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.animal_per_area
             }}</view>
           </view>
-          <view class="active-item">
+          <view class="active-item" style="justify-content: flex-start;">
             <view class="item-label">昨日转群次数：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.transfer_count
@@ -212,8 +212,8 @@
         </view>
         <view class="tab-num">
           <view class="num-item" style="color: #81b337; width: 33%">{{attendance.alarm_handle_rate}}%</view>
-          <view class="num-item" style="color: #cba43f; width: 33%">{{attendance.patrol_time}}h</view>
-          <view class="num-item" style="color: #347caf; width: 33%">{{attendance.remote_time}}h</view>
+          <view class="num-item" style="color: #cba43f; width: 33%">{{attendance.patrol_time}}min</view>
+          <view class="num-item" style="color: #347caf; width: 33%">{{attendance.remote_time}}min</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="attendanceChart"></uni-kchart> -->
@@ -324,25 +324,25 @@ export default {
     penOccupancy () {
       let xData = []
       let yData = { name: '栏位占用', data: [], color: '#19AECE' }
-      let max = 30
+      // let max = 30
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
-      if (yData.data.length > 0) {
-        max = Math.max(...yData.data)
-      }
-      this.$refs.penOccupancy.initChart(xData, [yData], max, '%')
+      // if (yData.data.length > 0) {
+      //   max = Math.max(...yData.data)
+      // }
+      this.$refs.penOccupancy.initChart(xData, [yData], 100, '%')
     },
     // 异常动物数量
     sectionChange1 (index) {
       this.current1 = index
       switch (index) {
         case 0:
-          this.animalRisk(this.animal_risk_count.death_data, "活跃度异常数量", '头', '#BD3124')
+          this.animalRisk(this.animal_risk_count.death_data, "疑死数量", '头', '#BD3124')
           break
         case 1:
-          this.animalRisk(this.animal_risk_count.moribund_data, "进食异常数量", '头', '#347CAF')
+          this.animalRisk(this.animal_risk_count.moribund_data, "体弱数量", '头', '#347CAF')
           break
       }
     },
@@ -374,15 +374,17 @@ export default {
       // 畜群节律统计
       let xData = []
       let yData = [
-        { name: "平均睡眠时长", data: [], color: '#B886F8' },
-        { name: "平均饮水时长", data: [], color: '#CCF783' },
-        { name: "平均采食时长", data: [], color: '#93D2F3' }
+        { name: "睡眠", data: [], color: '#B886F8' },
+        { name: "饮水", data: [], color: '#CCF783' },
+        { name: "采食", data: [], color: '#93D2F3' },
+        { name: "活动", data: [], color: '#CBA43F' }
       ]
       this.alarm_handle_rate.map(item => {
         xData.push(item.date.slice(5))
         yData[0].data.push(item.sleep)
         yData[1].data.push(item.drink)
         yData[2].data.push(item.feed)
+        yData[3].data.push(item.activity)
       })
       this.$refs.alarmHandle.initChart(xData, yData, 'h')
     },
@@ -438,7 +440,6 @@ export default {
         xData.push(item.date.slice(5))
       })
       let yData = transformData(this.vehicle_activity)
-      console.log(xData, yData)
       this.$refs.carChart.initChart(xData, yData)
     },
     attendanceHandler (arr, unit, color, name) {
@@ -460,10 +461,10 @@ export default {
           this.attendanceHandler(this.attendance.alarm_handle_rate_data, '%', '#81B337', '平均消警比例', '#81B337')
           break
         case 1:
-          this.attendanceHandler(this.attendance.patrol_time_data, 'h', '#CBA43F', '平均巡舍时长', '#CBA43F')
+          this.attendanceHandler(this.attendance.patrol_time_data, 'min', '#CBA43F', '平均巡舍时长', '#CBA43F')
           break
         case 2:
-          this.attendanceHandler(this.attendance.remote_time_data, 'h', '#347CAF', '平均远程时长', '#347CAF')
+          this.attendanceHandler(this.attendance.remote_time_data, 'min', '#347CAF', '平均远程时长', '#347CAF')
           break
       }
     }

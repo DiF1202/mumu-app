@@ -15,6 +15,14 @@ import * as echarts from 'echarts' // 由于 vue3 使用vite 不支持umd格式�
 let chartRef = ref() // 获取dom
 let startNum = 0
 const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor) => {
+  // let max = 100
+  // if (yData.length > 0) {
+  //   if (unit == '%') {
+  //     max = 100
+  //   } else {
+  //     max = Math.ceil(Math.max(...yData))
+  //   }
+  // }
   if (yData.length > 7) {
     startNum = parseInt(100 - ((7 / yData.length) * 100))
   } else {
@@ -102,6 +110,7 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
       data: xData,
     },
     yAxis: {
+      max: unit == '%' ? 100 : '',
       name: unit || '',
       nameTextStyle: {
         color: "rgba(0, 0, 0, 0.45)",
@@ -144,8 +153,8 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
           color: {
             type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
             colorStops: [
-              { offset: 0, color: boxColor || '#00443A' },
-              { offset: 1, color: boxColor || '#00443A' }
+              { offset: 0, color: boxColor || '#81B33B' },
+              { offset: 1, color: boxColor || '#81B33B' }
             ],
             globalCoord: false
           }

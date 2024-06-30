@@ -320,12 +320,12 @@ export default {
     handlerData (arr, name, color, unit) {
       let xData = []
       let yData = { name: name, data: [], color: color }
-      let max = 30
+      let max = 100
       arr.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
-      if (arr.length > 0) {
+      if (arr.length > 0 && name !== '栏位占用') {
         max = Math.max(...yData.data)
       }
       this.$refs.activeChart.initChart(xData, [yData], max, unit)
@@ -363,7 +363,7 @@ export default {
       let data3 = [{ data: "1", color: "#FCCA00" }];
       this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count || '0', '环境风险')
       this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count || '0', '动物风险')
-      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count || '0', '生产风险')
+      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count || '0', '管理风险')
     },
     // 初始化
     initData () {

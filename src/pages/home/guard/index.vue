@@ -38,7 +38,7 @@
             <view class="info-item">
               <view class="dot"></view>
               <u--text
-                :text="'疑死数量: ' + death_count"
+                :text="'疑死数量：' + death_count"
                 color="#0F4239"
                 size="24rpx"
                 margin="12rpx"
@@ -195,7 +195,7 @@
               color="#199DFF"
               size="28rpx"
             ></u-icon>
-            <u--text text="DING" color="#333333" size="28rpx"></u--text>
+            <u--text :text="item.ding_operation_name + '-' + 'DING了您一下'" color="#333333" size="28rpx"></u--text>
           </view>
           <u--text
             :text="item.ding_content"
@@ -417,6 +417,11 @@ export default {
             item.icon = "clock-fill";
             item.iconColor = "#FAAD15";
             item.bgColor = "#FFFBE6";
+          }
+          if (item.title == '其他风险') {
+            item.icon = "more-circle-fill";
+            item.iconColor = "#736d6c";
+            item.bgColor = "#dcd7d6";
           }
         });
         this.warningList = res.data;

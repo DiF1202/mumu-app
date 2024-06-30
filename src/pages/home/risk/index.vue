@@ -195,7 +195,7 @@ const initHeatList = [
 export default {
   data() {
     return {
-      list: ["环境风险", "资产风险", "管理风险"],
+      list: ["环境风险", "动物风险", "管理风险"],
       current: 0,
       heatList: [],
       riskCountData: {},
