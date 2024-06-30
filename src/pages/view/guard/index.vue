@@ -1,6 +1,6 @@
 <template>
   <view class="list-container">
-    <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
+    <uni-navtopbar title="远程监控1" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
       <u-gap height="12rpx"></u-gap>
@@ -10,12 +10,12 @@
         value="实况视频"
         url="pages/video/index"
       /> -->
-      <uni-card v-if="this.video_url" margin="0" padding="0" spacing="24rpx">
+      <uni-card v-if="this.videoUrl" margin="0" padding="0" spacing="24rpx">
         <view class="video-wrapper">
           <video
-            v-if="this.video_url"
+            v-if="this.videoUrl"
             id="myVideo"
-            :src="this.video_url"
+            :src="this.videoUrl"
             autoplay
             controls
             is-live
@@ -123,8 +123,9 @@ import { userStore } from "@/store";
 export default {
   data() {
     return {
+      videoUrl: "",
       columns: [], // 树形选择器数据
-      videoUrl: "", // 视频url
+      // videoUrl: "", // 视频url
       listData: [], // 列表数据
       limit: 5,
       page: 1,
@@ -194,6 +195,7 @@ export default {
           uni.stopPullDownRefresh();
           if (res.code == 200) {
             this.videoUrl = res.data.video_url;
+            console.log(res.data.video_url);
             this.listData = this.listData.concat(res.data.alarm_data);
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
