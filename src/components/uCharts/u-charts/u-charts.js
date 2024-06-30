@@ -36,7 +36,7 @@ var config = {
   radarLabelTextMargin: 13,
 };
 
-var assign = function(target, ...varArgs) {
+var assign = function (target, ...varArgs) {
   if (target == null) {
     throw new TypeError('[uCharts] Cannot convert undefined or null to object');
   }
@@ -104,7 +104,7 @@ function getH5Offset(e) {
 // hex 转 rgba
 function hexToRgb(hexValue, opc) {
   var rgx = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  var hex = hexValue.replace(rgx, function(m, r, g, b) {
+  var hex = hexValue.replace(rgx, function (m, r, g, b) {
     return r + r + g + g + b + b;
   });
   var rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -170,9 +170,9 @@ function calCandleMA(dayArr, nameArr, colorArr, kdata) {
 function calValidDistance(self, distance, chartData, config, opts) {
   var dataChartAreaWidth = opts.width - opts.area[1] - opts.area[3];
   var dataChartWidth = chartData.eachSpacing * (opts.chartData.xAxisData.xAxisPoints.length - 1);
-  if(opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1){
-    if(opts.extra.mount.widthRatio>2) opts.extra.mount.widthRatio = 2
-    dataChartWidth += (opts.extra.mount.widthRatio - 1)*chartData.eachSpacing;
+  if (opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1) {
+    if (opts.extra.mount.widthRatio > 2) opts.extra.mount.widthRatio = 2
+    dataChartWidth += (opts.extra.mount.widthRatio - 1) * chartData.eachSpacing;
   }
   var validDistance = distance;
   if (distance >= 0) {
@@ -317,9 +317,9 @@ function avoidCollision(obj, target) {
   return obj;
 }
 
-function fixPieSeries(series, opts, config){
+function fixPieSeries(series, opts, config) {
   let pieSeriesArr = [];
-  if(series.length>0 && series[0].data.constructor.toString().indexOf('Array') > -1){
+  if (series.length > 0 && series[0].data.constructor.toString().indexOf('Array') > -1) {
     opts._pieSeries_ = series;
     let oldseries = series[0].data;
     for (var i = 0; i < oldseries.length; i++) {
@@ -328,7 +328,7 @@ function fixPieSeries(series, opts, config){
       pieSeriesArr.push(oldseries[i]);
     }
     opts.series = pieSeriesArr;
-  }else{
+  } else {
     pieSeriesArr = series;
   }
   return pieSeriesArr;
@@ -383,7 +383,7 @@ function fillSeries(series, opts, config) {
 
 function fillCustomColor(linearType, customColor, series, config) {
   var newcolor = customColor || [];
-  if (linearType == 'custom' && newcolor.length == 0 ) {
+  if (linearType == 'custom' && newcolor.length == 0) {
     newcolor = config.linearColor;
   }
   if (linearType == 'custom' && newcolor.length < series.length) {
@@ -467,7 +467,7 @@ function measureText(text, fontSize, context) {
 }
 
 function dataCombine(series) {
-  return series.reduce(function(a, b) {
+  return series.reduce(function (a, b) {
     return (a.data ? a.data : a).concat(b.data);
   }, []);
 }
@@ -482,7 +482,7 @@ function dataCombineStack(series, len) {
       sum[j] += series[i].data[j];
     }
   }
-  return series.reduce(function(a, b) {
+  return series.reduce(function (a, b) {
     return (a.data ? a.data : a).concat(b.data).concat(sum);
   }, []);
 }
@@ -516,20 +516,20 @@ function getSeriesDataItem(series, index, group) {
   var data = [];
   var newSeries = [];
   var indexIsArr = index.constructor.toString().indexOf('Array') > -1;
-  if(indexIsArr){
+  if (indexIsArr) {
     let tempSeries = filterSeries(series);
     for (var i = 0; i < group.length; i++) {
       newSeries.push(tempSeries[group[i]]);
     }
-  }else{
+  } else {
     newSeries = series;
   };
   for (let i = 0; i < newSeries.length; i++) {
     let item = newSeries[i];
     let tmpindex = -1;
-    if(indexIsArr){
+    if (indexIsArr) {
       tmpindex = index[i];
-    }else{
+    } else {
       tmpindex = index;
     }
     if (item.data[tmpindex] !== null && typeof item.data[tmpindex] !== 'undefined' && item.show) {
@@ -550,7 +550,7 @@ function getSeriesDataItem(series, index, group) {
 }
 
 function getMaxTextListLength(list, fontSize, context) {
-  var lengthList = list.map(function(item) {
+  var lengthList = list.map(function (item) {
     return measureText(item, fontSize, context);
   });
   return Math.max.apply(null, lengthList);
@@ -562,38 +562,38 @@ function getRadarCoordinateSeries(length) {
   for (var i = 0; i < length; i++) {
     CoordinateSeries.push(eachAngle * i);
   }
-  return CoordinateSeries.map(function(item) {
+  return CoordinateSeries.map(function (item) {
     return -1 * item + Math.PI / 2;
   });
 }
 
 function getToolTipData(seriesData, opts, index, group, categories) {
   var option = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {};
-  var calPoints = opts.chartData.calPoints?opts.chartData.calPoints:[];
+  var calPoints = opts.chartData.calPoints ? opts.chartData.calPoints : [];
   let points = {};
-  if(group.length > 0){
+  if (group.length > 0) {
     let filterPoints = [];
     for (let i = 0; i < group.length; i++) {
       filterPoints.push(calPoints[group[i]])
     }
     points = filterPoints[0][index[0]];
-  }else{
+  } else {
     for (let i = 0; i < calPoints.length; i++) {
-      if(calPoints[i][index]){
+      if (calPoints[i][index]) {
         points = calPoints[i][index];
         break;
       }
     }
   };
-  var textList = seriesData.map(function(item) {
+  var textList = seriesData.map(function (item) {
     let titleText = null;
-    if (opts.categories && opts.categories.length>0) {
+    if (opts.categories && opts.categories.length > 0) {
       titleText = categories[index];
     };
     return {
       text: option.formatter ? option.formatter(item, titleText, index, opts) : item.name + ': ' + item.data,
       color: item.color,
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
   });
   var offset = {
@@ -609,15 +609,15 @@ function getToolTipData(seriesData, opts, index, group, categories) {
 function getMixToolTipData(seriesData, opts, index, categories) {
   var option = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
   var points = opts.chartData.xAxisPoints[index] + opts.chartData.eachSpacing / 2;
-  var textList = seriesData.map(function(item) {
+  var textList = seriesData.map(function (item) {
     return {
       text: option.formatter ? option.formatter(item, categories[index], index, opts) : item.name + ': ' + item.data,
       color: item.color,
       disableLegend: item.disableLegend ? true : false,
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
   });
-  textList = textList.filter(function(item) {
+  textList = textList.filter(function (item) {
     if (item.disableLegend !== true) {
       return item;
     }
@@ -640,7 +640,7 @@ function getCandleToolTipData(series, seriesData, opts, index, categories, extra
   //颜色顺序为开盘，收盘，最低，最高
   let color = [upColor, upColor, downColor, upColor];
   var textList = [];
-  seriesData.map(function(item) {
+  seriesData.map(function (item) {
     if (index == 0) {
       if (item.data[1] - item.data[0] < 0) {
         color[1] = downColor;
@@ -664,22 +664,22 @@ function getCandleToolTipData(series, seriesData, opts, index, categories, extra
     let text1 = {
       text: '开盘：' + item.data[0],
       color: color[0],
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
     let text2 = {
       text: '收盘：' + item.data[1],
       color: color[1],
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
     let text3 = {
       text: '最低：' + item.data[2],
       color: color[2],
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
     let text4 = {
       text: '最高：' + item.data[3],
       color: color[3],
-      legendShape: opts.extra.tooltip.legendShape == 'auto'? item.legendShape : opts.extra.tooltip.legendShape
+      legendShape: opts.extra.tooltip.legendShape == 'auto' ? item.legendShape : opts.extra.tooltip.legendShape
     };
     textList.push(text1, text2, text3, text4);
   });
@@ -713,13 +713,13 @@ function filterSeries(series) {
 
 function findCurrentIndex(currentPoints, calPoints, opts, config) {
   var offset = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-  var current={ index:-1, group:[] };
+  var current = { index: -1, group: [] };
   var spacing = opts.chartData.eachSpacing / 2;
   let xAxisPoints = [];
   if (calPoints && calPoints.length > 0) {
     if (!opts.categories) {
       spacing = 0;
-    }else{
+    } else {
       for (let i = 1; i < opts.chartData.xAxisPoints.length; i++) {
         xAxisPoints.push(opts.chartData.xAxisPoints[i] - spacing);
       }
@@ -736,8 +736,8 @@ function findCurrentIndex(currentPoints, calPoints, opts, config) {
             timePoints[i][j] = (Math.abs(calPoints[i][j].x - currentPoints.x));
           }
         };
-        let pointValue =  Array(timePoints.length);
-        let pointIndex =  Array(timePoints.length);
+        let pointValue = Array(timePoints.length);
+        let pointIndex = Array(timePoints.length);
         for (let i = 0; i < timePoints.length; i++) {
           pointValue[i] = Math.min.apply(null, timePoints[i]);
           pointIndex[i] = timePoints[i].indexOf(pointValue[i]);
@@ -745,13 +745,13 @@ function findCurrentIndex(currentPoints, calPoints, opts, config) {
         let minValue = Math.min.apply(null, pointValue);
         current.index = [];
         for (let i = 0; i < pointValue.length; i++) {
-          if(pointValue[i] == minValue){
+          if (pointValue[i] == minValue) {
             current.group.push(i);
             current.index.push(pointIndex[i]);
           }
         };
-      }else{
-        xAxisPoints.forEach(function(item, index) {
+      } else {
+        xAxisPoints.forEach(function (item, index) {
           if (currentPoints.x + offset + spacing > item) {
             current.index = index;
           }
@@ -764,12 +764,12 @@ function findCurrentIndex(currentPoints, calPoints, opts, config) {
 
 function findBarChartCurrentIndex(currentPoints, calPoints, opts, config) {
   var offset = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
-  var current={ index:-1, group:[] };
+  var current = { index: -1, group: [] };
   var spacing = opts.chartData.eachSpacing / 2;
   let yAxisPoints = opts.chartData.yAxisPoints;
   if (calPoints && calPoints.length > 0) {
     if (isInExactChartArea(currentPoints, opts, config)) {
-      yAxisPoints.forEach(function(item, index) {
+      yAxisPoints.forEach(function (item, index) {
         if (currentPoints.y + offset + spacing > item) {
           current.index = index;
         }
@@ -827,11 +827,11 @@ function findRadarChartCurrentIndex(currentPoints, radarData, count) {
     if (angle < 0) {
       angle += 2 * Math.PI;
     }
-    var angleList = radarData.angleList.map(function(item) {
+    var angleList = radarData.angleList.map(function (item) {
       item = fixAngle(-1 * item);
       return item;
     });
-    angleList.forEach(function(item, index) {
+    angleList.forEach(function (item, index) {
       var rangeStart = fixAngle(item - eachAngleArea / 2);
       var rangeEnd = fixAngle(item + eachAngleArea / 2);
       if (rangeEnd < rangeStart) {
@@ -891,7 +891,7 @@ function findRoseChartCurrentIndex(currentPoints, pieData, opts) {
   if (pieData && pieData.center && isInExactPieChartArea(currentPoints, pieData.center, pieData.radius)) {
     var angle = Math.atan2(pieData.center.y - currentPoints.y, currentPoints.x - pieData.center.x);
     angle = -angle;
-    if(opts.extra.rose && opts.extra.rose.offsetAngle){
+    if (opts.extra.rose && opts.extra.rose.offsetAngle) {
       angle = angle - opts.extra.rose.offsetAngle * Math.PI / 180;
     }
     for (var i = 0, len = series.length; i < len; i++) {
@@ -910,10 +910,10 @@ function findPieChartCurrentIndex(currentPoints, pieData, opts) {
   if (pieData && pieData.center && isInExactPieChartArea(currentPoints, pieData.center, pieData.radius)) {
     var angle = Math.atan2(pieData.center.y - currentPoints.y, currentPoints.x - pieData.center.x);
     angle = -angle;
-    if(opts.extra.pie && opts.extra.pie.offsetAngle){
+    if (opts.extra.pie && opts.extra.pie.offsetAngle) {
       angle = angle - opts.extra.pie.offsetAngle * Math.PI / 180;
     }
-    if(opts.extra.ring && opts.extra.ring.offsetAngle){
+    if (opts.extra.ring && opts.extra.ring.offsetAngle) {
       angle = angle - opts.extra.ring.offsetAngle * Math.PI / 180;
     }
     for (var i = 0, len = series.length; i < len; i++) {
@@ -931,15 +931,15 @@ function isInExactPieChartArea(currentPoints, center, radius) {
 }
 
 
-function splitPoints(points,eachSeries) {
+function splitPoints(points, eachSeries) {
   var newPoints = [];
   var items = [];
-  points.forEach(function(item, index) {
-    if(eachSeries.connectNulls){
+  points.forEach(function (item, index) {
+    if (eachSeries.connectNulls) {
       if (item !== null) {
         items.push(item);
       }
-    }else{
+    } else {
       if (item !== null) {
         items.push(item);
       } else {
@@ -949,7 +949,7 @@ function splitPoints(points,eachSeries) {
         items = [];
       }
     }
-    
+
   });
   if (items.length) {
     newPoints.push(items);
@@ -1106,21 +1106,21 @@ function calCategoriesData(categories, opts, config, eachSpacing, context) {
     xAxisHeight: opts.xAxis.lineHeight * opts.pix + opts.xAxis.marginTop * opts.pix
   };
   var fontSize = opts.xAxis.fontSize * opts.pix;
-  var categoriesTextLenth = categories.map(function(item,index) {
-    var xitem = opts.xAxis.formatter ? opts.xAxis.formatter(item,index,opts) : item;
+  var categoriesTextLenth = categories.map(function (item, index) {
+    var xitem = opts.xAxis.formatter ? opts.xAxis.formatter(item, index, opts) : item;
     return measureText(String(xitem), fontSize, context);
   });
   var maxTextLength = Math.max.apply(this, categoriesTextLenth);
   if (opts.xAxis.rotateLabel == true) {
     result.angle = opts.xAxis.rotateAngle * Math.PI / 180;
-    let tempHeight = opts.xAxis.marginTop * opts.pix * 2 +  Math.abs(maxTextLength * Math.sin(result.angle))
+    let tempHeight = opts.xAxis.marginTop * opts.pix * 2 + Math.abs(maxTextLength * Math.sin(result.angle))
     tempHeight = tempHeight < fontSize + opts.xAxis.marginTop * opts.pix * 2 ? tempHeight + opts.xAxis.marginTop * opts.pix * 2 : tempHeight;
     result.xAxisHeight = tempHeight;
   }
   if (opts.enableScroll && opts.xAxis.scrollShow) {
     result.xAxisHeight += 6 * opts.pix;
   }
-  if (opts.xAxis.disabled){
+  if (opts.xAxis.disabled) {
     result.xAxisHeight = 0;
   }
   return result;
@@ -1136,7 +1136,7 @@ function getXAxisTextList(series, opts, config, stack) {
   }
   var sorted = [];
   // remove null from data
-  data = data.filter(function(item) {
+  data = data.filter(function (item) {
     //return item !== null;
     if (typeof item === 'object' && item !== null) {
       if (item.constructor.toString().indexOf('Array') > -1) {
@@ -1148,11 +1148,11 @@ function getXAxisTextList(series, opts, config, stack) {
       return item !== null;
     }
   });
-  data.map(function(item) {
+  data.map(function (item) {
     if (typeof item === 'object') {
       if (item.constructor.toString().indexOf('Array') > -1) {
         if (opts.type == 'candle') {
-          item.map(function(subitem) {
+          item.map(function (subitem) {
             sorted.push(subitem);
           })
         } else {
@@ -1213,12 +1213,12 @@ function calXAxisData(series, opts, config, context) {
     xAxisHeight: opts.xAxis.lineHeight * opts.pix + opts.xAxis.marginTop * opts.pix
   };
   result.ranges = getXAxisTextList(series, opts, config, columnstyle.type);
-  result.rangesFormat = result.ranges.map(function(item) {
+  result.rangesFormat = result.ranges.map(function (item) {
     //item = opts.xAxis.formatter ? opts.xAxis.formatter(item) : util.toFixed(item, 2);
     item = util.toFixed(item, 2);
     return item;
   });
-  var xAxisScaleValues = result.ranges.map(function(item) {
+  var xAxisScaleValues = result.ranges.map(function (item) {
     // 如果刻度值是浮点数,则保留两位小数
     item = util.toFixed(item, 2);
     // 若有自定义格式则调用自定义的格式化函数
@@ -1228,7 +1228,7 @@ function calXAxisData(series, opts, config, context) {
   result = Object.assign(result, getXAxisPoints(xAxisScaleValues, opts, config));
   // 计算X轴刻度的属性譬如每个刻度的间隔,刻度的起始点\结束点以及总长
   var eachSpacing = result.eachSpacing;
-  var textLength = xAxisScaleValues.map(function(item) {
+  var textLength = xAxisScaleValues.map(function (item) {
     return measureText(item, opts.xAxis.fontSize * opts.pix, context);
   });
   if (opts.xAxis.disabled === true) {
@@ -1250,7 +1250,7 @@ function getRadarDataPoints(angleList, center, radius, series, opts) {
     listItem.legendShape = each.legendShape;
     listItem.pointShape = each.pointShape;
     listItem.data = [];
-    each.data.forEach(function(item, index) {
+    each.data.forEach(function (item, index) {
       let tmp = {};
       tmp.angle = angleList[index];
       tmp.proportion = item / maxData;
@@ -1293,10 +1293,10 @@ function getPieDataPoints(series, radius) {
 function getFunnelDataPoints(series, radius, option, eachSpacing) {
   var process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
   for (let i = 0; i < series.length; i++) {
-    if(option.type == 'funnel'){
+    if (option.type == 'funnel') {
       series[i].radius = series[i].data / series[0].data * radius * process;
-    }else{
-      series[i].radius =  (eachSpacing * (series.length - i)) / (eachSpacing * series.length) * radius * process;
+    } else {
+      series[i].radius = (eachSpacing * (series.length - i)) / (eachSpacing * series.length) * radius * process;
     }
     series[i]._proportion_ = series[i].data / series[0].data;
   }
@@ -1328,9 +1328,9 @@ function getRoseDataPoints(series, type, minRadius, radius) {
       item._rose_proportion_ = 1 / series.length * process;
     } else {
       item._proportion_ = item.data / count * process;
-      if(type == 'area'){
+      if (type == 'area') {
         item._rose_proportion_ = 1 / series.length * process;
-      }else{
+      } else {
         item._rose_proportion_ = item.data / count * process;
       }
     }
@@ -1356,13 +1356,13 @@ function getArcbarDataPoints(series, arcbarOption) {
     if (arcbarOption.type == 'circle') {
       totalAngle = 2;
     } else {
-      if(arcbarOption.direction == 'ccw'){
+      if (arcbarOption.direction == 'ccw') {
         if (arcbarOption.startAngle < arcbarOption.endAngle) {
           totalAngle = 2 + arcbarOption.startAngle - arcbarOption.endAngle;
         } else {
           totalAngle = arcbarOption.startAngle - arcbarOption.endAngle;
         }
-      }else{
+      } else {
         if (arcbarOption.endAngle < arcbarOption.startAngle) {
           totalAngle = 2 + arcbarOption.endAngle - arcbarOption.startAngle;
         } else {
@@ -1371,8 +1371,8 @@ function getArcbarDataPoints(series, arcbarOption) {
       }
     }
     item._proportion_ = totalAngle * item.data * process + arcbarOption.startAngle;
-    if(arcbarOption.direction == 'ccw'){
-      item._proportion_ = arcbarOption.startAngle - totalAngle * item.data * process ;
+    if (arcbarOption.direction == 'ccw') {
+      item._proportion_ = arcbarOption.startAngle - totalAngle * item.data * process;
     }
     if (item._proportion_ >= 2) {
       item._proportion_ = item._proportion_ % 2;
@@ -1477,7 +1477,7 @@ function getPieTextMaxLength(series, config, context, opts) {
 }
 
 function fixColumeData(points, eachSpacing, columnLen, index, config, opts) {
-  return points.map(function(item) {
+  return points.map(function (item) {
     if (item === null) {
       return null;
     }
@@ -1490,8 +1490,8 @@ function fixColumeData(points, eachSpacing, columnLen, index, config, opts) {
       seriesGap = opts.extra.column.seriesGap * opts.pix || 0;
       categoryGap = opts.extra.column.categoryGap * opts.pix || 0;
     }
-    seriesGap =  Math.min(seriesGap, eachSpacing / columnLen)
-    categoryGap =  Math.min(categoryGap, eachSpacing / columnLen)
+    seriesGap = Math.min(seriesGap, eachSpacing / columnLen)
+    categoryGap = Math.min(categoryGap, eachSpacing / columnLen)
     item.width = Math.ceil((eachSpacing - 2 * categoryGap - seriesGap * (columnLen - 1)) / columnLen);
     if (opts.extra.mix && opts.extra.mix.column.width && +opts.extra.mix.column.width > 0) {
       item.width = Math.min(item.width, +opts.extra.mix.column.width * opts.pix);
@@ -1508,7 +1508,7 @@ function fixColumeData(points, eachSpacing, columnLen, index, config, opts) {
 }
 
 function fixBarData(points, eachSpacing, columnLen, index, config, opts) {
-  return points.map(function(item) {
+  return points.map(function (item) {
     if (item === null) {
       return null;
     }
@@ -1516,8 +1516,8 @@ function fixBarData(points, eachSpacing, columnLen, index, config, opts) {
     var categoryGap = 0;
     seriesGap = opts.extra.bar.seriesGap * opts.pix || 0;
     categoryGap = opts.extra.bar.categoryGap * opts.pix || 0;
-    seriesGap =  Math.min(seriesGap, eachSpacing / columnLen)
-    categoryGap =  Math.min(categoryGap, eachSpacing / columnLen)
+    seriesGap = Math.min(seriesGap, eachSpacing / columnLen)
+    categoryGap = Math.min(categoryGap, eachSpacing / columnLen)
     item.width = Math.ceil((eachSpacing - 2 * categoryGap - seriesGap * (columnLen - 1)) / columnLen);
     if (opts.extra.bar && opts.extra.bar.width && +opts.extra.bar.width > 0) {
       item.width = Math.min(item.width, +opts.extra.bar.width * opts.pix);
@@ -1532,7 +1532,7 @@ function fixBarData(points, eachSpacing, columnLen, index, config, opts) {
 
 function fixColumeMeterData(points, eachSpacing, columnLen, index, config, opts, border) {
   var categoryGap = opts.extra.column.categoryGap * opts.pix || 0;
-  return points.map(function(item) {
+  return points.map(function (item) {
     if (item === null) {
       return null;
     }
@@ -1549,7 +1549,7 @@ function fixColumeMeterData(points, eachSpacing, columnLen, index, config, opts,
 
 function fixColumeStackData(points, eachSpacing, columnLen, index, config, opts, series) {
   var categoryGap = opts.extra.column.categoryGap * opts.pix || 0;
-  return points.map(function(item, indexn) {
+  return points.map(function (item, indexn) {
     if (item === null) {
       return null;
     }
@@ -1566,7 +1566,7 @@ function fixColumeStackData(points, eachSpacing, columnLen, index, config, opts,
 
 function fixBarStackData(points, eachSpacing, columnLen, index, config, opts, series) {
   var categoryGap = opts.extra.bar.categoryGap * opts.pix || 0;
-  return points.map(function(item, indexn) {
+  return points.map(function (item, indexn) {
     if (item === null) {
       return null;
     }
@@ -1588,8 +1588,8 @@ function getXAxisPoints(categories, opts, config) {
     dataCount -= 1;
   }
   var widthRatio = 0;
-  if(opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1){
-    if(opts.extra.mount.widthRatio>2) opts.extra.mount.widthRatio = 2
+  if (opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1) {
+    if (opts.extra.mount.widthRatio > 2) opts.extra.mount.widthRatio = 2
     widthRatio = opts.extra.mount.widthRatio - 1;
     dataCount += widthRatio;
   }
@@ -1597,7 +1597,7 @@ function getXAxisPoints(categories, opts, config) {
   var xAxisPoints = [];
   var startX = opts.area[3];
   var endX = opts.width - opts.area[1];
-  categories.forEach(function(item, index) {
+  categories.forEach(function (item, index) {
     xAxisPoints.push(startX + widthRatio / 2 * eachSpacing + index * eachSpacing);
   });
   if (opts.xAxis.boundaryGap !== 'justify') {
@@ -1619,12 +1619,12 @@ function getCandleDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing,
   var process = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 1;
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
       var cPoints = [];
-      item.forEach(function(items, indexs) {
+      item.forEach(function (items, indexs) {
         var point = {};
         point.x = xAxisPoints[index] + Math.round(eachSpacing / 2);
         var value = items.value || items;
@@ -1642,13 +1642,13 @@ function getCandleDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing,
 function getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config) {
   var process = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 1;
   var boundaryGap = 'center';
-  if (opts.type == 'line' || opts.type == 'area' || opts.type == 'scatter' || opts.type == 'bubble' ) {
+  if (opts.type == 'line' || opts.type == 'area' || opts.type == 'scatter' || opts.type == 'bubble') {
     boundaryGap = opts.xAxis.boundaryGap;
   }
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
   var validWidth = opts.width - opts.area[1] - opts.area[3];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1664,7 +1664,7 @@ function getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts,
           xmaxRange = xranges.pop();
           value = item[1];
           point.x = opts.area[3] + validWidth * (item[0] - xminRange) / (xmaxRange - xminRange);
-          if(opts.type == 'bubble'){
+          if (opts.type == 'bubble') {
             point.r = item[2];
             point.t = item[3];
           }
@@ -1684,19 +1684,19 @@ function getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts,
   return points;
 }
 
-function getLineDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, lineOption, process){
+function getLineDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, lineOption, process) {
   var process = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 1;
   var boundaryGap = opts.xAxis.boundaryGap;
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
   var validWidth = opts.width - opts.area[1] - opts.area[3];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
       var point = {};
       point.color = item.color;
-      if(lineOption.animation == 'vertical'){
+      if (lineOption.animation == 'vertical') {
         point.x = xAxisPoints[index];
         var value = item;
         if (typeof item === 'object' && item !== null) {
@@ -1718,7 +1718,7 @@ function getLineDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, o
         height *= process;
         point.y = opts.height - height - opts.area[2];
         points.push(point);
-      }else{
+      } else {
         point.x = xAxisPoints[0] + eachSpacing * index * process;
         var value = item;
         if (boundaryGap == 'center') {
@@ -1733,12 +1733,12 @@ function getLineDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, o
   return points;
 }
 
-function getColumnDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, zeroPoints, process){
+function getColumnDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, zeroPoints, process) {
   var process = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 1;
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
   var validWidth = opts.width - opts.area[1] - opts.area[3];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1773,7 +1773,7 @@ function getMountDataPoints(series, minRange, maxRange, xAxisPoints, eachSpacing
   var validHeight = opts.height - opts.area[0] - opts.area[2];
   var validWidth = opts.width - opts.area[1] - opts.area[3];
   var mountWidth = eachSpacing * mountOption.widthRatio;
-  series.forEach(function(item, index) {
+  series.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1797,7 +1797,7 @@ function getBarDataPoints(data, minRange, maxRange, yAxisPoints, eachSpacing, op
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
   var validWidth = opts.width - opts.area[1] - opts.area[3];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1823,7 +1823,7 @@ function getStackDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, 
   var process = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 1;
   var points = [];
   var validHeight = opts.height - opts.area[0] - opts.area[2];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1862,7 +1862,7 @@ function getBarStackDataPoints(data, minRange, maxRange, yAxisPoints, eachSpacin
   var process = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 1;
   var points = [];
   var validHeight = opts.width - opts.area[1] - opts.area[3];
-  data.forEach(function(item, index) {
+  data.forEach(function (item, index) {
     if (item === null) {
       points.push(null);
     } else {
@@ -1907,7 +1907,7 @@ function getYAxisTextList(series, opts, config, stack, yData) {
   }
   var sorted = [];
   // remove null from data
-  data = data.filter(function(item) {
+  data = data.filter(function (item) {
     //return item !== null;
     if (typeof item === 'object' && item !== null) {
       if (item.constructor.toString().indexOf('Array') > -1) {
@@ -1919,11 +1919,11 @@ function getYAxisTextList(series, opts, config, stack, yData) {
       return item !== null;
     }
   });
-  data.map(function(item) {
+  data.map(function (item) {
     if (typeof item === 'object') {
       if (item.constructor.toString().indexOf('Array') > -1) {
         if (opts.type == 'candle') {
-          item.map(function(subitem) {
+          item.map(function (subitem) {
             sorted.push(subitem);
           })
         } else {
@@ -1943,16 +1943,17 @@ function getYAxisTextList(series, opts, config, stack, yData) {
     maxData = Math.max.apply(this, sorted);
   }
   if (minData === maxData) {
-    if(maxData == 0){
+    if (maxData == 0) {
       maxData = 10;
-    }else{
+    } else {
       minData = 0;
     }
   }
   var dataRange = getDataRange(minData, maxData);
   var minRange = (yData.min === undefined || yData.min === null) ? dataRange.minRange : yData.min;
   var maxRange = (yData.max === undefined || yData.max === null) ? dataRange.maxRange : yData.max;
-  var eachRange = (maxRange - minRange) / opts.yAxis.splitNumber;
+  // var eachRange = (maxRange - minRange) / opts.yAxis.splitNumber;
+  var eachRange = Math.ceil(((maxRange - minRange) / opts.yAxis.splitNumber))
   var range = [];
   for (var i = 0; i <= opts.yAxis.splitNumber; i++) {
     range.push(minRange + eachRange * i);
@@ -1987,15 +1988,15 @@ function calYAxisData(series, opts, config, context) {
       if (opts.yAxis.disabled == true) {
         yData.disabled = true;
       }
-      if(yData.type === 'categories'){
-        if(!yData.formatter){
-          yData.formatter = (val,index,opts) => {return val + (yData.unit || '')};
+      if (yData.type === 'categories') {
+        if (!yData.formatter) {
+          yData.formatter = (val, index, opts) => { return val + (yData.unit || '') };
         }
         yData.categories = yData.categories || opts.categories;
         rangesArr[i] = yData.categories;
-      }else{
-        if(!yData.formatter){
-          yData.formatter = (val,index,opts) => {return util.toFixed(val, yData.tofix || 0) + (yData.unit || '')};
+      } else {
+        if (!yData.formatter) {
+          yData.formatter = (val, index, opts) => { return util.toFixed(val, yData.tofix || 0) + (yData.unit || '') };
         }
         rangesArr[i] = getYAxisTextList(newSeries[i], opts, config, columnstyle.type, yData, i);
       }
@@ -2004,8 +2005,8 @@ function calYAxisData(series, opts, config, context) {
         position: yData.position ? yData.position : 'left',
         width: 0
       };
-      rangesFormatArr[i] = rangesArr[i].map(function(items,index) {
-        items = yData.formatter(items,index,opts);
+      rangesFormatArr[i] = rangesArr[i].map(function (items, index) {
+        items = yData.formatter(items, index, opts);
         yAxisWidthArr[i].width = Math.max(yAxisWidthArr[i].width, measureText(items, yAxisFontSizes, context) + 5);
         return items;
       });
@@ -2019,14 +2020,14 @@ function calYAxisData(series, opts, config, context) {
     var rangesArr = new Array(1);
     var rangesFormatArr = new Array(1);
     var yAxisWidthArr = new Array(1);
-    if(opts.type === 'bar'){
+    if (opts.type === 'bar') {
       rangesArr[0] = opts.categories;
-      if(!opts.yAxis.formatter){
-        opts.yAxis.formatter = (val,index,opts) => {return val + (opts.yAxis.unit || '')}
+      if (!opts.yAxis.formatter) {
+        opts.yAxis.formatter = (val, index, opts) => { return val + (opts.yAxis.unit || '') }
       }
-    }else{
-      if(!opts.yAxis.formatter){
-        opts.yAxis.formatter = (val,index,opts) => {return val.toFixed(opts.yAxis.tofix ) + (opts.yAxis.unit || '')}
+    } else {
+      if (!opts.yAxis.formatter) {
+        opts.yAxis.formatter = (val, index, opts) => { return val.toFixed(opts.yAxis.tofix) + (opts.yAxis.unit || '') }
       }
       rangesArr[0] = getYAxisTextList(series, opts, config, columnstyle.type, {});
     }
@@ -2035,8 +2036,8 @@ function calYAxisData(series, opts, config, context) {
       width: 0
     };
     var yAxisFontSize = opts.yAxis.fontSize * opts.pix || config.fontSize;
-    rangesFormatArr[0] = rangesArr[0].map(function(item,index) {
-      item = opts.yAxis.formatter(item,index,opts);
+    rangesFormatArr[0] = rangesArr[0].map(function (item, index) {
+      item = opts.yAxis.formatter(item, index, opts);
       yAxisWidthArr[0].width = Math.max(yAxisWidthArr[0].width, measureText(item, yAxisFontSize, context) + 5);
       return item;
     });
@@ -2057,7 +2058,7 @@ function calYAxisData(series, opts, config, context) {
         min: opts.yAxis.min,
         formatter: opts.yAxis.formatter
       };
-      if(opts.type === 'bar'){
+      if (opts.type === 'bar') {
         opts.yAxis.data[0].categories = opts.categories;
         opts.yAxis.data[0].type = 'categories';
       }
@@ -2122,7 +2123,7 @@ function drawPointShape(points, color, shape, context, opts) {
     context.setLineWidth(1 * opts.pix);
   }
   if (shape === 'diamond') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null) {
         context.moveTo(item.x, item.y - 4.5);
         context.lineTo(item.x - 4.5, item.y);
@@ -2132,21 +2133,21 @@ function drawPointShape(points, color, shape, context, opts) {
       }
     });
   } else if (shape === 'circle') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null) {
         context.moveTo(item.x + 2.5 * opts.pix, item.y);
         context.arc(item.x, item.y, 3 * opts.pix, 0, 2 * Math.PI, false);
       }
     });
   } else if (shape === 'square') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null) {
         context.moveTo(item.x - 3.5, item.y - 3.5);
         context.rect(item.x - 3.5, item.y - 3.5, 7, 7);
       }
     });
   } else if (shape === 'triangle') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null) {
         context.moveTo(item.x, item.y - 4.5);
         context.lineTo(item.x - 4.5, item.y + 4.5);
@@ -2163,10 +2164,10 @@ function drawPointShape(points, color, shape, context, opts) {
 }
 
 function drawActivePoint(points, color, shape, context, opts, option, seriesIndex) {
-  if(!opts.tooltip){
+  if (!opts.tooltip) {
     return
   }
-  if(opts.tooltip.group.length>0 && opts.tooltip.group.includes(seriesIndex) == false){
+  if (opts.tooltip.group.length > 0 && opts.tooltip.group.includes(seriesIndex) == false) {
     return
   }
   var pointIndex = typeof opts.tooltip.index === 'number' ? opts.tooltip.index : opts.tooltip.index[opts.tooltip.group.indexOf(seriesIndex)];
@@ -2181,8 +2182,8 @@ function drawActivePoint(points, color, shape, context, opts, option, seriesInde
     context.setLineWidth(1 * opts.pix);
   }
   if (shape === 'diamond') {
-    points.forEach(function(item, index) {
-      if (item !== null && pointIndex == index ) {
+    points.forEach(function (item, index) {
+      if (item !== null && pointIndex == index) {
         context.moveTo(item.x, item.y - 4.5);
         context.lineTo(item.x - 4.5, item.y);
         context.lineTo(item.x, item.y + 4.5);
@@ -2191,21 +2192,21 @@ function drawActivePoint(points, color, shape, context, opts, option, seriesInde
       }
     });
   } else if (shape === 'circle') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null && pointIndex == index) {
         context.moveTo(item.x + 2.5 * opts.pix, item.y);
         context.arc(item.x, item.y, 3 * opts.pix, 0, 2 * Math.PI, false);
       }
     });
   } else if (shape === 'square') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null && pointIndex == index) {
         context.moveTo(item.x - 3.5, item.y - 3.5);
         context.rect(item.x - 3.5, item.y - 3.5, 7, 7);
       }
     });
   } else if (shape === 'triangle') {
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       if (item !== null && pointIndex == index) {
         context.moveTo(item.x, item.y - 4.5);
         context.lineTo(item.x - 4.5, item.y + 4.5);
@@ -2233,7 +2234,7 @@ function drawRingTitle(opts, config, context, center) {
   var margin = 5;
   if (subtitle) {
     var textWidth = measureText(subtitle, subtitlefontSize * opts.pix, context);
-    var startX = center.x - textWidth / 2 + (opts.subtitle.offsetX|| 0) * opts.pix ;
+    var startX = center.x - textWidth / 2 + (opts.subtitle.offsetX || 0) * opts.pix;
     var startY = center.y + subtitlefontSize * opts.pix / 2 + (opts.subtitle.offsetY || 0) * opts.pix;
     if (title) {
       startY += (titleHeight * opts.pix + margin) / 2;
@@ -2265,7 +2266,7 @@ function drawPointText(points, series, config, context, opts) {
   // 绘制数据文案
   var data = series.data;
   var textOffset = series.textOffset ? series.textOffset : 0;
-  points.forEach(function(item, index) {
+  points.forEach(function (item, index) {
     if (item !== null) {
       context.beginPath();
       var fontSize = series.textSize ? series.textSize * opts.pix : config.fontSize;
@@ -2273,13 +2274,13 @@ function drawPointText(points, series, config, context, opts) {
       context.setFillStyle(series.textColor || opts.fontColor);
       var value = data[index]
       if (typeof data[index] === 'object' && data[index] !== null) {
-        if (data[index].constructor.toString().indexOf('Array')>-1) {
+        if (data[index].constructor.toString().indexOf('Array') > -1) {
           value = data[index][1];
         } else {
           value = data[index].value
         }
       }
-      var formatVal = series.formatter ? series.formatter(value,index,series,opts) : value;
+      var formatVal = series.formatter ? series.formatter(value, index, series, opts) : value;
       context.setTextAlign('center');
       context.fillText(String(formatVal), item.x, item.y - 4 + textOffset * opts.pix);
       context.closePath();
@@ -2294,7 +2295,7 @@ function drawColumePointText(points, series, config, context, opts) {
   var data = series.data;
   var textOffset = series.textOffset ? series.textOffset : 0;
   var Position = opts.extra.column.labelPosition;
-  points.forEach(function(item, index) {
+  points.forEach(function (item, index) {
     if (item !== null) {
       context.beginPath();
       var fontSize = series.textSize ? series.textSize * opts.pix : config.fontSize;
@@ -2302,45 +2303,45 @@ function drawColumePointText(points, series, config, context, opts) {
       context.setFillStyle(series.textColor || opts.fontColor);
       var value = data[index]
       if (typeof data[index] === 'object' && data[index] !== null) {
-        if (data[index].constructor.toString().indexOf('Array')>-1) {
+        if (data[index].constructor.toString().indexOf('Array') > -1) {
           value = data[index][1];
         } else {
           value = data[index].value
         }
       }
-      var formatVal = series.formatter ? series.formatter(value,index,series,opts) : value;
+      var formatVal = series.formatter ? series.formatter(value, index, series, opts) : value;
       context.setTextAlign('center');
       var startY = item.y - 4 * opts.pix + textOffset * opts.pix;
-      if(item.y > series.zeroPoints){
+      if (item.y > series.zeroPoints) {
         startY = item.y + textOffset * opts.pix + fontSize;
       }
-      if(Position == 'insideTop'){
+      if (Position == 'insideTop') {
         startY = item.y + fontSize + textOffset * opts.pix;
-        if(item.y > series.zeroPoints){
+        if (item.y > series.zeroPoints) {
           startY = item.y - textOffset * opts.pix - 4 * opts.pix;
         }
       }
-      if(Position == 'center'){
-        startY = item.y + textOffset * opts.pix + (opts.height - opts.area[2] - item.y + fontSize)/2;
-        if(series.zeroPoints < opts.height - opts.area[2]){
-          startY = item.y + textOffset * opts.pix + (series.zeroPoints - item.y + fontSize)/2;
+      if (Position == 'center') {
+        startY = item.y + textOffset * opts.pix + (opts.height - opts.area[2] - item.y + fontSize) / 2;
+        if (series.zeroPoints < opts.height - opts.area[2]) {
+          startY = item.y + textOffset * opts.pix + (series.zeroPoints - item.y + fontSize) / 2;
         }
-        if(item.y > series.zeroPoints){
-          startY = item.y - textOffset * opts.pix - (item.y - series.zeroPoints - fontSize)/2;
+        if (item.y > series.zeroPoints) {
+          startY = item.y - textOffset * opts.pix - (item.y - series.zeroPoints - fontSize) / 2;
         }
-        if(opts.extra.column.type == 'stack'){
-          startY = item.y + textOffset * opts.pix + (item.y0 - item.y + fontSize)/2;
+        if (opts.extra.column.type == 'stack') {
+          startY = item.y + textOffset * opts.pix + (item.y0 - item.y + fontSize) / 2;
         }
       }
-      if(Position == 'bottom'){
+      if (Position == 'bottom') {
         startY = opts.height - opts.area[2] + textOffset * opts.pix - 4 * opts.pix;
-        if(series.zeroPoints < opts.height - opts.area[2]){
+        if (series.zeroPoints < opts.height - opts.area[2]) {
           startY = series.zeroPoints + textOffset * opts.pix - 4 * opts.pix;
         }
-        if(item.y > series.zeroPoints){
+        if (item.y > series.zeroPoints) {
           startY = series.zeroPoints - textOffset * opts.pix + fontSize + 2 * opts.pix;
         }
-        if(opts.extra.column.type == 'stack'){
+        if (opts.extra.column.type == 'stack') {
           startY = item.y0 + textOffset * opts.pix - 4 * opts.pix;
         }
       }
@@ -2357,17 +2358,17 @@ function drawMountPointText(points, series, config, context, opts, zeroPoints) {
   var data = series.data;
   var textOffset = series.textOffset ? series.textOffset : 0;
   var Position = opts.extra.mount.labelPosition;
-  points.forEach(function(item, index) {
+  points.forEach(function (item, index) {
     if (item !== null) {
       context.beginPath();
       var fontSize = series[index].textSize ? series[index].textSize * opts.pix : config.fontSize;
       context.setFontSize(fontSize);
       context.setFillStyle(series[index].textColor || opts.fontColor);
       var value = item.value
-      var formatVal = series[index].formatter ? series[index].formatter(value,index,series,opts) : value;
+      var formatVal = series[index].formatter ? series[index].formatter(value, index, series, opts) : value;
       context.setTextAlign('center');
       var startY = item.y - 4 * opts.pix + textOffset * opts.pix;
-      if(item.y > zeroPoints){
+      if (item.y > zeroPoints) {
         startY = item.y + textOffset * opts.pix + fontSize;
       }
       context.fillText(String(formatVal), item.x, startY);
@@ -2382,7 +2383,7 @@ function drawBarPointText(points, series, config, context, opts) {
   // 绘制数据文案
   var data = series.data;
   var textOffset = series.textOffset ? series.textOffset : 0;
-  points.forEach(function(item, index) {
+  points.forEach(function (item, index) {
     if (item !== null) {
       context.beginPath();
       var fontSize = series.textSize ? series.textSize * opts.pix : config.fontSize;
@@ -2390,11 +2391,11 @@ function drawBarPointText(points, series, config, context, opts) {
       context.setFillStyle(series.textColor || opts.fontColor);
       var value = data[index]
       if (typeof data[index] === 'object' && data[index] !== null) {
-        value = data[index].value ;
+        value = data[index].value;
       }
-      var formatVal = series.formatter ? series.formatter(value,index,series,opts) : value;
+      var formatVal = series.formatter ? series.formatter(value, index, series, opts) : value;
       context.setTextAlign('left');
-      context.fillText(String(formatVal), item.x + 4 * opts.pix , item.y + fontSize / 2 - 3 );
+      context.fillText(String(formatVal), item.x + 4 * opts.pix, item.y + fontSize / 2 - 3);
       context.closePath();
       context.stroke();
     }
@@ -2420,7 +2421,7 @@ function drawGaugeLabel(gaugeOption, radius, centerPosition, opts, config, conte
       x: radius * Math.cos(nowAngle * Math.PI),
       y: radius * Math.sin(nowAngle * Math.PI)
     };
-    var labelText = gaugeOption.formatter ? gaugeOption.formatter(nowNumber,i,opts) : nowNumber;
+    var labelText = gaugeOption.formatter ? gaugeOption.formatter(nowNumber, i, opts) : nowNumber;
     pos.x += centerPosition.x - measureText(labelText, config.fontSize, context) / 2;
     pos.y += centerPosition.y;
     var startX = pos.x;
@@ -2441,8 +2442,8 @@ function drawGaugeLabel(gaugeOption, radius, centerPosition, opts, config, conte
 
 function drawRadarLabel(angleList, radius, centerPosition, opts, config, context) {
   var radarOption = opts.extra.radar || {};
-  angleList.forEach(function(angle, index) {
-    if(radarOption.labelPointShow === true && opts.categories[index] !== ''){
+  angleList.forEach(function (angle, index) {
+    if (radarOption.labelPointShow === true && opts.categories[index] !== '') {
       var posPoint = {
         x: radius * Math.cos(angle),
         y: radius * Math.sin(angle)
@@ -2454,7 +2455,7 @@ function drawRadarLabel(angleList, radius, centerPosition, opts, config, context
       context.closePath();
       context.fill();
     }
-    if(radarOption.labelShow === true){
+    if (radarOption.labelShow === true) {
       var pos = {
         x: (radius + config.radarLabelTextMargin * opts.pix) * Math.cos(angle),
         y: (radius + config.radarLabelTextMargin * opts.pix) * Math.sin(angle)
@@ -2482,8 +2483,8 @@ function drawPieText(series, opts, config, context, radius, center) {
   var lineRadius = config.pieChartLinePadding;
   var textObjectCollection = [];
   var lastTextObject = null;
-  var seriesConvert = series.map(function(item,index) {
-    var text = item.formatter ? item.formatter(item,index,series,opts) : util.toFixed(item._proportion_.toFixed(4) * 100) + '%';
+  var seriesConvert = series.map(function (item, index) {
+    var text = item.formatter ? item.formatter(item, index, series, opts) : util.toFixed(item._proportion_.toFixed(4) * 100) + '%';
     text = item.labelText ? item.labelText : text;
     var arc = 2 * Math.PI - (item._start_ + 2 * Math.PI * item._proportion_ / 2);
     if (item._rose_proportion_) {
@@ -2515,8 +2516,8 @@ function drawPieText(series, opts, config, context, radius, center) {
     let textWidth = measureText(item.text, item.textSize * opts.pix || config.fontSize, context);
     let startY = orginY3;
     if (lastTextObject && util.isSameXCoordinateArea(lastTextObject.start, {
-        x: orginX3
-      })) {
+      x: orginX3
+    })) {
       if (orginX3 > 0) {
         startY = Math.min(orginY3, lastTextObject.start.y);
       } else if (orginX1 < 0) {
@@ -2556,7 +2557,7 @@ function drawPieText(series, opts, config, context, radius, center) {
     textObjectCollection.push(lastTextObject);
   }
   for (let i = 0; i < textObjectCollection.length; i++) {
-    if(seriesConvert[i].labelShow === false){
+    if (seriesConvert[i].labelShow === false) {
       continue;
     }
     let item = textObjectCollection[i];
@@ -2684,7 +2685,7 @@ function drawMarkLine(opts, config, context) {
       context.setFontSize(fontSize);
       context.setTextAlign('left');
       context.setFillStyle(item.labelFontColor);
-      context.fillText(String(labelText), textX, bgStartY + fontSize + item.labelPadding * opts.pix/2);
+      context.fillText(String(labelText), textX, bgStartY + fontSize + item.labelPadding * opts.pix / 2);
       context.stroke();
       context.setTextAlign('left');
     }
@@ -2777,7 +2778,7 @@ function drawBarToolTipSplitArea(offsetX, opts, config, context, eachSpacing) {
   var endX = opts.width - opts.area[1];
   context.beginPath();
   context.setFillStyle(hexToRgb(toolTipOption.activeBgColor, toolTipOption.activeBgOpacity));
-  context.rect( startX ,offsetX - eachSpacing / 2 ,  endX - startX,eachSpacing);
+  context.rect(startX, offsetX - eachSpacing / 2, endX - startX, eachSpacing);
   context.closePath();
   context.fill();
   context.setFillStyle("#FFFFFF");
@@ -2807,15 +2808,15 @@ function drawToolTip(textList, offset, opts, config, context, eachSpacing, xAxis
     shadowBlur: 0,// 阴影的模糊级别，值越大越模糊，范围 0~100。
     shadowColor: "#000000" // 阴影颜色。
   }, opts.extra.tooltip);
-  if(toolTipOption.showCategory==true && opts.categories){
-    textList.unshift({text:opts.categories[opts.tooltip.index],color:null})
+  if (toolTipOption.showCategory == true && opts.categories) {
+    textList.unshift({ text: opts.categories[opts.tooltip.index], color: null })
   }
   var fontSize = toolTipOption.fontSize * opts.pix;
   var lineHeight = toolTipOption.lineHeight * opts.pix;
   var boxPadding = toolTipOption.boxPadding * opts.pix;
   var legendWidth = fontSize;
   var legendMarginRight = 5 * opts.pix;
-  if(toolTipOption.legendShow == false){
+  if (toolTipOption.legendShow == false) {
     legendWidth = 0;
     legendMarginRight = 0;
   }
@@ -2831,7 +2832,7 @@ function drawToolTip(textList, offset, opts, config, context, eachSpacing, xAxis
     y: 0
   }, offset);
   offset.y -= 8 * opts.pix;
-  var textWidth = textList.map(function(item) {
+  var textWidth = textList.map(function (item) {
     return measureText(item.text, fontSize, context);
   });
   var toolTipWidth = legendWidth + legendMarginRight + 4 * boxPadding + Math.max.apply(null, textWidth);
@@ -2855,10 +2856,10 @@ function drawToolTip(textList, offset, opts, config, context, eachSpacing, xAxis
   var radius = toolTipOption.borderRadius;
   if (isOverRightBorder) {
     // 增加左侧仍然超出的判断
-    if(toolTipWidth + arrowWidth > opts.width){
+    if (toolTipWidth + arrowWidth > opts.width) {
       offset.x = opts.width + Math.abs(opts._scrollDistance_ || 0) + arrowWidth + (toolTipWidth - opts.width)
     }
-    if(toolTipWidth > offset.x){
+    if (toolTipWidth > offset.x) {
       offset.x = opts.width + Math.abs(opts._scrollDistance_ || 0) + arrowWidth + (toolTipWidth - opts.width)
     }
     if (toolTipOption.showArrow) {
@@ -2891,15 +2892,15 @@ function drawToolTip(textList, offset, opts, config, context, eachSpacing, xAxis
     }
   }
   context.closePath();
-  context.setShadow(toolTipOption.shadowOffsetX, toolTipOption.shadowOffsetY, toolTipOption.shadowBlur, toolTipOption.shadowColor);  
+  context.setShadow(toolTipOption.shadowOffsetX, toolTipOption.shadowOffsetY, toolTipOption.shadowBlur, toolTipOption.shadowColor);
   context.fill();
   if (toolTipOption.borderWidth > 0) {
     context.stroke();
   }
   context.restore();
   // draw legend
-  if(toolTipOption.legendShow){
-    textList.forEach(function(item, index) {
+  if (toolTipOption.legendShow) {
+    textList.forEach(function (item, index) {
       if (item.color !== null) {
         context.beginPath();
         context.setFillStyle(item.color);
@@ -2947,14 +2948,14 @@ function drawToolTip(textList, offset, opts, config, context, eachSpacing, xAxis
       }
     });
   }
-  
+
   // draw text list
-  textList.forEach(function(item, index) {
+  textList.forEach(function (item, index) {
     var startX = offset.x + arrowWidth + 2 * boxPadding + legendWidth + legendMarginRight;
     if (isOverRightBorder) {
       startX = offset.x - toolTipWidth - arrowWidth + 2 * boxPadding + legendWidth + legendMarginRight;
     }
-    var startY = offset.y + lineHeight * index + (lineHeight - fontSize)/2 - 1 + boxPadding + fontSize;
+    var startY = offset.y + lineHeight * index + (lineHeight - fontSize) / 2 - 1 + boxPadding + fontSize;
     context.beginPath();
     context.setFontSize(fontSize);
     context.setTextBaseline('normal');
@@ -2997,12 +2998,12 @@ function drawColumnDataPoints(series, opts, config, context) {
     drawToolTipSplitArea(opts.tooltip.offset.x, opts, config, context, eachSpacing);
   }
   columnOption.customColor = fillCustomColor(columnOption.linearType, columnOption.customColor, series, config);
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
     maxRange = ranges.shift();
-    
+
     // 计算0轴坐标
     let spacingValid = opts.height - opts.area[0] - opts.area[2];
     let zeroHeight = spacingValid * (0 - minRange) / (maxRange - minRange);
@@ -3032,7 +3033,7 @@ function drawColumnDataPoints(series, opts, config, context) {
                 grd.addColorStop(1, hexToRgb(fillColor, 1));
               } else {
                 grd.addColorStop(0, hexToRgb(columnOption.customColor[eachSeries.linearIndex], columnOption.linearOpacity));
-                grd.addColorStop(columnOption.colorStop, hexToRgb(columnOption.customColor[eachSeries.linearIndex],columnOption.linearOpacity));
+                grd.addColorStop(columnOption.colorStop, hexToRgb(columnOption.customColor[eachSeries.linearIndex], columnOption.linearOpacity));
                 grd.addColorStop(1, hexToRgb(fillColor, 1));
               }
               fillColor = grd
@@ -3046,11 +3047,11 @@ function drawColumnDataPoints(series, opts, config, context) {
               if (columnOption.barBorderCircle) {
                 columnOption.barBorderRadius = [width / 2, width / 2, 0, 0];
               }
-              if(item.y > zeroPoints){
-                columnOption.barBorderRadius = [0, 0,width / 2, width / 2];
+              if (item.y > zeroPoints) {
+                columnOption.barBorderRadius = [0, 0, width / 2, width / 2];
               }
               let [r0, r1, r2, r3] = columnOption.barBorderRadius;
-              let minRadius = Math.min(width/2,height/2);
+              let minRadius = Math.min(width / 2, height / 2);
               r0 = r0 > minRadius ? minRadius : r0;
               r1 = r1 > minRadius ? minRadius : r1;
               r2 = r2 > minRadius ? minRadius : r2;
@@ -3108,65 +3109,65 @@ function drawColumnDataPoints(series, opts, config, context) {
         var points = getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, process);
         calPoints.push(points);
         points = fixColumeMeterData(points, eachSpacing, series.length, seriesIndex, config, opts, columnOption.meterBorder);
-          for (let i = 0; i < points.length; i++) {
-            let item = points[i];
-            if (item !== null && i > leftNum && i < rightNum) {
-              //画背景颜色
-              context.beginPath();
-              if (seriesIndex == 0 && columnOption.meterBorder > 0) {
-                context.setStrokeStyle(eachSeries.color);
-                context.setLineWidth(columnOption.meterBorder * opts.pix);
+        for (let i = 0; i < points.length; i++) {
+          let item = points[i];
+          if (item !== null && i > leftNum && i < rightNum) {
+            //画背景颜色
+            context.beginPath();
+            if (seriesIndex == 0 && columnOption.meterBorder > 0) {
+              context.setStrokeStyle(eachSeries.color);
+              context.setLineWidth(columnOption.meterBorder * opts.pix);
+            }
+            if (seriesIndex == 0) {
+              context.setFillStyle(columnOption.meterFillColor);
+            } else {
+              context.setFillStyle(item.color || eachSeries.color);
+            }
+            var startX = item.x - item.width / 2;
+            var height = opts.height - item.y - opts.area[2];
+            if ((columnOption.barBorderRadius && columnOption.barBorderRadius.length === 4) || columnOption.barBorderCircle === true) {
+              const left = startX;
+              const top = item.y;
+              const width = item.width;
+              const height = zeroPoints - item.y;
+              if (columnOption.barBorderCircle) {
+                columnOption.barBorderRadius = [width / 2, width / 2, 0, 0];
               }
-              if(seriesIndex == 0){
-                context.setFillStyle(columnOption.meterFillColor);
-              }else{
-                context.setFillStyle(item.color || eachSeries.color);
-              }
-              var startX = item.x - item.width / 2;
-              var height = opts.height - item.y - opts.area[2];
-              if ((columnOption.barBorderRadius && columnOption.barBorderRadius.length === 4) || columnOption.barBorderCircle === true) {
-                const left = startX;
-                const top = item.y;
-                const width = item.width;
-                const height = zeroPoints - item.y;
-                if (columnOption.barBorderCircle) {
-                  columnOption.barBorderRadius = [width / 2, width / 2, 0, 0];
-                }
-                let [r0, r1, r2, r3] = columnOption.barBorderRadius;
-                let minRadius = Math.min(width/2,height/2);
-                r0 = r0 > minRadius ? minRadius : r0;
-                r1 = r1 > minRadius ? minRadius : r1;
-                r2 = r2 > minRadius ? minRadius : r2;
-                r3 = r3 > minRadius ? minRadius : r3;
-                r0 = r0 < 0 ? 0 : r0;
-                r1 = r1 < 0 ? 0 : r1;
-                r2 = r2 < 0 ? 0 : r2;
-                r3 = r3 < 0 ? 0 : r3;
-                context.arc(left + r0, top + r0, r0, -Math.PI, -Math.PI / 2);
-                context.arc(left + width - r1, top + r1, r1, -Math.PI / 2, 0);
-                context.arc(left + width - r2, top + height - r2, r2, 0, Math.PI / 2);
-                context.arc(left + r3, top + height - r3, r3, Math.PI / 2, Math.PI);
-                context.fill();
-              }else{
-                context.moveTo(startX, item.y);
-                context.lineTo(startX + item.width, item.y);
-                context.lineTo(startX + item.width, zeroPoints);
-                context.lineTo(startX, zeroPoints);
-                context.lineTo(startX, item.y);
-                context.fill();
-              }
-              if (seriesIndex == 0 && columnOption.meterBorder > 0) {
-                context.closePath();
-                context.stroke();
-              }
+              let [r0, r1, r2, r3] = columnOption.barBorderRadius;
+              let minRadius = Math.min(width / 2, height / 2);
+              r0 = r0 > minRadius ? minRadius : r0;
+              r1 = r1 > minRadius ? minRadius : r1;
+              r2 = r2 > minRadius ? minRadius : r2;
+              r3 = r3 > minRadius ? minRadius : r3;
+              r0 = r0 < 0 ? 0 : r0;
+              r1 = r1 < 0 ? 0 : r1;
+              r2 = r2 < 0 ? 0 : r2;
+              r3 = r3 < 0 ? 0 : r3;
+              context.arc(left + r0, top + r0, r0, -Math.PI, -Math.PI / 2);
+              context.arc(left + width - r1, top + r1, r1, -Math.PI / 2, 0);
+              context.arc(left + width - r2, top + height - r2, r2, 0, Math.PI / 2);
+              context.arc(left + r3, top + height - r3, r3, Math.PI / 2, Math.PI);
+              context.fill();
+            } else {
+              context.moveTo(startX, item.y);
+              context.lineTo(startX + item.width, item.y);
+              context.lineTo(startX + item.width, zeroPoints);
+              context.lineTo(startX, zeroPoints);
+              context.lineTo(startX, item.y);
+              context.fill();
+            }
+            if (seriesIndex == 0 && columnOption.meterBorder > 0) {
+              context.closePath();
+              context.stroke();
             }
           }
+        }
         break;
     }
   });
 
   if (opts.dataLabel !== false && process === 1) {
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
@@ -3225,190 +3226,190 @@ function drawMountDataPoints(series, opts, config, context) {
     rightNum = leftNum + opts.xAxis.itemCount + 4;
   }
   mountOption.customColor = fillCustomColor(mountOption.linearType, mountOption.customColor, series, config);
-    let ranges, minRange, maxRange;
-    ranges = [].concat(opts.chartData.yAxisData.ranges[0]);
-    minRange = ranges.pop();
-    maxRange = ranges.shift();
-    
-    // 计算0轴坐标
-    let spacingValid = opts.height - opts.area[0] - opts.area[2];
-    let zeroHeight = spacingValid * (0 - minRange) / (maxRange - minRange);
-    let zeroPoints = opts.height - Math.round(zeroHeight) - opts.area[2];
-    
-    var points = getMountDataPoints(series, minRange, maxRange, xAxisPoints, eachSpacing, opts, mountOption, zeroPoints, process);
-    switch (mountOption.type) {
-      case 'bar':
-        for (let i = 0; i < points.length; i++) {
-          let item = points[i];
-          if (item !== null && i > leftNum && i < rightNum) {
-            var startX = item.x - eachSpacing*mountOption.widthRatio/2;
-            var height = opts.height - item.y - opts.area[2];
-            context.beginPath();
-            var fillColor = item.color || series[i].color
-            var strokeColor = item.color || series[i].color
-            if (mountOption.linearType !== 'none') {
-              var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
-              //透明渐变
-              if (mountOption.linearType == 'opacity') {
-                grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              } else {
-                grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
-                grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex],mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              }
-              fillColor = grd
-            }
-            // 圆角边框
-            if ((mountOption.barBorderRadius && mountOption.barBorderRadius.length === 4) || mountOption.barBorderCircle === true) {
-              const left = startX;
-              const top = item.y > zeroPoints ? zeroPoints : item.y;
-              const width = item.width;
-              const height = Math.abs(zeroPoints - item.y);
-              if (mountOption.barBorderCircle) {
-                mountOption.barBorderRadius = [width / 2, width / 2, 0, 0];
-              }
-              if(item.y > zeroPoints){
-                mountOption.barBorderRadius = [0, 0,width / 2, width / 2];
-              }
-              let [r0, r1, r2, r3] = mountOption.barBorderRadius;
-              let minRadius = Math.min(width/2,height/2);
-              r0 = r0 > minRadius ? minRadius : r0;
-              r1 = r1 > minRadius ? minRadius : r1;
-              r2 = r2 > minRadius ? minRadius : r2;
-              r3 = r3 > minRadius ? minRadius : r3;
-              r0 = r0 < 0 ? 0 : r0;
-              r1 = r1 < 0 ? 0 : r1;
-              r2 = r2 < 0 ? 0 : r2;
-              r3 = r3 < 0 ? 0 : r3;
-              context.arc(left + r0, top + r0, r0, -Math.PI, -Math.PI / 2);
-              context.arc(left + width - r1, top + r1, r1, -Math.PI / 2, 0);
-              context.arc(left + width - r2, top + height - r2, r2, 0, Math.PI / 2);
-              context.arc(left + r3, top + height - r3, r3, Math.PI / 2, Math.PI);
+  let ranges, minRange, maxRange;
+  ranges = [].concat(opts.chartData.yAxisData.ranges[0]);
+  minRange = ranges.pop();
+  maxRange = ranges.shift();
+
+  // 计算0轴坐标
+  let spacingValid = opts.height - opts.area[0] - opts.area[2];
+  let zeroHeight = spacingValid * (0 - minRange) / (maxRange - minRange);
+  let zeroPoints = opts.height - Math.round(zeroHeight) - opts.area[2];
+
+  var points = getMountDataPoints(series, minRange, maxRange, xAxisPoints, eachSpacing, opts, mountOption, zeroPoints, process);
+  switch (mountOption.type) {
+    case 'bar':
+      for (let i = 0; i < points.length; i++) {
+        let item = points[i];
+        if (item !== null && i > leftNum && i < rightNum) {
+          var startX = item.x - eachSpacing * mountOption.widthRatio / 2;
+          var height = opts.height - item.y - opts.area[2];
+          context.beginPath();
+          var fillColor = item.color || series[i].color
+          var strokeColor = item.color || series[i].color
+          if (mountOption.linearType !== 'none') {
+            var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
+            //透明渐变
+            if (mountOption.linearType == 'opacity') {
+              grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
             } else {
-              context.moveTo(startX, item.y);
-              context.lineTo(startX + item.width, item.y);
-              context.lineTo(startX + item.width, zeroPoints);
-              context.lineTo(startX, zeroPoints);
-              context.lineTo(startX, item.y);
+              grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
             }
-            context.setStrokeStyle(strokeColor);
-            context.setFillStyle(fillColor);
-            if(mountOption.borderWidth > 0){
-              context.setLineWidth(mountOption.borderWidth * opts.pix);
-              context.closePath();
-              context.stroke();
-            }
-            context.fill();
+            fillColor = grd
           }
-        };
-        break;
-      case 'triangle':
-        for (let i = 0; i < points.length; i++) {
-          let item = points[i];
-          if (item !== null && i > leftNum && i < rightNum) {
-            var startX = item.x - eachSpacing*mountOption.widthRatio/2;
-            var height = opts.height - item.y - opts.area[2];
-            context.beginPath();
-            var fillColor = item.color || series[i].color
-            var strokeColor = item.color || series[i].color
-            if (mountOption.linearType !== 'none') {
-              var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
-              //透明渐变
-              if (mountOption.linearType == 'opacity') {
-                grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              } else {
-                grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
-                grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex],mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              }
-              fillColor = grd
+          // 圆角边框
+          if ((mountOption.barBorderRadius && mountOption.barBorderRadius.length === 4) || mountOption.barBorderCircle === true) {
+            const left = startX;
+            const top = item.y > zeroPoints ? zeroPoints : item.y;
+            const width = item.width;
+            const height = Math.abs(zeroPoints - item.y);
+            if (mountOption.barBorderCircle) {
+              mountOption.barBorderRadius = [width / 2, width / 2, 0, 0];
             }
-            context.moveTo(startX, zeroPoints);
-            context.lineTo(item.x, item.y);
+            if (item.y > zeroPoints) {
+              mountOption.barBorderRadius = [0, 0, width / 2, width / 2];
+            }
+            let [r0, r1, r2, r3] = mountOption.barBorderRadius;
+            let minRadius = Math.min(width / 2, height / 2);
+            r0 = r0 > minRadius ? minRadius : r0;
+            r1 = r1 > minRadius ? minRadius : r1;
+            r2 = r2 > minRadius ? minRadius : r2;
+            r3 = r3 > minRadius ? minRadius : r3;
+            r0 = r0 < 0 ? 0 : r0;
+            r1 = r1 < 0 ? 0 : r1;
+            r2 = r2 < 0 ? 0 : r2;
+            r3 = r3 < 0 ? 0 : r3;
+            context.arc(left + r0, top + r0, r0, -Math.PI, -Math.PI / 2);
+            context.arc(left + width - r1, top + r1, r1, -Math.PI / 2, 0);
+            context.arc(left + width - r2, top + height - r2, r2, 0, Math.PI / 2);
+            context.arc(left + r3, top + height - r3, r3, Math.PI / 2, Math.PI);
+          } else {
+            context.moveTo(startX, item.y);
+            context.lineTo(startX + item.width, item.y);
             context.lineTo(startX + item.width, zeroPoints);
-            context.setStrokeStyle(strokeColor);
-            context.setFillStyle(fillColor);
-            if(mountOption.borderWidth > 0){
-              context.setLineWidth(mountOption.borderWidth * opts.pix);
-              context.stroke();
-            }
-            context.fill();
+            context.lineTo(startX, zeroPoints);
+            context.lineTo(startX, item.y);
           }
-        };
-        break;
-      case 'mount':
-        for (let i = 0; i < points.length; i++) {
-          let item = points[i];
-          if (item !== null && i > leftNum && i < rightNum) {
-            var startX = item.x - eachSpacing*mountOption.widthRatio/2;
-            var height = opts.height - item.y - opts.area[2];
-            context.beginPath();
-            var fillColor = item.color || series[i].color
-            var strokeColor = item.color || series[i].color
-            if (mountOption.linearType !== 'none') {
-              var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
-              //透明渐变
-              if (mountOption.linearType == 'opacity') {
-                grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              } else {
-                grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
-                grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex],mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              }
-              fillColor = grd
-            }
-            context.moveTo(startX, zeroPoints);
-            context.bezierCurveTo(item.x - item.width/4, zeroPoints, item.x - item.width/4, item.y, item.x, item.y);
-            context.bezierCurveTo(item.x + item.width/4, item.y, item.x + item.width/4, zeroPoints, startX + item.width, zeroPoints);
-            context.setStrokeStyle(strokeColor);
-            context.setFillStyle(fillColor);
-            if(mountOption.borderWidth > 0){
-              context.setLineWidth(mountOption.borderWidth * opts.pix);
-              context.stroke();
-            }
-            context.fill();
+          context.setStrokeStyle(strokeColor);
+          context.setFillStyle(fillColor);
+          if (mountOption.borderWidth > 0) {
+            context.setLineWidth(mountOption.borderWidth * opts.pix);
+            context.closePath();
+            context.stroke();
           }
-        };
-        break;
-      case 'sharp':
-        for (let i = 0; i < points.length; i++) {
-          let item = points[i];
-          if (item !== null && i > leftNum && i < rightNum) {
-            var startX = item.x - eachSpacing*mountOption.widthRatio/2;
-            var height = opts.height - item.y - opts.area[2];
-            context.beginPath();
-            var fillColor = item.color || series[i].color
-            var strokeColor = item.color || series[i].color
-            if (mountOption.linearType !== 'none') {
-              var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
-              //透明渐变
-              if (mountOption.linearType == 'opacity') {
-                grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              } else {
-                grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
-                grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex],mountOption.linearOpacity));
-                grd.addColorStop(1, hexToRgb(fillColor, 1));
-              }
-              fillColor = grd
+          context.fill();
+        }
+      };
+      break;
+    case 'triangle':
+      for (let i = 0; i < points.length; i++) {
+        let item = points[i];
+        if (item !== null && i > leftNum && i < rightNum) {
+          var startX = item.x - eachSpacing * mountOption.widthRatio / 2;
+          var height = opts.height - item.y - opts.area[2];
+          context.beginPath();
+          var fillColor = item.color || series[i].color
+          var strokeColor = item.color || series[i].color
+          if (mountOption.linearType !== 'none') {
+            var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
+            //透明渐变
+            if (mountOption.linearType == 'opacity') {
+              grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
+            } else {
+              grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
             }
-            context.moveTo(startX, zeroPoints);
-            context.quadraticCurveTo(item.x - 0, zeroPoints - height/4, item.x, item.y);
-            context.quadraticCurveTo(item.x + 0, zeroPoints - height/4, startX + item.width, zeroPoints)
-            context.setStrokeStyle(strokeColor);
-            context.setFillStyle(fillColor);
-            if(mountOption.borderWidth > 0){
-              context.setLineWidth(mountOption.borderWidth * opts.pix);
-              context.stroke();
-            }
-            context.fill();
+            fillColor = grd
           }
-        };
-        break;
-    }
+          context.moveTo(startX, zeroPoints);
+          context.lineTo(item.x, item.y);
+          context.lineTo(startX + item.width, zeroPoints);
+          context.setStrokeStyle(strokeColor);
+          context.setFillStyle(fillColor);
+          if (mountOption.borderWidth > 0) {
+            context.setLineWidth(mountOption.borderWidth * opts.pix);
+            context.stroke();
+          }
+          context.fill();
+        }
+      };
+      break;
+    case 'mount':
+      for (let i = 0; i < points.length; i++) {
+        let item = points[i];
+        if (item !== null && i > leftNum && i < rightNum) {
+          var startX = item.x - eachSpacing * mountOption.widthRatio / 2;
+          var height = opts.height - item.y - opts.area[2];
+          context.beginPath();
+          var fillColor = item.color || series[i].color
+          var strokeColor = item.color || series[i].color
+          if (mountOption.linearType !== 'none') {
+            var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
+            //透明渐变
+            if (mountOption.linearType == 'opacity') {
+              grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
+            } else {
+              grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
+            }
+            fillColor = grd
+          }
+          context.moveTo(startX, zeroPoints);
+          context.bezierCurveTo(item.x - item.width / 4, zeroPoints, item.x - item.width / 4, item.y, item.x, item.y);
+          context.bezierCurveTo(item.x + item.width / 4, item.y, item.x + item.width / 4, zeroPoints, startX + item.width, zeroPoints);
+          context.setStrokeStyle(strokeColor);
+          context.setFillStyle(fillColor);
+          if (mountOption.borderWidth > 0) {
+            context.setLineWidth(mountOption.borderWidth * opts.pix);
+            context.stroke();
+          }
+          context.fill();
+        }
+      };
+      break;
+    case 'sharp':
+      for (let i = 0; i < points.length; i++) {
+        let item = points[i];
+        if (item !== null && i > leftNum && i < rightNum) {
+          var startX = item.x - eachSpacing * mountOption.widthRatio / 2;
+          var height = opts.height - item.y - opts.area[2];
+          context.beginPath();
+          var fillColor = item.color || series[i].color
+          var strokeColor = item.color || series[i].color
+          if (mountOption.linearType !== 'none') {
+            var grd = context.createLinearGradient(startX, item.y, startX, zeroPoints);
+            //透明渐变
+            if (mountOption.linearType == 'opacity') {
+              grd.addColorStop(0, hexToRgb(fillColor, mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
+            } else {
+              grd.addColorStop(0, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(mountOption.colorStop, hexToRgb(mountOption.customColor[series[i].linearIndex], mountOption.linearOpacity));
+              grd.addColorStop(1, hexToRgb(fillColor, 1));
+            }
+            fillColor = grd
+          }
+          context.moveTo(startX, zeroPoints);
+          context.quadraticCurveTo(item.x - 0, zeroPoints - height / 4, item.x, item.y);
+          context.quadraticCurveTo(item.x + 0, zeroPoints - height / 4, startX + item.width, zeroPoints)
+          context.setStrokeStyle(strokeColor);
+          context.setFillStyle(fillColor);
+          if (mountOption.borderWidth > 0) {
+            context.setLineWidth(mountOption.borderWidth * opts.pix);
+            context.stroke();
+          }
+          context.fill();
+        }
+      };
+      break;
+  }
 
   if (opts.dataLabel !== false && process === 1) {
     let ranges, minRange, maxRange;
@@ -3429,7 +3430,7 @@ function drawMountDataPoints(series, opts, config, context) {
 function drawBarDataPoints(series, opts, config, context) {
   let process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
   let yAxisPoints = [];
-  let eachSpacing = (opts.height - opts.area[0] - opts.area[2])/opts.categories.length;
+  let eachSpacing = (opts.height - opts.area[0] - opts.area[2]) / opts.categories.length;
   for (let i = 0; i < opts.categories.length; i++) {
     yAxisPoints.push(opts.area[0] + eachSpacing / 2 + eachSpacing * i);
   }
@@ -3454,7 +3455,7 @@ function drawBarDataPoints(series, opts, config, context) {
     drawBarToolTipSplitArea(opts.tooltip.offset.y, opts, config, context, eachSpacing);
   }
   columnOption.customColor = fillCustomColor(columnOption.linearType, columnOption.customColor, series, config);
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.xAxisData.ranges);
     maxRange = ranges.pop();
@@ -3485,7 +3486,7 @@ function drawBarDataPoints(series, opts, config, context) {
                 grd.addColorStop(1, hexToRgb(fillColor, 1));
               } else {
                 grd.addColorStop(0, hexToRgb(columnOption.customColor[eachSeries.linearIndex], columnOption.linearOpacity));
-                grd.addColorStop(columnOption.colorStop, hexToRgb(columnOption.customColor[eachSeries.linearIndex],columnOption.linearOpacity));
+                grd.addColorStop(columnOption.colorStop, hexToRgb(columnOption.customColor[eachSeries.linearIndex], columnOption.linearOpacity));
                 grd.addColorStop(1, hexToRgb(fillColor, 1));
               }
               fillColor = grd
@@ -3500,7 +3501,7 @@ function drawBarDataPoints(series, opts, config, context) {
                 columnOption.barBorderRadius = [width / 2, width / 2, 0, 0];
               }
               let [r0, r1, r2, r3] = columnOption.barBorderRadius;
-              let minRadius = Math.min(width/2,height/2);
+              let minRadius = Math.min(width / 2, height / 2);
               r0 = r0 > minRadius ? minRadius : r0;
               r1 = r1 > minRadius ? minRadius : r1;
               r2 = r2 > minRadius ? minRadius : r2;
@@ -3509,7 +3510,7 @@ function drawBarDataPoints(series, opts, config, context) {
               r1 = r1 < 0 ? 0 : r1;
               r2 = r2 < 0 ? 0 : r2;
               r3 = r3 < 0 ? 0 : r3;
-              
+
               context.arc(left + r3, top + r3, r3, -Math.PI, -Math.PI / 2);
               context.arc(item.x - r0, top + r0, r0, -Math.PI / 2, 0);
               context.arc(item.x - r1, top + width - r1, r1, 0, Math.PI / 2);
@@ -3542,8 +3543,8 @@ function drawBarDataPoints(series, opts, config, context) {
             var fillColor = item.color || eachSeries.color;
             var startX = item.x0;
             context.setFillStyle(fillColor);
-            context.moveTo(startX, item.y - item.width/2);
-            context.fillRect(startX, item.y - item.width/2, item.height , item.width);
+            context.moveTo(startX, item.y - item.width / 2);
+            context.fillRect(startX, item.y - item.width / 2, item.height, item.width);
             context.closePath();
             context.fill();
           }
@@ -3553,7 +3554,7 @@ function drawBarDataPoints(series, opts, config, context) {
   });
 
   if (opts.dataLabel !== false && process === 1) {
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.xAxisData.ranges);
       maxRange = ranges.pop();
@@ -3616,14 +3617,14 @@ function drawCandleDataPoints(series, seriesMA, opts, config, context) {
   }
   //画均线
   if (candleOption.average.show || seriesMA) { //Merge pull request !12 from 邱贵翔
-    seriesMA.forEach(function(eachSeries, seriesIndex) {
+    seriesMA.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
       maxRange = ranges.shift();
       var data = eachSeries.data;
       var points = getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, process);
-      var splitPointList = splitPoints(points,eachSeries);
+      var splitPointList = splitPoints(points, eachSeries);
       for (let i = 0; i < splitPointList.length; i++) {
         let points = splitPointList[i];
         context.beginPath();
@@ -3655,7 +3656,7 @@ function drawCandleDataPoints(series, seriesMA, opts, config, context) {
     });
   }
   //画K线
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
@@ -3663,7 +3664,7 @@ function drawCandleDataPoints(series, seriesMA, opts, config, context) {
     var data = eachSeries.data;
     var points = getCandleDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, process);
     calPoints.push(points);
-    var splitPointList = splitPoints(points,eachSeries);
+    var splitPointList = splitPoints(points, eachSeries);
     for (let i = 0; i < splitPointList[0].length; i++) {
       if (i > leftNum && i < rightNum) {
         let item = splitPointList[0][i];
@@ -3737,7 +3738,7 @@ function drawAreaDataPoints(series, opts, config, context) {
     leftSpace = -opts._scrollDistance_ - eachSpacing * 2 + opts.area[3];
     rightSpace = leftSpace + (opts.xAxis.itemCount + 4) * eachSpacing;
   }
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
@@ -3745,7 +3746,7 @@ function drawAreaDataPoints(series, opts, config, context) {
     let data = eachSeries.data;
     let points = getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, process);
     calPoints.push(points);
-    let splitPointList = splitPoints(points,eachSeries);
+    let splitPointList = splitPoints(points, eachSeries);
     for (let i = 0; i < splitPointList.length; i++) {
       let points = splitPointList[i];
       // 绘制区域数
@@ -3777,7 +3778,7 @@ function drawAreaDataPoints(series, opts, config, context) {
               context.bezierCurveTo(ctrlPoint.ctrA.x, ctrlPoint.ctrA.y, ctrlPoint.ctrB.x, ctrlPoint.ctrB.y, item.x, item.y);
             }
           };
-        } 
+        }
         if (areaOption.type === 'straight') {
           for (let j = 0; j < points.length; j++) {
             let item = points[j];
@@ -3880,11 +3881,11 @@ function drawAreaDataPoints(series, opts, config, context) {
     if (opts.dataPointShape !== false) {
       drawPointShape(points, eachSeries.color, eachSeries.pointShape, context, opts);
     }
-    drawActivePoint(points, eachSeries.color, eachSeries.pointShape, context, opts, areaOption,seriesIndex);
+    drawActivePoint(points, eachSeries.color, eachSeries.pointShape, context, opts, areaOption, seriesIndex);
   });
 
   if (opts.dataLabel !== false && process === 1) {
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
@@ -3919,7 +3920,7 @@ function drawScatterDataPoints(series, opts, config, context) {
     leftSpace = -opts._scrollDistance_ - eachSpacing * 2 + opts.area[3];
     rightSpace = leftSpace + (opts.xAxis.itemCount + 4) * eachSpacing;
   }
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
@@ -3932,7 +3933,7 @@ function drawScatterDataPoints(series, opts, config, context) {
     context.setLineWidth(1 * opts.pix);
     var shape = eachSeries.pointShape;
     if (shape === 'diamond') {
-      points.forEach(function(item, index) {
+      points.forEach(function (item, index) {
         if (item !== null) {
           context.moveTo(item.x, item.y - 4.5);
           context.lineTo(item.x - 4.5, item.y);
@@ -3942,21 +3943,21 @@ function drawScatterDataPoints(series, opts, config, context) {
         }
       });
     } else if (shape === 'circle') {
-      points.forEach(function(item, index) {
+      points.forEach(function (item, index) {
         if (item !== null) {
           context.moveTo(item.x + 2.5 * opts.pix, item.y);
           context.arc(item.x, item.y, 3 * opts.pix, 0, 2 * Math.PI, false);
         }
       });
     } else if (shape === 'square') {
-      points.forEach(function(item, index) {
+      points.forEach(function (item, index) {
         if (item !== null) {
           context.moveTo(item.x - 3.5, item.y - 3.5);
           context.rect(item.x - 3.5, item.y - 3.5, 7, 7);
         }
       });
     } else if (shape === 'triangle') {
-      points.forEach(function(item, index) {
+      points.forEach(function (item, index) {
         if (item !== null) {
           context.moveTo(item.x, item.y - 4.5);
           context.lineTo(item.x - 4.5, item.y + 4.5);
@@ -3972,7 +3973,7 @@ function drawScatterDataPoints(series, opts, config, context) {
     context.stroke();
   });
   if (opts.dataLabel !== false && process === 1) {
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
@@ -3994,7 +3995,7 @@ function drawBubbleDataPoints(series, opts, config, context) {
   var process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
   var bubbleOption = assign({}, {
     opacity: 1,
-    border:2
+    border: 2
   }, opts.extra.bubble);
   let xAxisData = opts.chartData.xAxisData,
     xAxisPoints = xAxisData.xAxisPoints,
@@ -4008,7 +4009,7 @@ function drawBubbleDataPoints(series, opts, config, context) {
     leftSpace = -opts._scrollDistance_ - eachSpacing * 2 + opts.area[3];
     rightSpace = leftSpace + (opts.xAxis.itemCount + 4) * eachSpacing;
   }
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
@@ -4019,22 +4020,22 @@ function drawBubbleDataPoints(series, opts, config, context) {
     context.setStrokeStyle(eachSeries.color);
     context.setLineWidth(bubbleOption.border * opts.pix);
     context.setFillStyle(hexToRgb(eachSeries.color, bubbleOption.opacity));
-    points.forEach(function(item, index) {
+    points.forEach(function (item, index) {
       context.moveTo(item.x + item.r, item.y);
       context.arc(item.x, item.y, item.r * opts.pix, 0, 2 * Math.PI, false);
     });
     context.closePath();
     context.fill();
     context.stroke();
-    
+
     if (opts.dataLabel !== false && process === 1) {
-      points.forEach(function(item, index) {
+      points.forEach(function (item, index) {
         context.beginPath();
         var fontSize = eachSeries.textSize * opts.pix || config.fontSize;
         context.setFontSize(fontSize);
         context.setFillStyle(eachSeries.textColor || "#FFFFFF");
         context.setTextAlign('center');
-        context.fillText(String(item.t), item.x, item.y + fontSize/2);
+        context.fillText(String(item.t), item.x, item.y + fontSize / 2);
         context.closePath();
         context.stroke();
         context.setTextAlign('left');
@@ -4072,7 +4073,7 @@ function drawLineDataPoints(series, opts, config, context) {
     leftSpace = -opts._scrollDistance_ - eachSpacing * 2 + opts.area[3];
     rightSpace = leftSpace + (opts.xAxis.itemCount + 4) * eachSpacing;
   }
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     // 这段很神奇的代码用于解决ios16的setStrokeStyle失效的bug
     context.beginPath();
     context.setStrokeStyle(eachSeries.color);
@@ -4086,7 +4087,7 @@ function drawLineDataPoints(series, opts, config, context) {
     var data = eachSeries.data;
     var points = getLineDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts, config, lineOption, process);
     calPoints.push(points);
-    var splitPointList = splitPoints(points,eachSeries);
+    var splitPointList = splitPoints(points, eachSeries);
     if (eachSeries.lineType == 'dash') {
       let dashLength = eachSeries.dashLength ? eachSeries.dashLength : 8;
       dashLength *= opts.pix;
@@ -4095,7 +4096,7 @@ function drawLineDataPoints(series, opts, config, context) {
     context.beginPath();
     var strokeColor = eachSeries.color;
     if (lineOption.linearType !== 'none' && eachSeries.linearColor && eachSeries.linearColor.length > 0) {
-      var grd = context.createLinearGradient(opts.chartData.xAxisData.startX, opts.height/2, opts.chartData.xAxisData.endX, opts.height/2);
+      var grd = context.createLinearGradient(opts.chartData.xAxisData.startX, opts.height / 2, opts.chartData.xAxisData.endX, opts.height / 2);
       for (var i = 0; i < eachSeries.linearColor.length; i++) {
         grd.addColorStop(eachSeries.linearColor[i][0], hexToRgb(eachSeries.linearColor[i][1], 1));
       }
@@ -4104,11 +4105,11 @@ function drawLineDataPoints(series, opts, config, context) {
     context.setStrokeStyle(strokeColor);
     if (lineOption.onShadow == true && eachSeries.setShadow && eachSeries.setShadow.length > 0) {
       context.setShadow(eachSeries.setShadow[0], eachSeries.setShadow[1], eachSeries.setShadow[2], eachSeries.setShadow[3]);
-    }else{
+    } else {
       context.setShadow(0, 0, 0, 'rgba(0,0,0,0)');
     }
     context.setLineWidth(lineOption.width);
-    splitPointList.forEach(function(points, index) {
+    splitPointList.forEach(function (points, index) {
       if (points.length === 1) {
         context.moveTo(points[0].x, points[0].y);
         // context.arc(points[0].x, points[0].y, 1, 0, 2 * Math.PI);
@@ -4164,7 +4165,7 @@ function drawLineDataPoints(series, opts, config, context) {
     drawActivePoint(points, eachSeries.color, eachSeries.pointShape, context, opts, lineOption);
   });
   if (opts.dataLabel !== false && process === 1) {
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
@@ -4208,7 +4209,7 @@ function drawMixDataPoints(series, opts, config, context) {
   let calPoints = [];
   var columnIndex = 0;
   var columnLength = 0;
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     if (eachSeries.type == 'column') {
       columnLength += 1;
     }
@@ -4226,7 +4227,7 @@ function drawMixDataPoints(series, opts, config, context) {
     rightSpace = leftSpace + (opts.xAxis.itemCount + 4) * eachSpacing;
   }
   columnOption.customColor = fillCustomColor(columnOption.linearType, columnOption.customColor, series, config);
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     let ranges, minRange, maxRange;
     ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
     minRange = ranges.pop();
@@ -4268,7 +4269,7 @@ function drawMixDataPoints(series, opts, config, context) {
               columnOption.barBorderRadius = [width / 2, width / 2, 0, 0];
             }
             let [r0, r1, r2, r3] = columnOption.barBorderRadius;
-            let minRadius = Math.min(width/2,height/2);
+            let minRadius = Math.min(width / 2, height / 2);
             r0 = r0 > minRadius ? minRadius : r0;
             r1 = r1 > minRadius ? minRadius : r1;
             r2 = r2 > minRadius ? minRadius : r2;
@@ -4299,7 +4300,7 @@ function drawMixDataPoints(series, opts, config, context) {
     }
     //绘制区域图数据
     if (eachSeries.type == 'area') {
-      let splitPointList = splitPoints(points,eachSeries);
+      let splitPointList = splitPoints(points, eachSeries);
       for (let i = 0; i < splitPointList.length; i++) {
         let points = splitPointList[i];
         // 绘制区域数据
@@ -4361,8 +4362,8 @@ function drawMixDataPoints(series, opts, config, context) {
     }
     // 绘制折线数据图
     if (eachSeries.type == 'line') {
-      var splitPointList = splitPoints(points,eachSeries);
-      splitPointList.forEach(function(points, index) {
+      var splitPointList = splitPoints(points, eachSeries);
+      splitPointList.forEach(function (points, index) {
         if (eachSeries.lineType == 'dash') {
           let dashLength = eachSeries.dashLength ? eachSeries.dashLength : 8;
           dashLength *= opts.pix;
@@ -4418,7 +4419,7 @@ function drawMixDataPoints(series, opts, config, context) {
   });
   if (opts.dataLabel !== false && process === 1) {
     var columnIndex = 0;
-    series.forEach(function(eachSeries, seriesIndex) {
+    series.forEach(function (eachSeries, seriesIndex) {
       let ranges, minRange, maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
       minRange = ranges.pop();
@@ -4467,7 +4468,7 @@ function drawXAxis(categories, opts, config, context) {
     endX = xAxisData.endX,
     eachSpacing = xAxisData.eachSpacing;
   var boundaryGap = 'center';
-  if (opts.type == 'bar' || opts.type == 'line' || opts.type == 'area'|| opts.type == 'scatter' || opts.type == 'bubble') {
+  if (opts.type == 'bar' || opts.type == 'line' || opts.type == 'area' || opts.type == 'scatter' || opts.type == 'bubble') {
     boundaryGap = opts.xAxis.boundaryGap;
   }
   var startY = opts.height - opts.area[2];
@@ -4478,9 +4479,9 @@ function drawXAxis(categories, opts, config, context) {
     var scrollY = opts.height - opts.area[2] + config.xAxisHeight;
     var scrollScreenWidth = endX - startX;
     var scrollTotalWidth = eachSpacing * (xAxisPoints.length - 1);
-    if(opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1){
-      if(opts.extra.mount.widthRatio>2) opts.extra.mount.widthRatio = 2
-      scrollTotalWidth += (opts.extra.mount.widthRatio - 1)*eachSpacing;
+    if (opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1) {
+      if (opts.extra.mount.widthRatio > 2) opts.extra.mount.widthRatio = 2
+      scrollTotalWidth += (opts.extra.mount.widthRatio - 1) * eachSpacing;
     }
     var scrollWidth = scrollScreenWidth * scrollScreenWidth / scrollTotalWidth;
     var scrollLeft = 0;
@@ -4514,7 +4515,7 @@ function drawXAxis(categories, opts, config, context) {
     context.setStrokeStyle(opts.xAxis.gridColor || "#cccccc");
     context.setLineCap('butt');
     context.setLineWidth(1 * opts.pix);
-    xAxisPoints.forEach(function(item, index) {
+    xAxisPoints.forEach(function (item, index) {
       if (index > 0) {
         context.beginPath();
         context.moveTo(item - eachSpacing / 2, startY);
@@ -4533,7 +4534,7 @@ function drawXAxis(categories, opts, config, context) {
       context.setLineDash([opts.xAxis.dashLength * opts.pix, opts.xAxis.dashLength * opts.pix]);
     }
     opts.xAxis.gridEval = opts.xAxis.gridEval || 1;
-    xAxisPoints.forEach(function(item, index) {
+    xAxisPoints.forEach(function (item, index) {
       if (index % opts.xAxis.gridEval == 0) {
         context.beginPath();
         context.moveTo(item, startY);
@@ -4573,8 +4574,8 @@ function drawXAxis(categories, opts, config, context) {
     newCategories[cgLength - 1] = categories[cgLength - 1];
     var xAxisFontSize = opts.xAxis.fontSize * opts.pix || config.fontSize;
     if (config._xAxisTextAngle_ === 0) {
-      newCategories.forEach(function(item, index) {
-        var xitem = opts.xAxis.formatter ? opts.xAxis.formatter(item,index,opts) : item;
+      newCategories.forEach(function (item, index) {
+        var xitem = opts.xAxis.formatter ? opts.xAxis.formatter(item, index, opts) : item;
         var offset = -measureText(String(xitem), xAxisFontSize, context) / 2;
         if (boundaryGap == 'center') {
           offset += eachSpacing / 2;
@@ -4586,7 +4587,7 @@ function drawXAxis(categories, opts, config, context) {
         // 如果在主视图区域内
         var _scrollDistance_ = opts._scrollDistance_ || 0;
         var truePoints = boundaryGap == 'center' ? xAxisPoints[index] + eachSpacing / 2 : xAxisPoints[index];
-        if((truePoints - Math.abs(_scrollDistance_)) >= (opts.area[3] - 1) && (truePoints - Math.abs(_scrollDistance_)) <= (opts.width - opts.area[1] + 1)){
+        if ((truePoints - Math.abs(_scrollDistance_)) >= (opts.area[3] - 1) && (truePoints - Math.abs(_scrollDistance_)) <= (opts.width - opts.area[1] + 1)) {
           context.beginPath();
           context.setFontSize(xAxisFontSize);
           context.setFillStyle(opts.xAxis.fontColor || opts.fontColor);
@@ -4596,12 +4597,12 @@ function drawXAxis(categories, opts, config, context) {
         }
       });
     } else {
-      newCategories.forEach(function(item, index) {
+      newCategories.forEach(function (item, index) {
         var xitem = opts.xAxis.formatter ? opts.xAxis.formatter(item) : item;
         // 如果在主视图区域内
         var _scrollDistance_ = opts._scrollDistance_ || 0;
         var truePoints = boundaryGap == 'center' ? xAxisPoints[index] + eachSpacing / 2 : xAxisPoints[index];
-        if((truePoints - Math.abs(_scrollDistance_)) >= (opts.area[3] - 1) && (truePoints - Math.abs(_scrollDistance_)) <= (opts.width - opts.area[1] + 1)){
+        if ((truePoints - Math.abs(_scrollDistance_)) >= (opts.area[3] - 1) && (truePoints - Math.abs(_scrollDistance_)) <= (opts.width - opts.area[1] + 1)) {
           context.save();
           context.beginPath();
           context.setFontSize(xAxisFontSize);
@@ -4616,16 +4617,16 @@ function drawXAxis(categories, opts, config, context) {
             scrollHeight = 6 * opts.pix;
           }
           var offsetY = startY + opts.xAxis.marginTop * opts.pix + xAxisFontSize - xAxisFontSize * Math.abs(Math.sin(config._xAxisTextAngle_));
-          if(opts.xAxis.rotateAngle < 0){
+          if (opts.xAxis.rotateAngle < 0) {
             offsetX -= xAxisFontSize / 2;
             textWidth = 0;
-          }else{
+          } else {
             offsetX += xAxisFontSize / 2;
             textWidth = -textWidth;
           }
           context.translate(offsetX, offsetY);
           context.rotate(-1 * config._xAxisTextAngle_);
-          context.fillText(String(xitem), textWidth , 0 );
+          context.fillText(String(xitem), textWidth, 0);
           context.closePath();
           context.stroke();
           context.restore();
@@ -4634,17 +4635,17 @@ function drawXAxis(categories, opts, config, context) {
     }
   }
   context.restore();
-  
+
   //画X轴标题
   if (opts.xAxis.title) {
     context.beginPath();
     context.setFontSize(opts.xAxis.titleFontSize * opts.pix);
     context.setFillStyle(opts.xAxis.titleFontColor);
-    context.fillText(String(opts.xAxis.title), opts.width - opts.area[1] + opts.xAxis.titleOffsetX * opts.pix,opts.height - opts.area[2] + opts.xAxis.marginTop * opts.pix + (opts.xAxis.lineHeight - opts.xAxis.titleFontSize) * opts.pix / 2 + (opts.xAxis.titleFontSize + opts.xAxis.titleOffsetY) * opts.pix);
+    context.fillText(String(opts.xAxis.title), opts.width - opts.area[1] + opts.xAxis.titleOffsetX * opts.pix, opts.height - opts.area[2] + opts.xAxis.marginTop * opts.pix + (opts.xAxis.lineHeight - opts.xAxis.titleFontSize) * opts.pix / 2 + (opts.xAxis.titleFontSize + opts.xAxis.titleOffsetY) * opts.pix);
     context.closePath();
     context.stroke();
   }
-  
+
   //绘制X轴轴线
   if (opts.xAxis.axisLine) {
     context.beginPath();
@@ -4666,8 +4667,8 @@ function drawYAxisGrid(categories, opts, config, context) {
   let xAxisPoints = opts.chartData.xAxisData.xAxisPoints,
     xAxiseachSpacing = opts.chartData.xAxisData.eachSpacing;
   let TotalWidth = xAxiseachSpacing * (xAxisPoints.length - 1);
-  if(opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1 ){
-    if(opts.extra.mount.widthRatio>2) opts.extra.mount.widthRatio = 2
+  if (opts.type == 'mount' && opts.extra && opts.extra.mount && opts.extra.mount.widthRatio && opts.extra.mount.widthRatio > 1) {
+    if (opts.extra.mount.widthRatio > 2) opts.extra.mount.widthRatio = 2
     TotalWidth += (opts.extra.mount.widthRatio - 1) * xAxiseachSpacing;
   }
   let endX = startX + TotalWidth;
@@ -4688,7 +4689,7 @@ function drawYAxisGrid(categories, opts, config, context) {
   }
   context.setStrokeStyle(opts.yAxis.gridColor);
   context.setLineWidth(1 * opts.pix);
-  points.forEach(function(item, index) {
+  points.forEach(function (item, index) {
     context.beginPath();
     context.moveTo(startX, item);
     context.lineTo(endX, item);
@@ -4718,7 +4719,7 @@ function drawYAxis(series, opts, config, context) {
   }
   context.closePath();
   context.stroke();
-  
+
   let tStartLeft = opts.area[3];
   let tStartRight = opts.width - opts.area[1];
   let tStartCenter = opts.area[3] + (opts.width - opts.area[1] - opts.area[3]) / 2;
@@ -4726,11 +4727,11 @@ function drawYAxis(series, opts, config, context) {
     for (let i = 0; i < opts.yAxis.data.length; i++) {
       let yData = opts.yAxis.data[i];
       var points = [];
-      if(yData.type === 'categories'){
+      if (yData.type === 'categories') {
         for (let i = 0; i <= yData.categories.length; i++) {
           points.push(opts.area[0] + spacingValid / yData.categories.length / 2 + spacingValid / yData.categories.length * i);
         }
-      }else{
+      } else {
         for (let i = 0; i <= opts.yAxis.splitNumber; i++) {
           points.push(opts.area[0] + eachSpacing * i);
         }
@@ -4741,7 +4742,7 @@ function drawYAxis(series, opts, config, context) {
         let yAxisWidth = opts.chartData.yAxisData.yAxisWidth[i];
         let textAlign = yData.textAlign || "right";
         //画Y轴刻度及文案
-        rangesFormat.forEach(function(item, index) {
+        rangesFormat.forEach(function (item, index) {
           var pos = points[index];
           context.beginPath();
           context.setFontSize(yAxisFontSize);
@@ -4889,7 +4890,7 @@ function drawLegend(series, opts, config, context, chartData) {
   context.closePath();
   context.fill();
   context.stroke();
-  legendList.forEach(function(itemList, listIndex) {
+  legendList.forEach(function (itemList, listIndex) {
     let width = 0;
     let height = 0;
     width = legendData.widthArr[listIndex];
@@ -4900,12 +4901,12 @@ function drawLegend(series, opts, config, context, chartData) {
       switch (opts.legend.float) {
         case 'left':
           startX = legendArea.start.x + padding;
-        break;
+          break;
         case 'right':
           startX = legendArea.start.x + legendArea.width - width;
-        break;
+          break;
         default:
-        startX = legendArea.start.x + (legendArea.width - width) / 2;
+          startX = legendArea.start.x + (legendArea.width - width) / 2;
       }
       startY = legendArea.start.y + padding + listIndex * lineHeight;
     } else {
@@ -5020,11 +5021,11 @@ function drawPieDataPoints(series, opts, config, context) {
   series = getPieDataPoints(series, radius, process);
   var activeRadius = pieOption.activeRadius * opts.pix;
   pieOption.customColor = fillCustomColor(pieOption.linearType, pieOption.customColor, series, config);
-  series = series.map(function(eachSeries) {
+  series = series.map(function (eachSeries) {
     eachSeries._start_ += (pieOption.offsetAngle) * Math.PI / 180;
     return eachSeries;
   });
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     if (opts.tooltip) {
       if (opts.tooltip.index == seriesIndex) {
         context.beginPath();
@@ -5042,10 +5043,10 @@ function drawPieDataPoints(series, opts, config, context) {
     var fillcolor = eachSeries.color;
     if (pieOption.linearType == 'custom') {
       var grd;
-      if(context.createCircularGradient){
+      if (context.createCircularGradient) {
         grd = context.createCircularGradient(centerPosition.x, centerPosition.y, eachSeries._radius_)
-      }else{
-        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0,centerPosition.x, centerPosition.y, eachSeries._radius_)
+      } else {
+        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0, centerPosition.x, centerPosition.y, eachSeries._radius_)
       }
       grd.addColorStop(0, hexToRgb(pieOption.customColor[eachSeries.linearIndex], 1))
       grd.addColorStop(1, hexToRgb(eachSeries.color, 1))
@@ -5109,17 +5110,17 @@ function drawRoseDataPoints(series, opts, config, context) {
   var radius = Math.min((opts.width - opts.area[1] - opts.area[3]) / 2 - config.pieChartLinePadding - config.pieChartTextPadding - config._pieTextMaxLength_, (opts.height - opts.area[0] - opts.area[2]) / 2 - config.pieChartLinePadding - config.pieChartTextPadding);
   radius = radius < 10 ? 10 : radius;
   var minRadius = roseOption.minRadius || radius * 0.5;
-  if(radius < minRadius){
+  if (radius < minRadius) {
     radius = minRadius + 10;
   }
   series = getRoseDataPoints(series, roseOption.type, minRadius, radius, process);
   var activeRadius = roseOption.activeRadius * opts.pix;
   roseOption.customColor = fillCustomColor(roseOption.linearType, roseOption.customColor, series, config);
-  series = series.map(function(eachSeries) {
+  series = series.map(function (eachSeries) {
     eachSeries._start_ += (roseOption.offsetAngle || 0) * Math.PI / 180;
     return eachSeries;
   });
-  series.forEach(function(eachSeries, seriesIndex) {
+  series.forEach(function (eachSeries, seriesIndex) {
     if (opts.tooltip) {
       if (opts.tooltip.index == seriesIndex) {
         context.beginPath();
@@ -5137,10 +5138,10 @@ function drawRoseDataPoints(series, opts, config, context) {
     var fillcolor = eachSeries.color;
     if (roseOption.linearType == 'custom') {
       var grd;
-      if(context.createCircularGradient){
+      if (context.createCircularGradient) {
         grd = context.createCircularGradient(centerPosition.x, centerPosition.y, eachSeries._radius_)
-      }else{
-        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0,centerPosition.x, centerPosition.y, eachSeries._radius_)
+      } else {
+        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0, centerPosition.x, centerPosition.y, eachSeries._radius_)
       }
       grd.addColorStop(0, hexToRgb(roseOption.customColor[eachSeries.linearIndex], 1))
       grd.addColorStop(1, hexToRgb(eachSeries.color, 1))
@@ -5174,8 +5175,8 @@ function drawArcbarDataPoints(series, opts, config, context) {
     type: 'default',
     direction: 'cw',
     lineCap: 'round',
-    width: 12 ,
-    gap: 2 ,
+    width: 12,
+    gap: 2,
     linearType: 'none',
     customColor: [],
   }, opts.extra.arcbar);
@@ -5202,7 +5203,7 @@ function drawArcbarDataPoints(series, opts, config, context) {
   }
   radius = radius < 10 ? 10 : radius;
   arcbarOption.customColor = fillCustomColor(arcbarOption.linearType, arcbarOption.customColor, series, config);
-  
+
   for (let i = 0; i < series.length; i++) {
     let eachSeries = series[i];
     //背景颜色
@@ -5218,7 +5219,7 @@ function drawArcbarDataPoints(series, opts, config, context) {
     context.stroke();
     //进度条
     var fillColor = eachSeries.color
-    if(arcbarOption.linearType == 'custom'){
+    if (arcbarOption.linearType == 'custom') {
       var grd = context.createLinearGradient(centerPosition.x - radius, centerPosition.y, centerPosition.x + radius, centerPosition.y);
       grd.addColorStop(1, hexToRgb(arcbarOption.customColor[eachSeries.linearIndex], 1))
       grd.addColorStop(0, hexToRgb(eachSeries.color, 1))
@@ -5246,7 +5247,7 @@ function drawGaugeDataPoints(categories, series, opts, config, context) {
     startAngle: 0.75,
     endAngle: 0.25,
     width: 15,
-    labelOffset:13,
+    labelOffset: 13,
     splitLine: {
       fixRadius: 0,
       splitNumber: 10,
@@ -5455,18 +5456,18 @@ function drawRadarDataPoints(series, opts, config, context) {
   var radarOption = assign({}, {
     gridColor: '#cccccc',
     gridType: 'radar',
-    gridEval:1,
-    axisLabel:false,
-    axisLabelTofix:0,
-    labelShow:true,
-    labelColor:'#666666',
-    labelPointShow:false,
-    labelPointRadius:3,
-    labelPointColor:'#cccccc',
+    gridEval: 1,
+    axisLabel: false,
+    axisLabelTofix: 0,
+    labelShow: true,
+    labelColor: '#666666',
+    labelPointShow: false,
+    labelPointRadius: 3,
+    labelPointColor: '#cccccc',
     opacity: 0.2,
     gridCount: 3,
-    border:false,
-    borderWidth:2,
+    border: false,
+    borderWidth: 2,
     linearType: 'none',
     customColor: [],
   }, opts.extra.radar);
@@ -5485,7 +5486,7 @@ function drawRadarDataPoints(series, opts, config, context) {
   context.beginPath();
   context.setLineWidth(1 * opts.pix);
   context.setStrokeStyle(radarOption.gridColor);
-  coordinateAngle.forEach(function(angle,index) {
+  coordinateAngle.forEach(function (angle, index) {
     var pos = convertCoordinateOrigin(radius * Math.cos(angle), radius * Math.sin(angle), centerPosition);
     context.moveTo(centerPosition.x, centerPosition.y);
     if (index % radarOption.gridEval == 0) {
@@ -5494,7 +5495,7 @@ function drawRadarDataPoints(series, opts, config, context) {
   });
   context.stroke();
   context.closePath();
-  
+
   // 画背景网格
   var _loop = function _loop(i) {
     var startPos = {};
@@ -5502,7 +5503,7 @@ function drawRadarDataPoints(series, opts, config, context) {
     context.setLineWidth(1 * opts.pix);
     context.setStrokeStyle(radarOption.gridColor);
     if (radarOption.gridType == 'radar') {
-      coordinateAngle.forEach(function(angle, index) {
+      coordinateAngle.forEach(function (angle, index) {
         var pos = convertCoordinateOrigin(radius / radarOption.gridCount * i * Math.cos(angle), radius /
           radarOption.gridCount * i * Math.sin(angle), centerPosition);
         if (index === 0) {
@@ -5525,27 +5526,27 @@ function drawRadarDataPoints(series, opts, config, context) {
   }
   radarOption.customColor = fillCustomColor(radarOption.linearType, radarOption.customColor, series, config);
   var radarDataPoints = getRadarDataPoints(coordinateAngle, centerPosition, radius, series, opts, process);
-  radarDataPoints.forEach(function(eachSeries, seriesIndex) {
+  radarDataPoints.forEach(function (eachSeries, seriesIndex) {
     // 绘制区域数据
     context.beginPath();
     context.setLineWidth(radarOption.borderWidth * opts.pix);
     context.setStrokeStyle(eachSeries.color);
-    
+
     var fillcolor = hexToRgb(eachSeries.color, radarOption.opacity);
     if (radarOption.linearType == 'custom') {
       var grd;
-      if(context.createCircularGradient){
+      if (context.createCircularGradient) {
         grd = context.createCircularGradient(centerPosition.x, centerPosition.y, radius)
-      }else{
-        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0,centerPosition.x, centerPosition.y, radius)
+      } else {
+        grd = context.createRadialGradient(centerPosition.x, centerPosition.y, 0, centerPosition.x, centerPosition.y, radius)
       }
       grd.addColorStop(0, hexToRgb(radarOption.customColor[series[seriesIndex].linearIndex], radarOption.opacity))
       grd.addColorStop(1, hexToRgb(eachSeries.color, radarOption.opacity))
       fillcolor = grd
     }
-    
+
     context.setFillStyle(fillcolor);
-    eachSeries.data.forEach(function(item, index) {
+    eachSeries.data.forEach(function (item, index) {
       if (index === 0) {
         context.moveTo(item.position.x, item.position.y);
       } else {
@@ -5554,19 +5555,19 @@ function drawRadarDataPoints(series, opts, config, context) {
     });
     context.closePath();
     context.fill();
-    if(radarOption.border === true){
+    if (radarOption.border === true) {
       context.stroke();
     }
     context.closePath();
     if (opts.dataPointShape !== false) {
-      var points = eachSeries.data.map(function(item) {
+      var points = eachSeries.data.map(function (item) {
         return item.position;
       });
       drawPointShape(points, eachSeries.color, eachSeries.pointShape, context, opts);
     }
   });
   // 画刻度值
-  if(radarOption.axisLabel === true){
+  if (radarOption.axisLabel === true) {
     const maxData = Math.max(radarOption.max, Math.max.apply(null, dataCombine(series)));
     const stepLength = radius / radarOption.gridCount;
     const fontSize = opts.fontSize * opts.pix;
@@ -5579,34 +5580,34 @@ function drawRadarDataPoints(series, opts, config, context) {
       context.fillText(String(label), centerPosition.x + 3 * opts.pix, centerPosition.y - i * stepLength + fontSize / 2);
     }
   }
-  
+
   // draw label text
   drawRadarLabel(coordinateAngle, radius, centerPosition, opts, config, context);
-  
+
   // draw dataLabel
   if (opts.dataLabel !== false && process === 1) {
-    radarDataPoints.forEach(function(eachSeries, seriesIndex) {
+    radarDataPoints.forEach(function (eachSeries, seriesIndex) {
       context.beginPath();
       var fontSize = eachSeries.textSize * opts.pix || config.fontSize;
       context.setFontSize(fontSize);
       context.setFillStyle(eachSeries.textColor || opts.fontColor);
-      eachSeries.data.forEach(function(item, index) {
+      eachSeries.data.forEach(function (item, index) {
         //如果是中心点垂直的上下点位
-        if(Math.abs(item.position.x - centerPosition.x)<2){
+        if (Math.abs(item.position.x - centerPosition.x) < 2) {
           //如果在上面
-          if(item.position.y < centerPosition.y){
+          if (item.position.y < centerPosition.y) {
             context.setTextAlign('center');
             context.fillText(item.value, item.position.x, item.position.y - 4);
-          }else{
+          } else {
             context.setTextAlign('center');
             context.fillText(item.value, item.position.x, item.position.y + fontSize + 2);
           }
-        }else{
+        } else {
           //如果在左侧
-          if(item.position.x < centerPosition.x){
+          if (item.position.x < centerPosition.x) {
             context.setTextAlign('right');
             context.fillText(item.value, item.position.x - 4, item.position.y + fontSize / 2 - 2);
-          }else{
+          } else {
             context.setTextAlign('left');
             context.fillText(item.value, item.position.x + 4, item.position.y + fontSize / 2 - 2);
           }
@@ -5617,7 +5618,7 @@ function drawRadarDataPoints(series, opts, config, context) {
     });
     context.setTextAlign('left');
   }
-  
+
   return {
     center: centerPosition,
     radius: radius,
@@ -5648,7 +5649,7 @@ function mercator2lonlat(longitude, latitude) {
 }
 
 function getBoundingBox(data) {
-  var bounds = {},coords;
+  var bounds = {}, coords;
   bounds.xMin = 180;
   bounds.xMax = 0;
   bounds.yMin = 90;
@@ -5749,7 +5750,7 @@ function drawMapDataPoints(series, opts, config, context) {
     border: true,
     mercator: false,
     borderWidth: 1,
-    active:true,
+    active: true,
     borderColor: '#666666',
     fillOpacity: 0.6,
     activeBorderColor: '#f04864',
@@ -5776,7 +5777,7 @@ function drawMapDataPoints(series, opts, config, context) {
     context.beginPath();
     context.setLineWidth(mapOption.borderWidth * opts.pix);
     context.setStrokeStyle(mapOption.borderColor);
-    context.setFillStyle(hexToRgb(series[i].color, series[i].fillOpacity||mapOption.fillOpacity));
+    context.setFillStyle(hexToRgb(series[i].color, series[i].fillOpacity || mapOption.fillOpacity));
     if (mapOption.active == true && opts.tooltip) {
       if (opts.tooltip.index == i) {
         context.setStrokeStyle(mapOption.activeBorderColor);
@@ -5820,7 +5821,7 @@ function drawMapDataPoints(series, opts, config, context) {
         point = coordinateToPoint(centerPoint[1], centerPoint[0], bounds, scale, xoffset, yoffset);
         let fontSize = data[i].textSize * opts.pix || config.fontSize;
         let fontColor = data[i].textColor || opts.fontColor;
-        if(mapOption.active && mapOption.activeTextColor && opts.tooltip && opts.tooltip.index == i){
+        if (mapOption.active && mapOption.activeTextColor && opts.tooltip && opts.tooltip.index == i) {
           fontColor = mapOption.activeTextColor;
         }
         let text = data[i].properties.name;
@@ -5850,7 +5851,7 @@ function normalInt(min, max, iter) {
   for (var i = 0; i < iter; i++) {
     arr[i] = Math.random();
   };
-  return Math.floor(arr.reduce(function(i, j) {
+  return Math.floor(arr.reduce(function (i, j) {
     return i + j
   }) / iter * (max - min)) + min;
 };
@@ -6015,7 +6016,7 @@ function drawWordCloudDataPoints(series, opts, config, context) {
 function drawFunnelDataPoints(series, opts, config, context) {
   let process = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
   let funnelOption = assign({}, {
-    type:'funnel',
+    type: 'funnel',
     activeWidth: 10,
     activeOpacity: 0.3,
     border: false,
@@ -6038,9 +6039,9 @@ function drawFunnelDataPoints(series, opts, config, context) {
   context.save();
   context.translate(centerPosition.x, centerPosition.y);
   funnelOption.customColor = fillCustomColor(funnelOption.linearType, funnelOption.customColor, series, config);
-  if(funnelOption.type == 'pyramid'){
+  if (funnelOption.type == 'pyramid') {
     for (let i = 0; i < seriesNew.length; i++) {
-      if (i == seriesNew.length -1) {
+      if (i == seriesNew.length - 1) {
         if (opts.tooltip) {
           if (opts.tooltip.index == i) {
             context.beginPath();
@@ -6118,7 +6119,7 @@ function drawFunnelDataPoints(series, opts, config, context) {
       }
       context.translate(0, -eachSpacing)
     }
-  }else{
+  } else {
     context.translate(0, - (seriesNew.length - 1) * eachSpacing);
     for (let i = 0; i < seriesNew.length; i++) {
       if (i == seriesNew.length - 1) {
@@ -6126,16 +6127,16 @@ function drawFunnelDataPoints(series, opts, config, context) {
           if (opts.tooltip.index == i) {
             context.beginPath();
             context.setFillStyle(hexToRgb(seriesNew[i].color, funnelOption.activeOpacity));
-            context.moveTo(-activeWidth - funnelOption.minSize/2, 0);
+            context.moveTo(-activeWidth - funnelOption.minSize / 2, 0);
             context.lineTo(-seriesNew[i].radius - activeWidth, -eachSpacing);
             context.lineTo(seriesNew[i].radius + activeWidth, -eachSpacing);
-            context.lineTo(activeWidth + funnelOption.minSize/2, 0);
-            context.lineTo(-activeWidth - funnelOption.minSize/2, 0);
+            context.lineTo(activeWidth + funnelOption.minSize / 2, 0);
+            context.lineTo(-activeWidth - funnelOption.minSize / 2, 0);
             context.closePath();
             context.fill();
           }
         }
-        seriesNew[i].funnelArea = [centerPosition.x - seriesNew[i].radius, centerPosition.y - eachSpacing, centerPosition.x + seriesNew[i].radius, centerPosition.y ];
+        seriesNew[i].funnelArea = [centerPosition.x - seriesNew[i].radius, centerPosition.y - eachSpacing, centerPosition.x + seriesNew[i].radius, centerPosition.y];
         context.beginPath();
         context.setLineWidth(funnelOption.borderWidth * opts.pix);
         context.setStrokeStyle(funnelOption.borderColor);
@@ -6149,10 +6150,10 @@ function drawFunnelDataPoints(series, opts, config, context) {
         }
         context.setFillStyle(fillColor);
         context.moveTo(0, 0);
-        context.lineTo(-funnelOption.minSize/2, 0);
+        context.lineTo(-funnelOption.minSize / 2, 0);
         context.lineTo(-seriesNew[i].radius, -eachSpacing);
         context.lineTo(seriesNew[i].radius, -eachSpacing);
-        context.lineTo(funnelOption.minSize/2, 0);
+        context.lineTo(funnelOption.minSize / 2, 0);
         context.lineTo(0, 0);
         context.closePath();
         context.fill();
@@ -6202,7 +6203,7 @@ function drawFunnelDataPoints(series, opts, config, context) {
       context.translate(0, eachSpacing)
     }
   }
-  
+
   context.restore();
   if (opts.dataLabel !== false && process === 1) {
     drawFunnelText(seriesNew, opts, context, eachSpacing, funnelOption.labelAlign, activeWidth, centerPosition);
@@ -6220,14 +6221,14 @@ function drawFunnelDataPoints(series, opts, config, context) {
 function drawFunnelText(series, opts, context, eachSpacing, labelAlign, activeWidth, centerPosition) {
   for (let i = 0; i < series.length; i++) {
     let item = series[i];
-    if(item.labelShow === false){
+    if (item.labelShow === false) {
       continue;
     }
     let startX, endX, startY, fontSize;
-    let text = item.formatter ? item.formatter(item,i,series,opts) : util.toFixed(item._proportion_ * 100) + '%';
+    let text = item.formatter ? item.formatter(item, i, series, opts) : util.toFixed(item._proportion_ * 100) + '%';
     text = item.labelText ? item.labelText : text;
     if (labelAlign == 'right') {
-      if (i == series.length -1) {
+      if (i == series.length - 1) {
         startX = (item.funnelArea[2] + centerPosition.x) / 2;
       } else {
         startX = (item.funnelArea[2] + series[i + 1].funnelArea[2]) / 2;
@@ -6257,7 +6258,7 @@ function drawFunnelText(series, opts, context, eachSpacing, labelAlign, activeWi
       context.closePath();
     }
     if (labelAlign == 'left') {
-      if (i == series.length -1) {
+      if (i == series.length - 1) {
         startX = (item.funnelArea[0] + centerPosition.x) / 2;
       } else {
         startX = (item.funnelArea[0] + series[i + 1].funnelArea[0]) / 2;
@@ -6341,8 +6342,8 @@ function Animation(opts) {
   var delay = 17;
   function createAnimationFrame() {
     if (typeof setTimeout !== 'undefined') {
-      return function(step, delay) {
-        setTimeout(function() {
+      return function (step, delay) {
+        setTimeout(function () {
           var timeStamp = +new Date();
           step(timeStamp);
         }, delay);
@@ -6350,7 +6351,7 @@ function Animation(opts) {
     } else if (typeof requestAnimationFrame !== 'undefined') {
       return requestAnimationFrame;
     } else {
-      return function(step) {
+      return function (step) {
         step(null);
       };
     }
@@ -6381,7 +6382,7 @@ function Animation(opts) {
   animationFrame(_step, delay);
 }
 
-Animation.prototype.stop = function() {
+Animation.prototype.stop = function () {
   this.isStop = true;
 };
 
@@ -6396,7 +6397,7 @@ function drawCharts(type, opts, config, context) {
   if (type === 'mount') {
     categories = [];
     for (let j = 0; j < series.length; j++) {
-      if(series[j].show !== false) categories.push(series[j].name)
+      if (series[j].show !== false) categories.push(series[j].name)
     }
     opts.categories = categories;
   }
@@ -6448,9 +6449,9 @@ function drawCharts(type, opts, config, context) {
 
   let _calYAxisData = {},
     yAxisWidth = 0;
-  if (opts.type === 'line' || opts.type === 'column'|| opts.type === 'mount' || opts.type === 'area' || opts.type === 'mix' || opts.type === 'candle' || opts.type === 'scatter'  || opts.type === 'bubble' || opts.type === 'bar') {
-      _calYAxisData = calYAxisData(series, opts, config, context);
-      yAxisWidth = _calYAxisData.yAxisWidth;
+  if (opts.type === 'line' || opts.type === 'column' || opts.type === 'mount' || opts.type === 'area' || opts.type === 'mix' || opts.type === 'candle' || opts.type === 'scatter' || opts.type === 'bubble' || opts.type === 'bar') {
+    _calYAxisData = calYAxisData(series, opts, config, context);
+    yAxisWidth = _calYAxisData.yAxisWidth;
     //如果显示Y轴标题
     if (opts.yAxis.showTitle) {
       let maxTitleHeight = 0;
@@ -6531,13 +6532,13 @@ function drawCharts(type, opts, config, context) {
   if (type === 'pie' || type === 'ring' || type === 'rose') {
     config._pieTextMaxLength_ = opts.dataLabel === false ? 0 : getPieTextMaxLength(seriesMA, config, context, opts);
   }
-  
+
   switch (type) {
     case 'word':
       this.animationInstance = new Animation({
         timing: opts.timing,
         duration: duration,
-        onProcess: function(process) {
+        onProcess: function (process) {
           context.clearRect(0, 0, opts.width, opts.height);
           if (opts.rotate) {
             contextRotate(context, opts);
@@ -6553,15 +6554,15 @@ function drawCharts(type, opts, config, context) {
     case 'map':
       context.clearRect(0, 0, opts.width, opts.height);
       drawMapDataPoints(series, opts, config, context);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.uevent.trigger('renderComplete');
-      },50)
+      }, 50)
       break;
     case 'funnel':
       this.animationInstance = new Animation({
         timing: opts.timing,
         duration: duration,
-        onProcess: function(process) {
+        onProcess: function (process) {
           context.clearRect(0, 0, opts.width, opts.height);
           if (opts.rotate) {
             contextRotate(context, opts);
@@ -6976,27 +6977,27 @@ function uChartsEvent() {
   this.events = {};
 }
 
-uChartsEvent.prototype.addEventListener = function(type, listener) {
+uChartsEvent.prototype.addEventListener = function (type, listener) {
   this.events[type] = this.events[type] || [];
   this.events[type].push(listener);
 };
 
-uChartsEvent.prototype.delEventListener = function(type) {
+uChartsEvent.prototype.delEventListener = function (type) {
   this.events[type] = [];
 };
 
-uChartsEvent.prototype.trigger = function() {
+uChartsEvent.prototype.trigger = function () {
   for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
   var type = args[0];
   var params = args.slice(1);
   if (!!this.events[type]) {
-    this.events[type].forEach(function(listener) {
+    this.events[type].forEach(function (listener) {
       try {
         listener.apply(null, params);
       } catch (e) {
-          //console.log('[uCharts] '+e);
+        //console.log('[uCharts] '+e);
       }
     });
   }
@@ -7027,11 +7028,11 @@ var uCharts = function uCharts(opts) {
   }, opts.yAxis);
   opts.xAxis = assign({}, {
     rotateLabel: false,
-    rotateAngle:45,
+    rotateAngle: 45,
     disabled: false,
     disableGrid: false,
     splitNumber: 5,
-    calibration:false,
+    calibration: false,
     fontColor: '#666666',
     fontSize: 13,
     lineHeight: 20,
@@ -7065,7 +7066,7 @@ var uCharts = function uCharts(opts) {
     hiddenColor: '#CECECE'
   }, opts.legend);
   opts.extra = assign({
-    tooltip:{
+    tooltip: {
       legendShape: 'auto'
     }
   }, opts.extra);
@@ -7073,7 +7074,7 @@ var uCharts = function uCharts(opts) {
   opts.animation = opts.animation ? true : false;
   opts.rotate = opts.rotate ? true : false;
   opts.canvas2d = opts.canvas2d ? true : false;
-  
+
   let config$$1 = assign({}, config);
   config$$1.color = opts.color ? opts.color : config$$1.color;
   if (opts.type == 'pie') {
@@ -7102,43 +7103,43 @@ var uCharts = function uCharts(opts) {
   config$$1.fontSize = opts.fontSize * opts.pix;
   config$$1.titleFontSize = config.titleFontSize * opts.pix;
   config$$1.subtitleFontSize = config.subtitleFontSize * opts.pix;
-  if(!opts.context){
+  if (!opts.context) {
     throw new Error('[uCharts] 未获取到context！注意：v2.0版本后，需要自行获取canvas的绘图上下文并传入opts.context！');
   }
   this.context = opts.context;
   if (!this.context.setTextAlign) {
-    this.context.setStrokeStyle = function(e) {
+    this.context.setStrokeStyle = function (e) {
       return this.strokeStyle = e;
     }
-    this.context.setLineWidth = function(e) {
+    this.context.setLineWidth = function (e) {
       return this.lineWidth = e;
     }
-    this.context.setLineCap = function(e) {
+    this.context.setLineCap = function (e) {
       return this.lineCap = e;
     }
-    this.context.setFontSize = function(e) {
+    this.context.setFontSize = function (e) {
       return this.font = e + "px sans-serif";
     }
-    this.context.setFillStyle = function(e) {
+    this.context.setFillStyle = function (e) {
       return this.fillStyle = e;
     }
-    this.context.setTextAlign = function(e) {
+    this.context.setTextAlign = function (e) {
       return this.textAlign = e;
     }
-    this.context.setTextBaseline = function(e) {
+    this.context.setTextBaseline = function (e) {
       return this.textBaseline = e;
     }
-    this.context.setShadow = function(offsetX,offsetY,blur,color) {
+    this.context.setShadow = function (offsetX, offsetY, blur, color) {
       this.shadowColor = color;
       this.shadowOffsetX = offsetX;
       this.shadowOffsetY = offsetY;
       this.shadowBlur = blur;
     }
-    this.context.draw = function() {}
+    this.context.draw = function () { }
   }
   //兼容NVUEsetLineDash
-  if(!this.context.setLineDash){
-    this.context.setLineDash = function(e) {}
+  if (!this.context.setLineDash) {
+    this.context.setLineDash = function (e) { }
   }
   opts.chartData = {};
   this.uevent = new uChartsEvent();
@@ -7153,7 +7154,7 @@ var uCharts = function uCharts(opts) {
   drawCharts.call(this, opts.type, opts, config$$1, this.context);
 };
 
-uCharts.prototype.updateData = function() {
+uCharts.prototype.updateData = function () {
   let data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   this.opts = assign({}, this.opts, data);
   this.opts.updateData = true;
@@ -7194,7 +7195,7 @@ uCharts.prototype.updateData = function() {
   drawCharts.call(this, this.opts.type, this.opts, this.config, this.context);
 };
 
-uCharts.prototype.zoom = function() {
+uCharts.prototype.zoom = function () {
   var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.opts.xAxis.itemCount;
   if (this.opts.enableScroll !== true) {
     console.log('[uCharts] 请启用滚动条后使用')
@@ -7235,7 +7236,7 @@ uCharts.prototype.zoom = function() {
   drawCharts.call(this, this.opts.type, this.opts, this.config, this.context);
 };
 
-uCharts.prototype.dobuleZoom = function(e) {
+uCharts.prototype.dobuleZoom = function (e) {
   if (this.opts.enableScroll !== true) {
     console.log('[uCharts] 请启用滚动条后使用')
     return;
@@ -7248,15 +7249,15 @@ uCharts.prototype.dobuleZoom = function(e) {
     tcs[i].x = tcs[i].x ? tcs[i].x : tcs[i].clientX;
     tcs[i].y = tcs[i].y ? tcs[i].y : tcs[i].clientY;
   }
-  const ntcs = [getTouches(tcs[0], this.opts, e),getTouches(tcs[1], this.opts, e)]; 
+  const ntcs = [getTouches(tcs[0], this.opts, e), getTouches(tcs[1], this.opts, e)];
   const xlength = Math.abs(ntcs[0].x - ntcs[1].x);
   // 记录初始的两指之间的数据
-  if(!this.scrollOption.moveCount){
-    let cts0 = {changedTouches:[{x:tcs[0].x,y:this.opts.area[0] / this.opts.pix + 2}]};
-    let cts1 = {changedTouches:[{x:tcs[1].x,y:this.opts.area[0] / this.opts.pix + 2}]};
-    if(this.opts.rotate){
-      cts0 = {changedTouches:[{x:this.opts.height / this.opts.pix - this.opts.area[0] / this.opts.pix - 2,y:tcs[0].y}]};
-      cts1 = {changedTouches:[{x:this.opts.height / this.opts.pix - this.opts.area[0] / this.opts.pix - 2,y:tcs[1].y}]};
+  if (!this.scrollOption.moveCount) {
+    let cts0 = { changedTouches: [{ x: tcs[0].x, y: this.opts.area[0] / this.opts.pix + 2 }] };
+    let cts1 = { changedTouches: [{ x: tcs[1].x, y: this.opts.area[0] / this.opts.pix + 2 }] };
+    if (this.opts.rotate) {
+      cts0 = { changedTouches: [{ x: this.opts.height / this.opts.pix - this.opts.area[0] / this.opts.pix - 2, y: tcs[0].y }] };
+      cts1 = { changedTouches: [{ x: this.opts.height / this.opts.pix - this.opts.area[0] / this.opts.pix - 2, y: tcs[1].y }] };
     }
     const moveCurrent1 = this.getCurrentDataIndex(cts0).index;
     const moveCurrent2 = this.getCurrentDataIndex(cts1).index;
@@ -7266,7 +7267,7 @@ uCharts.prototype.dobuleZoom = function(e) {
     this.scrollOption.moveCurrent2 = Math.max(moveCurrent1, moveCurrent2);
     return;
   }
-  
+
   let currentEachSpacing = xlength / this.scrollOption.moveCount;
   let itemCount = (this.opts.width - this.opts.area[1] - this.opts.area[3]) / currentEachSpacing;
   itemCount = itemCount <= 2 ? 2 : itemCount;
@@ -7283,34 +7284,34 @@ uCharts.prototype.dobuleZoom = function(e) {
   let currentLeft = eachSpacing * this.scrollOption.moveCurrent1;
   let screenWidth = endX - startX;
   let MaxLeft = screenWidth - eachSpacing * (xAxisPoints.length - 1);
-  offsetLeft = -currentLeft+Math.min(ntcs[0].x,ntcs[1].x)-this.opts.area[3]-eachSpacing;
+  offsetLeft = -currentLeft + Math.min(ntcs[0].x, ntcs[1].x) - this.opts.area[3] - eachSpacing;
   if (offsetLeft > 0) {
     offsetLeft = 0;
   }
   if (offsetLeft < MaxLeft) {
     offsetLeft = MaxLeft;
   }
-  this.scrollOption.currentOffset= offsetLeft;
-  this.scrollOption.startTouchX= 0;
-  this.scrollOption.distance=0;
+  this.scrollOption.currentOffset = offsetLeft;
+  this.scrollOption.startTouchX = 0;
+  this.scrollOption.distance = 0;
   calValidDistance(this, offsetLeft, this.opts.chartData, this.config, this.opts);
   this.opts._scrollDistance_ = offsetLeft;
   drawCharts.call(this, this.opts.type, this.opts, this.config, this.context);
 }
 
-uCharts.prototype.stopAnimation = function() {
+uCharts.prototype.stopAnimation = function () {
   this.animationInstance && this.animationInstance.stop();
 };
 
-uCharts.prototype.addEventListener = function(type, listener) {
+uCharts.prototype.addEventListener = function (type, listener) {
   this.uevent.addEventListener(type, listener);
 };
 
-uCharts.prototype.delEventListener = function(type) {
+uCharts.prototype.delEventListener = function (type) {
   this.uevent.delEventListener(type);
 };
 
-uCharts.prototype.getCurrentDataIndex = function(e) {
+uCharts.prototype.getCurrentDataIndex = function (e) {
   var touches = null;
   if (e.changedTouches) {
     touches = e.changedTouches[0];
@@ -7364,7 +7365,7 @@ uCharts.prototype.getCurrentDataIndex = function(e) {
   return -1;
 };
 
-uCharts.prototype.getLegendDataIndex = function(e) {
+uCharts.prototype.getLegendDataIndex = function (e) {
   var touches = null;
   if (e.changedTouches) {
     touches = e.changedTouches[0];
@@ -7381,7 +7382,7 @@ uCharts.prototype.getLegendDataIndex = function(e) {
   return -1;
 };
 
-uCharts.prototype.touchLegend = function(e) {
+uCharts.prototype.touchLegend = function (e) {
   var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var touches = null;
   if (e.changedTouches) {
@@ -7406,7 +7407,7 @@ uCharts.prototype.touchLegend = function(e) {
 
 };
 
-uCharts.prototype.showToolTip = function(e) {
+uCharts.prototype.showToolTip = function (e) {
   var option = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var touches = null;
   if (e.changedTouches) {
@@ -7426,7 +7427,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'line' || this.opts.type === 'area' || this.opts.type === 'column' || this.opts.type === 'scatter' || this.opts.type === 'bubble') {
     var current = this.getCurrentDataIndex(e);
     var index = option.index == undefined ? current.index : option.index;
-    if (index > -1 || index.length>0) {
+    if (index > -1 || index.length > 0) {
       var seriesData = getSeriesDataItem(this.opts.series, index, current.group);
       if (seriesData.length !== 0) {
         var _getToolTipData = getToolTipData(seriesData, this.opts, index, current.group, this.opts.categories, option),
@@ -7447,7 +7448,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'mount') {
     var index = option.index == undefined ? this.getCurrentDataIndex(e).index : option.index;
     if (index > -1) {
-      var opts = assign({}, this.opts, {animation: false});
+      var opts = assign({}, this.opts, { animation: false });
       var seriesData = assign({}, opts._series_[index]);
       var textList = [{
         text: option.formatter ? option.formatter(seriesData, undefined, index, opts) : seriesData.name + ': ' + seriesData.data,
@@ -7465,13 +7466,13 @@ uCharts.prototype.showToolTip = function(e) {
         index: index
       };
     }
-    
+
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'bar') {
     var current = this.getCurrentDataIndex(e);
     var index = option.index == undefined ? current.index : option.index;
-    if (index > -1 || index.length>0) {
+    if (index > -1 || index.length > 0) {
       var seriesData = getSeriesDataItem(this.opts.series, index, current.group);
       if (seriesData.length !== 0) {
         var _getToolTipData = getToolTipData(seriesData, this.opts, index, current.group, this.opts.categories, option),
@@ -7541,7 +7542,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'pie' || this.opts.type === 'ring' || this.opts.type === 'rose' || this.opts.type === 'funnel') {
     var index = option.index == undefined ? this.getCurrentDataIndex(e) : option.index;
     if (index > -1) {
-      var opts = assign({}, this.opts, {animation: false});
+      var opts = assign({}, this.opts, { animation: false });
       var seriesData = assign({}, opts._series_[index]);
       var textList = [{
         text: option.formatter ? option.formatter(seriesData, undefined, index, opts) : seriesData.name + ': ' + seriesData.data,
@@ -7564,7 +7565,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'map') {
     var index = option.index == undefined ? this.getCurrentDataIndex(e) : option.index;
     if (index > -1) {
-      var opts = assign({}, this.opts, {animation: false});
+      var opts = assign({}, this.opts, { animation: false });
       var seriesData = assign({}, this.opts.series[index]);
       seriesData.name = seriesData.properties.name
       var textList = [{
@@ -7589,7 +7590,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'word') {
     var index = option.index == undefined ? this.getCurrentDataIndex(e) : option.index;
     if (index > -1) {
-      var opts = assign({}, this.opts, {animation: false});
+      var opts = assign({}, this.opts, { animation: false });
       var seriesData = assign({}, this.opts.series[index]);
       var textList = [{
         text: option.formatter ? option.formatter(seriesData, undefined, index, this.opts) : seriesData.name,
@@ -7613,7 +7614,7 @@ uCharts.prototype.showToolTip = function(e) {
   if (this.opts.type === 'radar') {
     var index = option.index == undefined ? this.getCurrentDataIndex(e) : option.index;
     if (index > -1) {
-      var opts = assign({}, this.opts, {animation: false});
+      var opts = assign({}, this.opts, { animation: false });
       var seriesData = getSeriesDataItem(this.opts.series, index);
       if (seriesData.length !== 0) {
         var textList = seriesData.map((item) => {
@@ -7639,7 +7640,7 @@ uCharts.prototype.showToolTip = function(e) {
   }
 };
 
-uCharts.prototype.translate = function(distance) {
+uCharts.prototype.translate = function (distance) {
   this.scrollOption = {
     currentOffset: distance,
     startTouchX: distance,
@@ -7653,7 +7654,7 @@ uCharts.prototype.translate = function(distance) {
   drawCharts.call(this, this.opts.type, opts, this.config, this.context);
 };
 
-uCharts.prototype.scrollStart = function(e) {
+uCharts.prototype.scrollStart = function (e) {
   var touches = null;
   if (e.changedTouches) {
     touches = e.changedTouches[0];
@@ -7666,7 +7667,7 @@ uCharts.prototype.scrollStart = function(e) {
   }
 };
 
-uCharts.prototype.scroll = function(e) {
+uCharts.prototype.scroll = function (e) {
   if (this.scrollOption.lastMoveTime === 0) {
     this.scrollOption.lastMoveTime = Date.now();
   }
@@ -7693,13 +7694,13 @@ uCharts.prototype.scroll = function(e) {
       _scrollDistance_: currentOffset + _distance,
       animation: false
     });
-		this.opts = opts;
+    this.opts = opts;
     drawCharts.call(this, opts.type, opts, this.config, this.context);
     return currentOffset + _distance;
   }
 };
 
-uCharts.prototype.scrollEnd = function(e) {
+uCharts.prototype.scrollEnd = function (e) {
   if (this.opts.enableScroll === true) {
     var _scrollOption = this.scrollOption,
       currentOffset = _scrollOption.currentOffset,

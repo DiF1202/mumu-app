@@ -144,8 +144,8 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
           color: {
             type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
             colorStops: [
-              { offset: 0, color: boxColor || '#F9DADA' },
-              { offset: 1, color: boxColor || '#F3A4A3' }
+              { offset: 0, color: boxColor || '#00443A' },
+              { offset: 1, color: boxColor || '#00443A' }
             ],
             globalCoord: false
           }

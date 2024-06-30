@@ -320,11 +320,14 @@ export default {
     handlerData (arr, name, color, unit) {
       let xData = []
       let yData = { name: name, data: [], color: color }
+      let max = 30
       arr.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
-      let max = Math.max(...yData.data)
+      if (arr.length > 0) {
+        max = Math.max(...yData.data)
+      }
       this.$refs.activeChart.initChart(xData, [yData], max, unit)
     },
     sectionChange (index) {
@@ -358,9 +361,9 @@ export default {
       let data1 = [{ data: "1", color: "#CCF738" }];
       let data2 = [{ data: "1", color: "#DE868F" }];
       let data3 = [{ data: "1", color: "#FCCA00" }];
-      this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count, '环境风险')
-      this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count, '动物风险')
-      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count, '生产风险')
+      this.$refs.envProgressChart.initChart(data1, this.risk_note.risk_count.env_risk_count || '0', '环境风险')
+      this.$refs.assetProgressChart.initChart(data2, this.risk_note.risk_count.animal_risk_count || '0', '动物风险')
+      this.$refs.manProgressChart.initChart(data3, this.risk_note.risk_count.production_risk_count || '0', '生产风险')
     },
     // 初始化
     initData () {
@@ -398,11 +401,15 @@ export default {
         console.log(res)
         let xData = []
         let series = [{name: "温度",data: [],color: "#19AECE"}]
+        let max = 30
         res[0].hourly.map(item =>{
           xData.push(item.time.substring(11, 16))
           series[0].data.push(item.temperature)
         })
-        this.$refs.weatherChart.initChart(xData, series, '', '℃', 'left')
+        if (series[0].data.length > 0) {
+          max = Math.max(...series[0].data)
+        }
+        this.$refs.weatherChart.initChart(xData, series, max, '℃', 'left')
       })
       // this.$refs.weatherChart.initChart(this.xData, this.series, '', '℃', 'left')
     },

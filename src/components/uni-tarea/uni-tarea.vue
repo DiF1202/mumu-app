@@ -52,6 +52,7 @@ export default {
           data: [
             {
               max: this.max,
+              tofix: 1,
               type: 'value',
               fontColor: 'rgba(0, 0, 0, 0.45)',
               title: this.unit || '',

@@ -163,11 +163,11 @@
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
             <view class="item-label">较昨日：</view>
-            <view class="item-num">+4%</view>
+            <view class="item-num" :class="daily.includes('+') ? 'plus' : 'reduce'">{{ daily || '--'}}</view>
           </view>
           <view class="active-item">
             <view class="item-label">较过去一周：</view>
-            <view class="item-num">-14%</view>
+            <view class="item-num" :class="weekly.includes('+') ? 'plus' : 'reduce'">{{ weekly || '--' }}</view>
           </view>
         </view>
       </uni-card>
@@ -265,7 +265,9 @@ export default {
       columns1: [],
       columns2: [],
       house_type_id: '1',
-      date_type: 'week'
+      date_type: 'week',
+      daily: '',
+      weekly: ''
     }
   },
   onReady () {
@@ -308,22 +310,28 @@ export default {
     animalCount () {
       let xData = []
       let yData = { name: '动态存栏', data: [], color: '#81B337' }
+      let max = 30
       this.animal_count_data.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
-      let max = Math.max(...yData.data)
+      if (yData.data.length > 0) {
+        max = Math.max(...yData.data)
+      }
       this.$refs.animalCount.initChart(xData, [yData], max, '头')
     },
     // 栏位占用
     penOccupancy () {
       let xData = []
       let yData = { name: '栏位占用', data: [], color: '#19AECE' }
+      let max = 30
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
         xData.push(item.date.slice(5))
         yData.data.push(item.score)
       })
-      let max = Math.max(...yData.data)
+      if (yData.data.length > 0) {
+        max = Math.max(...yData.data)
+      }
       this.$refs.penOccupancy.initChart(xData, [yData], max, '%')
     },
     // 异常动物数量
@@ -352,6 +360,8 @@ export default {
       let xData = []
       let yData = []
       let lineData = []
+      this.daily = this.animal_activity?.animal_activity_change?.daily || '--'
+      this.weekly = this.animal_activity?.animal_activity_change?.weekly || '--'
       this.animal_activity.animal_activity_fluctuation.map(item => {
         xData.push(item.date.slice(5))
         yData.push(item.score)
