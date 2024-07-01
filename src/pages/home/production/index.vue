@@ -82,26 +82,26 @@
         <view class="active-chart">
           <uni-tarea ref="penOccupancy" :max="30"></uni-tarea>
         </view>
-        <view class="active-statistic" style="margin-top: 24rpx;">
-          <view class="active-item" style="justify-content: flex-start;">
+        <view class="active-statistic" style="margin-top: 24rpx">
+          <view class="active-item" style="justify-content: flex-start">
             <view class="item-label">栏位占用：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.pen_occupancy_rate
             }}</view>
           </view>
-          <view class="active-item" style="justify-content: flex-start;">
+          <view class="active-item" style="justify-content: flex-start">
             <view class="item-label">动态活动范围：</view>
             <view class="item-num">{{ pen_occupancy_rate?.dynamic_area }}</view>
           </view>
         </view>
         <view class="active-statistic">
-          <view class="active-item" style="justify-content: flex-start;">
+          <view class="active-item" style="justify-content: flex-start">
             <view class="item-label">单位面积/动物：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.animal_per_area
             }}</view>
           </view>
-          <view class="active-item" style="justify-content: flex-start;">
+          <view class="active-item" style="justify-content: flex-start">
             <view class="item-label">昨日转群次数：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.transfer_count
@@ -163,11 +163,19 @@
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
             <view class="item-label">较昨日：</view>
-            <view class="item-num" :class="daily.includes('+') ? 'plus' : 'reduce'">{{ daily || '--'}}</view>
+            <view
+              class="item-num"
+              :class="daily.includes('+') ? 'plus' : 'reduce'"
+              >{{ daily || '--' }}</view
+            >
           </view>
           <view class="active-item">
             <view class="item-label">较过去一周：</view>
-            <view class="item-num" :class="weekly.includes('+') ? 'plus' : 'reduce'">{{ weekly || '--' }}</view>
+            <view
+              class="item-num"
+              :class="weekly.includes('+') ? 'plus' : 'reduce'"
+              >{{ weekly || '--' }}</view
+            >
           </view>
         </view>
       </uni-card>
@@ -211,9 +219,15 @@
           ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #81b337; width: 33%">{{attendance.alarm_handle_rate}}%</view>
-          <view class="num-item" style="color: #cba43f; width: 33%">{{attendance.patrol_time}}min</view>
-          <view class="num-item" style="color: #347caf; width: 33%">{{attendance.remote_time}}min</view>
+          <view class="num-item" style="color: #81b337; width: 33%"
+            >{{ attendance.alarm_handle_rate }}%</view
+          >
+          <view class="num-item" style="color: #cba43f; width: 33%"
+            >{{ attendance.patrol_time }}min</view
+          >
+          <view class="num-item" style="color: #347caf; width: 33%"
+            >{{ attendance.remote_time }}min</view
+          >
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="attendanceChart"></uni-kchart> -->
@@ -451,6 +465,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
+      console.log(xData, yData, lineData)
       this.$refs.attendanceChart.initChart(xData, yData, lineData, unit, color, name)
     },
     // 饲养员考勤
