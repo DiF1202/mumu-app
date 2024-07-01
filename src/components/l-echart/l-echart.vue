@@ -1,7 +1,23 @@
 <template>
-  <view class="lime-echart" :style="customStyle" v-if="canvasId" ref="limeEchart" :aria-label="ariaLabel">
+  <view
+    class="lime-echart"
+    :style="customStyle"
+    v-if="canvasId"
+    ref="limeEchart"
+    :aria-label="ariaLabel"
+  >
     <!-- #ifndef APP-NVUE -->
-    <canvas class="lime-echart__canvas" v-if="use2dCanvas" type="2d" :id="canvasId" :style="canvasStyle" :disable-scroll="isDisableScroll" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" />
+    <canvas
+      class="lime-echart__canvas"
+      v-if="use2dCanvas"
+      type="2d"
+      :id="canvasId"
+      :style="canvasStyle"
+      :disable-scroll="isDisableScroll"
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+    />
     <!-- <canvas
 			class="lime-echart__canvas"
 			v-else-if="isPC"
@@ -13,13 +29,47 @@
 			@mousemove="touchMove"
 			@mouseup="touchEnd"
 		/> -->
-    <canvas class="lime-echart__canvas" v-else :width="nodeWidth" :height="nodeHeight" :style="canvasStyle" :canvas-id="canvasId" :id="canvasId" :disable-scroll="isDisableScroll" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" />
-    <view class="lime-echart__mask" v-if="isPC" @mousedown="touchStart" @mousemove="touchMove" @mouseup="touchEnd" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+    <canvas
+      class="lime-echart__canvas"
+      v-else
+      :width="nodeWidth"
+      :height="nodeHeight"
+      :style="canvasStyle"
+      :canvas-id="canvasId"
+      :id="canvasId"
+      :disable-scroll="isDisableScroll"
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+    />
+    <view
+      class="lime-echart__mask"
+      v-if="isPC"
+      @mousedown="touchStart"
+      @mousemove="touchMove"
+      @mouseup="touchEnd"
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+    >
     </view>
-    <canvas v-if="isOffscreenCanvas" :style="offscreenStyle" :canvas-id="offscreenCanvasId"></canvas>
+    <canvas
+      v-if="isOffscreenCanvas"
+      :style="offscreenStyle"
+      :canvas-id="offscreenCanvasId"
+    ></canvas>
     <!-- #endif -->
     <!-- #ifdef APP-NVUE -->
-    <web-view class="lime-echart__canvas" :id="canvasId" :style="canvasStyle" :webview-styles="webviewStyles" ref="webview" src="/uni_modules/lime-echart/static/nvue.html?v=1" @pagefinish="finished = true" @onPostMessage="onMessage"></web-view>
+    <web-view
+      class="lime-echart__canvas"
+      :id="canvasId"
+      :style="canvasStyle"
+      :webview-styles="webviewStyles"
+      ref="webview"
+      src="/uni_modules/lime-echart/static/nvue.html?v=1"
+      @pagefinish="finished = true"
+      @onPostMessage="onMessage"
+    ></web-view>
     <!-- #endif -->
   </view>
 </template>
@@ -46,7 +96,7 @@ export default {
     // #ifdef MP-WEIXIN || MP-TOUTIAO
     type: {
       type: String,
-      default: '' // 2d
+      default: '2d' // 2d
     },
     // #endif
     // #ifdef APP-NVUE
