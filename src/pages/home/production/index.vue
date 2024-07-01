@@ -381,7 +381,7 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      this.$refs.animalActivity.initChart(xData, yData, lineData, "%", '#00443A', '平均畜群活跃度')
+      this.$refs.animalActivity.initChart(xData, yData, lineData, "", '#00443A', '平均畜群活跃度')
     },
     // 畜群节律
     alarmHandle () {
@@ -465,7 +465,6 @@ export default {
         yData.push(item.score)
         lineData.push(item.score[2])
       })
-      console.log(xData, yData, lineData)
       this.$refs.attendanceChart.initChart(xData, yData, lineData, unit, color, name)
     },
     // 饲养员考勤
