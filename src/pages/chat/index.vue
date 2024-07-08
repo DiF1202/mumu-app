@@ -233,7 +233,7 @@ export default {
       self.buffer = ""; // 初始化缓冲区用于存储未处理的文本块
 
       const requestTask = uni.request({
-        url: "http://47.99.151.88:9004/chat/knowledge_base_chat",
+        url: "https://mumutech.co/chat/knowledge_base_chat",
         method: "POST",
         responseType: "text",
         enableChunked: true, // 开启流传输
