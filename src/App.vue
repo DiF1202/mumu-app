@@ -1,15 +1,31 @@
 <template></template>
 <script>
+import { userOnline } from '@/api/utils.js'
 export default {
-  onLaunch: function () {
-    console.log('App Launch')
+  data() {
+    return {
+      startTime: 0,
+      endTime: 0
+    }
   },
-  onShow: function () {
-    // uni.hideTabBar()
+  onShow () {
+    this.startTime = Math.floor(new Date().getTime() / 1000)
   },
-  onHide: function () {
-    console.log('App Hide')
+  onHide () {
+    this.saveUseTime()
   },
+  methods: {
+    saveUseTime() {
+      this.endTime = Math.floor(new Date().getTime() / 1000)
+      const duration = Math.floor((this.endTime - this.startTime) / 60)
+      userOnline({
+        use_time: duration,
+        start_time: this.startTime,
+        end_time: this.endTime
+      }).then((res) => {})
+    },
+    
+  }
 }
 </script>
 

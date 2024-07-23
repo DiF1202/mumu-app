@@ -42,3 +42,11 @@ export function userInfo() {
     url: '/api/mini/get-user-info'
   })
 }
+// 获取用户使用时间
+export function userOnline(data) {
+  return fetch({
+    method: 'post',
+    url: '/api/mini/report-use-time',
+    data
+  })
+}
