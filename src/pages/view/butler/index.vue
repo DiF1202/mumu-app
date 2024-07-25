@@ -287,8 +287,6 @@ export default {
             this.avatar =
               res.data.avatar || "https://m.zzxmt.cn/cdn/icon/woman.png";
             this.listData = this.listData.concat(res.data.alarm_data);
-            console.log(res.data.video_url);
-            console.log(this.listData.length, res.data.total);
             if (this.listData.length < res.data.total) {
               this.loading = "loadmore";
             } else {

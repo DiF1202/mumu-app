@@ -158,7 +158,8 @@
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="activeChart"></uni-kchart> -->
-          <uni-boxplot ref="activeChart"></uni-boxplot>
+          <!-- <uni-boxplot ref="activeChart"></uni-boxplot> -->
+          <uni-line ref="activeChart"></uni-line>
         </view>
       </uni-card>
       <!-- 昨日总结 -->
@@ -207,7 +208,7 @@
       </scroll-view>
       <!-- 事件处理 -->
       <uni-subTitle customIcon="chart" title="风险提示" />
-      <scroll-view class="warning-list" :scroll-y="true">
+      <scroll-view class="warning-list" :scroll-y="true" @scrolltolower="getMore">
         <view
           v-for="(item, index) in warningList"
           :key="index"
@@ -224,7 +225,7 @@
             <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
           </view>
           <u--text
-            :text="item.ding_content"
+            :text="item.content"
             color="#0F4239"
             size="28rpx"
             lines="1"
@@ -267,6 +268,9 @@ export default {
       todayHandler: [],
       alarm: "无预警",
       sunUpDown: {},
+      page: 1,
+      limit: 3,
+      noData: false,
       today: {
         // sunrise: "04:58",
         // sunset: '19:04',
@@ -304,9 +308,15 @@ export default {
     uni.hideTabBar();
   },
   onReady () {
+    this.noData = false
+    this.warningList = []
+    this.page = 1;
     this.initData();
   },
   onPullDownRefresh () {
+    this.noData = false
+    this.warningList = []
+    this.page = 1;
     this.initData();
   },
   methods: {
@@ -365,23 +375,72 @@ export default {
       }
     },
     initHouseEnv (arr, unit, color, name, boxColor) {
-      let xData = [];
-      let yData = [];
-      let lineData = [];
+      // let xData = [];
+      // let yData = [];
+      // let lineData = [];
+      // arr.map(item => {
+      //   xData.push(item.date.slice(5));
+      //   yData.push(item.score);
+      //   lineData.push(item.score[2]);
+      // });
+      // this.$refs.activeChart.initChart(
+      //   xData,
+      //   yData,
+      //   lineData,
+      //   unit,
+      //   color,
+      //   name,
+      //   boxColor
+      // );
+      let xData = []
+      let yData = { name: name, data: [], color: color }
       arr.map(item => {
-        xData.push(item.date.slice(5));
-        yData.push(item.score);
-        lineData.push(item.score[2]);
-      });
-      this.$refs.activeChart.initChart(
-        xData,
-        yData,
-        lineData,
-        unit,
-        color,
-        name,
-        boxColor
-      );
+        xData.push(item.date.slice(5))
+        yData.data.push(item.score)
+      })
+      this.$refs.activeChart.initChart(xData, [yData], unit)
+    },
+    getMore() {
+      if (!this.noData) {
+        this.page += 1
+        this.getRiskList()
+      }
+    },
+    getRiskList() {
+      if (!this.noData) {
+        riskStatementApi({
+          page: this.page,
+          limit: this.limit
+        }).then(res => {
+          if (res.data.length > 1) {
+            res.data.map(item => {
+              if (item.title == "环境风险") {
+                item.icon = "info-circle-fill";
+                item.iconColor = "#51C41B";
+                item.bgColor = "#F6FFED";
+              }
+              if (item.title == "管理风险") {
+                item.icon = "close-circle-fill";
+                item.iconColor = "#F5232D";
+                item.bgColor = "#FFF1F0";
+              }
+              if (item.title == "动物风险") {
+                item.icon = "clock-fill";
+                item.iconColor = "#FAAD15";
+                item.bgColor = "#FFFBE6";
+              }
+              if (item.title == '其他风险') {
+                item.icon = "more-circle-fill";
+                item.iconColor = "#736d6c";
+                item.bgColor = "#dcd7d6";
+              }
+            });
+            this.warningList = this.warningList.concat(res.data);
+          } else {
+            this.noData = true
+          }
+        });
+      }
     },
     initData () {
       overViewGuardApi().then(res => {
@@ -394,37 +453,12 @@ export default {
         this.housing_environment = res.data.housing_environment;
         this.sectionChange(0);
       });
+      this.getRiskList()
       summaryApi().then(res => {
         this.summary = res.data.yesterday_summary;
       });
       dingListApi().then(res => {
         this.todayHandler = res.data;
-      });
-      riskStatementApi().then(res => {
-        // let arr = [res.data.env_risk, res.data.animal_risk, res.data.production_risk]
-        res.data.map(item => {
-          if (item.title == "环境风险") {
-            item.icon = "info-circle-fill";
-            item.iconColor = "#51C41B";
-            item.bgColor = "#F6FFED";
-          }
-          if (item.title == "管理风险") {
-            item.icon = "close-circle-fill";
-            item.iconColor = "#F5232D";
-            item.bgColor = "#FFF1F0";
-          }
-          if (item.title == "动物风险") {
-            item.icon = "clock-fill";
-            item.iconColor = "#FAAD15";
-            item.bgColor = "#FFFBE6";
-          }
-          if (item.title == '其他风险') {
-            item.icon = "more-circle-fill";
-            item.iconColor = "#736d6c";
-            item.bgColor = "#dcd7d6";
-          }
-        });
-        this.warningList = res.data;
       });
       getSunDay().then(res => {
         this.sunUpDown = res[0].sun[0];
@@ -443,7 +477,6 @@ export default {
         }
       });
       getDaily().then(res => {
-        console.log(res);
         let xData = [];
         let series = [{ name: "温度", data: [], color: "#19AECE" }];
         res[0].hourly.map(item => {

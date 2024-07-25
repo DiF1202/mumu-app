@@ -198,7 +198,8 @@
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="eliminateAlarm">
           <!-- <uni-kchart ref="eliminateAlarmChart"></uni-kchart> -->
-          <uni-boxplot ref="eliminateAlarmChart"></uni-boxplot>
+          <!-- <uni-boxplot ref="eliminateAlarmChart"></uni-boxplot> -->
+          <uni-line ref="eliminateAlarmChart"></uni-line>
         </view>
       </uni-card>
       <!-- 风险提示 -->
@@ -346,15 +347,22 @@ export default {
     },
     // 消警比例
     eliminateAlarm () {
+      // let xData = []
+      // let yData = []
+      // let lineData = []
+      // this.production_data.alarm_data.map(item => {
+      //   xData.push(item.date.slice(5))
+      //   yData.push(item.alarm_handle_rate)
+      //   lineData.push(item.alarm_handle_rate[2])
+      // })
+      // this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
       let xData = []
-      let yData = []
-      let lineData = []
+      let yData = { name: '平均消警比例', data: [], color: '#00443A' }
       this.production_data.alarm_data.map(item => {
         xData.push(item.date.slice(5))
-        yData.push(item.alarm_handle_rate)
-        lineData.push(item.alarm_handle_rate[2])
+        yData.data.push(item.alarm_handle_rate)
       })
-      this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
+      this.$refs.eliminateAlarmChart.initChart(xData, [yData], '%')
     },
     // 风险提示
     riskNote () {

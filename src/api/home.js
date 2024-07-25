@@ -30,10 +30,11 @@ const dingListApi = () => {
     url: "/api/mini/get-ding-list"
   });
 };
-const riskStatementApi = () => {
+const riskStatementApi = (query) => {
   return fetch({
     method: "get",
-    url: "/api/mini/get-guardian-risk-statement"
+    url: "/api/mini/get-guardian-risk-statement",
+    params: query
   });
 };
 const getAiReportDaily = () => {
