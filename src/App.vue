@@ -22,7 +22,7 @@ export default {
         use_time: duration,
         start_time: this.startTime,
         end_time: this.endTime
-      }).then((res) => {})
+      }).then((res) => {console.log(res, '存储用户时间')})
     },
     
   }

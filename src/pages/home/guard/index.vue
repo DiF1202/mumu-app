@@ -225,7 +225,7 @@
             <u--text :text="item.title" color="#333333" size="28rpx"></u--text>
           </view>
           <u--text
-            :text="item.content"
+            :text="item.ding_content"
             color="#0F4239"
             size="28rpx"
             lines="1"
@@ -401,18 +401,22 @@ export default {
       this.$refs.activeChart.initChart(xData, [yData], unit)
     },
     getMore() {
+      console.log(11111111111)
       if (!this.noData) {
         this.page += 1
         this.getRiskList()
       }
     },
     getRiskList() {
+      console.log(22222222222)
       if (!this.noData) {
+        console.log(3333333333333)
         riskStatementApi({
           page: this.page,
           limit: this.limit
         }).then(res => {
-          if (res.data.length > 1) {
+          console.log(res)
+          if (res.data.length > 0) {
             res.data.map(item => {
               if (item.title == "环境风险") {
                 item.icon = "info-circle-fill";
@@ -436,6 +440,7 @@ export default {
               }
             });
             this.warningList = this.warningList.concat(res.data);
+            console.log(this.warningList)
           } else {
             this.noData = true
           }
