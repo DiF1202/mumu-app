@@ -341,7 +341,7 @@ export default {
           this.handlerData(this.production_data.pen_occupancy_rate_data, "栏位占用", "#347CAF", '%')
           break
         case 2:
-          this.handlerData(this.production_data.animal_count_data, "异常数量", "#BD3124", '头')
+          this.handlerData(this.production_data.death_count_data, "异常数量", "#BD3124", '头')
           break
       }
     },
