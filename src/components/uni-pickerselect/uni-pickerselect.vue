@@ -66,7 +66,6 @@ export default {
   watch: {
     columns: {
       handler (val) {
-        console.log(3333333333333)
         if (val) {
           this.value = val[0][0].name
         }
@@ -75,11 +74,9 @@ export default {
   },
   methods: {
     open () {
-      console.log(1111111111)
       this.show = true
     },
     close () {
-      console.log(222222222)
       this.show = false
     },
     confirm (e) {

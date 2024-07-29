@@ -8,7 +8,6 @@
             prefixIcon="grid"
             :columns="animalsType"
             @pickerCallback="pickerCallback1"
-            :value="houseTypeId"
           />
         </view>
         <view class="filter-date">
@@ -182,7 +181,7 @@
 
 <script>
 import { getRiskReportApi } from "@/api/view.js";
-
+import { houseType } from '@/api/utils.js'
 const initHeatList = [
   {
     staff_name: "负责人",
@@ -201,19 +200,8 @@ export default {
       riskCountData: {},
       defaultImg:
         "https://img1.baidu.com/it/u=885718125,3029806073&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
-      animalsType: [
-        [
-          { id: 1, name: "育肥" },
-          { id: 2, name: "繁育" }
-        ]
-      ],
-      dateType: [
-        [
-          { id: 1, name: "周" },
-          { id: 2, name: "月" },
-          { id: 2, name: "年" }
-        ]
-      ],
+      animalsType: [],
+      dateType: [],
       envListAlarmData: [], //环境风险告警
       animalListAlarmData: [], //动物资产告警
       productionListAlarmData: [], //管理风险告警
@@ -221,14 +209,31 @@ export default {
       dateTypeId: null
     };
   },
-
-  async mounted() {
-    const res = await this.getRiskReportData();
-    if (res === true) {
-      this.sectionChange(0);
-    }
+  onReady () {
+    this.getHouseType()
   },
+  // async mounted() {
+  //   const res = await this.getRiskReportData();
+  //   if (res === true) {
+  //     this.sectionChange(0);
+  //   }
+  // },
   methods: {
+     // 请求pick数据
+     async getHouseType () {
+      await houseType().then(res => {
+        this.animalsType = [res.data]
+        this.dateType = [
+          [
+            { id: 'week', name: '周' },
+            { id: 'month', name: '月' },
+            { id: 'season', name: '季' },
+            { id: 'year', name: '年' },
+          ]
+        ]
+      })
+      this.getRiskReportData()
+    },
     async getRiskReportData() {
       const params = {};
       if (this.dateTypeId)
@@ -384,7 +389,7 @@ export default {
   max-height: 300rpx;
   .body-row {
     width: 100%;
-    height: 56rpx;
+    // height: 56rpx;
     display: flex;
     justify-content: flex-end;
     align-items: center;

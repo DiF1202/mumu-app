@@ -44,9 +44,11 @@
           :border="true"
         ></u-cell>
         <u-cell
+          v-for="(item, index) in user_info.farm_house_list"
+          :key="index"
           icon="list-dot"
           :iconStyle="iconStyle"
-          :title="user_info.farm_house_list.join('/')"
+          :title="item"
           :titleStyle="titleStyle"
           :border="true"
         ></u-cell>
