@@ -329,7 +329,7 @@ export default {
       switch (index) {
         case 0:
           this.initHouseEnv(
-            this.housing_environment.temperature_data,
+            this.housing_environment?.temperature_data || [],
             "℃",
             "#DE868F",
             "平均温度",
@@ -338,7 +338,7 @@ export default {
           break;
         case 1:
           this.initHouseEnv(
-            this.housing_environment.humidity_data,
+            this.housing_environment?.humidity_data || [],
             "%",
             "#93D2F3",
             "平均湿度",
@@ -347,7 +347,7 @@ export default {
           break;
         case 2:
           this.initHouseEnv(
-            this.housing_environment.illuminance_data,
+            this.housing_environment?.illuminance_data || [],
             "lx",
             "#FCCA00",
             "平均光照",
@@ -356,7 +356,7 @@ export default {
           break;
         case 3:
           this.initHouseEnv(
-            this.housing_environment.HI_data,
+            this.housing_environment?.HI_data || [],
             "℃",
             "#7F83F7",
             "平均HI",
@@ -365,7 +365,7 @@ export default {
           break;
         case 4:
           this.initHouseEnv(
-            this.housing_environment.THI_data,
+            this.housing_environment?.THI_data || [],
             "",
             "#B886F8",
             "平均THI",
@@ -446,11 +446,11 @@ export default {
     initData () {
       overViewGuardApi().then(res => {
         uni.stopPullDownRefresh();
-        this.staff_name = res.data.staff_name || "";
-        this.animal_count = res.data.animal_count || "";
-        this.pen_occupancy_rate = res.data.pen_occupancy_rate || "";
-        this.death_count = res.data.death_count || "";
-        this.pen_count = res.data.pen_count || "";
+        this.staff_name = res.data.staff_name || "0";
+        this.animal_count = res.data.animal_count || "0";
+        this.pen_occupancy_rate = res.data.pen_occupancy_rate || "0";
+        this.death_count = res.data.death_count || "0";
+        this.pen_count = res.data.pen_count || "0";
         this.housing_environment = res.data.housing_environment;
         this.sectionChange(0);
       });

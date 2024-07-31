@@ -38,7 +38,7 @@
             >{{ housing_environment?.illuminance }}lx</view
           >
           <view class="num-item" style="color: #7f83f7; width: 20%"
-            >{{ housing_environment?.HI }}℃</view
+            >{{ housing_environment?.HI }}</view
           >
           <view class="num-item" style="color: #b886f8; width: 20%">{{
             housing_environment?.THI
@@ -82,26 +82,26 @@
         <view class="active-chart">
           <uni-tarea ref="penOccupancy" :max="30"></uni-tarea>
         </view>
-        <view class="active-statistic" style="margin-top: 24rpx">
-          <view class="active-item" style="justify-content: flex-start">
-            <view class="item-label">栏位占用：</view>
+        <view class="active-statistic1" style="margin-top: 24rpx">
+          <view class="active-item" style="justify-content: center">
+            <view class="item-label">昨日平均栏位占用：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.pen_occupancy_rate
             }}</view>
           </view>
-          <view class="active-item" style="justify-content: flex-start">
-            <view class="item-label">动态活动范围：</view>
+          <view class="active-item" style="justify-content: center">
+            <view class="item-label">昨日平均动态活动范围：</view>
             <view class="item-num">{{ pen_occupancy_rate?.dynamic_area }}</view>
           </view>
         </view>
-        <view class="active-statistic">
-          <view class="active-item" style="justify-content: flex-start">
-            <view class="item-label">单位面积/动物：</view>
+        <view class="active-statistic1">
+          <view class="active-item" style="justify-content: center">
+            <view class="item-label">昨日平均单位面积/动物：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.animal_per_area
             }}</view>
           </view>
-          <view class="active-item" style="justify-content: flex-start">
+          <view class="active-item" style="justify-content: center">
             <view class="item-label">昨日转群次数：</view>
             <view class="item-num">{{
               pen_occupancy_rate?.transfer_count
@@ -162,7 +162,7 @@
         </view>
         <view class="active-statistic" style="margin-top: 24rpx">
           <view class="active-item">
-            <view class="item-label">较昨日：</view>
+            <view class="item-label">较前一天：</view>
             <view
               class="item-num"
               :class="daily.includes('+') ? 'plus' : 'reduce'"
@@ -287,6 +287,9 @@ export default {
   onReady () {
     this.getHouseType()
   },
+  onPullDownRefresh () {
+    this.getHouseType()
+  },
   methods: {
     // 舍内环境
     sectionChange (index) {
@@ -302,7 +305,7 @@ export default {
           this.initHouseEnv(this.housing_environment.illuminance_data, 'lx', '#FCCA00', '平均光照度', '#FCCA00')
           break
         case 3:
-          this.initHouseEnv(this.housing_environment.HI_data, '℃', '#7F83F7', '平均HI', '#7F83F7')
+          this.initHouseEnv(this.housing_environment.HI_data, '', '#7F83F7', '平均HI', '#7F83F7')
           break
         case 4:
           this.initHouseEnv(this.housing_environment.THI_data, '', '#B886F8', '平均THI', '#B886F8')
@@ -314,7 +317,12 @@ export default {
       let yData = []
       let lineData = []
       arr.map(item => {
-        xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
+        // xData.push(item.date.slice(5))
         yData.push(item.score)
         lineData.push(item.score[2])
       })
@@ -326,13 +334,18 @@ export default {
       let yData = { name: '动态存栏', data: [], color: '#81B337' }
       let max = 30
       this.animal_count_data.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+         if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.data.push(item.score)
       })
       if (yData.data.length > 0) {
         max = Math.max(...yData.data)
       }
-      this.$refs.animalCount.initChart(xData, [yData], max, '头')
+      this.$refs.animalCount.initChart(xData, [yData], max, '头', 'right')
     },
     // 栏位占用
     penOccupancy () {
@@ -340,13 +353,18 @@ export default {
       let yData = { name: '栏位占用', data: [], color: '#19AECE' }
       // let max = 30
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.data.push(item.score)
       })
       // if (yData.data.length > 0) {
       //   max = Math.max(...yData.data)
       // }
-      this.$refs.penOccupancy.initChart(xData, [yData], 100, '%')
+      this.$refs.penOccupancy.initChart(xData, [yData], 100, '%', 'right')
     },
     // 异常动物数量
     sectionChange1 (index) {
@@ -364,7 +382,12 @@ export default {
       let xData = []
       let yData = { name: name, data: [], color: color }
       arr.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.data.push(item.score)
       })
       this.$refs.animalRisk.initChart(xData, [yData], unit)
@@ -377,7 +400,12 @@ export default {
       this.daily = this.animal_activity?.animal_activity_change?.daily || '--'
       this.weekly = this.animal_activity?.animal_activity_change?.weekly || '--'
       this.animal_activity.animal_activity_fluctuation.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.push(item.score)
         lineData.push(item.score[2])
       })
@@ -394,7 +422,12 @@ export default {
         { name: "活动", data: [], color: '#CBA43F' }
       ]
       this.alarm_handle_rate.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData[0].data.push(item.sleep)
         yData[1].data.push(item.drink)
         yData[2].data.push(item.feed)
@@ -430,6 +463,7 @@ export default {
     // 初始化数据
     initData () {
       productionApi({ house_type_id: this.house_type_id, date_type: this.date_type }).then(res => {
+        uni.stopPullDownRefresh();
         this.housing_environment = res.data.housing_environment
         this.animal_count_data = res.data.animal_assets.animal_count_data
         this.pen_occupancy_rate = res.data.animal_assets.pen_occupancy_rate
@@ -451,7 +485,11 @@ export default {
     vehicleActivity () {
       let xData = []
       this.vehicle_activity.map(item => {
-        xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
       })
       let yData = transformData(this.vehicle_activity)
       this.$refs.carChart.initChart(xData, yData)
@@ -461,7 +499,12 @@ export default {
       let yData = []
       let lineData = []
       arr.map(item => {
-        xData.push(item.date.slice(5))
+        // xData.push(item.date.slice(5))
+        if (this.date_type == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.push(item.score)
         lineData.push(item.score[2])
       })
@@ -536,6 +579,30 @@ export default {
         align-items: center;
         color: #0f4239;
         font-size: 28rpx;
+      }
+    }
+    .active-statistic1 {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      .active-item {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0f4239;
+        font-size: 28rpx;
+        text-align: center;
+        .item-label {
+          width: 55%;
+          text-align: right;
+        }
+        .item-num {
+          width: 45%;
+          text-align: left;
+        }
       }
     }
     .heart-des {

@@ -205,11 +205,14 @@ export default {
       envListAlarmData: [], //环境风险告警
       animalListAlarmData: [], //动物资产告警
       productionListAlarmData: [], //管理风险告警
-      houseTypeId: null,
-      dateTypeId: null
+      houseTypeId: '1',
+      dateTypeId: 'week'
     };
   },
   onReady () {
+    this.getHouseType()
+  },
+  onPullDownRefresh () {
     this.getHouseType()
   },
   // async mounted() {
@@ -235,31 +238,32 @@ export default {
       this.getRiskReportData()
     },
     async getRiskReportData() {
-      const params = {};
-      if (this.dateTypeId)
-        Object.assign(params, { date_type: this.dateTypeId });
-      if (this.houseTypeId)
-        Object.assign(params, { house_type_id: this.houseTypeId });
-      const res = await getRiskReportApi(params);
+      const res = await getRiskReportApi({ house_type_id: this.houseTypeId, date_type: this.dateTypeId });
+      uni.stopPullDownRefresh();
       const {
         staff_risk_rank = [],
         env_risk_rank = [],
         animal_risk_rank = [],
         production_risk_rank = [],
-        risk_count = []
+        risk_count = {}
       } = res?.data || {};
       this.heatList = [...initHeatList, ...staff_risk_rank];
       this.envListAlarmData = env_risk_rank || [];
       this.animalListAlarmData = animal_risk_rank || [];
       this.productionListAlarmData = production_risk_rank || [];
-      this.riskCountData = risk_count || [];
+      this.riskCountData = risk_count || {};
+      this.sectionChange(0);
       return true;
     },
     renderCharts(dataSource, name, unit, color) {
       let xData = [];
       let yData = { name: name, data: [], color: color };
       dataSource.map(item => {
-        xData.push(item.date.slice(5));
+        if (this.dateTypeId == 'year') {
+          xData.push(item.date.slice(5) + '月')
+        } else {
+          xData.push(item.date.slice(5))
+        }
         yData.data.push(item.score);
       });
       this.$refs.activeChart.initChart(xData, [yData], unit, color);

@@ -22,7 +22,7 @@
 			"path": "pages/home/production/index",
 			"style": {
 				"navigationBarTitleText": "生产详情",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},
@@ -31,7 +31,7 @@
 			"path": "pages/home/risk/index",
 			"style": {
 				"navigationBarTitleText": "风险提示",
-				"enablePullDownRefresh": false,
+				"enablePullDownRefresh": true,
 				"navigationStyle": "custom"
 			}
 		},

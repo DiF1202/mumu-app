@@ -13,6 +13,7 @@ import { tansParams } from '@/utils/common'
  * 4.添加token请求头标识
 */
 const baseURL = 'https://m.zzxmt.cn'
+// const baseURL = 'https://api.mumutech.co'
 const httpInterceptor = {
   // 拦截前触发
   invoke(options) {

@@ -43,7 +43,7 @@
             <view class="info-item">
               <view class="dot"></view>
               <u--text
-                :text="'栏位占用：' + pen_occupancy_rate"
+                :text="'体弱数量：' + pen_occupancy_rate"
                 color="#0F4239"
                 size="24rpx"
                 margin="12rpx"
