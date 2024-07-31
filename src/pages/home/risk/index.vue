@@ -213,7 +213,7 @@ export default {
     this.getHouseType()
   },
   onPullDownRefresh () {
-    this.getHouseType()
+    this.getRiskReportData()
   },
   // async mounted() {
   //   const res = await this.getRiskReportData();

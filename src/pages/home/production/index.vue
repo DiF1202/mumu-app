@@ -288,7 +288,7 @@ export default {
     this.getHouseType()
   },
   onPullDownRefresh () {
-    this.getHouseType()
+    this.initData()
   },
   methods: {
     // 舍内环境
