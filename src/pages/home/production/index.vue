@@ -317,14 +317,7 @@ export default {
       let yData = []
       let lineData = []
       arr.map(item => {
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
-        // xData.push(item.date.slice(5))
+        xData.push(item.date)
         yData.push(item.score)
         lineData.push(item.score[2])
       })
@@ -336,14 +329,7 @@ export default {
       let yData = { name: '动态存栏', data: [], color: '#81B337' }
       let max = 30
       this.animal_count_data.map(item => {
-        // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.data.push(item.score)
       })
       if (yData.data.length > 0) {
@@ -357,14 +343,7 @@ export default {
       let yData = { name: '栏位占用', data: [], color: '#19AECE' }
       // let max = 30
       this.pen_occupancy_rate.pen_occupancy_rate_data.map(item => {
-        // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.data.push(item.score)
       })
       // if (yData.data.length > 0) {
@@ -388,14 +367,7 @@ export default {
       let xData = []
       let yData = { name: name, data: [], color: color }
       arr.map(item => {
-        // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.data.push(item.score)
       })
       this.$refs.animalRisk.initChart(xData, [yData], unit)
@@ -408,14 +380,7 @@ export default {
       this.daily = this.animal_activity?.animal_activity_change?.daily || '--'
       this.weekly = this.animal_activity?.animal_activity_change?.weekly || '--'
       this.animal_activity.animal_activity_fluctuation.map(item => {
-        // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.push(item.score)
         lineData.push(item.score[2])
       })
@@ -432,14 +397,7 @@ export default {
         { name: "活动", data: [], color: '#CBA43F' }
       ]
       this.alarm_handle_rate.map(item => {
-        // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData[0].data.push(item.sleep)
         yData[1].data.push(item.drink)
         yData[2].data.push(item.feed)
@@ -497,13 +455,7 @@ export default {
     vehicleActivity () {
       let xData = []
       this.vehicle_activity.map(item => {
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
       })
       let yData = transformData(this.vehicle_activity)
       this.$refs.carChart.initChart(xData, yData)
@@ -514,13 +466,7 @@ export default {
       let lineData = []
       arr.map(item => {
         // xData.push(item.date.slice(5))
-        if (this.date_type == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.date_type == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.push(item.score)
         lineData.push(item.score[2])
       })

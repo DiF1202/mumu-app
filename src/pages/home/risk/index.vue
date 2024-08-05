@@ -259,13 +259,7 @@ export default {
       let xData = [];
       let yData = { name: name, data: [], color: color };
       dataSource.map(item => {
-        if (this.dateTypeId == 'year') {
-          xData.push(item.date.slice(5) + '月')
-        } else if (this.dateTypeId == 'season') {
-          xData.push(item.date)
-        } else {
-          xData.push(item.date.slice(5))
-        }
+        xData.push(item.date)
         yData.data.push(item.score);
       });
       this.$refs.activeChart.initChart(xData, [yData], unit, color);

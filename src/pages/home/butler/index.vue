@@ -323,7 +323,7 @@ export default {
       let yData = { name: name, data: [], color: color }
       let max = 100
       arr.map(item => {
-        xData.push(item.date.slice(5))
+        xData.push(item.date)
         yData.data.push(item.score)
       })
       if (arr.length > 0 && name !== '栏位占用') {
@@ -359,7 +359,7 @@ export default {
       let xData = []
       let yData = { name: '平均消警比例', data: [], color: '#00443A' }
       this.production_data.alarm_data.map(item => {
-        xData.push(item.date.slice(5))
+        xData.push(item.date)
         yData.data.push(item.alarm_handle_rate)
       })
       this.$refs.eliminateAlarmChart.initChart(xData, [yData], '%')
