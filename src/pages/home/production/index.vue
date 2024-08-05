@@ -319,6 +319,8 @@ export default {
       arr.map(item => {
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -335,8 +337,10 @@ export default {
       let max = 30
       this.animal_count_data.map(item => {
         // xData.push(item.date.slice(5))
-         if (this.date_type == 'year') {
+        if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -356,6 +360,8 @@ export default {
         // xData.push(item.date.slice(5))
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -385,6 +391,8 @@ export default {
         // xData.push(item.date.slice(5))
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -403,6 +411,8 @@ export default {
         // xData.push(item.date.slice(5))
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -425,6 +435,8 @@ export default {
         // xData.push(item.date.slice(5))
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -487,6 +499,8 @@ export default {
       this.vehicle_activity.map(item => {
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }
@@ -502,6 +516,8 @@ export default {
         // xData.push(item.date.slice(5))
         if (this.date_type == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.date_type == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }

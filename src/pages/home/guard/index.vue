@@ -150,11 +150,11 @@
           ></u-subsection>
         </view>
         <view class="tab-num">
-          <view class="num-item" style="color: #de868f; width: 20%">30℃</view>
-          <view class="num-item" style="color: #93d2f3; width: 20%">60%</view>
-          <view class="num-item" style="color: #fcca00; width: 20%">120lx</view>
-          <view class="num-item" style="color: #7f83f7; width: 20%">32℃</view>
-          <view class="num-item" style="color: #b886f8; width: 20%">78</view>
+          <view class="num-item" style="color: #de868f; width: 20%">{{ housing_environment?.temperature }}℃</view>
+          <view class="num-item" style="color: #93d2f3; width: 20%">{{ housing_environment?.humidity }}%</view>
+          <view class="num-item" style="color: #fcca00; width: 20%">{{ housing_environment?.illuminance }}lx</view>
+          <view class="num-item" style="color: #7f83f7; width: 20%">{{ housing_environment?.HI }}</view>
+          <view class="num-item" style="color: #b886f8; width: 20%">{{ housing_environment?.THI }}</view>
         </view>
         <view class="active-chart">
           <!-- <uni-kchart ref="activeChart"></uni-kchart> -->

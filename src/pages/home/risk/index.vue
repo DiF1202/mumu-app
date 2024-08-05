@@ -261,6 +261,8 @@ export default {
       dataSource.map(item => {
         if (this.dateTypeId == 'year') {
           xData.push(item.date.slice(5) + '月')
+        } else if (this.dateTypeId == 'season') {
+          xData.push(item.date)
         } else {
           xData.push(item.date.slice(5))
         }

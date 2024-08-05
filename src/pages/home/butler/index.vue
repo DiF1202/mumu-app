@@ -153,7 +153,7 @@
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="active-statistic">
           <view class="active-item">
-            <view class="item-label">较昨日：</view>
+            <view class="item-label">较前一天：</view>
             <view
               class="item-num"
               :class="daily.includes('+') ? 'plus' : 'reduce'"
@@ -216,7 +216,7 @@
               <uni-progress ref="envProgressChart"></uni-progress>
             </view>
             <view class="active-item">
-              <view class="item-label">较昨日</view>
+              <view class="item-label">较前一天</view>
               <view
                 class="item-num"
                 :class="env.includes('-') ? 'reduce' : 'plus'"
@@ -229,7 +229,7 @@
               <uni-progress ref="assetProgressChart"></uni-progress>
             </view>
             <view class="active-item">
-              <view class="item-label">较昨日</view>
+              <view class="item-label">较前一天</view>
               <view
                 class="item-num"
                 :class="animal.includes('-') ? 'reduce' : 'plus'"
@@ -242,7 +242,7 @@
               <uni-progress ref="manProgressChart"></uni-progress>
             </view>
             <view class="active-item">
-              <view class="item-label">较昨日</view>
+              <view class="item-label">较前一天</view>
               <view
                 class="item-num"
                 :class="production.includes('-') ? 'reduce' : 'plus'"
