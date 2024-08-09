@@ -33,6 +33,13 @@
           color="#333333"
           margin="12rpx"
         ></u--text>
+        <u--text
+          v-if="detailsData.alarm_description"
+          :text="'上报内容：' + detailsData.alarm_description"
+          size="30rpx"
+          color="#333333"
+          margin="12rpx"
+        ></u--text>
       </view>
       <!-- 报警处置 数据为未处置的 和 角色判断指定 展示 -->
       <view v-if="detailsData.alarm_status == '未处理'">

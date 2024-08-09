@@ -357,7 +357,7 @@ export default {
         case 3:
           this.initHouseEnv(
             this.housing_environment?.HI_data || [],
-            "℃",
+            "",
             "#7F83F7",
             "平均HI",
             "#7F83F7"
