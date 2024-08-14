@@ -9,7 +9,7 @@
         width="120rpx"
         height="120rpx"
       ></u--image>
-      <text class="title">牧目科技</text>
+      <text class="title">牛羊规模化养殖智能系统（中试）</text>
       <!-- <u-loading-icon color="#00443A" :show="loadingShow"></u-loading-icon> -->
     </view>
     <view class="weixin-btn">
@@ -29,6 +29,7 @@
         ></u-icon>
       </button>
     </view>
+    <view>本系统由牧目智能科技（杭州）有限公司维护</view>
   </view>
 </template>
 
