@@ -29,7 +29,7 @@
         ></u-icon>
       </button>
     </view>
-    <view>本系统由牧目智能科技（杭州）有限公司维护</view>
+    <view class="instructions-text">本系统由牧目智能科技（杭州）有限公司维护</view>
   </view>
 </template>
 
@@ -146,6 +146,12 @@ export default {
     button::after {
       border: none;
     }
+  }
+  .instructions-text{
+    font-size: 12px;
+    color: #605e5e;
+    text-align: center;
+    margin-top: 10px;
   }
 }
 </style>
