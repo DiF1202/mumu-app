@@ -23,8 +23,8 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
       max = null
     }
   }
-  if (yData.length > 7) {
-    startNum = parseInt(100 - ((7 / yData.length) * 100))
+  if (yData.length > 4) {
+    startNum = parseInt(100 - ((4 / yData.length) * 100))
   } else {
     startNum = 0
   }
@@ -91,8 +91,9 @@ const initChart = (xData, yData, lineData, unit, lineColor, legendName, boxColor
     xAxis: {
       type: 'category',
       scale: true,
-      splitNumber: 7,
+      splitNumber: 4,
       axisLabel: {
+        fontSize: 12,
         color: 'rgba(0, 0, 0, 0.45)',
       },
       axisLine: {

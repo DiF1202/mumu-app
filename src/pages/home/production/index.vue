@@ -84,28 +84,10 @@
         </view>
         <view class="active-statistic1" style="margin-top: 24rpx">
           <view class="active-item" style="justify-content: center">
-            <view class="item-label">昨日平均栏位占用：</view>
-            <view class="item-num">{{
-              pen_occupancy_rate?.pen_occupancy_rate
-            }}</view>
-          </view>
-          <view class="active-item" style="justify-content: center">
-            <view class="item-label">昨日平均动态活动范围：</view>
-            <view class="item-num">{{ pen_occupancy_rate?.dynamic_area }}</view>
-          </view>
-        </view>
-        <view class="active-statistic1">
-          <view class="active-item" style="justify-content: center">
-            <view class="item-label">昨日平均单位面积/动物：</view>
-            <view class="item-num">{{
-              pen_occupancy_rate?.animal_per_area
-            }}</view>
-          </view>
-          <view class="active-item" style="justify-content: center">
-            <view class="item-label">昨日转群次数：</view>
-            <view class="item-num">{{
-              pen_occupancy_rate?.transfer_count
-            }}</view>
+            <view class="item-label">昨日平均栏位占用：{{ pen_occupancy_rate?.pen_occupancy_rate}}</view>
+            <view class="item-label">昨日平均动态活动范围：{{ pen_occupancy_rate?.dynamic_area }}</view>
+            <view class="item-label">昨日平均单位面积/动物：{{ pen_occupancy_rate?.animal_per_area}}</view>
+            <view class="item-label">昨日转群次数：{{ pen_occupancy_rate?.transfer_count }}</view>
           </view>
         </view>
       </uni-card>
@@ -545,25 +527,14 @@ export default {
     }
     .active-statistic1 {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
       .active-item {
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         color: #0f4239;
         font-size: 28rpx;
         text-align: center;
         .item-label {
-          width: 55%;
-          text-align: right;
-        }
-        .item-num {
-          width: 45%;
           text-align: left;
+          padding-left: 40rpx;
         }
       }
     }

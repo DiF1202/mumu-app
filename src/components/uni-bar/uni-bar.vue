@@ -24,8 +24,9 @@
 						fontColor: 'rgba(0, 0, 0, 0.45)',
 					  boundaryGap: 'center',
 						fontSize: 12,
-						itemCount: 7,
+						itemCount: 5,
 						scrollShow: true,
+						scrollAlign: 'right',
 						scrollColor: 'rgba(0, 0, 0, 0.45)',
 					},
 					yAxis: {
