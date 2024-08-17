@@ -285,7 +285,7 @@ export default {
     },
     canvas2d: {
       type: Boolean,
-      default: true
+      default: false
     },
     background: {
       type: String,

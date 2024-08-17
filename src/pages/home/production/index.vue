@@ -82,8 +82,11 @@
         <view class="active-chart">
           <uni-tarea ref="penOccupancy" :max="30"></uni-tarea>
         </view>
-        <view class="active-statistic1" style="margin-top: 24rpx">
-          <view class="active-item" style="justify-content: center">
+      </uni-card>
+      <u-gap height="12rpx"></u-gap>
+      <uni-card margin="0" padding="0" spacing="24rpx">
+        <view class="active-statistic1">
+          <view class="active-item">
             <view class="item-label">昨日平均栏位占用：{{ pen_occupancy_rate?.pen_occupancy_rate}}</view>
             <view class="item-label">昨日平均动态活动范围：{{ pen_occupancy_rate?.dynamic_area }}</view>
             <view class="item-label">昨日平均单位面积/动物：{{ pen_occupancy_rate?.animal_per_area}}</view>
@@ -530,11 +533,11 @@ export default {
       .active-item {
         width: 100%;
         color: #0f4239;
-        font-size: 28rpx;
+        font-size: 24rpx;
         text-align: center;
         .item-label {
           text-align: left;
-          padding-left: 40rpx;
+          padding-left: 20rpx;
         }
       }
     }

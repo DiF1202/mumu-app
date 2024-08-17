@@ -23,7 +23,7 @@
     @close="close"
     @cancel="show = false"
     :closeOnClickOverlay="true"
-    :defaultIndex="[0]"
+    :defaultIndex="defaultIndex"
   ></u-picker>
 </template>
 
@@ -51,6 +51,7 @@ export default {
     return {
       value: '',
       show: false,
+      defaultIndex: [0],
       suffixIconStyle: {
         fontSize: '38rpx',
         fontWeight: 'bold',
@@ -81,6 +82,7 @@ export default {
     },
     confirm (e) {
       this.value = e.value[0].name
+      this.defaultIndex = e.indexs
       this.show = false
       this.$emit('pickerCallback', e.value[0])
     }

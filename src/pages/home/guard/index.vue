@@ -2,6 +2,19 @@
   <view class="home-container">
     <uni-navtopbar title="值守卫士" :back="true"></uni-navtopbar>
     <view class="content">
+      <view class="position" @click="posIsshow = true">
+        <u--image
+          src="https://m.zzxmt.cn/cdn/icon/logo.png"
+          width="38rpx"
+          height="38rpx"
+        ></u--image>
+        <u--text
+          :text="farm_name"
+          color="#0F4239"
+          size="28rpx"
+          margin="12rpx"
+        ></u--text>
+      </view>
       <uni-subTitle
         icon="account"
         :title="staff_name"
@@ -233,6 +246,7 @@
         </view>
       </scroll-view>
     </view>
+    <u-picker :show="posIsshow" :columns="positionArr" keyName="name" @confirm="positionChange" @close="posIsshow = false" @cancel="posIsshow = false" :closeOnClickOverlay="true" :defaultIndex="defaultIndex"></u-picker>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
   </view>
 </template>
@@ -251,6 +265,7 @@ import {
   getRisk,
   getDaily
 } from "@/api/weather.js";
+import { positionList, position, alarmUnhandlerNumApi } from '@/api/utils.js'
 import { userStore } from "@/store";
 export default {
   data () {
@@ -271,27 +286,14 @@ export default {
       page: 1,
       limit: 3,
       noData: false,
-      today: {
-        // sunrise: "04:58",
-        // sunset: '19:04',
-        // wind_direction: '东风',
-        // wind_scale: '5',
-        // humidity: 77,
-        // airQuilty: '良',
-        // low: '20',
-        // high: '27',
-        // text_day: '多云',
-        // code_day: '4'
-      },
-      tomorrow: {
-        // airQuilty: '良',
-        // low: '20',
-        // high: '27',
-        // text_day: '多云',
-        // code_day: '4'
-      },
-      // xData: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '12:00', '21:00', '22:00', '23:00', '24:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00'],
-      // series: [{ name: "温度", data: [20, 21, 22, 23, 24, 25, 26, 27, 26, 25, 24, 23, 21, 20, 19, 18, 17, 20, 21, 22, 23, 23, 23, 24], color: "#19AECE" }]
+      today: {},
+      tomorrow: {},
+      farm_name: "安徽窝阳",
+      farm_id: '',
+      positionArr: [],
+      posWeather: 'hangzhou',
+      posIsshow: false,
+      defaultIndex: [0]
     };
   },
   computed: {
@@ -306,12 +308,10 @@ export default {
   },
   onLoad () {
     uni.hideTabBar();
-  },
-  onReady () {
     this.noData = false
     this.warningList = []
     this.page = 1;
-    this.initData();
+    this.getPositionList();
   },
   onPullDownRefresh () {
     this.noData = false
@@ -320,6 +320,24 @@ export default {
     this.initData();
   },
   methods: {
+    // 请求位置(厂)列表
+    getPositionList() {
+      positionList().then(res => {
+        this.positionArr = [res.data]
+        this.positionChange({ value: [res.data[0]], indexs: [0] })
+      })
+    },
+    // 切换位置
+    positionChange (val) {
+      this.defaultIndex = val.indexs
+      this.farm_name = val.value[0].name
+      this.farm_id = val.value[0].id
+      this.posWeather = val.value[0].area_alias_name
+      position({ farm_id: this.farm_id }).then(res => {
+        this.posIsshow = false
+        this.initData()
+      })
+    },
     enterDetails (id) {
       uni.navigateTo({ url: "/pages/view/components/details/index?id=" + id });
     },
@@ -375,23 +393,6 @@ export default {
       }
     },
     initHouseEnv (arr, unit, color, name, boxColor) {
-      // let xData = [];
-      // let yData = [];
-      // let lineData = [];
-      // arr.map(item => {
-      //   xData.push(item.date.slice(5));
-      //   yData.push(item.score);
-      //   lineData.push(item.score[2]);
-      // });
-      // this.$refs.activeChart.initChart(
-      //   xData,
-      //   yData,
-      //   lineData,
-      //   unit,
-      //   color,
-      //   name,
-      //   boxColor
-      // );
       let xData = []
       let yData = { name: name, data: [], color: color }
       arr.map(item => {
@@ -455,29 +456,34 @@ export default {
         this.sectionChange(0);
       });
       this.getRiskList()
+      // 监控页面未处理数量接口
+      alarmUnhandlerNumApi().then(res => {
+        let total = res.data.un_handle_total || 0
+        userStore().set_alarm_num(total)
+      })
       summaryApi().then(res => {
         this.summary = res.data.yesterday_summary;
       });
       dingListApi().then(res => {
         this.todayHandler = res.data;
       });
-      getSunDay().then(res => {
+      getSunDay(this.posWeather).then(res => {
         this.sunUpDown = res[0].sun[0];
       });
-      getWeatherDaily().then(res => {
+      getWeatherDaily(this.posWeather).then(res => {
         this.today = res[0].daily[0];
         this.tomorrow = res[0].daily[1];
-        getAirQuality().then(res => {
+        getAirQuality(this.posWeather).then(res => {
           this.today.airQuilty = res[0].daily[0].quality;
           this.tomorrow.airQuilty = res[0].daily[1].quality;
         });
       });
-      getRisk().then(res => {
+      getRisk(this.posWeather).then(res => {
         if (res[0].alarms.length > 0) {
           this.alarm = res[0].alarms[0].type;
         }
       });
-      getDaily().then(res => {
+      getDaily(this.posWeather).then(res => {
         let xData = [];
         let series = [{ name: "温度", data: [], color: "#19AECE" }];
         res[0].hourly.map(item => {
@@ -486,7 +492,6 @@ export default {
         });
         this.$refs.weatherChart.initChart(xData, series, "", "℃", "left");
       });
-      // this.$refs.weatherChart.initChart(this.xData, this.series, "", "℃", "left");
     }
   }
 };
@@ -498,6 +503,10 @@ export default {
     // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     background: #f4f4f4;
     padding: 0 24rpx 24rpx;
+    .position {
+      display: flex;
+      align-items: center;
+    }
     .dot {
       width: 16rpx;
       height: 16rpx;
@@ -569,71 +578,6 @@ export default {
       width: 100%;
       height: 250rpx;
     }
-    // .weather-header {
-    //   width: 100%;
-    //   background: linear-gradient(
-    //     90deg,
-    //     rgba(25, 174, 206, 0.9) 0%,
-    //     rgba(25, 174, 206, 0.5) 100%
-    //   );
-    //   border-radius: 12rpx;
-    //   padding: 24rpx;
-    //   display: flex;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   .weather-hader-item {
-    //     display: flex;
-    //     justify-content: flex-start;
-    //     align-items: center;
-    //     .value {
-    //       color: #fff;
-    //       font-size: 24rpx;
-    //       margin-left: 8rpx;
-    //       line-height: 28rpx;
-    //     }
-    //     .alarm {
-    //       color: rgb(235, 37, 37);
-    //     }
-    //   }
-    // }
-    // .weather-body {
-    //   width: 100%;
-    //   display: flex;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   margin: 12rpx 0;
-    //   .body-item {
-    //     width: calc(50% - 6rpx);
-    //     height: 120rpx;
-    //     background: linear-gradient(
-    //       90deg,
-    //       rgba(25, 174, 206, 0.9) 0%,
-    //       rgba(25, 174, 206, 0.5) 100%
-    //     );
-    //     border-radius: 12rpx;
-    //     padding: 24rpx;
-    //     display: flex;
-    //     flex-direction: column;
-    //     justify-content: space-between;
-    //     align-items: center;
-    //     .item-row {
-    //       width: 100%;
-    //       display: flex;
-    //       justify-content: space-between;
-    //       align-items: center;
-    //       color: #fff;
-    //       color: #fff;
-    //       font-size: 24rpx;
-    //       view {
-    //         line-height: 28rpx;
-    //       }
-    //     }
-    //   }
-    // }
-    // .weather-chart {
-    //   width: 100%;
-    //   height: 250rpx;
-    // }
     .tab-num {
       width: 100%;
       height: 56rpx;

@@ -1,6 +1,6 @@
 <template>
   <view class="list-container">
-    <uni-navtopbar title="远程监控1" :back="true"></uni-navtopbar>
+    <uni-navtopbar title="远程监控" :back="true"></uni-navtopbar>
     <view class="content">
       <uni-treeSelect :columns="columns" @treeCallback="treeCallback" />
       <u-gap height="12rpx"></u-gap>
@@ -129,6 +129,7 @@ export default {
       listData: [], // 列表数据
       limit: 5,
       page: 1,
+      fieldId: '',
       loading: "loadmore"
     };
   },
@@ -145,14 +146,9 @@ export default {
   },
   onLoad() {
     uni.hideTabBar();
-    this.getFieldTree();
   },
   onShow() {
-    if (this.fieldId) {
-      this.page = 1;
-      this.listData = [];
-      this.getList();
-    }
+    this.getFieldTree();
   },
   onPullDownRefresh() {
     this.page = 1;

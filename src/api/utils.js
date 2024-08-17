@@ -50,3 +50,18 @@ export function userOnline(data) {
     data
   })
 }
+// 位置列表
+export function positionList() {
+  return fetch({
+    method: 'get',
+    url: '/api/mini/get-farm-list',
+  })
+}
+// 切换厂
+export function position(data) {
+  return fetch({
+    method: 'post',
+    url: '/api/mini/switch-farm',
+    data
+  })
+}

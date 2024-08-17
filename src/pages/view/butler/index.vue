@@ -230,14 +230,9 @@ export default {
   },
   onLoad () {
     uni.hideTabBar();
-    this.getFieldTree();
   },
   onShow () {
-    if (this.fieldId) {
-      this.page = 1;
-      this.listData = [];
-      this.getList();
-    }
+    this.getFieldTree();
   },
   onPullDownRefresh () {
     this.page = 1;

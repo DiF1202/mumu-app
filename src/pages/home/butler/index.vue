@@ -2,8 +2,7 @@
   <view class="home-container">
     <uni-navtopbar title="牧场管家" :back="true"></uni-navtopbar>
     <view class="content">
-      <!-- <u-icon name="map" color="#00443A" size="46rpx" :label="farm_name" labelSize="28rpx" labelColor="#0F4239"></u-icon> -->
-      <view class="position">
+      <view class="position" @click="posIsshow = true">
         <u--image
           src="https://m.zzxmt.cn/cdn/icon/logo.png"
           width="38rpx"
@@ -16,14 +15,6 @@
           margin="12rpx"
         ></u--text>
       </view>
-      <!-- <u-icon
-        name="home"
-        color="#00443A"
-        size="46rpx"
-        :label="farm_name"
-        labelSize="28rpx"
-        labelColor="#333333"
-      ></u-icon> -->
       <!-- 今日天气 -->
       <uni-subTitle customIcon="tianqi" title="今日天气" />
       <uni-card margin="0" padding="0" spacing="24rpx">
@@ -197,8 +188,6 @@
       <uni-subTitle icon="volume-off" title="消警比例" />
       <uni-card margin="0" padding="0" spacing="24rpx">
         <view class="eliminateAlarm">
-          <!-- <uni-kchart ref="eliminateAlarmChart"></uni-kchart> -->
-          <!-- <uni-boxplot ref="eliminateAlarmChart"></uni-boxplot> -->
           <uni-line ref="eliminateAlarmChart"></uni-line>
         </view>
       </uni-card>
@@ -261,18 +250,19 @@
         ></u-button>
       </view>
     </view>
+    <u-picker :show="posIsshow" :columns="positionArr" keyName="name" @confirm="positionChange" @close="posIsshow = false" @cancel="posIsshow = false" :closeOnClickOverlay="true" :defaultIndex="defaultIndex"></u-picker>
     <uni-tabbar :tabCurrent="0"></uni-tabbar>
   </view>
 </template>
 
 <script>
+import { userStore } from "@/store";
 import { overViewApi } from '@/api/home.js'
 import { getSunDay, getWeatherDaily, getAirQuality, getRisk, getDaily } from '@/api/weather.js'
+import { positionList, position, alarmUnhandlerNumApi } from '@/api/utils.js'
 export default {
   data () {
     return {
-      farm_name: "安徽窝阳",
-      currentDate: "2024-5-19",
       list: ["动态存栏", "栏位占用", "异常数量"],
       current: 0,
       production_data: {},
@@ -284,39 +274,42 @@ export default {
       weekly: '0',
       alarm: '无预警',
       sunUpDown: {},
-      today: {
-        // sunrise: "04:58",
-        // sunset: '19:04',
-        // wind_direction: '东风',
-        // wind_scale: '5',
-        // humidity: 77,
-        // airQuilty: '良',
-        // low: '20',
-        // high: '27',
-        // text_day: '多云',
-        // code_day: '4'
-      },
-      tomorrow: {
-        // airQuilty: '良',
-        // low: '20',
-        // high: '27',
-        // text_day: '多云',
-        // code_day: '4'
-      },
-      // xData: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '12:00', '21:00', '22:00', '23:00', '24:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00'],
-      // series: [{ name: "温度", data: [20, 21, 22, 23, 24, 25, 26, 27, 26, 25, 24, 23, 21, 20, 19, 18, 17, 20, 21, 22, 23, 23, 23, 24], color: "#19AECE" }]
+      today: {},
+      tomorrow: {},
+      farm_name: "安徽窝阳",
+      farm_id: '',
+      positionArr: [],
+      posWeather: 'hangzhou',
+      posIsshow: false,
+      defaultIndex: [0]
     }
   },
   onLoad () {
     uni.hideTabBar()
-  },
-  onReady () {
-    this.initData()
+    this.getPositionList()
   },
   onPullDownRefresh () {
     this.initData()
   },
   methods: {
+    // 请求位置(厂)列表
+    getPositionList() {
+      positionList().then(res => {
+        this.positionArr = [res.data]
+        this.positionChange({ value: [res.data[0]], indexs: [0] })
+      })
+    },
+    // 切换位置
+    positionChange (val) {
+      this.defaultIndex = val.indexs
+      this.farm_name = val.value[0].name
+      this.farm_id = val.value[0].id
+      this.posWeather = val.value[0].area_alias_name
+      position({ farm_id: this.farm_id }).then(res => {
+        this.posIsshow = false
+        this.initData()
+      })
+    },
     // 生产概况  
     handlerData (arr, name, color, unit) {
       let xData = []
@@ -347,15 +340,6 @@ export default {
     },
     // 消警比例
     eliminateAlarm () {
-      // let xData = []
-      // let yData = []
-      // let lineData = []
-      // this.production_data.alarm_data.map(item => {
-      //   xData.push(item.date.slice(5))
-      //   yData.push(item.alarm_handle_rate)
-      //   lineData.push(item.alarm_handle_rate[2])
-      // })
-      // this.$refs.eliminateAlarmChart.initChart(xData, yData, lineData, "%", '#00443A', '平均消警比例')
       let xData = []
       let yData = { name: '平均消警比例', data: [], color: '#00443A' }
       this.production_data.alarm_data.map(item => {
@@ -389,24 +373,28 @@ export default {
         this.eliminateAlarm()
         this.riskNote()
       })
-      getSunDay().then(res => {
+      // 监控页面未处理数量接口
+      alarmUnhandlerNumApi().then(res => {
+        let total = res.data.un_handle_total || 0
+        userStore().set_alarm_num(total)
+      })
+      getSunDay(this.posWeather).then(res => {
         this.sunUpDown = res[0].sun[0]
       })
-      getWeatherDaily().then(res => {
+      getWeatherDaily(this.posWeather).then(res => {
         this.today = res[0].daily[0]
         this.tomorrow = res[0].daily[1]
-        getAirQuality().then(res => {
+        getAirQuality(this.posWeather).then(res => {
           this.today.airQuilty = res[0].daily[0].quality
           this.tomorrow.airQuilty = res[0].daily[1].quality
         })  
       })
-      getRisk().then(res => {
+      getRisk(this.posWeather).then(res => {
         if (res[0].alarms.length > 0) {
           this.alarm = res[0].alarms[0].type
         }
       })
-      getDaily().then(res => {
-        console.log(res)
+      getDaily(this.posWeather).then(res => {
         let xData = []
         let series = [{name: "温度",data: [],color: "#19AECE"}]
         let max = 30
@@ -419,7 +407,6 @@ export default {
         }
         this.$refs.weatherChart.initChart(xData, series, max, '℃', 'left')
       })
-      // this.$refs.weatherChart.initChart(this.xData, this.series, '', '℃', 'left')
     },
     // 跳转日报
     enterAiReport () {
@@ -432,7 +419,6 @@ export default {
 <style lang="scss" scoped>
 .home-container {
   .content {
-    // background: linear-gradient(to bottom, #d6e7ff 0%, #ffffff 600rpx);
     background: #f4f4f4;
     padding: 0 24rpx 24rpx;
     .position {
@@ -441,13 +427,6 @@ export default {
     }
     .weather-header {
       width: 100%;
-      // background: linear-gradient(
-      //   90deg,
-      //   rgba(25, 174, 206, 0.9) 0%,
-      //   rgba(25, 174, 206, 0.5) 100%
-      // );
-      // border-radius: 12rpx;
-      // padding: 24rpx;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -475,13 +454,6 @@ export default {
       .body-item {
         width: 297rpx;
         height: 72rpx;
-        // background: linear-gradient(
-        //   90deg,
-        //   rgba(25, 174, 206, 0.9) 0%,
-        //   rgba(25, 174, 206, 0.5) 100%
-        // );
-        // border-radius: 12rpx;
-        // padding: 24rpx;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
