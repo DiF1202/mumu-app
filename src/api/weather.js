@@ -1,7 +1,8 @@
 import { fetch } from "@/utils/http";
 import { userStore } from "@/store";
+import { weAtob } from '@/utils/base64.js'
 const str = userStore().user_info.weather_private_key;
-const weatherKey = atob(str)
+const weatherKey = weAtob(str)
 // 预警
 export function getRisk(pos) {
   return fetch({

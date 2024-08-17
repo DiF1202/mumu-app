@@ -535,9 +535,12 @@ export default {
         color: #0f4239;
         font-size: 24rpx;
         text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
         .item-label {
           text-align: left;
-          padding-left: 20rpx;
+          width: 50%;
         }
       }
     }
